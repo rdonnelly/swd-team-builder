@@ -17,7 +17,7 @@ module.exports = {
     'import'
   ],
   rules: {
-    'class-methods-use-this': ['error', { 'exceptMethods': ['controller', 'link'] }],
+    'class-methods-use-this': ['off'],
     'no-param-reassign': ['error', { 'props': false }],
   },
 };

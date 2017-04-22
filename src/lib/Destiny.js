@@ -15,42 +15,48 @@ import dbCardSetSoR from 'swdestinydb-json-data/set/SoR.json';
 const cardAffiliations = Immutable.fromJS(dbCardAffiliations);
 const cardFactions = Immutable.fromJS(dbCardFactions);
 const cardRarities = Immutable.fromJS(dbCardRarities);
+const cardSets = Immutable.fromJS(dbCardSets);
 const cardSideTypes = Immutable.fromJS(dbCardSideTypes);
 const cardSubTypes = Immutable.fromJS(dbCardSubTypes);
 const cardTypes = Immutable.fromJS(dbCardTypes);
 
-class CardSets {
-  constructor() {
-    this.sets = Immutable.fromJS({});
+const cards = Immutable.fromJS([].concat(dbCardSetAw, dbCardSetSoR));
 
-    dbCardSets.forEach((setInfo) => {
-      let set = Immutable.fromJS({
-        date_release: setInfo.date_release,
-        id: setInfo.code.toLowerCase(),
-        name: setInfo.name,
-        order: setInfo.position,
-        size: setInfo.size,
-      });
-
-      if (setInfo.code === 'AW') {
-        set = set.set('cards', Immutable.fromJS(dbCardSetAw));
-      }
-
-      if (setInfo.code === 'SoR') {
-        set = set.set('cards', Immutable.fromJS(dbCardSetSoR));
-      }
-
-      this.sets = this.sets.set(set.get('id'), set);
-    });
-  }
-}
+// class CardSets {
+//   constructor() {
+//     this.sets = Immutable.fromJS({});
+//
+//     dbCardSets.forEach((setInfo) => {
+//       let set = Immutable.fromJS({
+//         date_release: setInfo.date_release,
+//         id: setInfo.code.toLowerCase(),
+//         name: setInfo.name,
+//         order: setInfo.position,
+//         size: setInfo.size,
+//       });
+//
+//       if (setInfo.code === 'AW') {
+//         set = set.set('cards', Immutable.fromJS(dbCardSetAw));
+//       }
+//
+//       if (setInfo.code === 'SoR') {
+//         set = set.set('cards', Immutable.fromJS(dbCardSetSoR));
+//       }
+//
+//       this.sets = this.sets.set(set.get('id'), set);
+//     });
+//   }
+// }
 
 export {
-  CardSets,
+  // CardSets,
+
+  cards,
 
   cardAffiliations,
   cardFactions,
   cardRarities,
+  cardSets,
   cardSideTypes,
   cardSubTypes,
   cardTypes,
