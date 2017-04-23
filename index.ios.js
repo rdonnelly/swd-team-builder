@@ -5,6 +5,7 @@
  */
 
 import { AppRegistry } from 'react-native';
-import App from './src/App';
 
-AppRegistry.registerComponent('DestinyCharacters', () => App);
+import setup from './src/setup';
+
+AppRegistry.registerComponent('DestinyCharacters', setup);

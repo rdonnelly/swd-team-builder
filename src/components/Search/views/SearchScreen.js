@@ -7,7 +7,7 @@ import {
 
 import ImmutableListView from 'react-native-immutable-list-view';
 
-import { cards } from '../lib/Destiny';
+import { cards } from '../../../lib/Destiny';
 
 const styles = StyleSheet.create({
   container: {
