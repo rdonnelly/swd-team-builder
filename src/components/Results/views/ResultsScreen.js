@@ -4,6 +4,8 @@ import {
   Text,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -24,12 +26,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ResultsView extends Component {
+class ResultsView extends Component {
   render() {
+    const { deckState } = this.props;
+
     return (
       <View style={styles.container}>
         <Text>Results View</Text>
+        <Text>{ deckState.get('cards').toJS() }</Text>
+        <Text>{ deckState.get('points') }</Text>
       </View>
     );
   }
 }
+
+const mapStateToProps = state => ({ deckState: state.deckReducer });
+
+export default connect(mapStateToProps)(ResultsView);

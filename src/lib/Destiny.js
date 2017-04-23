@@ -20,37 +20,80 @@ const cardSideTypes = Immutable.fromJS(dbCardSideTypes);
 const cardSubTypes = Immutable.fromJS(dbCardSubTypes);
 const cardTypes = Immutable.fromJS(dbCardTypes);
 
-const cards = Immutable.fromJS([].concat(dbCardSetAw, dbCardSetSoR));
 
-// class CardSets {
-//   constructor() {
-//     this.sets = Immutable.fromJS({});
-//
-//     dbCardSets.forEach((setInfo) => {
-//       let set = Immutable.fromJS({
-//         date_release: setInfo.date_release,
-//         id: setInfo.code.toLowerCase(),
-//         name: setInfo.name,
-//         order: setInfo.position,
-//         size: setInfo.size,
-//       });
-//
-//       if (setInfo.code === 'AW') {
-//         set = set.set('cards', Immutable.fromJS(dbCardSetAw));
-//       }
-//
-//       if (setInfo.code === 'SoR') {
-//         set = set.set('cards', Immutable.fromJS(dbCardSetSoR));
-//       }
-//
-//       this.sets = this.sets.set(set.get('id'), set);
-//     });
-//   }
-// }
+class Card {
+  constructor(
+    affiliation,
+    cost,
+    faction,
+    flavorText,
+    health,
+    id,
+    illustrator,
+    isUnique,
+    limit,
+    name,
+    points,
+    rarity,
+    set,
+    sides,
+    type,
+  ) {
+    this.affiliation = affiliation;
+    this.cost = cost;
+    this.faction = faction;
+    this.flavorText = flavorText;
+    this.health = health;
+    this.id = id;
+    this.illustrator = illustrator;
+    this.isUnique = isUnique;
+    this.limit = limit;
+    this.name = name;
+
+    if (points) {
+      this.points = points.split('/').map(v => parseInt(v, 10));
+    }
+
+    this.rarity = rarity;
+    this.set = set;
+    this.sides = sides;
+    this.type = type;
+  }
+
+  get(key) {
+    if (this[key]) {
+      return this[key];
+    }
+
+    return null;
+  }
+}
+
+const cards = Immutable.fromJS([]
+    .concat(dbCardSetAw, dbCardSetSoR))
+    .map(card => new Card(
+      card.get('affiliation_code'),
+      card.get('cost'),
+      card.get('faction_code'),
+      card.get('flavor'),
+      card.get('health'),
+      card.get('code'),
+      card.get('illustrator'),
+      card.get('is_unique'),
+      card.get('deck_limit'),
+      card.get('name'),
+      card.get('points'),
+      card.get('rarity_code'),
+      card.get('set_code'),
+      card.get('sides'),
+      card.get('type_code'),
+    ))
+    .reduce(
+      (result, item) => result.set(item.get('id'), item),
+      Immutable.OrderedMap(),
+    );
 
 export {
-  // CardSets,
-
   cards,
 
   cardAffiliations,
