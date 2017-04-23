@@ -11,6 +11,8 @@ import dbCardSets from 'swdestinydb-json-data/sets.json';
 import dbCardSetAw from 'swdestinydb-json-data/set/AW.json';
 import dbCardSetSoR from 'swdestinydb-json-data/set/SoR.json';
 
+import teamsData from '../../data/teams.json';
+
 
 const cardAffiliations = Immutable.fromJS(dbCardAffiliations);
 const cardFactions = Immutable.fromJS(dbCardFactions);
@@ -50,8 +52,13 @@ class Card {
     this.limit = limit;
     this.name = name;
 
+    this.points = 0;
+    this.pointsRegular = 0;
+    this.pointsElite = 0;
     if (points) {
       this.points = points.split('/').map(v => parseInt(v, 10));
+      this.pointsRegular = this.points[0];
+      this.pointsElite = this.points[1];
     }
 
     this.rarity = rarity;
@@ -93,8 +100,11 @@ const cards = Immutable.fromJS([]
       Immutable.OrderedMap(),
     );
 
+const teams = Immutable.fromJS(teamsData);
+
 export {
   cards,
+  teams,
 
   cardAffiliations,
   cardFactions,

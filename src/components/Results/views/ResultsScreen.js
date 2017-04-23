@@ -5,28 +5,44 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import ImmutableVirtualListView from 'react-native-immutable-list-view';
+
+import { teams } from '../../../lib/Destiny';
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    alignItems: 'flex-start',
+    width: '100%',
   },
-  welcome: {
+  list: {
+    width: '100%',
+  },
+  row: {
     fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    padding: 10,
   },
 });
 
 class ResultsView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      teams,
+    };
+  }
+
+  renderRow(team) {
+    return (
+      <Text style={styles.row}>
+        { team.get('characters').map(character => character.get('name')).join(', ') }
+      </Text>
+    );
+  }
+
   render() {
     const { deckState } = this.props;
 
@@ -35,6 +51,11 @@ class ResultsView extends Component {
         <Text>Results View</Text>
         <Text>{ deckState.get('cards').toJS() }</Text>
         <Text>{ deckState.get('points') }</Text>
+        <ImmutableVirtualListView
+          style={styles.list}
+          immutableData={this.state.teams}
+          renderRow={this.renderRow}
+        />
       </View>
     );
   }
