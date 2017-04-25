@@ -27,6 +27,10 @@ const styles = StyleSheet.create({
 });
 
 class ResultsView extends Component {
+  static navigationOptions = {
+    title: 'Teams',
+  }
+
   constructor(props) {
     super(props);
 

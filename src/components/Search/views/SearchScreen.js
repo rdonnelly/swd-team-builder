@@ -27,6 +27,10 @@ const styles = StyleSheet.create({
 });
 
 export default class SearchView extends Component {
+  static navigationOptions = {
+    title: 'Characters',
+  }
+
   constructor(props) {
     super(props);
 

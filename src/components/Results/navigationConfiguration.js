@@ -7,7 +7,6 @@ const routeConfiguration = {
 
 // going to disable the header for now
 const stackNavigatorConfiguration = {
-  headerMode: 'none',
   initialRoute: 'ResultsScreen',
 };
 

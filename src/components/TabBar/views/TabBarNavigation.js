@@ -6,7 +6,6 @@ import { TabBar } from '../navigationConfiguration';
 
 
 class TabBarNavigation extends React.Component {
-
   render() {
     const { dispatch, navigationState } = this.props
     return (

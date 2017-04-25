@@ -7,7 +7,7 @@ import { SearchNavigator } from '../navigationConfiguration';
 
 class SearchNavigation extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'Search',
+    tabBarLabel: 'Characters',
   }
 
   render() {

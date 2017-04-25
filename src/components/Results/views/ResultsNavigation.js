@@ -7,7 +7,7 @@ import { ResultsNavigator } from '../navigationConfiguration';
 
 class ResultsNavigation extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'Results',
+    tabBarLabel: 'Teams',
   }
 
   render() {

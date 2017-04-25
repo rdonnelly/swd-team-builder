@@ -7,6 +7,10 @@ import { cards } from '../../../lib/Destiny';
 
 
 class SearchDetailsScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Character Details',
+  }
+
   render() {
     const { goBack } = this.props.navigation;
     const cardId = this.props.navigation.state.params.id;
