@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import { addCard } from '../../../actions';
+import { addCharacter } from '../../../actions';
 import { cards } from '../../../lib/Destiny';
 
 
@@ -12,6 +12,21 @@ class SearchDetailsScreen extends React.Component {
     const cardId = this.props.navigation.state.params.id;
     const card = cards.get(cardId);
 
+    let eliteButton = null;
+    if (card.get('pointsElite')) {
+      eliteButton =
+        <TouchableOpacity
+          onPress={ () => this.props.addCharacter(card, true) }
+          style={{
+            padding: 20,
+            borderRadius: 20,
+            backgroundColor: 'purple',
+            marginTop: 20,
+          }}>
+          <Text>{ `Add Elite Character (${card.get('pointsElite')})` }</Text>
+        </TouchableOpacity>;
+    }
+
     return (
       <View style={{
         flex: 1,
@@ -20,27 +35,19 @@ class SearchDetailsScreen extends React.Component {
         justifyContent: 'center',
       }}>
         <Text>{ card.get('name') }</Text>
-        <TouchableOpacity
-          onPress={ () => this.props.addCard(card.get('id')) }
-          style={{
-            padding: 20,
-            borderRadius: 20,
-            backgroundColor: 'purple',
-            marginTop: 20,
-          }}>
-          <Text>{ 'Add Card' }</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={ () => goBack() }
+          onPress={ () => this.props.addCharacter(card, false) }
           style={{
             padding: 20,
             borderRadius: 20,
             backgroundColor: 'purple',
             marginTop: 20,
           }}>
-          <Text>{ 'Go back a screen this tab' }</Text>
+          <Text>{ `Add Regular Character (${card.get('pointsRegular')})` }</Text>
         </TouchableOpacity>
+
+        { eliteButton }
       </View>
     );
   }
@@ -48,6 +55,6 @@ class SearchDetailsScreen extends React.Component {
 
 const mapStateToProps = state => ({ deckState: state.deckReducer });
 
-const mapDispatchToProps = { addCard };
+const mapDispatchToProps = { addCharacter };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchDetailsScreen);

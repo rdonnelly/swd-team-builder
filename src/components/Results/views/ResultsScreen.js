@@ -38,29 +38,33 @@ class ResultsView extends Component {
   renderRow(team) {
     return (
       <Text style={styles.row}>
-        { team.get('characters').map(character => character.get('name')).join(', ') }
+        { team.get('characters').map(character => character.get('isElite') + character.get('name')).join(', ') }
       </Text>
     );
   }
 
   render() {
     const { deckState } = this.props;
+    const { teamsState } = this.props;
 
     return (
-      <View style={styles.container}>
+      <View style={ styles.container }>
         <Text>Results View</Text>
-        <Text>{ deckState.get('cards').toJS() }</Text>
-        <Text>{ deckState.get('points') }</Text>
+        <Text>- { teamsState.get('count') }</Text>
+        <Text>- { deckState.get('points') }</Text>
         <ImmutableVirtualListView
-          style={styles.list}
-          immutableData={this.state.teams}
-          renderRow={this.renderRow}
+          style={ styles.list}
+          immutableData={ teamsState.get('teams') }
+          renderRow={ this.renderRow }
         />
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({ deckState: state.deckReducer });
+const mapStateToProps = state => ({
+  deckState: state.deckReducer,
+  teamsState: state.teamsReducer,
+});
 
 export default connect(mapStateToProps)(ResultsView);
