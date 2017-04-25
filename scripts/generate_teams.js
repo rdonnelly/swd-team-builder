@@ -14,6 +14,7 @@ let teams = [];
 class Team {
   constructor() {
     this.characters = [];
+    this.affiliation = null;
     this.damageTypes = [];
     this.factions = [];
     this.health = 0;
@@ -27,17 +28,19 @@ class Team {
 
   hasCharacter(card) {
     return this.characters
-      .some(characterCard =>
-        JSON.stringify(characterCard) === JSON.stringify({ id: card.id, name: card.name }),
-      );
+      .some(characterCard => characterCard.id === card.id);
   }
 
   addCharacter(card, isElite) {
     this.characters.push({
       id: card.id,
       name: card.name,
+      isElite,
     });
+
     this.characters = this.characters.sort((a, b) => a.id - b.id);
+
+    this.affiliation = card.affiliation;
 
     this.health += card.health;
 
