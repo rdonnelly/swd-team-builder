@@ -6,7 +6,7 @@ import { addCharacter } from '../../../actions';
 import { cards } from '../../../lib/Destiny';
 
 
-class SearchDetailsScreen extends React.Component {
+class CharactersDetailsScreen extends React.Component {
   static navigationOptions = {
     title: 'Character Details',
   }
@@ -61,4 +61,4 @@ const mapStateToProps = state => ({ deckState: state.deckReducer });
 
 const mapDispatchToProps = { addCharacter };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchDetailsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(CharactersDetailsScreen);

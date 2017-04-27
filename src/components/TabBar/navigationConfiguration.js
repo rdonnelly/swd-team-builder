@@ -1,12 +1,12 @@
 import { TabNavigator } from 'react-navigation';
 
-import SearchNavigation from '../Search/views/SearchNavigation';
-import ResultsNavigation from '../Results/views/ResultsNavigation';
+import CharactersNavigation from '../Characters/views/CharactersNavigation';
+import TeamsNavigation from '../Teams/views/TeamsNavigation';
 
 
 const routeConfiguration = {
-  SearchNavigation: { screen: SearchNavigation },
-  ResultsNavigation: { screen: ResultsNavigation },
+  CharactersNavigation: { screen: CharactersNavigation },
+  TeamsNavigation: { screen: TeamsNavigation },
 };
 
 const tabBarConfiguration = {

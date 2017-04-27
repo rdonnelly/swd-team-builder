@@ -2,18 +2,18 @@ import React from 'react';
 import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import { ResultsNavigator } from '../navigationConfiguration';
+import { CharactersNavigator } from '../navigationConfiguration';
 
 
-class ResultsNavigation extends React.Component {
+class CharactersNavigation extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'Teams',
+    tabBarLabel: 'Characters',
   }
 
   render() {
     const { navigationState, dispatch } = this.props;
     return (
-      <ResultsNavigator
+      <CharactersNavigator
         navigation={
           addNavigationHelpers({
             dispatch,
@@ -25,6 +25,6 @@ class ResultsNavigation extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ navigationState: state.resultsTab });
+const mapStateToProps = state => ({ navigationState: state.charactersTab });
 
-export default connect(mapStateToProps)(ResultsNavigation);
+export default connect(mapStateToProps)(CharactersNavigation);

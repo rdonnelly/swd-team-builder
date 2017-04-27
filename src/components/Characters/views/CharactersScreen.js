@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class SearchView extends Component {
+export default class CharactersView extends Component {
   static navigationOptions = {
     title: 'Characters',
   }
@@ -46,7 +46,7 @@ export default class SearchView extends Component {
 
     return (
       <TouchableHighlight
-        onPress={ () => navigate('SearchDetailsScreen', { id: rowData.get('id') }) }
+        onPress={ () => navigate('CharactersDetailsScreen', { id: rowData.get('id') }) }
       >
         <Text style={styles.row}>
           { rowData.get('name') }

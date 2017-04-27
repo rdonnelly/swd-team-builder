@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class ResultsView extends Component {
+class TeamsView extends Component {
   static navigationOptions = {
     title: 'Teams',
   }
@@ -53,7 +53,7 @@ class ResultsView extends Component {
 
     return (
       <View style={ styles.container }>
-        <Text>Results View</Text>
+        <Text>Teams View</Text>
         <Text>- { teamsState.get('count') }</Text>
         <Text>- { deckState.get('points') }</Text>
         <ImmutableVirtualListView
@@ -71,4 +71,4 @@ const mapStateToProps = state => ({
   teamsState: state.teamsReducer,
 });
 
-export default connect(mapStateToProps)(ResultsView);
+export default connect(mapStateToProps)(TeamsView);
