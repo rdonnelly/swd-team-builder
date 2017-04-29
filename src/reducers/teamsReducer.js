@@ -12,8 +12,9 @@ const teamsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_CARD_TO_DECK': {
       const newTeams = state.get('teams')
-        .filter(team => team.get('characters').map(character => character.get('id')).includes(action.payload.card.get('id')))
-        .filter(team => team.get('characters').map(character => character.get('isElite')).includes(action.payload.isElite));
+        .filter(team => team.get('characters')
+          .map(character => Immutable.fromJS([character.get('id'), character.get('isElite')]))
+          .includes(Immutable.fromJS([action.payload.card.get('id'), action.payload.isElite])));
 
       return state
         .set('teams', newTeams)
