@@ -32,7 +32,7 @@ class TeamsView extends Component {
   renderRow(team) {
     return (
       <Text style={styles.row}>
-        { team.get('points') + ': ' + team.get('characters').map(character => (character.get('isElite') ? 'e' : '') + character.get('name')).join(', ') }
+        { team.get('points') + ': ' + team.get('characters').map(character => (character.get('isElite') ? 'e' : '') + character.get('name') + (character.get('count') > 1 ? ' x' + character.get('count') : '')).join(', ') }
       </Text>
     );
   }

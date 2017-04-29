@@ -23,7 +23,7 @@ class Team {
   }
 
   getCharacterIds() {
-    return this.characters.map(character => character.id).sort();
+    return this.characters.map(character => `${character.id}_${character.count}`).sort();
   }
 
   hasCharacter(card) {
@@ -32,11 +32,20 @@ class Team {
   }
 
   addCharacter(card, isElite) {
-    this.characters.push({
+    const characterObj = {
       id: card.id,
       name: card.name,
       isElite,
-    });
+      count: 1,
+    };
+
+    const existingCharacterObj = this.characters.find(character => character.id === card.id);
+
+    if (existingCharacterObj === undefined) {
+      this.characters.push(characterObj);
+    } else {
+      existingCharacterObj.count += 1;
+    }
 
     this.characters = this.characters.sort((a, b) => a.id - b.id);
 
