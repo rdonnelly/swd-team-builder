@@ -22,13 +22,13 @@ class Team {
     this.points = 0;
   }
 
-  getCharacterList() {
-    return this.characters.map(character => character.name).sort();
+  getCharacterIds() {
+    return this.characters.map(character => character.id).sort();
   }
 
   hasCharacter(card) {
     return this.characters
-      .some(characterCard => characterCard.id === card.id);
+      .some(characterCard => characterCard.name === card.name);
   }
 
   addCharacter(card, isElite) {
@@ -83,14 +83,12 @@ const teamBuilder = (chars, pointsLeft, team) => {
   eligibleCharacters.forEach((character) => {
     const regularTeam = _.cloneDeep(team);
     regularTeam.addCharacter(character, false);
-
     teamBuilder(eligibleCharacters, pointsLeft - character.pointsRegular, regularTeam);
 
     if (typeof character.pointsElite !== 'undefined' &&
         character.pointsElite <= pointsLeft) {
       const eliteTeam = _.cloneDeep(team);
       eliteTeam.addCharacter(character, true);
-
       teamBuilder(eligibleCharacters, pointsLeft - character.pointsElite, eliteTeam);
     }
   });
@@ -107,7 +105,7 @@ teamBuilder(villains, MAX_POINTS, new Team());
 
 teams = teams.sort((a, b) => b.points - a.points);
 
-teams = _.uniqBy(teams, team => JSON.stringify(team.getCharacterList()));
+teams = _.uniqBy(teams, team => JSON.stringify(team.getCharacterIds()));
 
 console.log(`Output ${teams.length} teams...`);
 jsonfile.writeFile(path.join(__dirname, '../data/teams.json'), teams, err => console.error(err));
