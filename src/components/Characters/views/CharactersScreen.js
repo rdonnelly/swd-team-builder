@@ -60,7 +60,7 @@ class CharactersView extends Component {
     const deckView = (
       <View>
         <Text>Points: { deckState.get('points') }</Text>
-        <Text>Characters: { deckState.get('cards').map(character => (character.get('isElite') ? 'e' : '') + character.get('name')).join(', ') }</Text>
+        <Text>Characters: { deckState.get('cards').map(character => (character.get('isElite') ? 'e' : '') + character.get('name') + (character.get('count') > 1 ? ' x' + character.get('count') : '')).join(', ') }</Text>
       </View>
     );
 

@@ -1,4 +1,4 @@
-export const addCharacterToDeck = (card, isElite) => ({
+const addCharacterToDeck = (card, isElite) => ({
   type: 'ADD_CARD_TO_DECK',
   payload: {
     card,
@@ -6,11 +6,25 @@ export const addCharacterToDeck = (card, isElite) => ({
   },
 });
 
-export const updateTeams = (card, isElite) => ({
+const removeCharacterFromDeck = card => ({
+  type: 'REMOVE_CARD_FROM_DECK',
+  payload: {
+    card,
+  },
+});
+
+const updateTeams = (card, deckCards) => ({
   type: 'UPDATE_TEAMS',
   payload: {
     card,
-    isElite,
+    deckCards,
+  },
+});
+const refreshTeams = (card, deckCards) => ({
+  type: 'REFRESH_TEAMS',
+  payload: {
+    card,
+    deckCards,
   },
 });
 
@@ -30,5 +44,16 @@ export const addCharacter = (card, isElite) =>
 
     return Promise.resolve()
       .then(dispatch(addCharacterToDeck(card, isElite)))
-      .then(dispatch(updateTeams(card, isElite)));
+      .then(dispatch(updateTeams(card, getState().deckReducer.get('cards'))));
+  };
+
+export const removeCharacter = card =>
+  (dispatch, getState) => {
+    if (!getState().deckReducer.get('cards').some(deckCard => deckCard.get('id') === card.get('id'))) {
+      return Promise.resolve().then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
+    }
+
+    return Promise.resolve()
+      .then(dispatch(removeCharacterFromDeck(card)))
+      .then(dispatch(refreshTeams(card, getState().deckReducer.get('cards'))));
   };

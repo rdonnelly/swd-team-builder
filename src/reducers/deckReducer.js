@@ -9,26 +9,55 @@ const initialState = Immutable.fromJS({
 const deckReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_CARD_TO_DECK': {
+      const existingCardIndex = state.get('cards')
+        .findKey(card => card.get('id') === action.payload.card.get('id'));
+
+      const cardObj = Immutable.fromJS({
+        id: action.payload.card.get('id'),
+        name: action.payload.card.get('name'),
+        isElite: action.payload.isElite,
+        count: 1 + (existingCardIndex !== undefined ? state.get('cards').get(existingCardIndex).get('count') : 0),
+      });
+
       const characterPoints = action.payload.isElite ?
         action.payload.card.get('pointsElite') : action.payload.card.get('pointsRegular');
 
-      return state
-        .update('cards', deckCards => deckCards.push(action.payload.card))
-        .update('points', points => points + characterPoints);
+      const newState = state.update('points', points => points + characterPoints);
+
+      if (existingCardIndex !== undefined) {
+        return newState.update('cards', cards => cards.set(existingCardIndex, cardObj));
+      }
+
+      return newState.update('cards', cards => cards.push(cardObj));
     }
 
     case 'REMOVE_CARD_FROM_DECK': {
-      if (state.get('cards').indexOf(action.payload.card) === -1) {
+      const existingCardIndex = state.get('cards')
+        .findKey(card => card.get('id') === action.payload.card.get('id'));
+
+      if (existingCardIndex === undefined) {
         return state;
       }
 
-      const characterPoints = action.payload.isElite ?
+      const existingCard = state.get('cards').get(existingCardIndex);
+      const existingCardPoints = existingCard.get('isElite') ?
         action.payload.card.get('pointsElite') : action.payload.card.get('pointsRegular');
 
-      return state
-        .update('cards', deckCards => deckCards.filter(
-          deckCard => deckCard.get('id') === action.payload.card.get('id')))
-        .update('points', points => points - characterPoints);
+
+      if (existingCard.get('count') === 1) {
+        return state.update('points', points => points - existingCardPoints)
+          .update('cards', cards => cards.delete(existingCardIndex));
+      }
+
+      const cardObj = Immutable.fromJS({
+        id: action.payload.card.get('id'),
+        name: action.payload.card.get('name'),
+        isElite: action.payload.isElite,
+        count: existingCard.get('count') - 1,
+      });
+
+      return state.update('points', points => points - existingCardPoints)
+        .update('cards', cards => cards.set(existingCardIndex, cardObj));
     }
 
     default:
