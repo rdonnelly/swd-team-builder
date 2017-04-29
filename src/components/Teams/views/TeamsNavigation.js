@@ -3,11 +3,23 @@ import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { TeamsNavigator } from '../navigationConfiguration';
+import BadgeTabIcon from '../../BadgeTabIcon/BadgeTabIcon';
 
 
 class TeamsNavigation extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Teams',
+    tabBarIcon: ({ tintColor, focused }) => {
+      return (
+        <BadgeTabIcon
+          iconName="copy"
+          size={ 24 }
+          color={ tintColor }
+          selected={ focused }
+          showBadge={ true }
+        />
+      );
+    },
   }
 
   render() {

@@ -3,11 +3,23 @@ import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { CharactersNavigator } from '../navigationConfiguration';
+import BadgeTabIcon from '../../BadgeTabIcon/BadgeTabIcon';
 
 
 class CharactersNavigation extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Characters',
+    tabBarIcon: ({ tintColor, focused }) => {
+      return (
+        <BadgeTabIcon
+          iconName="add-to-list"
+          size={ 30 }
+          color={ tintColor }
+          selected={ focused }
+          showBadge={ false }
+        />
+      );
+    },
   }
 
   render() {

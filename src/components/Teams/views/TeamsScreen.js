@@ -7,8 +7,6 @@ import {
 import { connect } from 'react-redux';
 import ImmutableVirtualListView from 'react-native-immutable-list-view';
 
-import { teams } from '../../../lib/Destiny';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -29,14 +27,6 @@ const styles = StyleSheet.create({
 class TeamsView extends Component {
   static navigationOptions = {
     title: 'Teams',
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      teams,
-    };
   }
 
   renderRow(team) {
