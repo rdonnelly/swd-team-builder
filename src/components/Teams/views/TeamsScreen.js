@@ -32,20 +32,16 @@ class TeamsView extends Component {
   renderRow(team) {
     return (
       <Text style={styles.row}>
-        { team.get('characters').map(character => character.get('isElite') + character.get('name')).join(', ') }
+        { team.get('points') + ': ' + team.get('characters').map(character => (character.get('isElite') ? 'e' : '') + character.get('name')).join(', ') }
       </Text>
     );
   }
 
   render() {
-    const { deckState } = this.props;
     const { teamsState } = this.props;
 
     return (
       <View style={ styles.container }>
-        <Text>Teams View</Text>
-        <Text>- { teamsState.get('count') }</Text>
-        <Text>- { deckState.get('points') }</Text>
         <ImmutableVirtualListView
           style={ styles.list}
           immutableData={ teamsState.get('teams') }
@@ -57,7 +53,6 @@ class TeamsView extends Component {
 }
 
 const mapStateToProps = state => ({
-  deckState: state.deckReducer,
   teamsState: state.teamsReducer,
 });
 

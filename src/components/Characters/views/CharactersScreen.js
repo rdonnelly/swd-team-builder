@@ -5,7 +5,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-
+import { connect } from 'react-redux';
 import ImmutableVirtualListView from 'react-native-immutable-list-view';
 
 import { cards } from '../../../lib/Destiny';
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class CharactersView extends Component {
+class CharactersView extends Component {
   static navigationOptions = {
     title: 'Characters',
   }
@@ -56,8 +56,17 @@ export default class CharactersView extends Component {
   }
 
   render() {
+    const { deckState } = this.props;
+    const deckView = (
+      <View>
+        <Text>Points: { deckState.get('points') }</Text>
+        <Text>Characters: { deckState.get('cards').map(character => (character.get('isElite') ? 'e' : '') + character.get('name')).join(', ') }</Text>
+      </View>
+    );
+
     return (
       <View style={styles.container}>
+        { deckView }
         <ImmutableVirtualListView
           style={styles.list}
           immutableData={this.state.characterCards}
@@ -67,3 +76,9 @@ export default class CharactersView extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  deckState: state.deckReducer,
+});
+
+export default connect(mapStateToProps)(CharactersView);
