@@ -6,6 +6,7 @@ import { tabBarReducer } from './components/TabBar/navigationConfiguration';
 import { CharactersNavigator } from './components/Characters/navigationConfiguration';
 import { TeamsNavigator } from './components/Teams/navigationConfiguration';
 
+import charactersReducer from './reducers/charactersReducer';
 import deckReducer from './reducers/deckReducer';
 import teamsReducer from './reducers/teamsReducer';
 
@@ -21,6 +22,7 @@ export default createStore(
     charactersTab: (state, action) => CharactersNavigator.router.getStateForAction(action, state),
     teamsTab: (state, action) => TeamsNavigator.router.getStateForAction(action, state),
 
+    charactersReducer,
     deckReducer,
     teamsReducer,
   }),

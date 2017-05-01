@@ -13,6 +13,13 @@ const removeCharacterFromDeck = card => ({
   },
 });
 
+const updateCharacters = deckCards => ({
+  type: 'UPDATE_CHARACTERS',
+  payload: {
+    deckCards,
+  },
+});
+
 const updateTeams = (card, deckCards) => ({
   type: 'UPDATE_TEAMS',
   payload: {
@@ -20,6 +27,7 @@ const updateTeams = (card, deckCards) => ({
     deckCards,
   },
 });
+
 const refreshTeams = (card, deckCards) => ({
   type: 'REFRESH_TEAMS',
   payload: {
@@ -44,6 +52,7 @@ export const addCharacter = (card, isElite) =>
 
     return Promise.resolve()
       .then(dispatch(addCharacterToDeck(card, isElite)))
+      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
       .then(dispatch(updateTeams(card, getState().deckReducer.get('cards'))));
   };
 
@@ -55,5 +64,6 @@ export const removeCharacter = card =>
 
     return Promise.resolve()
       .then(dispatch(removeCharacterFromDeck(card)))
+      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
       .then(dispatch(refreshTeams(card, getState().deckReducer.get('cards'))));
   };

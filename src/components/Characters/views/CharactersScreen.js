@@ -4,11 +4,10 @@ import {
   Text,
   TouchableHighlight,
   View,
+  VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
-import ImmutableVirtualListView from 'react-native-immutable-list-view';
 
-import { cards } from '../../../lib/Destiny';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,6 +23,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
   },
+  badRow: {
+    backgroundColor: 'gray',
+  },
 });
 
 class CharactersView extends Component {
@@ -34,22 +36,42 @@ class CharactersView extends Component {
   constructor(props) {
     super(props);
 
-    this.renderRow = this.renderRow.bind(this);
-
     this.state = {
-      characterCards: cards.filter(card => card.get('type') === 'character'),
+      characterCards: this.props.charactersState.get('cards').toList(),
+      deckCards: this.props.deckState.get('cards'),
     };
+
+    this.renderItem = this.renderItem.bind(this);
   }
 
-  renderRow(rowData) {
+  componentWillReceiveProps(nextProps) {
+    const newState = {};
+
+    if (this.state.characterCards !== nextProps.charactersState.get('cards').toList()) {
+      newState.characterCards = nextProps.charactersState.get('cards').toList();
+    }
+
+    if (this.state.deckCards !== nextProps.deckState.get('cards')) {
+      newState.deckCards = nextProps.deckState.get('cards');
+    }
+
+    this.setState(newState);
+  }
+
+  renderItem({ item }) {
     const { navigate } = this.props.navigation;
+    const rowStyle = [styles.row];
+
+    if (!item.get('isCompatibile')) {
+      rowStyle.push(styles.badRow);
+    }
 
     return (
       <TouchableHighlight
-        onPress={ () => navigate('CharactersDetailsScreen', { id: rowData.get('id') }) }
+        onPress={ () => navigate('CharactersDetailsScreen', { id: item.get('id') }) }
       >
-        <Text style={styles.row}>
-          { rowData.get('name') }
+        <Text style={ rowStyle }>
+          { item.get('name') }
         </Text>
       </TouchableHighlight>
     );
@@ -64,20 +86,25 @@ class CharactersView extends Component {
       </View>
     );
 
+
     return (
-      <View style={styles.container}>
-        { deckView }
-        <ImmutableVirtualListView
-          style={styles.list}
-          immutableData={this.state.characterCards}
-          renderRow={this.renderRow}
+      <View style={ styles.container }>
+        <VirtualizedList
+          style={ styles.list }
+          data={ this.state.characterCards }
+          renderItem={ this.renderItem }
+          getItem={ (data, key) => (data.get ? data.get(key) : data[key]) }
+          getItemCount={ data => (data.size || data.length || 0) }
+          keyExtractor={ (item, index) => String(index) }
         />
+        { deckView }
       </View>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  charactersState: state.charactersReducer,
   deckState: state.deckReducer,
 });
 
