@@ -8,9 +8,12 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import { cards } from '../../../lib/Destiny';
+
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -24,7 +27,23 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   badRow: {
-    backgroundColor: 'gray',
+    opacity: 0.8,
+  },
+  blueCard: {
+    color: 'rgba(52, 152, 219, 1.0)',
+  },
+  redCard: {
+    color: 'rgba(231, 76, 60, 1.0)',
+  },
+  yellowCard: {
+    color: 'rgba(241, 196, 15, 1.0)',
+  },
+  deck: {
+    backgroundColor: 'rgba(52, 73, 94, 1.0)',
+    width: '100%',
+  },
+  deckText: {
+    color: 'white',
   },
 });
 
@@ -60,10 +79,23 @@ class CharactersView extends Component {
 
   renderItem({ item }) {
     const { navigate } = this.props.navigation;
+    const card = cards.get(item.get('id'));
     const rowStyle = [styles.row];
 
     if (!item.get('isCompatibile')) {
       rowStyle.push(styles.badRow);
+    }
+
+    switch (card.faction) {
+      case 'blue':
+        rowStyle.push(styles.blueCard);
+        break;
+      case 'red':
+        rowStyle.push(styles.redCard);
+        break;
+      case 'yellow':
+        rowStyle.push(styles.yellowCard);
+        break;
     }
 
     return (
@@ -79,13 +111,13 @@ class CharactersView extends Component {
 
   render() {
     const { deckState } = this.props;
+
     const deckView = (
-      <View>
-        <Text>Points: { deckState.get('points') }</Text>
-        <Text>Characters: { deckState.get('cards').map(character => (character.get('isElite') ? 'e' : '') + character.get('name') + (character.get('count') > 1 ? ' x' + character.get('count') : '')).join(', ') }</Text>
+      <View style={ styles.deck }>
+        <Text style={ styles.deckText }>Points: { deckState.get('points') }</Text>
+        <Text style={ styles.deckText }>Characters: { deckState.get('cards').map(character => (character.get('isElite') ? 'e' : '') + character.get('name') + (character.get('count') > 1 ? ' x' + character.get('count') : '')).join(', ') }</Text>
       </View>
     );
-
 
     return (
       <View style={ styles.container }>

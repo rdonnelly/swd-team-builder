@@ -7,6 +7,8 @@ import {
 import { connect } from 'react-redux';
 import ImmutableVirtualListView from 'react-native-immutable-list-view';
 
+import { cards } from '../../../lib/Destiny';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -19,8 +21,16 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   row: {
-    fontSize: 20,
     padding: 10,
+  },
+  blueCard: {
+    color: 'rgba(52, 152, 219,1.0)',
+  },
+  redCard: {
+    color: 'rgba(231, 76, 60,1.0)',
+  },
+  yellowCard: {
+    color: 'rgba(241, 196, 15,1.0)',
   },
 });
 
@@ -30,10 +40,33 @@ class TeamsView extends Component {
   }
 
   renderRow(team) {
+    const charactersView = team.get('characters').map((character) => {
+      const card = cards.get(character.get('id'));
+      const cardStyles = [];
+
+      switch (card.faction) {
+        case 'blue':
+          cardStyles.push(styles.blueCard);
+          break;
+        case 'red':
+          cardStyles.push(styles.redCard);
+          break;
+        case 'yellow':
+          cardStyles.push(styles.yellowCard);
+          break;
+      }
+
+      return (
+        <Text style={cardStyles}>
+          { (character.get('isElite') ? 'e' : '') + card.name + (character.get('count') > 1 ? ' x' + character.get('count') : '') }
+        </Text>
+      );
+    });
+
     return (
-      <Text style={styles.row}>
-        { team.get('points') + ': ' + team.get('characters').map(character => (character.get('isElite') ? 'e' : '') + character.get('name') + (character.get('count') > 1 ? ' x' + character.get('count') : '')).join(', ') }
-      </Text>
+      <View style={styles.row}>
+        { charactersView }
+      </View>
     );
   }
 
