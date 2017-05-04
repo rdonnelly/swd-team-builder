@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import { addCharacter, removeCharacter } from '../../../actions';
-import { cards } from '../../../lib/Destiny';
+import { cards, cardImages } from '../../../lib/Destiny';
 
 
 class CharactersDetailsScreen extends React.Component {
@@ -22,11 +22,14 @@ class CharactersDetailsScreen extends React.Component {
         onPress={ () => this.props.addCharacter(card, false) }
         style={{
           padding: 20,
-          borderRadius: 20,
-          backgroundColor: 'purple',
+          borderRadius: 4,
+          backgroundColor: 'rgba(46, 204, 113, 1.0)',
           marginTop: 20,
+          width: '80%',
+          flex: 1,
+          alignSelf: 'center',
         }}>
-        <Text>{ `Add Regular Character (${card.get('pointsRegular')})` }</Text>
+        <Text style={{ color: 'white' }}>{ `Add Regular Character (${card.get('pointsRegular')})` }</Text>
       </TouchableOpacity>;
 
     const eliteButton = card.get('pointsElite') ?
@@ -34,11 +37,14 @@ class CharactersDetailsScreen extends React.Component {
         onPress={ () => this.props.addCharacter(card, true) }
         style={{
           padding: 20,
-          borderRadius: 20,
-          backgroundColor: 'purple',
+          borderRadius: 4,
+          backgroundColor: 'rgba(46, 204, 113, 1.0)',
           marginTop: 20,
+          width: '80%',
+          flex: 1,
+          alignSelf: 'center',
         }}>
-        <Text>{ `Add Elite Character (${card.get('pointsElite')})` }</Text>
+        <Text style={{ color: 'white' }}>{ `Add Elite Character (${card.get('pointsElite')})` }</Text>
       </TouchableOpacity> : null;
 
     // TODO only show if in deck
@@ -47,25 +53,44 @@ class CharactersDetailsScreen extends React.Component {
         onPress={ () => this.props.removeCharacter(card) }
         style={{
           padding: 20,
-          borderRadius: 20,
-          backgroundColor: 'purple',
+          borderRadius: 4,
+          backgroundColor: 'rgba(230, 126, 34, 1.0)',
           marginTop: 20,
+          width: '80%',
+          flex: 1,
+          alignSelf: 'center',
         }}>
-        <Text>{ 'Remove Character' }</Text>
+        <Text style={{ color: 'white' }}>{ 'Remove Character' }</Text>
       </TouchableOpacity> : null;
 
 
     return (
       <View style={{
         flex: 1,
-        backgroundColor: 'orange',
+        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <Text>{ card.get('name') }</Text>
-        { regularButton }
-        { eliteButton }
-        { removeButton }
+        <ScrollView style={{
+          flex: 1,
+          width: '100%',
+          alignContent: 'center',
+        }}>
+          <View style={{ flex: 1, width: '100%', height: 300 }}>
+            <Image
+              style={{
+                flex: 1,
+                width: '100%',
+                height: 100,
+              }}
+              resizeMode='contain'
+              source={ cardImages.get(card.get('id')) }
+            />
+          </View>
+          { regularButton }
+          { eliteButton }
+          { removeButton }
+        </ScrollView>
       </View>
     );
   }

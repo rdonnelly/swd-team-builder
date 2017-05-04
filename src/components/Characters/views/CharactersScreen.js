@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   row: {
     fontSize: 20,
-    padding: 10,
+    padding: 12,
   },
   badRow: {
     opacity: 0.8,
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   },
   deck: {
     backgroundColor: 'rgba(52, 73, 94, 1.0)',
+    padding: 12,
     width: '100%',
   },
   deckText: {
@@ -112,10 +113,14 @@ class CharactersView extends Component {
   render() {
     const { deckState } = this.props;
 
-    const deckView = (
+    const deckView = deckState.get('points') > 0 ? (
       <View style={ styles.deck }>
         <Text style={ styles.deckText }>Points: { deckState.get('points') }</Text>
         <Text style={ styles.deckText }>Characters: { deckState.get('cards').map(character => (character.get('isElite') ? 'e' : '') + character.get('name') + (character.get('count') > 1 ? ' x' + character.get('count') : '')).join(', ') }</Text>
+      </View>
+    ) : (
+      <View style={ styles.deck }>
+        <Text style={ styles.deckText }>{ 'No Characters Selected' }</Text>
       </View>
     );
 
