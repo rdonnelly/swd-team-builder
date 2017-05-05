@@ -22,8 +22,8 @@ class Team {
     this.points = 0;
   }
 
-  getCharacterIds() {
-    return this.characters.map(character => `${character.id}_${character.count}`).sort();
+  getKey() {
+    return this.characters.map(character => `${character.id}_${character.isElite ? 2 : 1}_${character.count}`).sort();
   }
 
   hasCharacter(card) {
@@ -114,7 +114,7 @@ teamBuilder(villains, MAX_POINTS, new Team());
 
 teams = teams.sort((a, b) => b.points - a.points);
 
-teams = _.uniqBy(teams, team => JSON.stringify(team.getCharacterIds()));
+teams = _.uniqBy(teams, team => JSON.stringify(team.getKey()));
 
 console.log(`Output ${teams.length} teams...`);
 jsonfile.writeFile(path.join(__dirname, '../data/teams.json'), teams, err => console.error(err));
