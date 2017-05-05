@@ -30,6 +30,11 @@ const charactersReducer = (state = initialState, action) => {
       );
     }
 
+    case 'RESET_CHARACTERS': {
+      return state
+        .set('cards', initialState.get('cards'));
+    }
+
     default:
       return state;
   }

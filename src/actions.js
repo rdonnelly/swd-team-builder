@@ -1,3 +1,5 @@
+// DECK ACTIONS
+
 const addCharacterToDeck = (card, isElite) => ({
   type: 'ADD_CARD_TO_DECK',
   payload: {
@@ -13,12 +15,26 @@ const removeCharacterFromDeck = card => ({
   },
 });
 
+const resetDeck = () => ({
+  type: 'RESET_DECK',
+});
+
+
+// CHARACTER ACTIONS
+
 const updateCharacters = deckCards => ({
   type: 'UPDATE_CHARACTERS',
   payload: {
     deckCards,
   },
 });
+
+const resetCharacters = () => ({
+  type: 'RESET_CHARACTERS',
+});
+
+
+// TEAMS ACTIONS
 
 const updateTeams = (card, deckCards) => ({
   type: 'UPDATE_TEAMS',
@@ -35,6 +51,14 @@ const refreshTeams = (card, deckCards) => ({
     deckCards,
   },
 });
+
+const resetTeams = () => ({
+  type: 'RESET_TEAMS',
+});
+
+
+// ACTIONS
+
 
 export const addCharacter = (card, isElite) =>
   (dispatch, getState) => {
@@ -67,3 +91,10 @@ export const removeCharacter = card =>
       .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
       .then(dispatch(refreshTeams(card, getState().deckReducer.get('cards'))));
   };
+
+export const reset = () =>
+  dispatch =>
+    Promise.resolve()
+      .then(dispatch(resetDeck()))
+      .then(dispatch(resetCharacters()))
+      .then(dispatch(resetTeams()));

@@ -5,9 +5,11 @@ import {
   TouchableHighlight,
   View,
   VirtualizedList,
+  Button,
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import { reset } from '../../../actions';
 import { cards } from '../../../lib/Destiny';
 
 
@@ -48,10 +50,20 @@ const styles = StyleSheet.create({
   },
 });
 
+
 class CharactersView extends Component {
-  static navigationOptions = {
-    title: 'Characters',
-  }
+  static navigationOptions = ({ navigation }) => {
+    const { state } = navigation;
+    return {
+      title: 'Characters',
+      headerRight: (
+        <Button
+          title={ 'Reset' }
+          onPress={ () => { state.params.resetDeck(); } }
+        />
+      ),
+    };
+  };
 
   constructor(props) {
     super(props);
@@ -62,6 +74,13 @@ class CharactersView extends Component {
     };
 
     this.renderItem = this.renderItem.bind(this);
+    this.resetDeck = this.resetDeck.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.navigation.setParams({
+      resetDeck: this.resetDeck.bind(this),
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -76,6 +95,10 @@ class CharactersView extends Component {
     }
 
     this.setState(newState);
+  }
+
+  resetDeck() {
+    this.props.reset();
   }
 
   renderItem({ item }) {
@@ -145,4 +168,6 @@ const mapStateToProps = state => ({
   deckState: state.deckReducer,
 });
 
-export default connect(mapStateToProps)(CharactersView);
+const mapDispatchToProps = { reset };
+
+export default connect(mapStateToProps, mapDispatchToProps)(CharactersView);

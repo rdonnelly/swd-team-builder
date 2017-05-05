@@ -45,6 +45,13 @@ const teamsReducer = (state = initialState, action) => {
         .set('count', newTeams.count());
     }
 
+    case 'RESET_TEAMS': {
+      return state
+        .set('teams', initialState.get('teams'))
+        .set('count', initialState.get('count'))
+        .set('team', initialState.get('team'));
+    }
+
     default:
       return state;
   }

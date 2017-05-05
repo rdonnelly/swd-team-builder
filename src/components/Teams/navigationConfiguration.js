@@ -5,7 +5,6 @@ const routeConfiguration = {
   TeamsScreen: { screen: TeamsScreen },
 };
 
-// going to disable the header for now
 const stackNavigatorConfiguration = {
   initialRoute: 'TeamsScreen',
 };

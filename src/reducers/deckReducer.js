@@ -60,6 +60,11 @@ const deckReducer = (state = initialState, action) => {
         .update('cards', cards => cards.set(existingCardIndex, cardObj));
     }
 
+    case 'RESET_DECK': {
+      return state.set('points', initialState.get('points'))
+        .set('cards', initialState.get('cards'));
+    }
+
     default:
       return state;
   }

@@ -7,7 +7,6 @@ const routeConfiguration = {
   CharactersDetailsScreen: { screen: CharactersDetailsScreen },
 };
 
-// going to disable the header for now
 const stackNavigatorConfiguration = {
   initialRoute: 'CharactersScreen',
 };
