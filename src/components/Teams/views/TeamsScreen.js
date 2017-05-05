@@ -16,12 +16,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     width: '100%',
+    backgroundColor: 'rgba(236, 240, 241, 1.0)',
   },
   list: {
     width: '100%',
   },
   row: {
-    padding: 10,
+    padding: 12,
+  },
+  characterNameWrapper: {
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+  },
+  characterName: {
+    fontSize: 18,
+    paddingRight: 8,
   },
   blueCard: {
     color: 'rgba(52, 152, 219,1.0)',
@@ -32,6 +42,10 @@ const styles = StyleSheet.create({
   yellowCard: {
     color: 'rgba(241, 196, 15,1.0)',
   },
+  teamStat: {
+    fontSize: 12,
+    paddingRight: 8,
+  }
 });
 
 class TeamsView extends Component {
@@ -42,7 +56,7 @@ class TeamsView extends Component {
   renderRow(team) {
     const charactersView = team.get('characters').map((character) => {
       const card = cards.get(character.get('id'));
-      const cardStyles = [];
+      const cardStyles = [styles.characterName];
 
       switch (card.faction) {
         case 'blue':
@@ -57,15 +71,22 @@ class TeamsView extends Component {
       }
 
       return (
-        <Text style={cardStyles}>
+        <Text style={ cardStyles }>
           { (character.get('isElite') ? 'e' : '') + card.name + (character.get('count') > 1 ? ' x' + character.get('count') : '') }
         </Text>
       );
     });
 
     return (
-      <View style={styles.row}>
-        { charactersView }
+      <View style={ styles.row }>
+        <View style={ styles.characterNameWrapper }>
+          { charactersView }
+        </View>
+        <View style={ styles.characterNameWrapper }>
+          <Text style={ styles.teamStat }>Points: { team.get('points') }</Text>
+          <Text style={ styles.teamStat }>Dice: { team.get('numDice') }</Text>
+          <Text style={ styles.teamStat }>Health: { team.get('health') }</Text>
+        </View>
       </View>
     );
   }
