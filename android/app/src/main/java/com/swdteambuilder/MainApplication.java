@@ -1,4 +1,4 @@
-package com.destinycharacters;
+package com.swdteambuilder;
 
 import android.app.Application;
 
