@@ -3,7 +3,8 @@ import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import { addCharacter, removeCharacter } from '../../../actions';
-import { cards, cardImages } from '../../../lib/Destiny';
+import { cards } from '../../../lib/Destiny';
+import { cardImages } from '../../../lib/DestinyImages';
 
 
 class CharactersDetailsScreen extends React.Component {
