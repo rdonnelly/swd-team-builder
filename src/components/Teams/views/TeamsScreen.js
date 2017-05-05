@@ -71,7 +71,7 @@ class TeamsView extends Component {
       }
 
       return (
-        <Text style={ cardStyles }>
+        <Text key={ `${team.get('key')}___${character.get('id')}` } style={ cardStyles }>
           { (character.get('isElite') ? 'e' : '') + card.name + (character.get('count') > 1 ? ' x' + character.get('count') : '') }
         </Text>
       );

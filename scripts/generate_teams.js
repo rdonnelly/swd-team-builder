@@ -13,6 +13,7 @@ let teams = [];
 
 class Team {
   constructor() {
+    this.key = '';
     this.characters = [];
     this.affiliation = null;
     this.damageTypes = [];
@@ -23,7 +24,10 @@ class Team {
   }
 
   getKey() {
-    return this.characters.map(character => `${character.id}_${character.isElite ? 2 : 1}_${character.count}`).sort();
+    return this.characters
+      .map(character => `${character.id}_${character.isElite ? 2 : 1}_${character.count}`)
+      .sort()
+      .join('__');
   }
 
   hasCharacter(card) {
@@ -75,6 +79,8 @@ class Team {
       this.numDice += 1;
       this.points += card.pointsRegular;
     }
+
+    this.key = this.getKey();
   }
 }
 
