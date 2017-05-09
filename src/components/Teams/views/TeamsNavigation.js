@@ -12,8 +12,8 @@ class TeamsNavigation extends React.Component {
     tabBarIcon: ({ tintColor, focused }) => {
       return (
         <BadgeTabIcon
-          iconName="copy"
-          size={ 24 }
+          iconName="list"
+          size={ 30 }
           color={ tintColor }
           selected={ focused }
           showBadge={ true }

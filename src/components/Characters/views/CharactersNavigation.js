@@ -12,8 +12,8 @@ class CharactersNavigation extends React.Component {
     tabBarIcon: ({ tintColor, focused }) => {
       return (
         <BadgeTabIcon
-          iconName="add-to-list"
-          size={ 30 }
+          iconName="copy"
+          size={ 24 }
           color={ tintColor }
           selected={ focused }
           showBadge={ false }
