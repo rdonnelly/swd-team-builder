@@ -9,6 +9,7 @@ import { TeamsNavigator } from './components/Teams/navigationConfiguration';
 
 import charactersReducer from './reducers/charactersReducer';
 import deckReducer from './reducers/deckReducer';
+import settingsReducer from './reducers/settingsReducer';
 import teamsReducer from './reducers/teamsReducer';
 
 
@@ -26,6 +27,7 @@ export default createStore(
 
     charactersReducer,
     deckReducer,
+    settingsReducer,
     teamsReducer,
   }),
   applyMiddleware(...middleware),

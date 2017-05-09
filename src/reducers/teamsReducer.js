@@ -6,39 +6,51 @@ import { teams } from '../lib/Destiny';
 const initialState = Immutable.fromJS({
   teams,
   count: teams.count(),
-  team: Immutable.fromJS([]),
 });
+
+const filterTeamsByCharacters = (newTeams, deckCards) =>
+  newTeams.filter(team =>
+    deckCards.every((characterObj) => {
+      const character = team.get('characters')
+        .find(teamCharacter =>
+          teamCharacter.get('id') === characterObj.get('id') &&
+          teamCharacter.get('isElite') === characterObj.get('isElite'));
+      return character !== undefined && character.get('count') >= characterObj.get('count');
+    }),
+  );
 
 const teamsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'UPDATE_TEAMS': {
-      const newTeams = state.get('teams')
-        .filter(team =>
-          action.payload.deckCards.every((characterObj) => {
-            const character = team.get('characters')
-              .find(teamCharacter =>
-                teamCharacter.get('id') === characterObj.get('id') &&
-                teamCharacter.get('isElite') === characterObj.get('isElite'));
-            return character !== undefined && character.get('count') >= characterObj.get('count');
-          }),
-        );
+    case 'REFINE_TEAMS': {
+      const newTeams = filterTeamsByCharacters(
+        state.get('teams'),
+        action.payload.deckCards,
+      );
 
       return state
         .set('teams', newTeams)
         .set('count', newTeams.count());
     }
 
-    case 'REFRESH_TEAMS': {
-      const newTeams = initialState.get('teams')
-        .filter(team =>
-          action.payload.deckCards.every((characterObj) => {
-            const character = team.get('characters')
-              .find(teamCharacter =>
-                teamCharacter.get('id') === characterObj.get('id') &&
-                teamCharacter.get('isElite') === characterObj.get('isElite'));
-            return character !== undefined && character.get('count') >= characterObj.get('count');
+    case 'RECALCULATE_TEAMS': {
+      const newTeams = filterTeamsByCharacters(
+        initialState.get('teams')
+          .filter((team) => {
+            const minDice = action.payload.settings.get('minDice');
+            const maxDice = action.payload.settings.get('maxDice');
+
+            if (team.get('numDice') < minDice) {
+              return false;
+            }
+
+            if (team.get('numDice') > maxDice) {
+              return false;
+            }
+
+            return true;
           }),
-        );
+        action.payload.deckCards,
+      );
 
       return state
         .set('teams', newTeams)
@@ -48,8 +60,7 @@ const teamsReducer = (state = initialState, action) => {
     case 'RESET_TEAMS': {
       return state
         .set('teams', initialState.get('teams'))
-        .set('count', initialState.get('count'))
-        .set('team', initialState.get('team'));
+        .set('count', initialState.get('count'));
     }
 
     default:

@@ -34,21 +34,32 @@ const resetCharacters = () => ({
 });
 
 
-// TEAMS ACTIONS
+// SETTINGS ACTIONS
 
-const updateTeams = (card, deckCards) => ({
-  type: 'UPDATE_TEAMS',
+const setSetting = (key, value) => ({
+  type: 'SET_SETTING',
   payload: {
-    card,
-    deckCards,
+    key,
+    value,
   },
 });
 
-const refreshTeams = (card, deckCards) => ({
-  type: 'REFRESH_TEAMS',
+
+// TEAMS ACTIONS
+
+const refineTeams = (deckCards, settings) => ({
+  type: 'REFINE_TEAMS',
   payload: {
-    card,
     deckCards,
+    settings,
+  },
+});
+
+const recalculateTeams = (deckCards, settings) => ({
+  type: 'RECALCULATE_TEAMS',
+  payload: {
+    deckCards,
+    settings,
   },
 });
 
@@ -59,7 +70,6 @@ const resetTeams = () => ({
 
 // ACTIONS
 
-
 export const addCharacter = (card, isElite) =>
   (dispatch, getState) => {
     const characterPoints = isElite ?
@@ -67,29 +77,35 @@ export const addCharacter = (card, isElite) =>
 
     if (card.get('isUnique') &&
         getState().deckReducer.get('cards').includes(card)) {
-      return Promise.resolve().then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));
+      return Promise.resolve()
+        .then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));
     }
 
     if (getState().deckReducer.get('points') + characterPoints > 30) {
-      return Promise.resolve().then(dispatch({ type: 'ERROR/TOO_MANY_POINTS' }));
+      return Promise.resolve()
+        .then(dispatch({ type: 'ERROR/TOO_MANY_POINTS' }));
     }
 
     return Promise.resolve()
       .then(dispatch(addCharacterToDeck(card, isElite)))
       .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
-      .then(dispatch(updateTeams(card, getState().deckReducer.get('cards'))));
+      .then(dispatch(refineTeams(getState().deckReducer.get('cards'))));
   };
 
 export const removeCharacter = card =>
   (dispatch, getState) => {
     if (!getState().deckReducer.get('cards').some(deckCard => deckCard.get('id') === card.get('id'))) {
-      return Promise.resolve().then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
+      return Promise.resolve()
+        .then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
     }
 
     return Promise.resolve()
       .then(dispatch(removeCharacterFromDeck(card)))
       .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
-      .then(dispatch(refreshTeams(card, getState().deckReducer.get('cards'))));
+      .then(dispatch(recalculateTeams(
+        getState().deckReducer.get('cards'),
+        getState().settingsReducer,
+      )));
   };
 
 export const reset = () =>
@@ -98,3 +114,12 @@ export const reset = () =>
       .then(dispatch(resetDeck()))
       .then(dispatch(resetCharacters()))
       .then(dispatch(resetTeams()));
+
+export const updateSetting = (key, value) =>
+  (dispatch, getState) =>
+    Promise.resolve()
+      .then(dispatch(setSetting(key, value)))
+      .then(dispatch(recalculateTeams(
+        getState().deckReducer.get('cards'),
+        getState().settingsReducer,
+      )));
