@@ -78,6 +78,17 @@ class SettingsView extends Component {
           onValueChange={ value => this.updateSetting('maxDice', value) }
         />
 
+        <Text>{ `Min Health ${settingsState.get('minHealth')}` }</Text>
+        <Slider
+          minimumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
+          maximumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
+          value={ settingsState.get('minHealth') }
+          minimumValue={ 0 }
+          maximumValue={ 32 }
+          step={ 1 }
+          onValueChange={ value => this.updateSetting('minHealth', value) }
+        />
+
         <Text>{ `Show Mixed Damage Teams ${settingsState.get('mixedDamage')}` }</Text>
         <Switch
           onValueChange={ value => this.updateSetting('mixedDamage', value) }

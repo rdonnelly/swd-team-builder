@@ -8,6 +8,8 @@ const initialState = Immutable.fromJS({
   minDice: 0,
   maxDice: 4,
 
+  minHealth: 0,
+
   mixedDamage: true,
 });
 

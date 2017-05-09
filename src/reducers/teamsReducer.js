@@ -40,6 +40,7 @@ const teamsReducer = (state = initialState, action) => {
             const maxPoints = action.payload.settings.get('maxPoints');
             const minDice = action.payload.settings.get('minDice');
             const maxDice = action.payload.settings.get('maxDice');
+            const minHealth = action.payload.settings.get('minHealth');
             const showMixedDamage = action.payload.settings.get('mixedDamage');
 
             if (team.get('points') < minPoints) {
@@ -55,6 +56,10 @@ const teamsReducer = (state = initialState, action) => {
             }
 
             if (team.get('dice') > maxDice) {
+              return false;
+            }
+
+            if (team.get('health') < minHealth) {
               return false;
             }
 
