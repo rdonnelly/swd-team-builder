@@ -2,20 +2,19 @@ import { TabNavigator } from 'react-navigation';
 
 import CharactersNavigation from '../Characters/views/CharactersNavigation';
 import TeamsNavigation from '../Teams/views/TeamsNavigation';
+import SettingsNavigation from '../Settings/views/SettingsNavigation';
 
 
 const routeConfiguration = {
   CharactersNavigation: { screen: CharactersNavigation },
   TeamsNavigation: { screen: TeamsNavigation },
+  SettingsNavigation: { screen: SettingsNavigation },
 };
 
 const tabBarConfiguration = {
-  // ...other configs
   tabBarOptions: {
-    // tint color is passed to text and icons (if enabled) on the tab bar
     activeTintColor: 'rgba(155, 89, 182,1.0)',
     inactiveTintColor: 'rgba(149, 165, 166,1.0)',
-    // background color is for the tab component
     // activeBackgroundColor: 'blue',
     // inactiveBackgroundColor: 'white',
   },
