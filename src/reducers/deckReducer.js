@@ -10,13 +10,13 @@ const deckReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_CARD_TO_DECK': {
       const existingCardIndex = state.get('cards')
-        .findKey(card => card.get('id') === action.payload.card.get('id'));
+        .findIndex(card => card.get('id') === action.payload.card.get('id'));
 
       const cardObj = Immutable.fromJS({
         id: action.payload.card.get('id'),
         name: action.payload.card.get('name'),
         isElite: action.payload.isElite,
-        count: 1 + (existingCardIndex !== undefined ? state.get('cards').get(existingCardIndex).get('count') : 0),
+        count: 1 + (existingCardIndex !== -1 ? state.get('cards').get(existingCardIndex).get('count') : 0),
       });
 
       const characterPoints = action.payload.isElite ?
@@ -33,9 +33,9 @@ const deckReducer = (state = initialState, action) => {
 
     case 'REMOVE_CARD_FROM_DECK': {
       const existingCardIndex = state.get('cards')
-        .findKey(card => card.get('id') === action.payload.card.get('id'));
+        .findIndex(card => card.get('id') === action.payload.card.get('id'));
 
-      if (existingCardIndex === undefined) {
+      if (existingCardIndex === -1) {
         return state;
       }
 
