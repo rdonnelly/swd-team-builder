@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Slider,
   StyleSheet,
+  Switch,
   Text,
   View,
 } from 'react-native';
@@ -33,26 +34,54 @@ class SettingsView extends Component {
 
     return (
       <View style={ styles.container }>
-        <Text>{ 'Min Dice' + settingsState.get('minDice') }</Text>
+        <Text>{ `Min Points ${settingsState.get('minPoints')}` }</Text>
+        <Slider
+          minimumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
+          maximumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
+          value={ settingsState.get('minPoints') }
+          minimumValue={ 0 }
+          maximumValue={ 30 }
+          step={ 1 }
+          onValueChange={ value => this.updateSetting('minPoints', value) }
+        />
+
+        <Text>{ `Max Points ${settingsState.get('maxPoints')}` }</Text>
         <Slider
           minimumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
           maximumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
+          value={ settingsState.get('maxPoints') }
+          minimumValue={ 0 }
+          maximumValue={ 30 }
+          step={ 1 }
+          onValueChange={ value => this.updateSetting('maxPoints', value) }
+        />
+
+        <Text>{ `Min Dice ${settingsState.get('minDice')}` }</Text>
+        <Slider
+          minimumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
+          maximumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
           value={ settingsState.get('minDice') }
           minimumValue={ 0 }
           maximumValue={ 4 }
           step={ 1 }
-          onValueChange={ (value) => this.updateSetting('minDice', value) }
+          onValueChange={ value => this.updateSetting('minDice', value) }
         />
 
-        <Text>{ 'Max Dice' + settingsState.get('maxDice') }</Text>
+        <Text>{ `Max Dice ${settingsState.get('maxDice')}` }</Text>
         <Slider
-          minimumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
-          maximumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
+          minimumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
+          maximumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
           value={ settingsState.get('maxDice') }
           minimumValue={ 0 }
           maximumValue={ 4 }
           step={ 1 }
-          onValueChange={ (value) => this.updateSetting('maxDice', value) }
+          onValueChange={ value => this.updateSetting('maxDice', value) }
+        />
+
+        <Text>{ `Show Mixed Damage Teams ${settingsState.get('mixedDamage')}` }</Text>
+        <Switch
+          onValueChange={ value => this.updateSetting('mixedDamage', value) }
+          value={ settingsState.get('mixedDamage') }
         />
       </View>
     );

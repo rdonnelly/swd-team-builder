@@ -19,7 +19,7 @@ class Team {
     this.damageTypes = [];
     this.factions = [];
     this.health = 0;
-    this.numDice = 0;
+    this.dice = 0;
     this.points = 0;
   }
 
@@ -73,10 +73,10 @@ class Team {
     }, [])));
 
     if (isElite) {
-      this.numDice += 2;
+      this.dice += 2;
       this.points += card.pointsElite;
     } else {
-      this.numDice += 1;
+      this.dice += 1;
       this.points += card.pointsRegular;
     }
 
@@ -90,7 +90,7 @@ const teamBuilder = (chars, pointsLeft, team) => {
     .filter(character => !character.isUnique || !team.hasCharacter(character));
 
   if (eligibleCharacters.length === 0 &&
-      team.numDice >= MIN_DICE &&
+      team.dice >= MIN_DICE &&
       team.points >= MIN_POINTS) {
     teams.push(team);
   }

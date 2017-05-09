@@ -36,14 +36,30 @@ const teamsReducer = (state = initialState, action) => {
       const newTeams = filterTeamsByCharacters(
         initialState.get('teams')
           .filter((team) => {
+            const minPoints = action.payload.settings.get('minPoints');
+            const maxPoints = action.payload.settings.get('maxPoints');
             const minDice = action.payload.settings.get('minDice');
             const maxDice = action.payload.settings.get('maxDice');
+            const showMixedDamage = action.payload.settings.get('mixedDamage');
 
-            if (team.get('numDice') < minDice) {
+            if (team.get('points') < minPoints) {
               return false;
             }
 
-            if (team.get('numDice') > maxDice) {
+            if (team.get('points') > maxPoints) {
+              return false;
+            }
+
+            if (team.get('dice') < minDice) {
+              return false;
+            }
+
+            if (team.get('dice') > maxDice) {
+              return false;
+            }
+
+            if (!showMixedDamage &&
+              team.get('damageTypes').count() > 1) {
               return false;
             }
 

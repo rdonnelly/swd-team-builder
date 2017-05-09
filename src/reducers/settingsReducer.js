@@ -2,8 +2,13 @@ import Immutable from 'immutable';
 
 
 const initialState = Immutable.fromJS({
+  minPoints: 0,
+  maxPoints: 30,
+
   minDice: 0,
   maxDice: 4,
+
+  mixedDamage: true,
 });
 
 const settingsReducer = (state = initialState, action) => {
