@@ -1,10 +1,30 @@
 import React, { Component } from 'react';
 import {
+  StyleSheet,
   Text,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
+
+const styles = StyleSheet.create({
+  badge: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(155, 89, 182, 1.0)',
+    borderRadius: 10,
+    height: 20,
+    justifyContent: 'center',
+    left: 16,
+    minWidth: 20,
+    paddingLeft: 5,
+    paddingRight: 5,
+    position: 'absolute',
+    top: 0,
+  },
+  badgeText: {
+    color: 'white',
+  },
+});
 
 
 class BadgeTabIcon extends Component {
@@ -16,8 +36,8 @@ class BadgeTabIcon extends Component {
     );
 
     const badge = this.props.showBadge ? (
-      <View style={{ position: 'absolute', left: 16, top: 0, backgroundColor: 'red', borderRadius: 10, height: 20, paddingLeft: 5, paddingRight: 5, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ color: 'white' }}>{ teamsState.get('count') }</Text>
+      <View style={ styles.badge }>
+        <Text style={ styles.badgeText }>{ teamsState.get('count') }</Text>
       </View>
     ) : null;
 
