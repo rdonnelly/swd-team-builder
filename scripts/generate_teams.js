@@ -51,7 +51,7 @@ class Team {
       existingCharacterObj.count += 1;
     }
 
-    this.characters = this.characters.sort((a, b) => a.id - b.id);
+    this.characters = this.characters.sort((a, b) => a.name - b.name);
 
     this.affiliation = card.affiliation;
 
@@ -118,9 +118,8 @@ teamBuilder(heroes, MAX_POINTS, new Team());
 const villains = characterCards.filter(character => character.affiliation === 'villain');
 teamBuilder(villains, MAX_POINTS, new Team());
 
+teams = _.uniqBy(teams, team => JSON.stringify(team.getKey()));
 teams = teams.sort((a, b) => b.points - a.points);
 
-teams = _.uniqBy(teams, team => JSON.stringify(team.getKey()));
-
 console.log(`Output ${teams.length} teams...`);
-jsonfile.writeFile(path.join(__dirname, '../data/teams.json'), teams, err => console.error(err));
+jsonfile.writeFile(path.join(__dirname, '../data/teams.json'), teams);
