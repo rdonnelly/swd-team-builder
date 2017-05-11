@@ -26,8 +26,22 @@ class SettingsView extends Component {
     title: 'Settings',
   }
 
+  constructor(props) {
+    super(props);
+    this.state = { updateTimeoutId: false };
+  }
+
   updateSetting(key, value) {
-    this.props.updateSetting(key, value);
+    if (this.state.updateTimeoutId) {
+      clearTimeout(this.state.updateTimeoutId);
+    }
+
+    const updateTimeoutId = setTimeout(() => {
+      this.setState({ updateTimeoutId: null });
+      this.props.updateSetting(key, value);
+    }, 0);
+
+    this.setState({ updateTimeoutId });
   }
 
   render() {
