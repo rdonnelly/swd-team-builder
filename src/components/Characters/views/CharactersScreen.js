@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import SWDIcon from '../../SWDIcon/SWDIcon';
 import { reset } from '../../../actions';
 import { cards } from '../../../lib/Destiny';
 
@@ -127,6 +128,7 @@ class CharactersView extends Component {
         onPress={ () => navigate('CharactersDetailsScreen', { id: item.get('id') }) }
       >
         <Text style={ rowStyle }>
+          <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } />
           { item.get('name') }
         </Text>
       </TouchableHighlight>
