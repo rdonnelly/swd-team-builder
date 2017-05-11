@@ -10,6 +10,14 @@ const MIN_POINTS = 0;
 const MAX_POINTS = 30;
 
 let teams = [];
+const teamsStats = {
+  minDice: 1000,
+  maxDice: 0,
+  minHealth: 1000,
+  maxHealth: 0,
+  minPoints: 1000,
+  maxPoints: 0,
+};
 
 class Team {
   constructor() {
@@ -84,6 +92,29 @@ class Team {
   }
 }
 
+const checkTeamStats = (team) => {
+  if (team.dice < teamsStats.minDice) {
+    teamsStats.minDice = team.dice;
+  }
+  if (team.dice > teamsStats.maxDice) {
+    teamsStats.maxDice = team.dice;
+  }
+
+  if (team.health < teamsStats.minHealth) {
+    teamsStats.minHealth = team.health;
+  }
+  if (team.health > teamsStats.maxHealth) {
+    teamsStats.maxHealth = team.health;
+  }
+
+  if (team.points < teamsStats.minPoints) {
+    teamsStats.minPoints = team.points;
+  }
+  if (team.points > teamsStats.maxPoints) {
+    teamsStats.maxPoints = team.points;
+  }
+};
+
 const teamBuilder = (chars, pointsLeft, team) => {
   const eligibleCharacters = chars
     .filter(character => character.pointsRegular <= pointsLeft)
@@ -93,6 +124,7 @@ const teamBuilder = (chars, pointsLeft, team) => {
       team.dice >= MIN_DICE &&
       team.points >= MIN_POINTS) {
     teams.push(team);
+    checkTeamStats(team);
   }
 
   eligibleCharacters.forEach((character) => {
@@ -123,3 +155,4 @@ teams = teams.sort((a, b) => b.points - a.points);
 
 console.log(`Output ${teams.length} teams...`);
 jsonfile.writeFile(path.join(__dirname, '../data/teams.json'), teams);
+jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
