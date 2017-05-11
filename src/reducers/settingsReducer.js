@@ -1,14 +1,17 @@
 import Immutable from 'immutable';
 
+import { teamsStatsData } from '../lib/Destiny';
+
 
 const initialState = Immutable.fromJS({
-  minPoints: 0,
-  maxPoints: 30,
+  minPoints: teamsStatsData.minPoints,
+  maxPoints: teamsStatsData.maxPoints,
 
-  minDice: 0,
-  maxDice: 4,
+  minDice: teamsStatsData.minDice,
+  maxDice: teamsStatsData.maxDice,
 
-  minHealth: 0,
+  minHealth: teamsStatsData.minHealth,
+  maxHealth: teamsStatsData.maxHealth,
 
   mixedDamage: true,
 });

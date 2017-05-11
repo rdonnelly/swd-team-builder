@@ -12,6 +12,7 @@ import dbCardSetAw from 'swdestinydb-json-data/set/AW.json';
 import dbCardSetSoR from 'swdestinydb-json-data/set/SoR.json';
 
 import teamsData from '../../data/teams.json';
+import teamsStatsData from '../../data/teams_stats.json';
 
 
 const cardAffiliations = Immutable.fromJS(dbCardAffiliations);
@@ -102,10 +103,10 @@ const cards = Immutable.fromJS([]
 
 const teams = Immutable.fromJS(teamsData);
 
-
 export {
   cards,
   teams,
+  teamsStatsData,
 
   cardAffiliations,
   cardFactions,

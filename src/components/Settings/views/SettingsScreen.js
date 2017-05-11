@@ -9,6 +9,7 @@ import {
 import { connect } from 'react-redux';
 
 import { updateSetting } from '../../../actions';
+import { teamsStatsData } from '../../../lib/Destiny';
 
 
 const styles = StyleSheet.create({
@@ -39,8 +40,8 @@ class SettingsView extends Component {
           minimumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
           maximumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
           value={ settingsState.get('minPoints') }
-          minimumValue={ 0 }
-          maximumValue={ 30 }
+          minimumValue={ teamsStatsData.minPoints }
+          maximumValue={ teamsStatsData.maxPoints }
           step={ 1 }
           onValueChange={ value => this.updateSetting('minPoints', value) }
         />
@@ -50,8 +51,8 @@ class SettingsView extends Component {
           minimumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
           maximumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
           value={ settingsState.get('maxPoints') }
-          minimumValue={ 0 }
-          maximumValue={ 30 }
+          minimumValue={ teamsStatsData.minPoints }
+          maximumValue={ teamsStatsData.maxPoints }
           step={ 1 }
           onValueChange={ value => this.updateSetting('maxPoints', value) }
         />
@@ -61,8 +62,8 @@ class SettingsView extends Component {
           minimumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
           maximumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
           value={ settingsState.get('minDice') }
-          minimumValue={ 0 }
-          maximumValue={ 4 }
+          minimumValue={ teamsStatsData.minDice }
+          maximumValue={ teamsStatsData.maxDice }
           step={ 1 }
           onValueChange={ value => this.updateSetting('minDice', value) }
         />
@@ -72,8 +73,8 @@ class SettingsView extends Component {
           minimumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
           maximumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
           value={ settingsState.get('maxDice') }
-          minimumValue={ 0 }
-          maximumValue={ 4 }
+          minimumValue={ teamsStatsData.minDice }
+          maximumValue={ teamsStatsData.maxDice }
           step={ 1 }
           onValueChange={ value => this.updateSetting('maxDice', value) }
         />
@@ -83,8 +84,8 @@ class SettingsView extends Component {
           minimumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
           maximumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
           value={ settingsState.get('minHealth') }
-          minimumValue={ 0 }
-          maximumValue={ 32 }
+          minimumValue={ teamsStatsData.minHealth }
+          maximumValue={ teamsStatsData.maxHealth }
           step={ 1 }
           onValueChange={ value => this.updateSetting('minHealth', value) }
         />
