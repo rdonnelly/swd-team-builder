@@ -26,11 +26,18 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   row: {
-    fontSize: 20,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     padding: 12,
   },
   badRow: {
     opacity: 0.8,
+  },
+  cardLogo: {
+    fontSize: 18,
+  },
+  cardName: {
+    fontSize: 20,
   },
   blueCard: {
     color: 'rgba(52, 152, 219, 1.0)',
@@ -106,6 +113,8 @@ class CharactersView extends Component {
     const { navigate } = this.props.navigation;
     const card = cards.get(item.get('id'));
     const rowStyle = [styles.row];
+    const cardLogoStyle = [styles.cardLogo];
+    const cardNameStyle = [styles.cardName];
 
     if (!item.get('isCompatibile')) {
       rowStyle.push(styles.badRow);
@@ -113,13 +122,16 @@ class CharactersView extends Component {
 
     switch (card.faction) {
       case 'blue':
-        rowStyle.push(styles.blueCard);
+        cardLogoStyle.push(styles.blueCard);
+        cardNameStyle.push(styles.blueCard);
         break;
       case 'red':
-        rowStyle.push(styles.redCard);
+        cardLogoStyle.push(styles.redCard);
+        cardNameStyle.push(styles.redCard);
         break;
       case 'yellow':
-        rowStyle.push(styles.yellowCard);
+        cardLogoStyle.push(styles.yellowCard);
+        cardNameStyle.push(styles.yellowCard);
         break;
     }
 
@@ -127,10 +139,14 @@ class CharactersView extends Component {
       <TouchableHighlight
         onPress={ () => navigate('CharactersDetailsScreen', { id: item.get('id') }) }
       >
-        <Text style={ rowStyle }>
-          <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } />
-          { item.get('name') }
-        </Text>
+        <View style={ rowStyle }>
+          <View style={{ justifyContent: 'center', paddingLeft: 10, paddingRight: 10 }}>
+            <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } style={ cardLogoStyle } />
+          </View>
+          <View>
+            <Text style={ cardNameStyle }>{ item.get('name') }</Text>
+          </View>
+        </View>
       </TouchableHighlight>
     );
   }
