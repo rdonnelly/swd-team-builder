@@ -135,6 +135,12 @@ class CharactersView extends Component {
         break;
     }
 
+    const uniqueIcon = card.isUnique ? (
+      <View style={{ justifyContent: 'center', paddingLeft: 10, paddingRight: 10 }}>
+        <SWDIcon type={ 'UNIQUE' } font={ 'swdestiny' } style={ cardLogoStyle } />
+      </View>
+    ) : null;
+
     return (
       <TouchableHighlight
         onPress={ () => navigate('CharactersDetailsScreen', { id: item.get('id') }) }
@@ -146,6 +152,7 @@ class CharactersView extends Component {
           <View>
             <Text style={ cardNameStyle }>{ item.get('name') }</Text>
           </View>
+          { uniqueIcon }
         </View>
       </TouchableHighlight>
     );
