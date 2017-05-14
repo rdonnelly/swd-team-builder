@@ -12,6 +12,8 @@ const deckReducer = (state = initialState, action) => {
       const existingCardIndex = state.get('cards')
         .findIndex(card => card.get('id') === action.payload.card.get('id'));
 
+      console.log(state.get('cards'), existingCardIndex);
+
       const cardObj = Immutable.fromJS({
         id: action.payload.card.get('id'),
         name: action.payload.card.get('name'),
@@ -24,7 +26,7 @@ const deckReducer = (state = initialState, action) => {
 
       const newState = state.update('points', points => points + characterPoints);
 
-      if (existingCardIndex !== undefined) {
+      if (existingCardIndex !== -1) {
         return newState.update('cards', cards => cards.set(existingCardIndex, cardObj));
       }
 
@@ -42,7 +44,6 @@ const deckReducer = (state = initialState, action) => {
       const existingCard = state.get('cards').get(existingCardIndex);
       const existingCardPoints = existingCard.get('isElite') ?
         action.payload.card.get('pointsElite') : action.payload.card.get('pointsRegular');
-
 
       if (existingCard.get('count') === 1) {
         return state.update('points', points => points - existingCardPoints)

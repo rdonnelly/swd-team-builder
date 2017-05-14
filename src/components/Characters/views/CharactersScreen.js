@@ -117,7 +117,6 @@ class CharactersView extends Component {
     const cardNameStyle = [styles.cardName];
 
     if (!item.get('isCompatibile')) {
-      console.log('nope');
       rowStyle.push(styles.badRow);
     }
 
