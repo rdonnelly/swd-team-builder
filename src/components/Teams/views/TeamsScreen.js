@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   teamStat: {
     fontSize: 12,
     paddingRight: 8,
-  }
+  },
 });
 
 class TeamsView extends Component {
@@ -72,7 +72,7 @@ class TeamsView extends Component {
 
       return (
         <Text key={ `${team.get('key')}___${character.get('id')}` } style={ cardStyles }>
-          { (character.get('isElite') ? 'e' : '') + card.name + (character.get('count') > 1 ? ' x' + character.get('count') : '') }
+          { (character.get('isElite') ? 'e' : '') + card.name + (character.get('count') > 1 ? ` x${character.get('count')}` : '') }
         </Text>
       );
     });
