@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   badRow: {
-    opacity: 0.8,
+    opacity: 0.4,
   },
   cardLogo: {
     fontSize: 18,
@@ -117,6 +117,7 @@ class CharactersView extends Component {
     const cardNameStyle = [styles.cardName];
 
     if (!item.get('isCompatibile')) {
+      console.log('nope');
       rowStyle.push(styles.badRow);
     }
 
