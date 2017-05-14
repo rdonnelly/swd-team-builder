@@ -19,6 +19,12 @@ const teamsStats = {
   maxPoints: 0,
 };
 
+const factionRank = {
+  red: 0,
+  blue: 1,
+  yellow: 2,
+};
+
 class Team {
   constructor() {
     this.key = '';
@@ -38,6 +44,10 @@ class Team {
       .join('__');
   }
 
+  getCharacterCount() {
+    return this.characters.reduce((count, character) => count + character.count, 0);
+  }
+
   hasCharacter(card) {
     return this.characters
       .some(characterCard => characterCard.name === card.name);
@@ -48,6 +58,8 @@ class Team {
       id: card.id,
       name: card.name,
       isElite,
+      isUnique: card.isUnique,
+      faction: card.faction,
       count: 1,
     };
 
@@ -59,7 +71,21 @@ class Team {
       existingCharacterObj.count += 1;
     }
 
-    this.characters = this.characters.sort((a, b) => a.name - b.name);
+    this.characters = this.characters.sort((a, b) => {
+      if (b.faction !== a.faction) {
+        return factionRank[b.faction] < factionRank[a.faction] ? 1 : -1;
+      }
+
+      if (b.isUnique !== a.isUnique) {
+        return b.isUnique > a.isUnique ? 1 : -1;
+      }
+
+      if (b.name !== a.name) {
+        return b.name < a.name ? 1 : -1;
+      }
+
+      return 0;
+    });
 
     this.affiliation = card.affiliation;
 
@@ -151,7 +177,30 @@ const villains = characterCards.filter(character => character.affiliation === 'v
 teamBuilder(villains, MAX_POINTS, new Team());
 
 teams = _.uniqBy(teams, team => JSON.stringify(team.getKey()));
-teams = teams.sort((a, b) => b.points - a.points);
+teams = teams.sort((a, b) => {
+  const pointsDiff = b.points - a.points;
+  const diceDiff = b.dice - a.dice;
+  const healthDiff = b.health - a.health;
+  const characterDiff = a.getCharacterCount() - b.getCharacterCount();
+
+  if (pointsDiff) {
+    return pointsDiff;
+  }
+
+  if (diceDiff) {
+    return diceDiff;
+  }
+
+  if (healthDiff) {
+    return healthDiff;
+  }
+
+  if (b.affiliation !== a.affiliation) {
+    return b.affiliation > a.affiliation ? 1 : -1;
+  }
+
+  return characterDiff;
+});
 
 console.log(`Output ${teams.length} teams...`);
 jsonfile.writeFile(path.join(__dirname, '../data/teams.json'), teams);
