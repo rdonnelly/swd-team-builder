@@ -40,6 +40,7 @@ class Card {
     rarity,
     set,
     sides,
+    subtitle,
     type,
   ) {
     this.affiliation = affiliation;
@@ -65,6 +66,7 @@ class Card {
     this.rarity = rarity;
     this.set = set;
     this.sides = sides;
+    this.subtitle = subtitle;
     this.type = type;
   }
 
@@ -94,6 +96,7 @@ const cards = Immutable.fromJS([]
       card.get('rarity_code'),
       card.get('set_code'),
       card.get('sides'),
+      card.get('subtitle'),
       card.get('type_code'),
     ))
     .reduce(

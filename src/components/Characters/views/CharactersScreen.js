@@ -150,7 +150,8 @@ class CharactersView extends Component {
             <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } style={ cardLogoStyle } />
           </View>
           <View>
-            <Text style={ cardNameStyle }>{ item.get('name') }</Text>
+            <Text style={ cardNameStyle }>{ card.name }</Text>
+            <Text style={ [cardNameStyle, { color: 'rgba(149, 165, 166, 1.0)', fontSize: 12 }] }>{ card.subtitle }</Text>
           </View>
           { uniqueIcon }
         </View>
