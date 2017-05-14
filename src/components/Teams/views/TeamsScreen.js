@@ -86,6 +86,7 @@ class TeamsView extends Component {
           <Text style={ styles.teamStat }>Points: { team.get('points') }</Text>
           <Text style={ styles.teamStat }>Dice: { team.get('dice') }</Text>
           <Text style={ styles.teamStat }>Health: { team.get('health') }</Text>
+          <Text style={ styles.teamStat }>Affiliation: { team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
         </View>
       </View>
     );
