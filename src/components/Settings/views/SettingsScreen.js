@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Slider,
   StyleSheet,
-  Switch,
-  Text,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+
+import SettingSlider from '../../SettingSlider';
+import SettingSwitch from '../../SettingSwitch';
 
 import { updateSetting } from '../../../actions';
 import { teamsStatsData } from '../../../lib/Destiny';
@@ -49,65 +49,38 @@ class SettingsView extends Component {
 
     return (
       <View style={ styles.container }>
-        <Text>{ `Min Points ${settingsState.get('minPoints')}` }</Text>
-        <Slider
-          minimumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
-          maximumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
-          value={ settingsState.get('minPoints') }
-          minimumValue={ teamsStatsData.minPoints }
-          maximumValue={ teamsStatsData.maxPoints }
-          step={ 1 }
-          onValueChange={ value => this.updateSetting('minPoints', value) }
-        />
-
-        <Text>{ `Max Points ${settingsState.get('maxPoints')}` }</Text>
-        <Slider
-          minimumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
-          maximumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
-          value={ settingsState.get('maxPoints') }
-          minimumValue={ teamsStatsData.minPoints }
-          maximumValue={ teamsStatsData.maxPoints }
-          step={ 1 }
-          onValueChange={ value => this.updateSetting('maxPoints', value) }
-        />
-
-        <Text>{ `Min Dice ${settingsState.get('minDice')}` }</Text>
-        <Slider
-          minimumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
-          maximumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
+        <SettingSlider
           value={ settingsState.get('minDice') }
-          minimumValue={ teamsStatsData.minDice }
-          maximumValue={ teamsStatsData.maxDice }
-          step={ 1 }
-          onValueChange={ value => this.updateSetting('minDice', value) }
+          minValue={ teamsStatsData.minDice }
+          maxValue={ teamsStatsData.maxDice }
+          setting={ 'minDice' }
+          label={ 'Minimum Dice' }
+          callback={ this.props.updateSetting }
         />
 
-        <Text>{ `Max Dice ${settingsState.get('maxDice')}` }</Text>
-        <Slider
-          minimumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
-          maximumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
-          value={ settingsState.get('maxDice') }
-          minimumValue={ teamsStatsData.minDice }
-          maximumValue={ teamsStatsData.maxDice }
-          step={ 1 }
-          onValueChange={ value => this.updateSetting('maxDice', value) }
-        />
-
-        <Text>{ `Min Health ${settingsState.get('minHealth')}` }</Text>
-        <Slider
-          minimumTrackTintColor={'rgba(149, 165, 166, 1.0)'}
-          maximumTrackTintColor={'rgba(155, 89, 182, 1.0)'}
+        <SettingSlider
           value={ settingsState.get('minHealth') }
-          minimumValue={ teamsStatsData.minHealth }
-          maximumValue={ teamsStatsData.maxHealth }
-          step={ 1 }
-          onValueChange={ value => this.updateSetting('minHealth', value) }
+          minValue={ teamsStatsData.minHealth }
+          maxValue={ teamsStatsData.maxHealth }
+          setting={ 'minHealth' }
+          label={ 'Minimum Health' }
+          callback={ this.props.updateSetting }
         />
 
-        <Text>{ `Show Mixed Damage Teams ${settingsState.get('mixedDamage')}` }</Text>
-        <Switch
-          onValueChange={ value => this.updateSetting('mixedDamage', value) }
-          value={ settingsState.get('mixedDamage') }
+        <SettingSlider
+          value={ settingsState.get('minPoints') }
+          minValue={ teamsStatsData.minPoints }
+          maxValue={ teamsStatsData.maxPoints }
+          setting={ 'minPoints' }
+          label={ 'Minimum Points' }
+          callback={ this.props.updateSetting }
+        />
+
+        <SettingSwitch
+          value={ settingsState.get('minPoints') }
+          setting={ 'mixedDamage' }
+          label={ 'Show Mixed Damage Teams' }
+          callback={ this.props.updateSetting }
         />
       </View>
     );

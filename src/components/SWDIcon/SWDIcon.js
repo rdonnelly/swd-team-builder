@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 
 import swdIcons from '../../static/swd-icons';
 
-export default class SWDIcon extends Component {
+class SWDIcon extends Component {
 
   render() {
     const { type, font, style } = this.props;
@@ -17,6 +17,8 @@ export default class SWDIcon extends Component {
     );
   }
 }
+
+export default SWDIcon;
 
 SWDIcon.propTypes = {
   type: React.PropTypes.string.isRequired,
