@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
   VirtualizedList,
   Button,
@@ -173,7 +173,7 @@ class CharactersView extends Component {
     ) : null;
 
     return (
-      <TouchableHighlight
+      <TouchableOpacity
         onPress={ () => navigate('CharactersDetailsScreen', { id: item.get('id') }) }
       >
         <View style={ rowStyle }>
@@ -188,7 +188,7 @@ class CharactersView extends Component {
             { cardInfo }
           </View>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 

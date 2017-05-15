@@ -25,12 +25,9 @@ class CharactersDetailsScreen extends React.Component {
           padding: 20,
           borderRadius: 4,
           backgroundColor: 'rgba(46, 204, 113, 1.0)',
-          marginTop: 20,
-          width: '80%',
-          flex: 1,
-          alignSelf: 'center',
+          width: '40%',
         }}>
-        <Text style={{ color: 'white' }}>{ `Add Regular Character (${card.get('pointsRegular')})` }</Text>
+        <Text style={{ color: 'white', textAlign: 'center' }}>{ `Add Regular (${card.get('pointsRegular')})` }</Text>
       </TouchableOpacity>;
 
     const eliteButton = card.get('pointsElite') ?
@@ -40,12 +37,9 @@ class CharactersDetailsScreen extends React.Component {
           padding: 20,
           borderRadius: 4,
           backgroundColor: 'rgba(46, 204, 113, 1.0)',
-          marginTop: 20,
-          width: '80%',
-          flex: 1,
-          alignSelf: 'center',
+          width: '40%',
         }}>
-        <Text style={{ color: 'white' }}>{ `Add Elite Character (${card.get('pointsElite')})` }</Text>
+        <Text style={{ color: 'white', textAlign: 'center' }}>{ `Add Elite (${card.get('pointsElite')})` }</Text>
       </TouchableOpacity> : null;
 
     // TODO only show if in deck
@@ -56,12 +50,11 @@ class CharactersDetailsScreen extends React.Component {
           padding: 20,
           borderRadius: 4,
           backgroundColor: 'rgba(230, 126, 34, 1.0)',
-          marginTop: 20,
-          width: '80%',
+          marginTop: 16,
+          width: '90%',
           flex: 1,
-          alignSelf: 'center',
         }}>
-        <Text style={{ color: 'white' }}>{ 'Remove Character' }</Text>
+        <Text style={{ color: 'white', textAlign: 'center' }}>{ 'Remove Character' }</Text>
       </TouchableOpacity> : null;
 
 
@@ -77,7 +70,7 @@ class CharactersDetailsScreen extends React.Component {
           width: '100%',
           alignContent: 'center',
         }}>
-          <View style={{ flex: 1, width: '100%', height: 300 }}>
+          <View style={{ flex: 1, paddingTop: 16, width: '100%', height: 340 }}>
             <Image
               style={{
                 flex: 1,
@@ -88,9 +81,13 @@ class CharactersDetailsScreen extends React.Component {
               source={ cardImages.get(card.get('id')) }
             />
           </View>
-          { regularButton }
-          { eliteButton }
-          { removeButton }
+          <View style={{ marginTop: 16, justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', flex: 1, width: '100%' }}>
+            { regularButton }
+            { eliteButton }
+          </View>
+          <View>
+            { removeButton }
+          </View>
         </ScrollView>
       </View>
     );
