@@ -12,8 +12,6 @@ const deckReducer = (state = initialState, action) => {
       const existingCardIndex = state.get('cards')
         .findIndex(card => card.get('id') === action.payload.card.get('id'));
 
-      console.log(state.get('cards'), existingCardIndex);
-
       const cardObj = Immutable.fromJS({
         id: action.payload.card.get('id'),
         name: action.payload.card.get('name'),
