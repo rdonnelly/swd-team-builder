@@ -2,9 +2,11 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { addCharacter, removeCharacter } from '../../../actions';
 import { cards } from '../../../lib/Destiny';
 import { cardImages } from '../../../lib/DestinyImages';
+
+import { addCharacter, removeCharacter } from '../../../actions';
+import SWDIcon from '../../SWDIcon/SWDIcon';
 
 
 class CharactersDetailsScreen extends React.Component {
@@ -25,9 +27,12 @@ class CharactersDetailsScreen extends React.Component {
           padding: 20,
           borderRadius: 4,
           backgroundColor: 'rgba(46, 204, 113, 1.0)',
-          width: '40%',
+          width: '38%',
+          marginRight: '2%',
+          flexDirection: 'row',
+          justifyContent: 'center',
         }}>
-        <Text style={{ color: 'white', textAlign: 'center' }}>{ `Add Regular (${card.get('pointsRegular')})` }</Text>
+        <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={{ fontSize: 16, color: 'white', textAlign: 'center' }} />
       </TouchableOpacity>;
 
     const eliteButton = card.get('pointsElite') ?
@@ -37,12 +42,19 @@ class CharactersDetailsScreen extends React.Component {
           padding: 20,
           borderRadius: 4,
           backgroundColor: 'rgba(46, 204, 113, 1.0)',
-          width: '40%',
+          width: '38%',
+          marginLeft: '2%',
+          flexDirection: 'row',
+          justifyContent: 'center',
         }}>
-        <Text style={{ color: 'white', textAlign: 'center' }}>{ `Add Elite (${card.get('pointsElite')})` }</Text>
+        <View>
+          <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={{ fontSize: 16, color: 'white', textAlign: 'center' }} />
+        </View>
+        <View style={{ marginLeft: 8 }}>
+          <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={{ fontSize: 16, color: 'white', textAlign: 'center' }} />
+        </View>
       </TouchableOpacity> : null;
 
-    // TODO only show if in deck
     const removeButton = deckState.get('cards').some(deckCard => deckCard.get('id') === card.get('id')) ?
       <TouchableOpacity
         onPress={ () => this.props.removeCharacter(card) }
@@ -50,13 +62,10 @@ class CharactersDetailsScreen extends React.Component {
           padding: 20,
           borderRadius: 4,
           backgroundColor: 'rgba(230, 126, 34, 1.0)',
-          marginTop: 16,
-          width: '90%',
-          flex: 1,
+          width: '80%',
         }}>
-        <Text style={{ color: 'white', textAlign: 'center' }}>{ 'Remove Character' }</Text>
+        <Text style={{ color: 'white', textAlign: 'center' }}>{ 'Remove' }</Text>
       </TouchableOpacity> : null;
-
 
     return (
       <View style={{
@@ -81,11 +90,11 @@ class CharactersDetailsScreen extends React.Component {
               source={ cardImages.get(card.get('id')) }
             />
           </View>
-          <View style={{ marginTop: 16, justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', flex: 1, width: '100%' }}>
+          <View style={{ marginTop: 16, justifyContent: 'center', flexDirection: 'row', alignItems: 'center', flex: 1, width: '100%' }}>
             { regularButton }
             { eliteButton }
           </View>
-          <View>
+          <View style={{ marginTop: 16, justifyContent: 'center', flexDirection: 'row', alignItems: 'center', flex: 1, width: '100%' }}>
             { removeButton }
           </View>
         </ScrollView>

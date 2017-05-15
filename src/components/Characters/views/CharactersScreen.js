@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import {
+  Button,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  TouchableHighlight,
   View,
   VirtualizedList,
-  Button,
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import SWDIcon from '../../SWDIcon/SWDIcon';
 import { reset } from '../../../actions';
 import { cards } from '../../../lib/Destiny';
+
+import SWDIcon from '../../SWDIcon/SWDIcon';
 
 
 const styles = StyleSheet.create({
@@ -173,7 +174,9 @@ class CharactersView extends Component {
     ) : null;
 
     return (
-      <TouchableOpacity
+      <TouchableHighlight
+        activeOpacity={ 0.6 }
+        underlayColor={ 'rgba(236, 240, 241, 1.0)' }
         onPress={ () => navigate('CharactersDetailsScreen', { id: item.get('id') }) }
       >
         <View style={ rowStyle }>
@@ -188,7 +191,7 @@ class CharactersView extends Component {
             { cardInfo }
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
   }
 
