@@ -29,15 +29,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     padding: 12,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(149, 165, 166, 1.0)',
+  },
+  blueRow: {
+    borderColor: 'rgba(52, 152, 219, 1.0)',
+  },
+  redRow: {
+    borderColor: 'rgba(231, 76, 60, 1.0)',
+  },
+  yellowRow: {
+    borderColor: 'rgba(241, 196, 15, 1.0)',
   },
   badRow: {
     opacity: 0.4,
   },
   cardLogo: {
-    fontSize: 18,
+    color: 'rgba(149, 165, 166, 1.0)',
+    fontSize: 24,
   },
   cardName: {
+    color: 'rgba(52, 73, 94, 1.0)',
     fontSize: 20,
+  },
+  cardInfo: {
+    color: 'rgba(149, 165, 166, 1.0)',
+    fontSize: 13,
   },
   blueCard: {
     color: 'rgba(52, 152, 219, 1.0)',
@@ -122,23 +139,37 @@ class CharactersView extends Component {
 
     switch (card.faction) {
       case 'blue':
+        rowStyle.push(styles.blueRow);
         cardLogoStyle.push(styles.blueCard);
-        cardNameStyle.push(styles.blueCard);
         break;
       case 'red':
+        rowStyle.push(styles.redRow);
         cardLogoStyle.push(styles.redCard);
-        cardNameStyle.push(styles.redCard);
         break;
       case 'yellow':
+        rowStyle.push(styles.yellowRow);
         cardLogoStyle.push(styles.yellowCard);
-        cardNameStyle.push(styles.yellowCard);
         break;
     }
 
-    const uniqueIcon = card.isUnique ? (
-      <View style={{ justifyContent: 'center', paddingLeft: 10, paddingRight: 10 }}>
-        <SWDIcon type={ 'UNIQUE' } font={ 'swdestiny' } style={ cardLogoStyle } />
+    const subtitle = card.subtitle ? (
+      <Text style={ styles.cardInfo }>&nbsp;{ card.subtitle }&nbsp;&ndash;</Text>
+    ) : null;
+
+    const points = card.points ? (
+      <Text style={ styles.cardInfo }>&nbsp;{ card.points.join('/') }</Text>
+    ) : null;
+
+    const cardInfo = (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <SWDIcon type={ card.set } font={ 'swdestiny' } style={{ color: 'rgba(149, 165, 166, 1.0)', fontSize: 10 }} />
+        { subtitle }
+        { points }
       </View>
+    );
+
+    const uniqueIcon = card.isUnique ? (
+      <SWDIcon type={ 'UNIQUE' } font={ 'swdestiny' } style={{ color: 'rgba(149, 165, 166, 1.0)', fontSize: 16 }} />
     ) : null;
 
     return (
@@ -150,10 +181,12 @@ class CharactersView extends Component {
             <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } style={ cardLogoStyle } />
           </View>
           <View>
-            <Text style={ cardNameStyle }>{ card.name }</Text>
-            <Text style={ [cardNameStyle, { color: 'rgba(149, 165, 166, 1.0)', fontSize: 12 }] }>{ card.subtitle }</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={ cardNameStyle }>{ card.name }&nbsp;</Text>
+              <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
+            </View>
+            { cardInfo }
           </View>
-          { uniqueIcon }
         </View>
       </TouchableHighlight>
     );
