@@ -2,22 +2,17 @@ import Immutable from 'immutable';
 
 import { teams, teamsStatsData } from '../lib/Destiny';
 
+const initialSettings = Immutable.fromJS({
+  minPoints: Math.max(teamsStatsData.minPoints, 27),
+  maxPoints: teamsStatsData.maxPoints,
 
-const initialState = Immutable.fromJS({
-  teams,
-  count: teams.count(),
-  settings: {
-    minPoints: teamsStatsData.minPoints,
-    maxPoints: teamsStatsData.maxPoints,
+  minDice: Math.max(teamsStatsData.minDice, 2),
+  maxDice: teamsStatsData.maxDice,
 
-    minDice: teamsStatsData.minDice,
-    maxDice: teamsStatsData.maxDice,
+  minHealth: Math.max(teamsStatsData.minHealth, 15),
+  maxHealth: teamsStatsData.maxHealth,
 
-    minHealth: teamsStatsData.minHealth,
-    maxHealth: teamsStatsData.maxHealth,
-
-    mixedDamage: true,
-  },
+  mixedDamage: true,
 });
 
 const filterTeamsByCharacters = (teamsToFilter, deckCards) =>
@@ -31,8 +26,9 @@ const filterTeamsByCharacters = (teamsToFilter, deckCards) =>
     }),
   );
 
-const filterTeamsBySettings = (teamsToFilter, settings) =>
-  teamsToFilter.filter((team) => {
+const filterTeamsBySettings = (teamsToFilter, settings) => {
+  console.log('filterTeamsBySettings');
+  return teamsToFilter.filter((team) => {
     const minPoints = settings.get('minPoints');
     const maxPoints = settings.get('maxPoints');
     const minDice = settings.get('minDice');
@@ -67,6 +63,12 @@ const filterTeamsBySettings = (teamsToFilter, settings) =>
 
     return true;
   });
+};
+
+const initialState = Immutable.fromJS({
+  teams: filterTeamsBySettings(teams, initialSettings),
+  settings: initialSettings,
+});
 
 const teamsReducer = (state = initialState, action) => {
   switch (action.type) {

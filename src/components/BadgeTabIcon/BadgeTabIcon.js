@@ -37,7 +37,7 @@ class BadgeTabIcon extends Component {
 
     const badge = this.props.showBadge ? (
       <View style={ styles.badge }>
-        <Text style={ styles.badgeText }>{ teamsState.get('count') }</Text>
+        <Text style={ styles.badgeText }>{ teamsState.get('teams').count() }</Text>
       </View>
     ) : null;
 
