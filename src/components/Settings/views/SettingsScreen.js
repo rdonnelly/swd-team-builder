@@ -45,12 +45,13 @@ class SettingsView extends Component {
   }
 
   render() {
-    const { settingsState } = this.props;
+    const { teamsState } = this.props;
+    const settings = teamsState.get('settings');
 
     return (
       <View style={ styles.container }>
         <SettingSlider
-          value={ settingsState.get('minDice') }
+          value={ settings.get('minDice') }
           minValue={ teamsStatsData.minDice }
           maxValue={ teamsStatsData.maxDice }
           setting={ 'minDice' }
@@ -59,7 +60,7 @@ class SettingsView extends Component {
         />
 
         <SettingSlider
-          value={ settingsState.get('minHealth') }
+          value={ settings.get('minHealth') }
           minValue={ teamsStatsData.minHealth }
           maxValue={ teamsStatsData.maxHealth }
           setting={ 'minHealth' }
@@ -68,7 +69,7 @@ class SettingsView extends Component {
         />
 
         <SettingSlider
-          value={ settingsState.get('minPoints') }
+          value={ settings.get('minPoints') }
           minValue={ teamsStatsData.minPoints }
           maxValue={ teamsStatsData.maxPoints }
           setting={ 'minPoints' }
@@ -77,7 +78,7 @@ class SettingsView extends Component {
         />
 
         <SettingSwitch
-          value={ settingsState.get('minPoints') }
+          value={ settings.get('minPoints') }
           setting={ 'mixedDamage' }
           label={ 'Show Mixed Damage Teams' }
           callback={ this.props.updateSetting }
@@ -89,7 +90,7 @@ class SettingsView extends Component {
 
 
 const mapStateToProps = state => ({
-  settingsState: state.settingsReducer,
+  teamsState: state.teamsReducer,
 });
 
 const mapDispatchToProps = { updateSetting };

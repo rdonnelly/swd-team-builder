@@ -47,19 +47,10 @@ const setSetting = (key, value) => ({
 
 // TEAMS ACTIONS
 
-const refineTeams = (deckCards, settings) => ({
-  type: 'REFINE_TEAMS',
-  payload: {
-    deckCards,
-    settings,
-  },
-});
-
-const recalculateTeams = (deckCards, settings) => ({
+const recalculateTeams = deckCards => ({
   type: 'RECALCULATE_TEAMS',
   payload: {
     deckCards,
-    settings,
   },
 });
 
@@ -89,7 +80,9 @@ export const addCharacter = (card, isElite) =>
     return Promise.resolve()
       .then(dispatch(addCharacterToDeck(card, isElite)))
       .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
-      .then(dispatch(refineTeams(getState().deckReducer.get('cards'))));
+      .then(dispatch(recalculateTeams(
+        getState().deckReducer.get('cards'),
+      )));
   };
 
 export const removeCharacter = card =>
@@ -104,7 +97,6 @@ export const removeCharacter = card =>
       .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
       .then(dispatch(recalculateTeams(
         getState().deckReducer.get('cards'),
-        getState().settingsReducer,
       )));
   };
 
@@ -121,5 +113,4 @@ export const updateSetting = (key, value) =>
       .then(dispatch(setSetting(key, value)))
       .then(dispatch(recalculateTeams(
         getState().deckReducer.get('cards'),
-        getState().settingsReducer,
       )));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 
-import swdIcons from '../../static/swd-icons';
+import swdIcons from '../../lib/swd-icons';
 
 class SWDIcon extends Component {
 

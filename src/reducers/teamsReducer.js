@@ -1,15 +1,27 @@
 import Immutable from 'immutable';
 
-import { teams } from '../lib/Destiny';
+import { teams, teamsStatsData } from '../lib/Destiny';
 
 
 const initialState = Immutable.fromJS({
   teams,
   count: teams.count(),
+  settings: {
+    minPoints: teamsStatsData.minPoints,
+    maxPoints: teamsStatsData.maxPoints,
+
+    minDice: teamsStatsData.minDice,
+    maxDice: teamsStatsData.maxDice,
+
+    minHealth: teamsStatsData.minHealth,
+    maxHealth: teamsStatsData.maxHealth,
+
+    mixedDamage: true,
+  },
 });
 
-const filterTeamsByCharacters = (newTeams, deckCards) =>
-  newTeams.filter(team =>
+const filterTeamsByCharacters = (teamsToFilter, deckCards) =>
+  teamsToFilter.filter(team =>
     deckCards.every((characterObj) => {
       const character = team.get('characters')
         .find(teamCharacter =>
@@ -19,69 +31,65 @@ const filterTeamsByCharacters = (newTeams, deckCards) =>
     }),
   );
 
-const teamsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'REFINE_TEAMS': {
-      const newTeams = filterTeamsByCharacters(
-        state.get('teams'),
-        action.payload.deckCards,
-      );
+const filterTeamsBySettings = (teamsToFilter, settings) =>
+  teamsToFilter.filter((team) => {
+    const minPoints = settings.get('minPoints');
+    const maxPoints = settings.get('maxPoints');
+    const minDice = settings.get('minDice');
+    const maxDice = settings.get('maxDice');
+    const minHealth = settings.get('minHealth');
+    const showMixedDamage = settings.get('mixedDamage');
 
-      return state
-        .set('teams', newTeams)
-        .set('count', newTeams.count());
+    if (team.get('points') < minPoints) {
+      return false;
     }
 
+    if (team.get('points') > maxPoints) {
+      return false;
+    }
+
+    if (team.get('dice') < minDice) {
+      return false;
+    }
+
+    if (team.get('dice') > maxDice) {
+      return false;
+    }
+
+    if (team.get('health') < minHealth) {
+      return false;
+    }
+
+    if (!showMixedDamage &&
+      team.get('damageTypes').count() > 1) {
+      return false;
+    }
+
+    return true;
+  });
+
+const teamsReducer = (state = initialState, action) => {
+  switch (action.type) {
     case 'RECALCULATE_TEAMS': {
-      const newTeams = filterTeamsByCharacters(
-        initialState.get('teams')
-          .filter((team) => {
-            const minPoints = action.payload.settings.get('minPoints');
-            const maxPoints = action.payload.settings.get('maxPoints');
-            const minDice = action.payload.settings.get('minDice');
-            const maxDice = action.payload.settings.get('maxDice');
-            const minHealth = action.payload.settings.get('minHealth');
-            const showMixedDamage = action.payload.settings.get('mixedDamage');
-
-            if (team.get('points') < minPoints) {
-              return false;
-            }
-
-            if (team.get('points') > maxPoints) {
-              return false;
-            }
-
-            if (team.get('dice') < minDice) {
-              return false;
-            }
-
-            if (team.get('dice') > maxDice) {
-              return false;
-            }
-
-            if (team.get('health') < minHealth) {
-              return false;
-            }
-
-            if (!showMixedDamage &&
-              team.get('damageTypes').count() > 1) {
-              return false;
-            }
-
-            return true;
-          }),
-        action.payload.deckCards,
-      );
+      let filteredTeams = initialState.get('teams');
+      filteredTeams = filterTeamsBySettings(filteredTeams, state.get('settings'));
+      filteredTeams = filterTeamsByCharacters(filteredTeams, action.payload.deckCards);
 
       return state
-        .set('teams', newTeams)
-        .set('count', newTeams.count());
+        .set('teams', filteredTeams)
+        .set('count', filteredTeams.count());
     }
 
     case 'RESET_TEAMS': {
       return state
         .set('teams', initialState.get('teams'))
         .set('count', initialState.get('count'));
+    }
+
+    case 'SET_SETTING': {
+      const settings = state.get('settings').set(action.payload.key, action.payload.value);
+
+      return state.set('settings', settings);
     }
 
     default:
