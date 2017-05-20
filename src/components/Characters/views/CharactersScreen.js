@@ -31,19 +31,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     padding: 12,
     borderBottomWidth: 1,
-    borderColor: 'rgba(149, 165, 166, 1.0)',
-  },
-  blueRow: {
-    borderColor: 'rgba(52, 152, 219, 1.0)',
-  },
-  redRow: {
-    borderColor: 'rgba(231, 76, 60, 1.0)',
-  },
-  yellowRow: {
-    borderColor: 'rgba(241, 196, 15, 1.0)',
-  },
-  badRow: {
-    opacity: 0.4,
+    borderColor: 'rgba(189, 195, 199, 1.0)',
   },
   cardLogo: {
     color: 'rgba(149, 165, 166, 1.0)',
@@ -134,10 +122,6 @@ class CharactersView extends Component {
     const cardLogoStyle = [styles.cardLogo];
     const cardNameStyle = [styles.cardName];
 
-    if (!item.get('isCompatibile')) {
-      rowStyle.push(styles.badRow);
-    }
-
     switch (card.faction) {
       case 'blue':
         rowStyle.push(styles.blueRow);
@@ -180,7 +164,7 @@ class CharactersView extends Component {
         onPress={ () => navigate('CharactersDetailsScreen', { id: item.get('id') }) }
       >
         <View style={ rowStyle }>
-          <View style={{ justifyContent: 'center', paddingLeft: 10, paddingRight: 10 }}>
+          <View style={{ justifyContent: 'center', paddingRight: 10 }}>
             <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } style={ cardLogoStyle } />
           </View>
           <View>
