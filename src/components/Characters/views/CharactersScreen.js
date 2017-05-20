@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  Button,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -66,17 +65,8 @@ const styles = StyleSheet.create({
 
 
 class CharactersView extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { state } = navigation;
-    return {
-      title: 'Characters',
-      headerRight: (
-        <Button
-          title={ 'Reset' }
-          onPress={ () => { state.params.resetDeck(); } }
-        />
-      ),
-    };
+  static navigationOptions = {
+    title: 'Characters',
   };
 
   constructor(props) {
@@ -138,7 +128,7 @@ class CharactersView extends Component {
     }
 
     const subtitle = card.subtitle ? (
-      <Text style={ styles.cardInfo }>&nbsp;{ card.subtitle }&nbsp;&ndash;</Text>
+      <Text style={ styles.cardInfo }>&nbsp;{ card.subtitle }&nbsp;&middot;</Text>
     ) : null;
 
     const points = card.points ? (
@@ -169,7 +159,8 @@ class CharactersView extends Component {
           </View>
           <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={ cardNameStyle }>{ card.name }&nbsp;</Text>
+              <Text style={ cardNameStyle }>{ card.name }</Text>
+              <Text style={ cardNameStyle }>&nbsp;</Text>
               <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
             </View>
             { cardInfo }

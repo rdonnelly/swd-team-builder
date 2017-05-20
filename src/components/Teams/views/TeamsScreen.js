@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import {
+  ActionSheetIOS,
+  Button,
   StyleSheet,
   Text,
   View,
+  VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
-import ImmutableVirtualListView from 'react-native-immutable-list-view';
+
+import { updateSort } from '../../../actions';
 
 import { cards } from '../../../lib/Destiny';
 
@@ -60,11 +64,28 @@ const styles = StyleSheet.create({
 });
 
 class TeamsView extends Component {
-  static navigationOptions = {
-    title: 'Teams',
+
+  static navigationOptions = ({ navigation }) => {
+    const { state } = navigation;
+    return {
+      title: 'Teams',
+      headerRight: (
+        <Button
+          title={ 'Sort' }
+          color={ 'rgba(155, 89, 182, 1.0)' }
+          onPress={ () => { state.params.showSortActionSheet(); } }
+        />
+      ),
+    };
+  };
+
+  componentWillMount() {
+    this.props.navigation.setParams({
+      showSortActionSheet: this.showSortActionSheet.bind(this),
+    });
   }
 
-  renderRow(team) {
+  renderItem({ item: team }) {
     const charactersView = team.get('characters').map((character) => {
       const card = cards.get(character.get('id'));
       const cardIconStyles = [styles.characterIcon];
@@ -100,10 +121,13 @@ class TeamsView extends Component {
           { charactersView }
         </View>
         <View style={ styles.teamInfoWrapper }>
-          <Text style={ styles.teamStat }>Points: { team.get('points') }</Text>
-          <Text style={ styles.teamStat }>Dice: { team.get('dice') }</Text>
-          <Text style={ styles.teamStat }>Health: { team.get('health') }</Text>
-          <Text style={ styles.teamStat }>Affiliation: { team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
+          <Text style={ styles.teamStat }>{ team.get('dice') } Dice</Text>
+          <Text style={ styles.teamStat }>&middot;</Text>
+          <Text style={ styles.teamStat }>{ team.get('health') } Health</Text>
+          <Text style={ styles.teamStat }>&middot;</Text>
+          <Text style={ styles.teamStat }>{ team.get('points') } Points</Text>
+          <Text style={ styles.teamStat }>&middot;</Text>
+          <Text style={ styles.teamStat }>{ team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
         </View>
       </View>
     );
@@ -114,18 +138,53 @@ class TeamsView extends Component {
 
     return (
       <View style={ styles.container }>
-        <ImmutableVirtualListView
-          style={ styles.list}
-          immutableData={ teamsState.get('teams') }
-          renderRow={ this.renderRow }
+        <VirtualizedList
+          style={ styles.list }
+          data={ teamsState.get('teams') }
+          renderItem={ this.renderItem }
+          getItem={ (data, key) => (data.get ? data.get(key) : data[key]) }
+          getItemCount={ data => (data.size || data.length || 0) }
+          keyExtractor={ (item, index) => String(index) }
         />
       </View>
     );
   }
+
+  showSortActionSheet() {
+    const options = [
+      'Sort By Dice',
+      'Sort By Health',
+      'Sort By Points',
+      'Cancel',
+    ];
+
+    ActionSheetIOS.showActionSheetWithOptions({
+      options,
+      cancelButtonIndex: 3,
+      tintColor: 'rgba(155, 89, 182, 1.0)',
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          this.props.updateSort('points');
+          break;
+        case 1: // dice
+          this.props.updateSort('dice');
+          break;
+        case 2: // health
+          this.props.updateSort('health');
+          break;
+        default:
+          break;
+      }
+    });
+  };
 }
 
 const mapStateToProps = state => ({
   teamsState: state.teamsReducer,
 });
 
-export default connect(mapStateToProps)(TeamsView);
+const mapDispatchToProps = { updateSort };
+
+export default connect(mapStateToProps, mapDispatchToProps)(TeamsView);

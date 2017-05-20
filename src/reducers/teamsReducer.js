@@ -15,6 +15,10 @@ const initialSettings = Immutable.fromJS({
   mixedDamage: true,
 });
 
+const initialSortOrder = Immutable.fromJS([
+  'dice', 'health', 'points',
+]);
+
 const filterTeamsByCharacters = (teamsToFilter, deckCards) =>
   teamsToFilter.filter(team =>
     deckCards.every((characterObj) => {
@@ -26,8 +30,8 @@ const filterTeamsByCharacters = (teamsToFilter, deckCards) =>
     }),
   );
 
-const filterTeamsBySettings = (teamsToFilter, settings) => {
-  return teamsToFilter.filter((team) => {
+const filterTeamsBySettings = (teamsToFilter, settings) =>
+  teamsToFilter.filter((team) => {
     const minPoints = settings.get('minPoints');
     const maxPoints = settings.get('maxPoints');
     const minDice = settings.get('minDice');
@@ -62,21 +66,52 @@ const filterTeamsBySettings = (teamsToFilter, settings) => {
 
     return true;
   });
+
+const sortTeams = (teamsToSort, sortOrder) => {
+  return teamsToSort.sort((a, b) => {
+    let sortValue = b.get('characters').count() - a.get('characters').count();
+
+    const sortValues = {
+      points: b.get('points') - a.get('points'),
+      dice: b.get('dice') - a.get('dice'),
+      health: b.get('health') - a.get('health'),
+    };
+
+    sortOrder.every((sortKey) => {
+      if (sortValues[sortKey]) {
+        sortValue = sortValues[sortKey];
+        return false;
+      }
+
+      return true;
+    });
+
+    return sortValue;
+  });
+};
+
+const getInitialTeams = () => {
+  let initialTeams = teams;
+  initialTeams = filterTeamsBySettings(initialTeams, initialSettings);
+  initialTeams = sortTeams(initialTeams, initialSortOrder);
+  return initialTeams;
 };
 
 const initialState = Immutable.fromJS({
-  teams: filterTeamsBySettings(teams, initialSettings),
+  teams: getInitialTeams(),
   settings: initialSettings,
+  sortOrder: initialSortOrder,
 });
 
 const teamsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RECALCULATE_TEAMS': {
-      let filteredTeams = Immutable.fromJS(teams);
-      filteredTeams = filterTeamsBySettings(filteredTeams, state.get('settings'));
-      filteredTeams = filterTeamsByCharacters(filteredTeams, action.payload.deckCards);
-
-      return state.set('teams', filteredTeams);
+      console.log('RECALCULATE_TEAMS');
+      let newTeams = Immutable.fromJS(teams);
+      newTeams = filterTeamsByCharacters(newTeams, action.payload.deckCards);
+      newTeams = filterTeamsBySettings(newTeams, state.get('settings'));
+      newTeams = sortTeams(newTeams, state.get('sortOrder'));
+      return state.set('teams', newTeams);
     }
 
     case 'RESET_TEAMS': {
@@ -87,6 +122,17 @@ const teamsReducer = (state = initialState, action) => {
     case 'SET_SETTING': {
       const settings = state.get('settings').set(action.payload.key, action.payload.value);
       return state.set('settings', settings);
+    }
+
+    case 'SET_SORT': {
+      const priority = action.payload.sortPriority;
+      const sortOrder = initialSortOrder.sort((a, b) => {
+        if (a === priority) return -1;
+        if (b === priority) return 1;
+        return 0;
+      });
+
+      return state.set('sortOrder', sortOrder);
     }
 
     default:

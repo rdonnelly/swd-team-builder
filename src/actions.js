@@ -34,17 +34,6 @@ const resetCharacters = () => ({
 });
 
 
-// SETTINGS ACTIONS
-
-const setSetting = (key, value) => ({
-  type: 'SET_SETTING',
-  payload: {
-    key,
-    value,
-  },
-});
-
-
 // TEAMS ACTIONS
 
 const recalculateTeams = deckCards => ({
@@ -56,6 +45,21 @@ const recalculateTeams = deckCards => ({
 
 const resetTeams = () => ({
   type: 'RESET_TEAMS',
+});
+
+const setSetting = (key, value) => ({
+  type: 'SET_SETTING',
+  payload: {
+    key,
+    value,
+  },
+});
+
+const setSort = sortPriority => ({
+  type: 'SET_SORT',
+  payload: {
+    sortPriority,
+  },
 });
 
 
@@ -111,6 +115,14 @@ export const updateSetting = (key, value) =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setSetting(key, value)))
+      .then(dispatch(recalculateTeams(
+        getState().deckReducer.get('cards'),
+      )));
+
+export const updateSort = (value) =>
+  (dispatch, getState) =>
+    Promise.resolve()
+      .then(dispatch(setSort(value)))
       .then(dispatch(recalculateTeams(
         getState().deckReducer.get('cards'),
       )));
