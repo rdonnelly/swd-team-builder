@@ -6,7 +6,9 @@
     "lint": "./node_modules/eslint/bin/eslint.js *.js ./src",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "generate_teams": "./node_modules/.bin/babel-node ./scripts/generate_teams.js"
+    "android": "react-native run-android",
+    "ios": "react-native run-ios --simulator='iPhone SE'",
+    "teams": "./node_modules/.bin/babel-node ./scripts/generate_teams.js"
   },
   "dependencies": {
     "babel-eslint": "^7.2.3",
