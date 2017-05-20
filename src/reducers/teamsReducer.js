@@ -27,7 +27,6 @@ const filterTeamsByCharacters = (teamsToFilter, deckCards) =>
   );
 
 const filterTeamsBySettings = (teamsToFilter, settings) => {
-  console.log('filterTeamsBySettings');
   return teamsToFilter.filter((team) => {
     const minPoints = settings.get('minPoints');
     const maxPoints = settings.get('maxPoints');
@@ -73,24 +72,20 @@ const initialState = Immutable.fromJS({
 const teamsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RECALCULATE_TEAMS': {
-      let filteredTeams = initialState.get('teams');
+      let filteredTeams = Immutable.fromJS(teams);
       filteredTeams = filterTeamsBySettings(filteredTeams, state.get('settings'));
       filteredTeams = filterTeamsByCharacters(filteredTeams, action.payload.deckCards);
 
-      return state
-        .set('teams', filteredTeams)
-        .set('count', filteredTeams.count());
+      return state.set('teams', filteredTeams);
     }
 
     case 'RESET_TEAMS': {
       return state
-        .set('teams', initialState.get('teams'))
-        .set('count', initialState.get('count'));
+        .set('teams', filterTeamsBySettings(Immutable.fromJS(teams), state.get('settings')));
     }
 
     case 'SET_SETTING': {
       const settings = state.get('settings').set(action.payload.key, action.payload.value);
-
       return state.set('settings', settings);
     }
 
