@@ -183,10 +183,6 @@ teams = teams.sort((a, b) => {
   const healthDiff = b.health - a.health;
   const characterDiff = a.getCharacterCount() - b.getCharacterCount();
 
-  if (pointsDiff) {
-    return pointsDiff;
-  }
-
   if (diceDiff) {
     return diceDiff;
   }
@@ -195,8 +191,8 @@ teams = teams.sort((a, b) => {
     return healthDiff;
   }
 
-  if (b.affiliation !== a.affiliation) {
-    return b.affiliation > a.affiliation ? 1 : -1;
+  if (pointsDiff) {
+    return pointsDiff;
   }
 
   return characterDiff;

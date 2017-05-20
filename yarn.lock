@@ -2274,7 +2274,7 @@ image-size@^0.3.5:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.3.5.tgz#83240eab2fb5b00b04aab8c74b0471e9cba7ad8c"
 
-immutable@>=3.8, immutable@^3.8.1:
+immutable@^3.8.1:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
 
@@ -3688,12 +3688,6 @@ react-native-drawer-layout@1.2.0:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
-react-native-immutable-list-view@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/react-native-immutable-list-view/-/react-native-immutable-list-view-0.4.3.tgz#2b6f25a35dd1ca987739b94548607fbc205f4851"
-  dependencies:
-    immutable ">=3.8"
-
 react-native-navigation-redux-helpers@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-native-navigation-redux-helpers/-/react-native-navigation-redux-helpers-0.5.0.tgz#2cfa39422c5a8973ab8037963473ca89bc7ce0c5"
@@ -4484,7 +4478,7 @@ supports-color@^3.1.2:
 
 "swdestinydb-json-data@https://github.com/fafranco82/swdestinydb-json-data.git":
   version "1.0.0"
-  resolved "https://github.com/fafranco82/swdestinydb-json-data.git#cff8f683823073e044677b86eecdbe3e1fa7aa00"
+  resolved "https://github.com/fafranco82/swdestinydb-json-data.git#79196a4ec5add25929bed09f4c89c43b7a0aa164"
   dependencies:
     lodash "^4.13.1"
 
