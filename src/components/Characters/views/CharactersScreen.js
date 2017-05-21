@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { reset } from '../../../actions';
 import { cards } from '../../../lib/Destiny';
 
+import SelectedCharacters from '../../SelectedCharacters';
 import SWDIcon from '../../SWDIcon/SWDIcon';
 
 
@@ -53,14 +53,6 @@ const styles = StyleSheet.create({
   yellowCard: {
     color: 'rgba(241, 196, 15, 1.0)',
   },
-  deck: {
-    backgroundColor: 'rgba(52, 73, 94, 1.0)',
-    padding: 12,
-    width: '100%',
-  },
-  deckText: {
-    color: 'white',
-  },
 });
 
 
@@ -74,17 +66,9 @@ class CharactersView extends Component {
 
     this.state = {
       characterCards: this.props.charactersState.get('cards').toList(),
-      deckCards: this.props.deckState.get('cards'),
     };
 
     this.renderItem = this.renderItem.bind(this);
-    this.resetDeck = this.resetDeck.bind(this);
-  }
-
-  componentWillMount() {
-    this.props.navigation.setParams({
-      resetDeck: this.resetDeck.bind(this),
-    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -94,15 +78,7 @@ class CharactersView extends Component {
       newState.characterCards = nextProps.charactersState.get('cards').toList();
     }
 
-    if (this.state.deckCards !== nextProps.deckState.get('cards')) {
-      newState.deckCards = nextProps.deckState.get('cards');
-    }
-
     this.setState(newState);
-  }
-
-  resetDeck() {
-    this.props.reset();
   }
 
   renderItem({ item }) {
@@ -171,19 +147,6 @@ class CharactersView extends Component {
   }
 
   render() {
-    const { deckState } = this.props;
-
-    const deckView = deckState.get('points') > 0 ? (
-      <View style={ styles.deck }>
-        <Text style={ styles.deckText }>Points: { deckState.get('points') }</Text>
-        <Text style={ styles.deckText }>Characters: { deckState.get('cards').map(character => (character.get('isElite') ? 'e' : '') + character.get('name') + (character.get('count') > 1 ? ' x' + character.get('count') : '')).join(', ') }</Text>
-      </View>
-    ) : (
-      <View style={ styles.deck }>
-        <Text style={ styles.deckText }>{ 'No Characters Selected' }</Text>
-      </View>
-    );
-
     return (
       <View style={ styles.container }>
         <VirtualizedList
@@ -194,7 +157,7 @@ class CharactersView extends Component {
           getItemCount={ data => (data.size || data.length || 0) }
           keyExtractor={ (item, index) => String(index) }
         />
-        { deckView }
+        <SelectedCharacters></SelectedCharacters>
       </View>
     );
   }
@@ -202,9 +165,6 @@ class CharactersView extends Component {
 
 const mapStateToProps = state => ({
   charactersState: state.charactersReducer,
-  deckState: state.deckReducer,
 });
 
-const mapDispatchToProps = { reset };
-
-export default connect(mapStateToProps, mapDispatchToProps)(CharactersView);
+export default connect(mapStateToProps)(CharactersView);
