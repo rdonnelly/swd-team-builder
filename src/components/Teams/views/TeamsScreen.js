@@ -178,14 +178,14 @@ class TeamsView extends Component {
     },
     (buttonIndex) => {
       switch (buttonIndex) {
-        case 0:
-          this.props.updateSort('points');
-          break;
-        case 1: // dice
+        case 0: // dice
           this.props.updateSort('dice');
           break;
-        case 2: // health
+        case 1: // health
           this.props.updateSort('health');
+          break;
+        case 2: // points
+          this.props.updateSort('points');
           break;
         default:
           break;
