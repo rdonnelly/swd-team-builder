@@ -9,8 +9,8 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     width: '100%',
+    marginBottom: 24,
   },
 });
 
@@ -56,7 +56,14 @@ class SettingsSlider extends Component {
   render() {
     return (
       <View style={ styles.container }>
-        <Text>{ `${this.props.label}: ${this.state.value}` }</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <Text style={{ fontSize: 16, fontWeight: '500' }}>
+            { this.props.label }
+          </Text>
+          <Text style={{ fontSize: 16, fontWeight: '400' }}>
+            { this.state.value }
+          </Text>
+        </View>
         <Slider
           minimumTrackTintColor={ 'rgba(149, 165, 166, 1.0)' }
           maximumTrackTintColor={ 'rgba(155, 89, 182, 1.0)' }

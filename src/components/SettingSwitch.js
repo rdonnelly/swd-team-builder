@@ -9,8 +9,11 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     width: '100%',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 24,
   },
 });
 
@@ -37,7 +40,7 @@ class SettingsSwitch extends Component {
   render() {
     return (
       <View style={ styles.container }>
-        <Text>{ `${this.props.label}: ${this.state.value ? 'Yes' : 'No'}` }</Text>
+        <Text style={{ fontSize: 16, fontWeight: '500' }}>{ this.props.label }</Text>
         <Switch
           onTintColor={ 'rgba(155, 89, 182, 1.0)' }
           value={ !!this.state.value }

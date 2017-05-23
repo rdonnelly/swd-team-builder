@@ -56,7 +56,7 @@ class SettingsView extends Component {
           maxValue={ teamsStatsData.maxDice }
           setting={ 'minDice' }
           label={ 'Minimum Dice' }
-          callback={ this.props.updateSetting }
+          style={{ marginBottom: 100 }}
         />
 
         <SettingSlider
@@ -80,7 +80,7 @@ class SettingsView extends Component {
         <SettingSwitch
           value={ settings.get('minPoints') }
           setting={ 'mixedDamage' }
-          label={ 'Show Mixed Damage Teams' }
+          label={ 'Mixed Damage Teams' }
           callback={ this.props.updateSetting }
         />
       </View>
