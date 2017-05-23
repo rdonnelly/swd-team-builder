@@ -67,8 +67,8 @@ const filterTeamsBySettings = (teamsToFilter, settings) =>
     return true;
   });
 
-const sortTeams = (teamsToSort, sortOrder) => {
-  return teamsToSort.sort((a, b) => {
+const sortTeams = (teamsToSort, sortOrder) =>
+  teamsToSort.sort((a, b) => {
     let sortValue = b.get('characters').count() - a.get('characters').count();
 
     const sortValues = {
@@ -88,7 +88,6 @@ const sortTeams = (teamsToSort, sortOrder) => {
 
     return sortValue;
   });
-};
 
 const getInitialTeams = () => {
   let initialTeams = teams;
@@ -106,7 +105,6 @@ const initialState = Immutable.fromJS({
 const teamsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RECALCULATE_TEAMS': {
-      console.log('RECALCULATE_TEAMS');
       let newTeams = Immutable.fromJS(teams);
       newTeams = filterTeamsByCharacters(newTeams, action.payload.deckCards);
       newTeams = filterTeamsBySettings(newTeams, state.get('settings'));

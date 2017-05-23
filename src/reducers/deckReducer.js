@@ -51,7 +51,7 @@ const deckReducer = (state = initialState, action) => {
       const cardObj = Immutable.fromJS({
         id: action.payload.card.get('id'),
         name: action.payload.card.get('name'),
-        isElite: action.payload.isElite,
+        isElite: existingCard.get('isElite'),
         count: existingCard.get('count') - 1,
       });
 
