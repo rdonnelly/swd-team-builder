@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     width: '100%',
     backgroundColor: 'rgba(236, 240, 241, 1.0)',
   },
@@ -136,16 +136,29 @@ class TeamsView extends Component {
   render() {
     const { teamsState } = this.props;
 
+    const list = teamsState.get('teams').count() ? (
+      <VirtualizedList
+        style={ styles.list }
+        data={ teamsState.get('teams') }
+        renderItem={ this.renderItem }
+        getItem={ (data, key) => (data.get ? data.get(key) : data[key]) }
+        getItemCount={ data => (data.size || data.count || 0) }
+        keyExtractor={ (item, index) => String(index) }
+      />
+    ) : (
+      <View style={{ width: '80%' }}>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{ color: 'rgba(149, 165, 166, 1.0)', fontSize: 24, fontWeight: '700', textAlign: 'center' }}>No Teams Found</Text>
+        </View>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{ color: 'rgba(149, 165, 166, 1.0)', textAlign: 'center' }}>Try changing your characters or adjusting your settings.</Text>
+        </View>
+      </View>
+    );
+
     return (
       <View style={ styles.container }>
-        <VirtualizedList
-          style={ styles.list }
-          data={ teamsState.get('teams') }
-          renderItem={ this.renderItem }
-          getItem={ (data, key) => (data.get ? data.get(key) : data[key]) }
-          getItemCount={ data => (data.size || data.length || 0) }
-          keyExtractor={ (item, index) => String(index) }
-        />
+        { list }
       </View>
     );
   }
