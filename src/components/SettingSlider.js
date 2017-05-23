@@ -89,5 +89,5 @@ SettingsSlider.propTypes = {
   setting: React.PropTypes.string.isRequired,
   label: React.PropTypes.string.isRequired,
 
-  callback: React.PropTypes.func,
+  callback: React.PropTypes.func.isRequired,
 };
