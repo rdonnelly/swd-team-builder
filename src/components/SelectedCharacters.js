@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -86,12 +87,18 @@ class SelectedCharacters extends Component {
           { characterViews }
           <Text style={ styles.deckInfo }>{ deckState.get('points') } Points</Text>
         </View>
-        <View style={{ alignItems: 'flex-end', justifyContent:'center', width: '20%' }}>
+        <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
           <TouchableOpacity
-            onPress={ () => this.props.reset() }
-          >
-            <Icon name={ 'trash-o' } size={ 28 } color={ 'rgba(236, 240, 241, 1.0)' } />
-          </TouchableOpacity>
+          onPress={() => Alert.alert(
+            'Clear Characters?',
+            'This will reset your selections to allow you to choose different characters and look for different teams.',
+            [
+              { text: 'Cancel' },
+              { text: 'Clear', onPress: () => this.props.reset(), style: 'destructive' },
+            ],
+          )}>
+          <Icon name={ 'trash-o' } size={ 28 } color={ 'rgba(236, 240, 241, 1.0)' } />
+        </TouchableOpacity>
         </View>
       </View>
     ) : (
