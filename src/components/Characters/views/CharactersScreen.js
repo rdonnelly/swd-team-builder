@@ -7,6 +7,7 @@ import {
   VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/Entypo';
 
 import { cards } from '../../../lib/Destiny';
 
@@ -26,23 +27,59 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   row: {
+    alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 12,
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+    paddingVertical: 12,
     borderBottomWidth: 1,
     borderColor: 'rgba(189, 195, 199, 1.0)',
   },
+  incompatibleRow: {
+    paddingVertical: 6,
+    borderColor: 'rgba(189, 195, 199, 1.0)',
+  },
   cardLogo: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: 'rgba(189, 195, 199, 1.0)',
     fontSize: 24,
+    textAlign: 'center',
+    width: 36,
+  },
+  incompatibleCardLogo: {
+    color: 'rgba(189, 195, 199, 1.0)',
+    fontSize: 20,
+    paddingHorizontal: 2,
   },
   cardName: {
     color: 'rgba(52, 73, 94, 1.0)',
     fontSize: 20,
   },
+  incompatibleCardName: {
+    color: 'rgba(189, 195, 199, 1.0)',
+    fontSize: 16,
+  },
+  cardUnique: {
+    color: 'rgba(149, 165, 166, 1.0)',
+    fontSize: 16,
+  },
+  incompatibleCardUnique: {
+    color: 'rgba(189, 195, 199, 1.0)',
+  },
   cardInfo: {
     color: 'rgba(149, 165, 166, 1.0)',
     fontSize: 13,
+  },
+  incompatibleCardInfo: {
+    color: 'rgba(189, 195, 199, 1.0)',
+    fontSize: 12,
+  },
+  cardInfoLogo: {
+    color: 'rgba(149, 165, 166, 1.0)',
+    fontSize: 10,
+  },
+  incompatibleCardInfoLogo: {
+    color: 'rgba(189, 195, 199, 1.0)',
   },
   blueCard: {
     color: 'rgba(52, 152, 219, 1.0)',
@@ -52,6 +89,13 @@ const styles = StyleSheet.create({
   },
   yellowCard: {
     color: 'rgba(241, 196, 15, 1.0)',
+  },
+  arrow: {
+    color: 'rgba(149, 165, 166, 1.0)',
+    marginTop: 2,
+  },
+  arrowIncompatible: {
+    color: 'rgba(189, 195, 199, 1.0)',
   },
 });
 
@@ -87,40 +131,49 @@ class CharactersView extends Component {
     const rowStyle = [styles.row];
     const cardLogoStyle = [styles.cardLogo];
     const cardNameStyle = [styles.cardName];
+    const cardUniqueStyle = [styles.cardUnique];
+    const cardInfoStyle = [styles.cardInfo];
+    const cardInfoLogoStyle = [styles.cardInfoLogo];
+    const arrowStyle = [styles.arrow];
 
-    switch (card.faction) {
-      case 'blue':
-        rowStyle.push(styles.blueRow);
+    if (item.get('isCompatibile')) {
+      if (card.faction === 'blue') {
         cardLogoStyle.push(styles.blueCard);
-        break;
-      case 'red':
-        rowStyle.push(styles.redRow);
+      }
+      if (card.faction === 'red') {
         cardLogoStyle.push(styles.redCard);
-        break;
-      case 'yellow':
-        rowStyle.push(styles.yellowRow);
+      }
+      if (card.faction === 'yellow') {
         cardLogoStyle.push(styles.yellowCard);
-        break;
+      }
+    } else {
+      rowStyle.push(styles.incompatibleRow);
+      cardLogoStyle.push(styles.incompatibleCardLogo);
+      cardNameStyle.push(styles.incompatibleCardName);
+      cardUniqueStyle.push(styles.incompatibleCardUnique);
+      cardInfoStyle.push(styles.incompatibleCardInfo);
+      cardInfoLogoStyle.push(styles.incompatibleCardInfoLogo);
+      arrowStyle.push(styles.arrowIncompatible);
     }
 
     const subtitle = card.subtitle ? (
-      <Text style={ styles.cardInfo }>&nbsp;{ card.subtitle }&nbsp;&middot;</Text>
+      <Text style={ cardInfoStyle }>&nbsp;{ card.subtitle }&nbsp;&middot;</Text>
     ) : null;
 
     const points = card.points ? (
-      <Text style={ styles.cardInfo }>&nbsp;{ card.points.join('/') }</Text>
+      <Text style={ cardInfoStyle }>&nbsp;{ card.points.join('/') }</Text>
     ) : null;
 
     const cardInfo = (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <SWDIcon type={ card.set } font={ 'swdestiny' } style={{ color: 'rgba(149, 165, 166, 1.0)', fontSize: 10 }} />
+        <SWDIcon type={ card.set } font={ 'swdestiny' } style={ cardInfoLogoStyle } />
         { subtitle }
         { points }
       </View>
     );
 
     const uniqueIcon = card.isUnique ? (
-      <SWDIcon type={ 'UNIQUE' } font={ 'swdestiny' } style={{ color: 'rgba(149, 165, 166, 1.0)', fontSize: 16 }} />
+      <SWDIcon type={ 'UNIQUE' } font={ 'swdestiny' } style={ cardUniqueStyle } />
     ) : null;
 
     return (
@@ -130,16 +183,19 @@ class CharactersView extends Component {
         onPress={ () => navigate('CharactersDetailsScreen', { id: item.get('id') }) }
       >
         <View style={ rowStyle }>
-          <View style={{ justifyContent: 'center', paddingRight: 10 }}>
+          <View>
             <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } style={ cardLogoStyle } />
           </View>
-          <View>
+          <View style={{ flex: 1, }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={ cardNameStyle }>{ card.name }</Text>
               <Text style={ cardNameStyle }>&nbsp;</Text>
               <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
             </View>
             { cardInfo }
+          </View>
+          <View>
+            <Icon name={ 'chevron-right' } size={ 20 } style={ arrowStyle } />
           </View>
         </View>
       </TouchableHighlight>
