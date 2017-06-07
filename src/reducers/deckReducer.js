@@ -27,6 +27,16 @@ const deckReducer = (state = initialState, action) => {
       return state.update('cards', cards => cards.push(cardObj));
     }
 
+    case 'SET_CHARACTER_ANY_IN_DECK': {
+      const existingCardIndex = state.get('cards')
+        .findIndex(card => card.get('id') === action.payload.card.get('id'));
+
+      const cardObj = state.get('cards').get(existingCardIndex)
+        .set('isElite', null);
+
+      return state.update('cards', cards => cards.set(existingCardIndex, cardObj));
+    }
+
     case 'SET_CHARACTER_REGULAR_IN_DECK': {
       const existingCardIndex = state.get('cards')
         .findIndex(card => card.get('id') === action.payload.card.get('id'));

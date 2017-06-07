@@ -14,6 +14,27 @@ const removeCharacterFromDeck = card => ({
   },
 });
 
+const setCharacterAnyInDeck = card => ({
+  type: 'SET_CHARACTER_ANY_IN_DECK',
+  payload: {
+    card,
+  },
+});
+
+const setCharacterRegularInDeck = card => ({
+  type: 'SET_CHARACTER_REGULAR_IN_DECK',
+  payload: {
+    card,
+  },
+});
+
+const setCharacterEliteInDeck = card => ({
+  type: 'SET_CHARACTER_ELITE_IN_DECK',
+  payload: {
+    card,
+  },
+});
+
 const resetDeck = () => ({
   type: 'RESET_DECK',
 });
@@ -64,29 +85,42 @@ const setSort = sortPriority => ({
 
 // ACTIONS
 
-export const addCharacter = (card, isElite) =>
+export const addCharacter = card =>
   (dispatch, getState) => {
-    const characterPoints = isElite ?
-      card.get('pointsElite') : card.get('pointsRegular');
-
     if (card.get('isUnique') &&
         getState().deckReducer.get('cards').includes(card)) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));
     }
 
-    if (getState().deckReducer.get('points') + characterPoints > 30) {
-      return Promise.resolve()
-        .then(dispatch({ type: 'ERROR/TOO_MANY_POINTS' }));
-    }
-
     return Promise.resolve()
-      .then(dispatch(addCharacterToDeck(card, isElite)))
+      .then(dispatch(addCharacterToDeck(card)))
       .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
       .then(dispatch(recalculateTeams(
         getState().deckReducer.get('cards'),
       )));
   };
+
+export const setCharacterAny = card =>
+  (dispatch, getState) =>
+    Promise.resolve()
+      .then(dispatch(setCharacterAnyInDeck(card)))
+      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
+      .then(dispatch(recalculateTeams(getState().deckReducer.get('cards'))));
+
+export const setCharacterRegular = card =>
+  (dispatch, getState) =>
+    Promise.resolve()
+      .then(dispatch(setCharacterRegularInDeck(card)))
+      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
+      .then(dispatch(recalculateTeams(getState().deckReducer.get('cards'))));
+
+export const setCharacterElite = card =>
+  (dispatch, getState) =>
+    Promise.resolve()
+      .then(dispatch(setCharacterEliteInDeck(card)))
+      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
+      .then(dispatch(recalculateTeams(getState().deckReducer.get('cards'))));
 
 export const removeCharacter = card =>
   (dispatch, getState) => {
