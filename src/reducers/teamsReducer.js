@@ -23,9 +23,18 @@ const filterTeamsByCharacters = (teamsToFilter, deckCards) =>
   teamsToFilter.filter(team =>
     deckCards.every((characterObj) => {
       const character = team.get('characters')
-        .find(teamCharacter =>
-          teamCharacter.get('id') === characterObj.get('id') &&
-          teamCharacter.get('isElite') === characterObj.get('isElite'));
+        .find((teamCharacter) => {
+          if (teamCharacter.get('id') !== characterObj.get('id')) {
+            return false;
+          }
+
+          if (characterObj.get('isElite') !== null &&
+              teamCharacter.get('isElite') !== characterObj.get('isElite')) {
+            return false;
+          }
+
+          return true;
+        });
       return character !== undefined && character.get('count') >= characterObj.get('count');
     }),
   );

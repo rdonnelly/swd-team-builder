@@ -1,15 +1,14 @@
 // DECK ACTIONS
 
-const addCharacterToDeck = (card, isElite) => ({
-  type: 'ADD_CARD_TO_DECK',
+const addCharacterToDeck = card => ({
+  type: 'ADD_CHARACTER_TO_DECK',
   payload: {
     card,
-    isElite,
   },
 });
 
 const removeCharacterFromDeck = card => ({
-  type: 'REMOVE_CARD_FROM_DECK',
+  type: 'REMOVE_CHARACTER_FROM_DECK',
   payload: {
     card,
   },

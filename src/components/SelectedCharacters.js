@@ -18,11 +18,12 @@ import { cards } from '../lib/Destiny';
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(52, 73, 94, 1.0)',
     flexDirection: 'row',
-    width: '100%',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: 'rgba(52, 73, 94, 1.0)',
+    width: '100%',
   },
   deckCard: {
     color: 'rgba(255, 255, 255, 1.0)',
@@ -81,11 +82,10 @@ class SelectedCharacters extends Component {
       );
     });
 
-    return deckState.get('points') > 0 ? (
+    return deckState.get('cards').count() > 0 ? (
       <View style={ styles.container }>
         <View style={{ width: '80%' }}>
           { characterViews }
-          <Text style={ styles.deckInfo }>{ deckState.get('points') } Points</Text>
         </View>
         <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
           <TouchableOpacity

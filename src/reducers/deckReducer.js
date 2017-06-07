@@ -3,65 +3,56 @@ import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
   cards: [],
-  points: 0,
 });
 
 const deckReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_CARD_TO_DECK': {
+    case 'ADD_CHARACTER_TO_DECK': {
       const existingCardIndex = state.get('cards')
         .findIndex(card => card.get('id') === action.payload.card.get('id'));
+
+      const characterCount = 1 + (existingCardIndex !== -1 ? state.get('cards').get(existingCardIndex).get('count') : 0);
 
       const cardObj = Immutable.fromJS({
         id: action.payload.card.get('id'),
         name: action.payload.card.get('name'),
-        isElite: action.payload.isElite,
-        count: 1 + (existingCardIndex !== -1 ? state.get('cards').get(existingCardIndex).get('count') : 0),
+        isElite: null,
+        count: characterCount,
       });
-
-      const characterPoints = action.payload.isElite ?
-        action.payload.card.get('pointsElite') : action.payload.card.get('pointsRegular');
-
-      const newState = state.update('points', points => points + characterPoints);
 
       if (existingCardIndex !== -1) {
-        return newState.update('cards', cards => cards.set(existingCardIndex, cardObj));
+        return state.update('cards', cards => cards.set(existingCardIndex, cardObj));
       }
 
-      return newState.update('cards', cards => cards.push(cardObj));
+      return state.update('cards', cards => cards.push(cardObj));
     }
 
-    case 'REMOVE_CARD_FROM_DECK': {
+    case 'SET_CHARACTER_REGULAR_IN_DECK': {
       const existingCardIndex = state.get('cards')
         .findIndex(card => card.get('id') === action.payload.card.get('id'));
 
-      if (existingCardIndex === -1) {
-        return state;
-      }
+      const cardObj = state.get('cards').get(existingCardIndex)
+        .set('isElite', false);
 
-      const existingCard = state.get('cards').get(existingCardIndex);
-      const existingCardPoints = existingCard.get('isElite') ?
-        action.payload.card.get('pointsElite') : action.payload.card.get('pointsRegular');
+      return state.update('cards', cards => cards.set(existingCardIndex, cardObj));
+    }
 
-      if (existingCard.get('count') === 1) {
-        return state.update('points', points => points - existingCardPoints)
-          .update('cards', cards => cards.delete(existingCardIndex));
-      }
+    case 'SET_CHARACTER_ELITE_IN_DECK': {
+      const existingCardIndex = state.get('cards')
+        .findIndex(card => card.get('id') === action.payload.card.get('id'));
 
-      const cardObj = Immutable.fromJS({
-        id: action.payload.card.get('id'),
-        name: action.payload.card.get('name'),
-        isElite: existingCard.get('isElite'),
-        count: existingCard.get('count') - 1,
-      });
+      const cardObj = state.get('cards').get(existingCardIndex)
+        .set('isElite', true);
 
-      return state.update('points', points => points - existingCardPoints)
-        .update('cards', cards => cards.set(existingCardIndex, cardObj));
+      return state.update('cards', cards => cards.set(existingCardIndex, cardObj));
+    }
+
+    case 'REMOVE_CHARACTER_FROM_DECK': {
+      return state.update('cards', cards => cards.filter(card => card.get('id') !== action.payload.card.get('id')));
     }
 
     case 'RESET_DECK': {
-      return state.set('points', initialState.get('points'))
-        .set('cards', initialState.get('cards'));
+      return state.set('cards', initialState.get('cards'));
     }
 
     default:
