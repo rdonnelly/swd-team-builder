@@ -58,6 +58,22 @@ const deckReducer = (state = initialState, action) => {
     }
 
     case 'REMOVE_CHARACTER_FROM_DECK': {
+      const existingCardIndex = state.get('cards')
+        .findIndex(card => card.get('id') === action.payload.card.get('id'));
+
+      const characterCount = -1 + (existingCardIndex !== -1 ? state.get('cards').get(existingCardIndex).get('count') : 0);
+
+      const cardObj = Immutable.fromJS({
+        id: action.payload.card.get('id'),
+        name: action.payload.card.get('name'),
+        isElite: null,
+        count: characterCount,
+      });
+
+      if (characterCount > 0) {
+        return state.update('cards', cards => cards.set(existingCardIndex, cardObj));
+      }
+
       return state.update('cards', cards => cards.filter(card => card.get('id') !== action.payload.card.get('id')));
     }
 
