@@ -39,6 +39,11 @@ const styles = StyleSheet.create({
   yellowCard: {
     color: 'rgba(241, 196, 15, 1.0)',
   },
+  dice: {
+    color: 'white',
+    fontSize: 12,
+    marginLeft: 4,
+  },
   deckInfo: {
     color: 'rgba(149, 165, 166, 1.0)',
     fontSize: 13,
@@ -64,30 +69,43 @@ class SelectedCharacters extends Component {
       const card = cards.get(character.get('id'));
 
       const characterStyles = [styles.deckCard];
+      const diceStyles = [styles.dice];
 
       if (card.faction === 'blue') {
         characterStyles.push(styles.blueCard);
+        diceStyles.push(styles.blueCard);
       } else if (card.faction === 'red') {
         characterStyles.push(styles.redCard);
+        diceStyles.push(styles.redCard);
       } else if (card.faction === 'yellow') {
         characterStyles.push(styles.yellowCard);
+        diceStyles.push(styles.yellowCard);
+      }
+
+      const diceIcons = [];
+      if (character.get('isElite') !== null) {
+        const numDice = character.get('isElite') ? 2 : 1;
+        for (let i = 0; i < numDice; i += 1) {
+          diceIcons.push(<SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ diceStyles } />);
+        }
       }
 
       return (
-        <View key={ card.get('id') }>
+        <View key={ card.get('id') } style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-start', marginVertical: 2 }}>
           <Text style={ characterStyles }>
-            { (character.get('isElite') ? 'e' : '') + card.name + (character.get('count') > 1 ? ` x${character.get('count')}` : '') }
+            { card.name + (character.get('count') > 1 ? ` x${character.get('count')}` : '') }
           </Text>
+          { diceIcons }
         </View>
       );
     });
 
     return deckState.get('cards').count() > 0 ? (
       <View style={ styles.container }>
-        <View style={{ width: '80%' }}>
+        <View style={{ flex: 1 }}>
           { characterViews }
         </View>
-        <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
+        <View style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
           <TouchableOpacity
           onPress={() => Alert.alert(
             'Clear Characters?',
