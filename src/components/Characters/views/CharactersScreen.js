@@ -28,13 +28,13 @@ const styles = StyleSheet.create({
   },
   row: {
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: 'rgba(189, 195, 199, 1.0)',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     paddingHorizontal: 8,
     paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(189, 195, 199, 1.0)',
   },
   incompatibleRow: {
     paddingVertical: 6,
@@ -186,7 +186,7 @@ class CharactersView extends Component {
           <View>
             <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } style={ cardLogoStyle } />
           </View>
-          <View style={{ flex: 1, }}>
+          <View style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={ cardNameStyle }>{ card.name }</Text>
               <Text style={ cardNameStyle }>&nbsp;</Text>
@@ -203,6 +203,8 @@ class CharactersView extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
+
     return (
       <View style={ styles.container }>
         <VirtualizedList
@@ -213,7 +215,7 @@ class CharactersView extends Component {
           getItemCount={ data => (data.size || data.length || 0) }
           keyExtractor={ (item, index) => String(index) }
         />
-        <SelectedCharacters></SelectedCharacters>
+        <SelectedCharacters navigate={ navigate }></SelectedCharacters>
       </View>
     );
   }
