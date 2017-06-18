@@ -9,17 +9,15 @@ import BadgeTabIcon from '../../BadgeTabIcon/BadgeTabIcon';
 class TeamsNavigation extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Teams',
-    tabBarIcon: ({ tintColor, focused }) => {
-      return (
-        <BadgeTabIcon
-          iconName="list"
-          size={ 30 }
-          color={ tintColor }
-          selected={ focused }
-          showBadge={ true }
-        />
-      );
-    },
+    tabBarIcon: ({ tintColor, focused }) => (
+      <BadgeTabIcon
+        iconName="list"
+        size={ 30 }
+        color={ tintColor }
+        selected={ focused }
+        showBadge={ true }
+      />
+    ),
   }
 
   render() {
@@ -37,6 +35,8 @@ class TeamsNavigation extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ navigationState: state.teamsTab });
+const mapStateToProps = state => ({
+  navigationState: state.teamsTab,
+});
 
 export default connect(mapStateToProps)(TeamsNavigation);
