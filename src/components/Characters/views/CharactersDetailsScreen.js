@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
+    backgroundColor: 'rgba(155, 89, 182, 0.25)',
     borderRadius: 4,
     flex: 1,
     flexDirection: 'row',
@@ -64,20 +65,30 @@ class CharactersDetailsScreen extends React.Component {
 
   render() {
     const cardId = this.props.navigation.state.params.id;
+
     const card = cards.get(cardId);
+    const character = this.props.charactersState.get('cards')
+      .find(characterCard => characterCard.get('id') === this.props.navigation.state.params.id);
 
     const { deckState } = this.props;
 
     const characterIsInDeck = deckState.get('cards').some(deckCard => deckCard.get('id') === card.get('id'));
     const deckCharacter = deckState.get('cards').find(deckCard => deckCard.get('id') === card.get('id'));
 
-    const addButton = !characterIsInDeck || !card.get('isUnique') ?
+    const addButton = character.get('isCompatibile') && (!characterIsInDeck || !card.get('isUnique')) ? (
       <TouchableOpacity
         onPress={ () => this.props.addCharacter(card) }
         style={ [styles.button, styles.buttonGreen] }
       >
         <Text style={ styles.buttonText }>{ 'Add Character' }</Text>
-      </TouchableOpacity> : null;
+      </TouchableOpacity>
+    ) : (
+      <View
+        style={ [styles.button] }
+      >
+        <Text style={ styles.buttonText }>{ 'Character Incompatible' }</Text>
+      </View>
+    );
 
     const removeButton = characterIsInDeck ?
       <TouchableOpacity
@@ -132,7 +143,7 @@ class CharactersDetailsScreen extends React.Component {
           paddingHorizontal: 16,
           width: '100%',
         }}>
-          <View style={{ flex: 1, height: 300, paddingVertical: 16 }}>
+          <View style={{ flex: 1, height: 300, paddingVertical: 16, alignItems: 'center' }}>
             <Image
               style={{ flex: 1 }}
               resizeMode='contain'
@@ -167,7 +178,10 @@ CharactersDetailsScreen.propTypes = {
   removeCharacter: React.PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({ deckState: state.deckReducer });
+const mapStateToProps = state => ({
+  charactersState: state.charactersReducer,
+  deckState: state.deckReducer,
+});
 
 const mapDispatchToProps = {
   addCharacter,
