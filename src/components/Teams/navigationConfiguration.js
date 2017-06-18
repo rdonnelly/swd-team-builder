@@ -1,8 +1,10 @@
 import { StackNavigator } from 'react-navigation';
 import TeamsScreen from './views/TeamsScreen';
+import TeamsDetailScreen from './views/TeamsDetailScreen';
 
 const routeConfiguration = {
   TeamsScreen: { screen: TeamsScreen },
+  TeamsDetailScreen: { screen: TeamsDetailScreen },
 };
 
 const stackNavigatorConfiguration = {

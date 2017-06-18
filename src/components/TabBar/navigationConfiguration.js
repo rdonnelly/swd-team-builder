@@ -12,6 +12,7 @@ const routeConfiguration = {
 };
 
 const tabBarConfiguration = {
+  backBehavior: 'none',
   tabBarOptions: {
     activeTintColor: 'rgba(155, 89, 182, 1.0)',
     inactiveTintColor: 'rgba(149, 165, 166, 1.0)',

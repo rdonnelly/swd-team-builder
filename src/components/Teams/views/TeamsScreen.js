@@ -4,10 +4,14 @@ import {
   Button,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
   VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/Entypo';
+
+import SWDIcon from '../../SWDIcon/SWDIcon';
 
 import { updateSort } from '../../../actions';
 
@@ -16,31 +20,35 @@ import { cards } from '../../../lib/Destiny';
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
   },
   list: {
     width: '100%',
   },
   row: {
-    padding: 12,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: 'rgba(189, 195, 199, 1.0)',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+    paddingVertical: 12,
+  },
+  teamWrapper: {
+    flex: 1,
   },
   teamCharactersWrapper: {
-    flexWrap: 'wrap',
     alignItems: 'flex-start',
-    flexDirection: 'row',
-  },
-  characterIcon: {
-    fontSize: 20,
-    marginRight: 4,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   characterName: {
     color: 'rgba(52, 73, 94, 1.0)',
-    fontSize: 20,
-    marginRight: 8,
+    fontSize: 16,
   },
   blueCard: {
     color: 'rgba(52, 152, 219,1.0)',
@@ -51,15 +59,29 @@ const styles = StyleSheet.create({
   yellowCard: {
     color: 'rgba(241, 196, 15,1.0)',
   },
+  diceWrapper: {
+    flexDirection: 'row',
+    marginLeft: 4,
+  },
+  dice: {
+    color: 'white',
+    fontSize: 12,
+    marginTop: 4,
+  },
   teamInfoWrapper: {
-    flexWrap: 'wrap',
     alignItems: 'flex-start',
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
   },
   teamStat: {
     color: 'rgba(149, 165, 166, 1.0)',
     fontSize: 12,
     paddingRight: 8,
+  },
+  arrow: {
+    color: 'rgba(149, 165, 166, 1.0)',
+    marginTop: 2,
   },
 });
 
@@ -79,6 +101,12 @@ class TeamsView extends Component {
     };
   };
 
+  constructor(props) {
+    super(props);
+
+    this.renderItem = this.renderItem.bind(this);
+  }
+
   componentWillMount() {
     this.props.navigation.setParams({
       showSortActionSheet: this.showSortActionSheet.bind(this),
@@ -86,50 +114,85 @@ class TeamsView extends Component {
   }
 
   renderItem({ item: team }) {
-    const charactersView = team.get('characters').map((character) => {
-      const card = cards.get(character.get('id'));
-      const cardIconStyles = [styles.characterIcon];
-      const cardNameStyles = [styles.characterName];
+    const { navigate } = this.props.navigation;
+    const arrowStyle = [styles.arrow];
 
-      switch (card.faction) {
-        case 'blue':
-          cardIconStyles.push(styles.blueCard);
-          cardNameStyles.push(styles.blueCard);
-          break;
-        case 'red':
-          cardIconStyles.push(styles.redCard);
-          cardNameStyles.push(styles.redCard);
-          break;
-        case 'yellow':
-          cardIconStyles.push(styles.yellowCard);
-          cardNameStyles.push(styles.yellowCard);
-          break;
+    const characterViews = team.get('characters').map((character) => {
+      const card = cards.get(character.get('id'));
+      const cardNameStyle = [styles.characterName];
+      const diceStyles = [styles.dice];
+
+      if (card.faction === 'blue') {
+        cardNameStyle.push(styles.blueCard);
+        diceStyles.push(styles.blueCard);
+      }
+      if (card.faction === 'red') {
+        cardNameStyle.push(styles.redCard);
+        diceStyles.push(styles.redCard);
+      }
+      if (card.faction === 'yellow') {
+        cardNameStyle.push(styles.yellowCard);
+        diceStyles.push(styles.yellowCard);
+      }
+
+      const diceIcons = [];
+      if (character.get('isElite') !== null) {
+        const numDice = character.get('isElite') ? 2 : 1;
+        for (let i = 0; i < numDice; i += 1) {
+          diceIcons.push(
+            <SWDIcon
+              font={ 'swdestiny' }
+              key={ `${team.get('key')}___${character.get('id')}___${i}` }
+              style={ diceStyles }
+              type={ 'DIE' }
+            />,
+          );
+        }
       }
 
       return (
-        <View key={ `${team.get('key')}___${character.get('id')}` }>
-          <Text style={ cardNameStyles }>
-            { (character.get('isElite') ? 'e' : '') + card.name + (character.get('count') > 1 ? ` x${character.get('count')}` : '') }
+        <View
+          key={ `${team.get('key')}___${character.get('id')}` }
+          style={{ flexDirection: 'row' }}
+        >
+          <Text style={ cardNameStyle }>
+            { card.name }
+          </Text>
+          <View style={ styles.diceWrapper }>
+            { diceIcons }
+          </View>
+          <Text style={ cardNameStyle }>
+            { character.get('count') > 1 ? ` x${character.get('count')}` : '' }
           </Text>
         </View>
       );
     });
 
     return (
-      <View style={ styles.row }>
-        <View style={ styles.teamCharactersWrapper }>
-          { charactersView }
+      <TouchableOpacity
+        activeOpacity={ 0.6 }
+        onPress={ () => navigate('TeamsDetailScreen', { key: team.get('key') }) }
+        style={ styles.row }
+        underlayColor={ 'rgba(236, 240, 241, 1.0)' }
+      >
+        <View style={ styles.teamWrapper }>
+          <View style={ styles.teamCharactersWrapper }>
+            { characterViews }
+          </View>
+          <View style={ styles.teamInfoWrapper }>
+            <Text style={ styles.teamStat }>{ team.get('dice') } Dice</Text>
+            <Text style={ styles.teamStat }>&middot;</Text>
+            <Text style={ styles.teamStat }>{ team.get('health') } Health</Text>
+            <Text style={ styles.teamStat }>&middot;</Text>
+            <Text style={ styles.teamStat }>{ team.get('points') } Points</Text>
+            <Text style={ styles.teamStat }>&middot;</Text>
+            <Text style={ styles.teamStat }>{ team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
+          </View>
         </View>
-        <View style={ styles.teamInfoWrapper }>
-          <Text style={ styles.teamStat }>{ team.get('dice') } Dice</Text>
-          <Text style={ styles.teamStat }>&middot;</Text>
-          <Text style={ styles.teamStat }>{ team.get('health') } Health</Text>
-          <Text style={ styles.teamStat }>&middot;</Text>
-          <Text style={ styles.teamStat }>{ team.get('points') } Points</Text>
-          <Text style={ styles.teamStat }>&middot;</Text>
-          <Text style={ styles.teamStat }>{ team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
+        <View>
+          <Icon name={ 'chevron-right' } size={ 20 } style={ arrowStyle } />
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 
@@ -191,7 +254,7 @@ class TeamsView extends Component {
           break;
       }
     });
-  };
+  }
 }
 
 const mapStateToProps = state => ({
