@@ -16,24 +16,54 @@ import { addCharacter, setCharacterAny, setCharacterRegular, setCharacterElite, 
 import SWDIcon from '../../../components/SWDIcon';
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'flex-start',
+    flex: 1,
+    justifyContent: 'center',
+    width: '100%',
+  },
+  details: {
+    alignContent: 'center',
+    paddingHorizontal: 16,
+    width: '100%',
+  },
+  detailsImageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    height: 360,
+    paddingVertical: 16,
+  },
+  actionBar: {
+    backgroundColor: 'rgba(52, 73, 94, 1.0)',
+    paddingBottom: 8,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    width: '100%',
+  },
+  message: {
+    color: 'rgba(255, 255, 255, 1.0)',
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
   buttonView: {
     alignItems: 'center',
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
   },
   button: {
     alignItems: 'center',
-    backgroundColor: 'rgba(155, 89, 182, 0.25)',
+    backgroundColor: 'rgba(44, 62, 80, 1.0)',
     borderRadius: 4,
     flex: 1,
     flexDirection: 'row',
-    height: 42,
     justifyContent: 'center',
-    marginBottom: 16,
+    padding: 8,
+    marginBottom: 8,
   },
   buttonDisabled: {
-    backgroundColor: 'rgba(155, 89, 182, 0.2)',
+    backgroundColor: 'rgba(44, 62, 80, 1.0)',
   },
   buttonGreen: {
     backgroundColor: 'rgba(46, 204, 113, 1.0)',
@@ -79,6 +109,22 @@ class CharacterDetailScreen extends React.Component {
     const characterIsInDeck = deckState.get('cards').some(deckCard => deckCard.get('id') === card.get('id'));
     const deckCharacter = deckState.get('cards').find(deckCard => deckCard.get('id') === card.get('id'));
 
+    let messageText = '';
+    if (!character.get('isCompatibile') || (characterIsInDeck && card.get('isUnique'))) {
+      if (characterIsInDeck) {
+        messageText = 'Character Already Selected For Team';
+      } else {
+        messageText = 'Character Incompatible With Team';
+      }
+    }
+
+    const message = messageText ?
+      <View style={ styles.buttonView }>
+        <Text style={ styles.message }>
+          { messageText }
+        </Text>
+      </View> : null;
+
     const addButton = character.get('isCompatibile') && (!characterIsInDeck || !card.get('isUnique')) ? (
       <TouchableOpacity
         onPress={ () => this.props.addCharacter(card) }
@@ -86,13 +132,7 @@ class CharacterDetailScreen extends React.Component {
       >
         <Text style={ styles.buttonText }>{ 'Add Character' }</Text>
       </TouchableOpacity>
-    ) : (
-      <View
-        style={ [styles.button] }
-      >
-        <Text style={ styles.buttonText }>{ 'Character Incompatible' }</Text>
-      </View>
-    );
+    ) : null;
 
     const removeButton = characterIsInDeck ?
       <TouchableOpacity
@@ -135,25 +175,18 @@ class CharacterDetailScreen extends React.Component {
       </TouchableOpacity> : null;
 
     return (
-      <View style={{
-        alignItems: 'center',
-        backgroundColor: 'white',
-        flex: 1,
-        justifyContent: 'center',
-      }}>
-        <ScrollView style={{
-          alignContent: 'center',
-          flex: 1,
-          paddingHorizontal: 16,
-          width: '100%',
-        }}>
-          <View style={{ flex: 1, height: 300, paddingVertical: 16, alignItems: 'center' }}>
+      <View style={ styles.container }>
+        <ScrollView style={ styles.details }>
+          <View style={ styles.detailsImageContainer }>
             <Image
               style={{ flex: 1 }}
               resizeMode='contain'
               source={ cardImages.get(card.get('id')) }
             />
           </View>
+        </ScrollView>
+        <View style={ styles.actionBar }>
+          { message }
           <View style={ styles.buttonView }>
             { anyButton }
             { regularButton }
@@ -165,7 +198,7 @@ class CharacterDetailScreen extends React.Component {
           <View style={ styles.buttonView }>
             { removeButton }
           </View>
-        </ScrollView>
+        </View>
       </View>
     );
   }

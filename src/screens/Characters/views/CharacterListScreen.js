@@ -17,10 +17,10 @@ import SWDIcon from '../../../components/SWDIcon';
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'flex-start',
     backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'flex-start',
     width: '100%',
   },
   list: {
@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   incompatibleRow: {
-    paddingVertical: 6,
     borderColor: 'rgba(189, 195, 199, 1.0)',
+    paddingVertical: 6,
   },
   cardLogo: {
     color: 'rgba(189, 195, 199, 1.0)',
