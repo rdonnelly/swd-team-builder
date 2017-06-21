@@ -55,3 +55,11 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(BadgeTabIcon);
+
+BadgeTabIcon.propTypes = {
+  teamsState: React.PropTypes.object.isRequired,
+  iconName: React.PropTypes.string.isRequired,
+  size: React.PropTypes.number.isRequired,
+  color: React.PropTypes.string.isRequired,
+  showBadge: React.PropTypes.bool,
+};

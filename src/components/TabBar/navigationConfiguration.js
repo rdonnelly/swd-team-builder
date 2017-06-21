@@ -1,13 +1,13 @@
 import { TabNavigator } from 'react-navigation';
 
-import CharactersNavigation from '../Characters/views/CharactersNavigation';
-import TeamsNavigation from '../Teams/views/TeamsNavigation';
-import SettingsNavigation from '../Settings/views/SettingsNavigation';
+import CharacterNavigation from '../../screens/Characters/views/CharacterNavigation';
+import TeamNavigation from '../../screens/Teams/views/TeamNavigation';
+import SettingsNavigation from '../../screens/Settings/views/SettingsNavigation';
 
 
 const routeConfiguration = {
-  CharactersNavigation: { screen: CharactersNavigation },
-  TeamsNavigation: { screen: TeamsNavigation },
+  CharacterNavigation: { screen: CharacterNavigation },
+  TeamNavigation: { screen: TeamNavigation },
   SettingsNavigation: { screen: SettingsNavigation },
 };
 
@@ -16,8 +16,6 @@ const tabBarConfiguration = {
   tabBarOptions: {
     activeTintColor: 'rgba(155, 89, 182, 1.0)',
     inactiveTintColor: 'rgba(149, 165, 166, 1.0)',
-    // activeBackgroundColor: 'blue',
-    // inactiveBackgroundColor: 'white',
   },
 };
 

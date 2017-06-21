@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import SWDIcon from '../../SWDIcon/SWDIcon';
+import SWDIcon from '../../../components/SWDIcon';
 
 import { updateSort } from '../../../actions';
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   characterName: {
     color: 'rgba(52, 73, 94, 1.0)',
-    fontSize: 16,
+    fontSize: 18,
   },
   blueCard: {
     color: 'rgba(52, 152, 219,1.0)',
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
   },
   teamStat: {
     color: 'rgba(149, 165, 166, 1.0)',
-    fontSize: 12,
+    fontSize: 13,
+    fontWeight: '500',
     paddingRight: 8,
   },
   arrow: {
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class TeamsView extends Component {
+class TeamListView extends Component {
 
   static navigationOptions = ({ navigation }) => {
     const { state } = navigation;
@@ -98,6 +99,10 @@ class TeamsView extends Component {
           onPress={ () => { state.params.showSortActionSheet(); } }
         />
       ),
+      headerTintColor: 'rgba(52, 73, 94, 1.0)',
+      headerStyle: {
+        backgroundColor: 'rgba(236, 240, 241, 1.0)',
+      },
     };
   };
 
@@ -171,7 +176,7 @@ class TeamsView extends Component {
     return (
       <TouchableOpacity
         activeOpacity={ 0.6 }
-        onPress={ () => navigate('TeamsDetailScreen', { key: team.get('key') }) }
+        onPress={ () => navigate('TeamDetailScreen', { key: team.get('key') }) }
         style={ styles.row }
         underlayColor={ 'rgba(236, 240, 241, 1.0)' }
       >
@@ -236,6 +241,8 @@ class TeamsView extends Component {
 
     ActionSheetIOS.showActionSheetWithOptions({
       options,
+      title: 'Sort Teams',
+      message: 'Sort the list of teams by one of the following stats in descending order',
       cancelButtonIndex: 3,
       tintColor: 'rgba(155, 89, 182, 1.0)',
     },
@@ -263,4 +270,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { updateSort };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeamsView);
+export default connect(mapStateToProps, mapDispatchToProps)(TeamListView);
+
+TeamListView.propTypes = {
+  teamsState: React.PropTypes.object.isRequired,
+  navigation: React.PropTypes.object.isRequired,
+  updateSort: React.PropTypes.func.isRequired,
+};

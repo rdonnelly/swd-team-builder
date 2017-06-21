@@ -7,7 +7,7 @@ import { TabBar } from '../navigationConfiguration';
 
 class TabBarNavigation extends React.Component {
   render() {
-    const { dispatch, navigationState } = this.props
+    const { dispatch, navigationState } = this.props;
     return (
       <TabBar
         navigation={
@@ -24,3 +24,8 @@ class TabBarNavigation extends React.Component {
 const mapStateToProps = state => ({ navigationState: state.tabBar });
 
 export default connect(mapStateToProps)(TabBarNavigation);
+
+TabBarNavigation.propTypes = {
+  dispatch: React.PropTypes.func.isRequired,
+  navigationState: React.PropTypes.object.isRequired,
+};

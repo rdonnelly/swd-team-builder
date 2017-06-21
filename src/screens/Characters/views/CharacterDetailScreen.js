@@ -13,7 +13,7 @@ import { cards } from '../../../lib/Destiny';
 import { cardImages } from '../../../lib/DestinyImages';
 
 import { addCharacter, setCharacterAny, setCharacterRegular, setCharacterElite, removeCharacter } from '../../../actions';
-import SWDIcon from '../../SWDIcon/SWDIcon';
+import SWDIcon from '../../../components/SWDIcon';
 
 const styles = StyleSheet.create({
   buttonView: {
@@ -58,9 +58,13 @@ const styles = StyleSheet.create({
 });
 
 
-class CharactersDetailsScreen extends React.Component {
+class CharacterDetailScreen extends React.Component {
   static navigationOptions = {
     title: 'Character Details',
+    headerTintColor: 'rgba(52, 73, 94, 1.0)',
+    headerStyle: {
+      backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    },
   }
 
   render() {
@@ -167,17 +171,6 @@ class CharactersDetailsScreen extends React.Component {
   }
 }
 
-CharactersDetailsScreen.propTypes = {
-  navigation: React.PropTypes.object.isRequired,
-  deckState: React.PropTypes.object.isRequired,
-
-  addCharacter: React.PropTypes.func.isRequired,
-  setCharacterAny: React.PropTypes.func.isRequired,
-  setCharacterElite: React.PropTypes.func.isRequired,
-  setCharacterRegular: React.PropTypes.func.isRequired,
-  removeCharacter: React.PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   charactersState: state.charactersReducer,
   deckState: state.deckReducer,
@@ -191,4 +184,16 @@ const mapDispatchToProps = {
   removeCharacter,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CharactersDetailsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(CharacterDetailScreen);
+
+CharacterDetailScreen.propTypes = {
+  navigation: React.PropTypes.object.isRequired,
+  charactersState: React.PropTypes.object.isRequired,
+  deckState: React.PropTypes.object.isRequired,
+
+  addCharacter: React.PropTypes.func.isRequired,
+  setCharacterAny: React.PropTypes.func.isRequired,
+  setCharacterElite: React.PropTypes.func.isRequired,
+  setCharacterRegular: React.PropTypes.func.isRequired,
+  removeCharacter: React.PropTypes.func.isRequired,
+};

@@ -5,8 +5,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import SettingSlider from '../../SettingSlider';
-import SettingSwitch from '../../SettingSwitch';
+import SettingSlider from '../../../components/SettingSlider';
+import SettingSwitch from '../../../components/SettingSwitch';
 
 import { updateSetting } from '../../../actions';
 import { teamsStatsData } from '../../../lib/Destiny';
@@ -14,16 +14,23 @@ import { teamsStatsData } from '../../../lib/Destiny';
 
 const styles = StyleSheet.create({
   container: {
+
+    alignItems: 'center',
     backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     padding: '10%',
-    width: '100%',
   },
 });
 
 class SettingsView extends Component {
   static navigationOptions = {
     title: 'Settings',
+    headerTintColor: 'rgba(52, 73, 94, 1.0)',
+    headerStyle: {
+      backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    },
   }
 
   constructor(props) {
@@ -96,3 +103,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { updateSetting };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
+
+SettingsView.propTypes = {
+  teamsState: React.PropTypes.object.isRequired,
+  updateSetting: React.PropTypes.func.isRequired,
+};

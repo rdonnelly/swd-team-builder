@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import Immutable from 'immutable';
 
 const cardImages = Immutable.fromJS({

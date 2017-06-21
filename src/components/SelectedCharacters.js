@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { reset } from '../actions';
 
-import SWDIcon from './SWDIcon/SWDIcon';
+import SWDIcon from './SWDIcon';
 
 import { cards } from '../lib/Destiny';
 
@@ -93,7 +93,7 @@ class SelectedCharacters extends Component {
       return (
         <TouchableOpacity
           key={ card.get('id') }
-          onPress={ () => this.props.navigate('CharactersDetailsScreen', { id: card.get('id') }) }
+          onPress={ () => this.props.navigate('CharacterDetailScreen', { id: card.get('id') }) }
         >
           <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-start', marginVertical: 2 }}>
             <Text style={ characterStyles }>
@@ -138,6 +138,14 @@ const mapStateToProps = state => ({
   deckState: state.deckReducer,
 });
 
-const mapDispatchToProps = { reset };
+const mapDispatchToProps = {
+  reset,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectedCharacters);
+
+SelectedCharacters.propTypes = {
+  deckState: React.PropTypes.object.isRequired,
+  reset: React.PropTypes.func.isRequired,
+  navigate: React.PropTypes.func.isRequired,
+};

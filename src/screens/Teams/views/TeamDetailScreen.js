@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 import Swiper from 'react-native-swiper';
 
-import SWDIcon from '../../SWDIcon/SWDIcon';
+import SWDIcon from '../../../components/SWDIcon';
 
 import { cards } from '../../../lib/Destiny';
 import { cardImages } from '../../../lib/DestinyImages';
@@ -20,14 +20,14 @@ const styles = StyleSheet.create({
   teamWrapper: {
     alignContent: 'center',
     flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingVertical: 16,
     width: '100%',
   },
   teamCharactersWrapper: {
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
+    paddingHorizontal: 16,
   },
   characterName: {
     color: 'rgba(52, 73, 94, 1.0)',
@@ -52,15 +52,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 4,
   },
-  swiper: {
-    flex: 1,
-    height: 200,
+  swiperWrapper: {
+    marginVertical: 16,
   },
   imageWrapper: {
     alignItems: 'center',
     flex: 1,
-    height: 240,
-    paddingVertical: 16,
+    height: 200,
+    width: '100%',
   },
   teamInfoWrapper: {
     alignItems: 'stretch',
@@ -68,6 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    paddingHorizontal: 16,
   },
   teamStat: {
     color: 'rgba(52, 73, 94, 1.0)',
@@ -78,16 +78,20 @@ const styles = StyleSheet.create({
 });
 
 
-class TeamsDetailScreen extends React.Component {
+class TeamDetailScreen extends React.Component {
   static navigationOptions = {
     title: 'Team Details',
+    headerTintColor: 'rgba(52, 73, 94, 1.0)',
+    headerStyle: {
+      backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    },
   }
 
   render() {
     const teamKey = this.props.navigation.state.params.key;
     const { teamsState } = this.props;
     const team = teamsState.get('teams')
-      .find(teamObj => teamObj.get('key') === this.props.navigation.state.params.key);
+      .find(teamObj => teamObj.get('key') === teamKey);
 
     const characterViews = team.get('characters').map((character) => {
       const card = cards.get(character.get('id'));
@@ -140,17 +144,14 @@ class TeamsDetailScreen extends React.Component {
       );
     });
 
-    const imageViews = team.get('characters').map((character) => {
-      return (
-        <View key={ character.get('id') } style={ styles.imageWrapper }>
-          <Image
-            resizeMode='contain'
-            source={ cardImages.get(character.get('id')) }
-            style={{ flex: 1 }}
-          />
-        </View>
-      );
-    }).toJS();
+    const imageViews = team.get('characters').map(character =>
+      <View key={ character.get('id') } style={ styles.imageWrapper }>
+        <Image
+          source={ cardImages.get(character.get('id')) }
+          style={{ height: 280, resizeMode: 'contain' }}
+        />
+      </View>,
+    ).toJS();
 
     return (
       <View style={{
@@ -163,14 +164,18 @@ class TeamsDetailScreen extends React.Component {
           <View style={ styles.teamCharactersWrapper }>
             { characterViews }
           </View>
-          <Swiper
-            activeDotColor={ 'rgba(155, 89, 182, 1.0)' }
-            bounces={ true }
-            dotColor={ 'rgba(149, 165, 166, 1.0)' }
-            height={ 272 }
-            loop={ false } removeClippedSubviews={false}>
-            { imageViews }
-          </Swiper>
+          <View style={ styles.swiperWrapper }>
+            <Swiper
+              activeDotColor={ 'rgba(155, 89, 182, 1.0)' }
+              bounces={ true }
+              dotColor={ 'rgba(149, 165, 166, 1.0)' }
+              height={ 280 }
+              loop={ false }
+              removeClippedSubviews={ false }
+            >
+              { imageViews }
+            </Swiper>
+          </View>
           <View style={ styles.teamInfoWrapper }>
             <Text style={ styles.teamStat }>{ team.get('dice') } Dice</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
@@ -186,9 +191,8 @@ class TeamsDetailScreen extends React.Component {
   }
 }
 
-TeamsDetailScreen.propTypes = {
+TeamDetailScreen.propTypes = {
   navigation: React.PropTypes.object.isRequired,
-
   teamsState: React.PropTypes.object.isRequired,
 };
 
@@ -196,4 +200,4 @@ const mapStateToProps = state => ({
   teamsState: state.teamsReducer,
 });
 
-export default connect(mapStateToProps)(TeamsDetailScreen);
+export default connect(mapStateToProps)(TeamDetailScreen);

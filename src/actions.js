@@ -152,7 +152,7 @@ export const updateSetting = (key, value) =>
         getState().deckReducer.get('cards'),
       )));
 
-export const updateSort = (value) =>
+export const updateSort = value =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setSort(value)))

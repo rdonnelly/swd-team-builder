@@ -11,8 +11,8 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 import { cards } from '../../../lib/Destiny';
 
-import SelectedCharacters from '../../SelectedCharacters';
-import SWDIcon from '../../SWDIcon/SWDIcon';
+import SelectedCharacters from '../../../components/SelectedCharacters';
+import SWDIcon from '../../../components/SWDIcon';
 
 
 const styles = StyleSheet.create({
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   cardInfo: {
     color: 'rgba(149, 165, 166, 1.0)',
     fontSize: 13,
+    fontWeight: '500',
   },
   incompatibleCardInfo: {
     color: 'rgba(189, 195, 199, 1.0)',
@@ -100,9 +101,13 @@ const styles = StyleSheet.create({
 });
 
 
-class CharactersView extends Component {
+class CharacterListView extends Component {
   static navigationOptions = {
     title: 'Characters',
+    headerTintColor: 'rgba(52, 73, 94, 1.0)',
+    headerStyle: {
+      backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    },
   };
 
   constructor(props) {
@@ -180,7 +185,7 @@ class CharactersView extends Component {
       <TouchableHighlight
         activeOpacity={ 0.6 }
         underlayColor={ 'rgba(236, 240, 241, 1.0)' }
-        onPress={ () => navigate('CharactersDetailsScreen', { id: item.get('id') }) }
+        onPress={ () => navigate('CharacterDetailScreen', { id: item.get('id') }) }
       >
         <View style={ rowStyle }>
           <View>
@@ -225,4 +230,9 @@ const mapStateToProps = state => ({
   charactersState: state.charactersReducer,
 });
 
-export default connect(mapStateToProps)(CharactersView);
+export default connect(mapStateToProps)(CharacterListView);
+
+CharacterListView.propTypes = {
+  charactersState: React.PropTypes.object.isRequired,
+  navigation: React.PropTypes.object.isRequired,
+};

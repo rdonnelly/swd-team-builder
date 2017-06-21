@@ -3,23 +3,20 @@ import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { SettingsNavigator } from '../navigationConfiguration';
-import BadgeTabIcon from '../../BadgeTabIcon/BadgeTabIcon';
+import BadgeTabIcon from '../../../components/BadgeTabIcon';
 
 
 class SettingsNavigation extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Settings',
-    tabBarIcon: ({ tintColor, focused }) => {
-      return (
-        <BadgeTabIcon
-          iconName="cog"
-          size={ 24 }
-          color={ tintColor }
-          selected={ focused }
-          showBadge={ false }
-        />
-      );
-    },
+    tabBarIcon: ({ tintColor, focused }) =>
+      <BadgeTabIcon
+        iconName="cog"
+        size={ 24 }
+        color={ tintColor }
+        selected={ focused }
+        showBadge={ false }
+      />,
   }
 
   render() {
@@ -40,3 +37,8 @@ class SettingsNavigation extends React.Component {
 const mapStateToProps = state => ({ navigationState: state.settingsTab });
 
 export default connect(mapStateToProps)(SettingsNavigation);
+
+SettingsNavigation.propTypes = {
+  navigationState: React.PropTypes.object.isRequired,
+  dispatch: React.PropTypes.func.isRequired,
+};
