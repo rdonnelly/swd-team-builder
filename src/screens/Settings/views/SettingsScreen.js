@@ -14,12 +14,11 @@ import { teamsStatsData } from '../../../lib/Destiny';
 
 const styles = StyleSheet.create({
   container: {
-
     alignItems: 'center',
     backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     padding: '10%',
   },
 });

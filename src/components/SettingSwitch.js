@@ -9,11 +9,16 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 24,
+    width: '100%',
+  },
+  label: {
+    color: 'rgba(52, 73, 94, 1.0)',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 
@@ -40,7 +45,9 @@ class SettingsSwitch extends Component {
   render() {
     return (
       <View style={ styles.container }>
-        <Text style={{ fontSize: 16, fontWeight: '500' }}>{ this.props.label }</Text>
+        <Text style={ styles.label }>
+          { this.props.label }
+        </Text>
         <Switch
           onTintColor={ 'rgba(155, 89, 182, 1.0)' }
           value={ !!this.state.value }

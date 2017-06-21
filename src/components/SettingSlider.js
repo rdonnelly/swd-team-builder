@@ -9,8 +9,18 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
     marginBottom: 24,
+    width: '100%',
+  },
+  label: {
+    color: 'rgba(52, 73, 94, 1.0)',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  value: {
+    color: 'rgba(52, 73, 94, 1.0)',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 
@@ -57,10 +67,10 @@ class SettingsSlider extends Component {
     return (
       <View style={ styles.container }>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <Text style={{ fontSize: 16, fontWeight: '500' }}>
+          <Text style={ styles.label }>
             { this.props.label }
           </Text>
-          <Text style={{ fontSize: 16, fontWeight: '400' }}>
+          <Text style={ styles.value }>
             { this.state.value }
           </Text>
         </View>
