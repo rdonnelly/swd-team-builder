@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
     width: 72,
   },
   blueCard: {
-    borderColor: 'rgba(52, 152, 219,1.0)',
+    borderColor: 'rgba(52, 152, 219, 1.0)',
   },
   redCard: {
-    borderColor: 'rgba(231, 76, 60,1.0)',
+    borderColor: 'rgba(231, 76, 60, 1.0)',
   },
   yellowCard: {
-    borderColor: 'rgba(241, 196, 15,1.0)',
+    borderColor: 'rgba(241, 196, 15, 1.0)',
   },
   imageContainer: {
     top: -24,
@@ -60,13 +60,13 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   blueDie: {
-    color: 'rgba(52, 152, 219,1.0)',
+    color: 'rgba(52, 152, 219, 1.0)',
   },
   redDie: {
-    color: 'rgba(231, 76, 60,1.0)',
+    color: 'rgba(231, 76, 60, 1.0)',
   },
   yellowDie: {
-    color: 'rgba(241, 196, 15,1.0)',
+    color: 'rgba(241, 196, 15, 1.0)',
   },
   countContainer: {
     alignItems: 'center',
@@ -82,13 +82,13 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   blueCount: {
-    color: 'rgba(52, 152, 219,1.0)',
+    color: 'rgba(52, 152, 219, 1.0)',
   },
   redCount: {
-    color: 'rgba(231, 76, 60,1.0)',
+    color: 'rgba(231, 76, 60, 1.0)',
   },
   yellowCount: {
-    color: 'rgba(241, 196, 15,1.0)',
+    color: 'rgba(241, 196, 15, 1.0)',
   },
 });
 

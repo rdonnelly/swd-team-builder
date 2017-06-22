@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   },
   characterAvatars: {
     alignItems: 'stretch',
+    backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -33,11 +34,12 @@ const styles = StyleSheet.create({
   },
   teamStatWrapper: {
     alignItems: 'stretch',
+    backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginBottom: 16,
+    paddingBottom: 16,
     paddingHorizontal: 16,
   },
   teamStat: {
@@ -48,9 +50,10 @@ const styles = StyleSheet.create({
   },
   teamCharactersWrapper: {
     alignItems: 'center',
+    backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flexDirection: 'column',
     justifyContent: 'center',
-    marginBottom: 16,
+    paddingBottom: 16,
     paddingHorizontal: 16,
   },
   characterName: {
@@ -59,13 +62,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   blueCard: {
-    color: 'rgba(52, 152, 219,1.0)',
+    color: 'rgba(52, 152, 219, 1.0)',
   },
   redCard: {
-    color: 'rgba(231, 76, 60,1.0)',
+    color: 'rgba(231, 76, 60, 1.0)',
   },
   yellowCard: {
-    color: 'rgba(241, 196, 15,1.0)',
+    color: 'rgba(241, 196, 15, 1.0)',
   },
   diceWrapper: {
     flexDirection: 'row',
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   swiperWrapper: {
-    marginBottom: 16,
+    paddingVertical: 16,
   },
   imageWrapper: {
     alignItems: 'center',
