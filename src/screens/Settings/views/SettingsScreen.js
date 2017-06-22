@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
@@ -14,12 +15,12 @@ import { teamsStatsData } from '../../../lib/Destiny';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     backgroundColor: 'rgba(236, 240, 241, 1.0)',
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    padding: '10%',
+    width: '100%',
+  },
+  scrollerInner: {
+    paddingHorizontal: '10%',
+    paddingVertical: 24,
   },
 });
 
@@ -56,39 +57,43 @@ class SettingsView extends Component {
 
     return (
       <View style={ styles.container }>
-        <SettingSlider
-          value={ settings.get('minDice') }
-          minValue={ teamsStatsData.minDice }
-          maxValue={ teamsStatsData.maxDice }
-          setting={ 'minDice' }
-          label={ 'Minimum Dice' }
-          callback={ this.props.updateSetting }
-        />
+        <ScrollView style={ styles.scrollContainer }>
+          <View style={ styles.scrollerInner }>
+            <SettingSlider
+              value={ settings.get('minDice') }
+              minValue={ teamsStatsData.minDice }
+              maxValue={ teamsStatsData.maxDice }
+              setting={ 'minDice' }
+              label={ 'Minimum Dice' }
+              callback={ this.props.updateSetting }
+            />
 
-        <SettingSlider
-          value={ settings.get('minHealth') }
-          minValue={ teamsStatsData.minHealth }
-          maxValue={ teamsStatsData.maxHealth }
-          setting={ 'minHealth' }
-          label={ 'Minimum Health' }
-          callback={ this.props.updateSetting }
-        />
+            <SettingSlider
+              value={ settings.get('minHealth') }
+              minValue={ teamsStatsData.minHealth }
+              maxValue={ teamsStatsData.maxHealth }
+              setting={ 'minHealth' }
+              label={ 'Minimum Health' }
+              callback={ this.props.updateSetting }
+            />
 
-        <SettingSlider
-          value={ settings.get('minPoints') }
-          minValue={ teamsStatsData.minPoints }
-          maxValue={ teamsStatsData.maxPoints }
-          setting={ 'minPoints' }
-          label={ 'Minimum Points' }
-          callback={ this.props.updateSetting }
-        />
+            <SettingSlider
+              value={ settings.get('minPoints') }
+              minValue={ teamsStatsData.minPoints }
+              maxValue={ teamsStatsData.maxPoints }
+              setting={ 'minPoints' }
+              label={ 'Minimum Points' }
+              callback={ this.props.updateSetting }
+            />
 
-        <SettingSwitch
-          value={ settings.get('minPoints') }
-          setting={ 'mixedDamage' }
-          label={ 'Mixed Damage Teams' }
-          callback={ this.props.updateSetting }
-        />
+            <SettingSwitch
+              value={ settings.get('minPoints') }
+              setting={ 'mixedDamage' }
+              label={ 'Mixed Damage Teams' }
+              callback={ this.props.updateSetting }
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }

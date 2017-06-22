@@ -80,6 +80,8 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   swiperWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 16,
   },
   imageWrapper: {
