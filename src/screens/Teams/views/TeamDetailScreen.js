@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 
 import Swiper from 'react-native-swiper';
 
+import CharacterAvatar from '../../../components/CharacterAvatar';
 import SWDIcon from '../../../components/SWDIcon';
 
 import { cards } from '../../../lib/Destiny';
@@ -20,13 +21,36 @@ const styles = StyleSheet.create({
   teamWrapper: {
     alignContent: 'center',
     flex: 1,
-    paddingVertical: 16,
     width: '100%',
+  },
+  characterAvatars: {
+    alignItems: 'stretch',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    padding: 16,
+  },
+  teamStatWrapper: {
+    alignItems: 'stretch',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginBottom: 16,
+    paddingHorizontal: 16,
+  },
+  teamStat: {
+    color: 'rgba(52, 73, 94, 1.0)',
+    fontSize: 14,
+    fontWeight: '600',
+    paddingRight: 8,
   },
   teamCharactersWrapper: {
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
+    marginBottom: 16,
     paddingHorizontal: 16,
   },
   characterName: {
@@ -53,27 +77,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   swiperWrapper: {
-    marginVertical: 16,
+    marginBottom: 16,
   },
   imageWrapper: {
     alignItems: 'center',
     flex: 1,
     height: 200,
     width: '100%',
-  },
-  teamInfoWrapper: {
-    alignItems: 'stretch',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-  },
-  teamStat: {
-    color: 'rgba(52, 73, 94, 1.0)',
-    fontSize: 14,
-    fontWeight: '600',
-    paddingRight: 8,
   },
 });
 
@@ -92,6 +102,15 @@ class TeamDetailScreen extends React.Component {
     const { teamsState } = this.props;
     const team = teamsState.get('teams')
       .find(teamObj => teamObj.get('key') === teamKey);
+
+    const characterAvatars = team.get('characters').map(character =>
+      <CharacterAvatar
+        cardId={ character.get('id') }
+        isElite={ character.get('isElite') }
+        count={ character.get('count') }
+      >
+      </CharacterAvatar>,
+    );
 
     const characterViews = team.get('characters').map((character) => {
       const card = cards.get(character.get('id'));
@@ -161,8 +180,20 @@ class TeamDetailScreen extends React.Component {
         justifyContent: 'center',
       }}>
         <ScrollView style={ styles.teamWrapper }>
+          <View style={ styles.characterAvatars }>
+            { characterAvatars }
+          </View>
           <View style={ styles.teamCharactersWrapper }>
             { characterViews }
+          </View>
+          <View style={ styles.teamStatWrapper }>
+            <Text style={ styles.teamStat }>{ team.get('dice') } Dice</Text>
+            <Text style={ styles.teamStat }>&middot;</Text>
+            <Text style={ styles.teamStat }>{ team.get('health') } Health</Text>
+            <Text style={ styles.teamStat }>&middot;</Text>
+            <Text style={ styles.teamStat }>{ team.get('points') } Points</Text>
+            <Text style={ styles.teamStat }>&middot;</Text>
+            <Text style={ styles.teamStat }>{ team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
           </View>
           <View style={ styles.swiperWrapper }>
             <Swiper
@@ -175,15 +206,6 @@ class TeamDetailScreen extends React.Component {
             >
               { imageViews }
             </Swiper>
-          </View>
-          <View style={ styles.teamInfoWrapper }>
-            <Text style={ styles.teamStat }>{ team.get('dice') } Dice</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('health') } Health</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('points') } Points</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
           </View>
         </ScrollView>
       </View>
