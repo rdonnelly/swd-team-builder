@@ -124,6 +124,7 @@ class CharacterAvatar extends Component {
       for (let i = 0; i < numDice; i += 1) {
         diceIcons.push(
           <SWDIcon
+            key={ `avatar_die___${cardId}___${i}` }
             font={ 'swdestiny' }
             style={ dieStyles }
             type={ 'DIE' }

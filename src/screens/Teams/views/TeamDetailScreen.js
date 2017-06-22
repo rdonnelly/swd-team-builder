@@ -108,6 +108,7 @@ class TeamDetailScreen extends React.Component {
 
     const characterAvatars = team.get('characters').map(character =>
       <CharacterAvatar
+        key={ `avatar___${team.get('key')}___${character.get('id')}` }
         cardId={ character.get('id') }
         isElite={ character.get('isElite') }
         count={ character.get('count') }
@@ -140,7 +141,7 @@ class TeamDetailScreen extends React.Component {
           diceIcons.push(
             <SWDIcon
               font={ 'swdestiny' }
-              key={ `${team.get('key')}___${character.get('id')}___${i}` }
+              key={ `die___${team.get('key')}___${character.get('id')}___${i}` }
               style={ diceStyles }
               type={ 'DIE' }
             />,
