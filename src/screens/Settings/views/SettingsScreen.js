@@ -16,8 +16,10 @@ import { teamsStatsData } from '../../../lib/Destiny';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    flex: 1,
     width: '100%',
   },
+  scrollContainer: {},
   scrollerInner: {
     paddingHorizontal: '10%',
     paddingVertical: 24,

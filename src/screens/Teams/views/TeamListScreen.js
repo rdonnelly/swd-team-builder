@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   blueCard: {
-    color: 'rgba(52, 152, 219,1.0)',
+    color: 'rgba(52, 152, 219, 1.0)',
   },
   redCard: {
-    color: 'rgba(231, 76, 60,1.0)',
+    color: 'rgba(231, 76, 60, 1.0)',
   },
   yellowCard: {
-    color: 'rgba(241, 196, 15,1.0)',
+    color: 'rgba(241, 196, 15, 1.0)',
   },
   diceWrapper: {
     flexDirection: 'row',
