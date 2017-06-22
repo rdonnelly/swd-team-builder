@@ -38,8 +38,16 @@ class SettingsSwitch extends Component {
   }
 
   onValueChange(value) {
-    this.setState({ value });
-    this.props.callback(this.props.setting, value);
+    if (this.state.timeoutId) {
+      clearTimeout(this.state.timeoutId);
+    }
+
+    const timeoutId = setTimeout(() => {
+      this.props.callback(this.props.setting, value);
+      this.setState({ timeoutId: null });
+    }, 500);
+
+    this.setState({ timeoutId, value });
   }
 
   render() {
