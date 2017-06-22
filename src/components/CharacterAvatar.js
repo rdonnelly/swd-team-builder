@@ -39,12 +39,13 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     alignItems: 'center',
-    bottom: 4,
+    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'center',
-    left: 4,
+    left: 0,
     position: 'absolute',
-    right: 4,
+    right: 0,
+    padding: 4,
   },
   diceContainer: {
     alignItems: 'center',

@@ -104,9 +104,9 @@ const styles = StyleSheet.create({
 class CharacterListView extends Component {
   static navigationOptions = {
     title: 'Characters',
-    headerTintColor: 'rgba(52, 73, 94, 1.0)',
+    headerTintColor: 'rgba(255, 255, 255, 1.0)',
     headerStyle: {
-      backgroundColor: 'rgba(236, 240, 241, 1.0)',
+      backgroundColor: 'rgba(155, 89, 182, 1.0)',
     },
   };
 
