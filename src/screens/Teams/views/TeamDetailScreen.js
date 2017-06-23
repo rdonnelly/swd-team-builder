@@ -4,9 +4,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import SafariView from 'react-native-safari-view';
 
 import Swiper from 'react-native-swiper';
 
@@ -31,22 +33,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     padding: 16,
-  },
-  teamStatWrapper: {
-    alignItems: 'stretch',
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    paddingBottom: 16,
-    paddingHorizontal: 16,
-  },
-  teamStat: {
-    color: 'rgba(52, 73, 94, 1.0)',
-    fontSize: 14,
-    fontWeight: '600',
-    paddingRight: 8,
   },
   teamCharactersWrapper: {
     alignItems: 'center',
@@ -79,6 +65,45 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 4,
   },
+  teamStatWrapper: {
+    alignItems: 'stretch',
+    backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+  },
+  teamStat: {
+    color: 'rgba(52, 73, 94, 1.0)',
+    fontSize: 14,
+    fontWeight: '600',
+    paddingRight: 8,
+  },
+  teamSearch: {
+    alignItems: 'stretch',
+    backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+  },
+  teamSearchButton: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(44, 62, 80, 1.0)',
+    borderRadius: 4,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 8,
+    padding: 8,
+  },
+  teamSearchButtonText: {
+    color: 'rgba(255, 255, 255, 1.0)',
+  },
   swiperWrapper: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -100,6 +125,30 @@ class TeamDetailScreen extends React.Component {
     headerStyle: {
       backgroundColor: 'rgba(155, 89, 182, 1.0)',
     },
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.searchSWDestinyDB = this.searchSWDestinyDB.bind(this);
+  }
+
+  searchSWDestinyDB() {
+    const teamKey = this.props.navigation.state.params.key;
+    const { teamsState } = this.props;
+    const team = teamsState.get('teams')
+      .find(teamObj => teamObj.get('key') === teamKey);
+
+    const urlParams = [];
+    team.get('characters').forEach((character) => {
+      urlParams.push(`cards[]=${character.get('id')}`);
+    });
+
+    SafariView.show({
+      fromBottom: true,
+      tintColor: 'rgba(155, 89, 182, 1.0)',
+      url: `http://swdestinydb.com/decklists/find?${urlParams.join('&')}`,
+    });
   }
 
   render() {
@@ -200,6 +249,16 @@ class TeamDetailScreen extends React.Component {
             <Text style={ styles.teamStat }>{ team.get('points') } Points</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
+          </View>
+          <View style={ styles.teamSearch }>
+            <TouchableOpacity
+              onPress={ this.searchSWDestinyDB }
+              style={ styles.teamSearchButton }
+            >
+              <Text style={ styles.teamSearchButtonText }>
+                Search for Decks on SWDestinyDB
+              </Text>
+            </TouchableOpacity>
           </View>
           <View style={ styles.swiperWrapper }>
             <Swiper
