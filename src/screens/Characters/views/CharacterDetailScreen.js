@@ -85,6 +85,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
+  buttonTextHighlight: {
+    fontStyle: 'italic',
+  },
 });
 
 
@@ -110,11 +113,15 @@ class CharacterDetailScreen extends React.Component {
     const deckCharacter = deckState.get('cards').find(deckCard => deckCard.get('id') === card.get('id'));
 
     let messageText = '';
-    if (!character.get('isCompatibile') || (characterIsInDeck && card.get('isUnique'))) {
+    if (!character.get('isCompatibile') || (characterIsInDeck)) {
       if (characterIsInDeck) {
-        messageText = 'Character Already Selected For Team';
+        messageText = 'Character Selected for Team';
+
+        if (!card.get('isUnique') && deckCharacter.get('count') > 1) {
+          messageText += ` (x${deckCharacter.get('count')})`;
+        }
       } else {
-        messageText = 'Character Incompatible With Team';
+        messageText = 'Character Incompatible with Team';
       }
     }
 
@@ -130,7 +137,14 @@ class CharacterDetailScreen extends React.Component {
         onPress={ () => this.props.addCharacter(card) }
         style={ [styles.button, styles.buttonGreen] }
       >
-        <Text style={ styles.buttonText }>{ 'Add Character' }</Text>
+        <Text style={ styles.buttonText }>
+          { !characterIsInDeck || card.get('isUnique') ?
+            'Add ' :
+            'Add Another ' }
+          <Text style={ styles.buttonTextHighlight }>
+            { card.get('name') }
+          </Text>
+        </Text>
       </TouchableOpacity>
     ) : null;
 
@@ -139,7 +153,12 @@ class CharacterDetailScreen extends React.Component {
         onPress={ () => this.props.removeCharacter(card) }
         style={ [styles.button, styles.buttonOrange] }
       >
-        <Text style={ styles.buttonText }>{ 'Remove Character' }</Text>
+        <Text style={ styles.buttonText }>
+          { 'Remove ' }
+          <Text style={ styles.buttonTextHighlight }>
+            { card.get('name') }
+          </Text>
+        </Text>
       </TouchableOpacity> : null;
 
     const anyButton = characterIsInDeck && card.get('isUnique') ?
