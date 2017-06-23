@@ -3698,6 +3698,10 @@ react-native-navigation-redux-helpers@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-native-navigation-redux-helpers/-/react-native-navigation-redux-helpers-0.5.0.tgz#2cfa39422c5a8973ab8037963473ca89bc7ce0c5"
 
+react-native-safari-view@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-safari-view/-/react-native-safari-view-2.0.0.tgz#3aeb40693b0765df16b9beaf8654b60c7ff1d7ed"
+
 react-native-swiper@^1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.4.tgz#a85535b5374ef8d605a7a720e447ac46816ac448"

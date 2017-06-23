@@ -3,9 +3,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import SafariView from 'react-native-safari-view';
 
 import SettingSlider from '../../../components/SettingSlider';
 import SettingSwitch from '../../../components/SettingSwitch';
@@ -25,14 +27,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: '10%',
     paddingVertical: 24,
   },
-  disclaimer: {
-    borderTopWidth: 1,
+  information: {
     borderColor: 'rgba(189, 195, 199,1.0)',
-    paddingTop: 24,
+    borderTopWidth: 1,
     marginTop: 16,
+    paddingTop: 24,
   },
   disclaimerText: {
     color: 'rgba(149, 165, 166, 1.0)',
+    textAlign: 'center',
+  },
+  linkText: {
+    color: 'rgba(155, 89, 182, 1.0)',
+    textAlign: 'center',
   },
 });
 
@@ -48,6 +55,14 @@ class SettingsView extends Component {
   constructor(props) {
     super(props);
     this.state = { updateTimeoutId: false };
+  }
+
+  visitWebpage() {
+    SafariView.show({
+      fromBottom: true,
+      tintColor: 'rgba(155, 89, 182, 1.0)',
+      url: 'http://rdonnelly.com/swd-team-builder/',
+    });
   }
 
   updateSetting(key, value) {
@@ -105,13 +120,24 @@ class SettingsView extends Component {
               callback={ this.props.updateSetting }
             />
 
-            <View style={ styles.disclaimer }>
+            <View style={ styles.information }>
               <Text style={ styles.disclaimerText }>
                 The information presented in this app about Star Wars Destiny,
                 both literal and graphical, is copyrighted by Fantasy Flight
                 Games. This website is not produced by, endorsed by, supported by, or
                 affiliated with Fantasy Flight Games.
               </Text>
+            </View>
+
+            <View style={ styles.information }>
+              <TouchableOpacity onPress={ this.visitWebpage }>
+                <Text style={ styles.linkText }>
+                  Designed and Developed by
+                </Text>
+                <Text style={ styles.linkText }>
+                  Ryan Donnelly
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
