@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   ScrollView,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -23,6 +24,15 @@ const styles = StyleSheet.create({
   scrollerInner: {
     paddingHorizontal: '10%',
     paddingVertical: 24,
+  },
+  disclaimer: {
+    borderTopWidth: 1,
+    borderColor: 'rgba(189, 195, 199,1.0)',
+    paddingTop: 24,
+    marginTop: 16,
+  },
+  disclaimerText: {
+    color: 'rgba(149, 165, 166, 1.0)',
   },
 });
 
@@ -94,6 +104,15 @@ class SettingsView extends Component {
               label={ 'Mixed Damage Teams' }
               callback={ this.props.updateSetting }
             />
+
+            <View style={ styles.disclaimer }>
+              <Text style={ styles.disclaimerText }>
+                The information presented in this app about Star Wars Destiny,
+                both literal and graphical, is copyrighted by Fantasy Flight
+                Games. This website is not produced by, endorsed by, supported by, or
+                affiliated with Fantasy Flight Games.
+              </Text>
+            </View>
           </View>
         </ScrollView>
       </View>
