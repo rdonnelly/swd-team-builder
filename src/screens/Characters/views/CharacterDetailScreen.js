@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    height: 360,
+    height: 388,
     paddingVertical: 16,
   },
   actionBar: {

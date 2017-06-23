@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   imageWrapper: {
     alignItems: 'center',
     flex: 1,
-    height: 200,
+    height: 300,
     width: '100%',
   },
 });
@@ -206,7 +206,7 @@ class TeamDetailScreen extends React.Component {
               activeDotColor={ 'rgba(155, 89, 182, 1.0)' }
               bounces={ true }
               dotColor={ 'rgba(149, 165, 166, 1.0)' }
-              height={ 280 }
+              height={ 300 }
               loop={ false }
               removeClippedSubviews={ false }
             >
