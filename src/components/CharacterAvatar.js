@@ -55,18 +55,9 @@ const styles = StyleSheet.create({
   },
   die: {
     backgroundColor: 'transparent',
-    color: 'black',
+    color: 'rgba(255, 255, 255, 1.0)',
     fontSize: 14,
     marginRight: 4,
-  },
-  blueDie: {
-    color: 'rgba(52, 152, 219, 1.0)',
-  },
-  redDie: {
-    color: 'rgba(231, 76, 60, 1.0)',
-  },
-  yellowDie: {
-    color: 'rgba(241, 196, 15, 1.0)',
   },
   countContainer: {
     alignItems: 'center',
@@ -80,15 +71,6 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 1.0)',
     fontSize: 15,
     fontWeight: '900',
-  },
-  blueCount: {
-    color: 'rgba(52, 152, 219, 1.0)',
-  },
-  redCount: {
-    color: 'rgba(231, 76, 60, 1.0)',
-  },
-  yellowCount: {
-    color: 'rgba(241, 196, 15, 1.0)',
   },
 });
 
@@ -104,18 +86,12 @@ class CharacterAvatar extends Component {
 
     if (card.faction === 'blue') {
       containerStyles.push(styles.blueCard);
-      dieStyles.push(styles.blueDie);
-      countStyles.push(styles.blueCount);
     }
     if (card.faction === 'red') {
       containerStyles.push(styles.redCard);
-      dieStyles.push(styles.redDie);
-      countStyles.push(styles.redCount);
     }
     if (card.faction === 'yellow') {
       containerStyles.push(styles.yellowCard);
-      dieStyles.push(styles.yellowDie);
-      countStyles.push(styles.yellowCount);
     }
 
     const diceIcons = [];
