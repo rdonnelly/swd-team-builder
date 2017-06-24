@@ -95,7 +95,7 @@ class TeamListView extends Component {
       headerRight: (
         <Button
           title={ 'Sort' }
-          color={ 'rgba(155, 89, 182, 1.0)' }
+          color={ 'rgba(255, 255, 255, 1.0)' }
           onPress={ () => { state.params.showSortActionSheet(); } }
         />
       ),
