@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Image,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -131,6 +132,20 @@ class TeamDetailScreen extends React.Component {
     super(props);
 
     this.searchSWDestinyDB = this.searchSWDestinyDB.bind(this);
+
+    SafariView.addEventListener(
+      'onShow',
+      () => {
+        StatusBar.setBarStyle('dark-content');
+      },
+    );
+
+    SafariView.addEventListener(
+      'onDismiss',
+      () => {
+        StatusBar.setBarStyle('light-content');
+      },
+    );
   }
 
   searchSWDestinyDB() {
@@ -145,7 +160,6 @@ class TeamDetailScreen extends React.Component {
     });
 
     SafariView.show({
-      fromBottom: true,
       tintColor: 'rgba(155, 89, 182, 1.0)',
       url: `http://swdestinydb.com/decklists/find?${urlParams.join('&')}`,
     });

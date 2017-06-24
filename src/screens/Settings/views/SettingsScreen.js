@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -54,12 +55,26 @@ class SettingsView extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = { updateTimeoutId: false };
+
+    SafariView.addEventListener(
+      'onShow',
+      () => {
+        StatusBar.setBarStyle('dark-content');
+      },
+    );
+
+    SafariView.addEventListener(
+      'onDismiss',
+      () => {
+        StatusBar.setBarStyle('light-content');
+      },
+    );
   }
 
   visitWebpage() {
     SafariView.show({
-      fromBottom: true,
       tintColor: 'rgba(155, 89, 182, 1.0)',
       url: 'http://rdonnelly.com/swd-team-builder/',
     });
