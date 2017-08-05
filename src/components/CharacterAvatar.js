@@ -9,7 +9,7 @@ import {
 
 import SWDIcon from '../components/SWDIcon';
 
-import { cards } from '../lib/Destiny';
+import { characterCards } from '../lib/Destiny';
 import { cardImages } from '../lib/DestinyImages';
 
 const styles = StyleSheet.create({
@@ -79,7 +79,7 @@ class CharacterAvatar extends Component {
 
   render() {
     const { cardId, isElite, count } = this.props;
-    const card = cards.get(cardId);
+    const card = characterCards.get(cardId);
 
     const containerStyles = [styles.container];
     const dieStyles = [styles.die];

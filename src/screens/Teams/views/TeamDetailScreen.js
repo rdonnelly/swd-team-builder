@@ -17,7 +17,7 @@ import Swiper from 'react-native-swiper';
 import CharacterAvatar from '../../../components/CharacterAvatar';
 import SWDIcon from '../../../components/SWDIcon';
 
-import { cards } from '../../../lib/Destiny';
+import { characterCards } from '../../../lib/Destiny';
 import { cardImages } from '../../../lib/DestinyImages';
 
 
@@ -194,7 +194,7 @@ class TeamDetailScreen extends React.Component {
     );
 
     const characterViews = team.get('characters').map((character) => {
-      const card = cards.get(character.get('id'));
+      const card = characterCards.get(character.get('id'));
       const cardNameStyle = [styles.characterName];
       const diceStyles = [styles.dice];
 

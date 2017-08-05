@@ -104,10 +104,14 @@ const cards = Immutable.fromJS([]
       Immutable.OrderedMap(),
     );
 
+const characterCards = cards.filterNot(card => card.type_code === 'character');
+
 const teams = Immutable.fromJS(teamsData);
 
 export {
   cards,
+  characterCards,
+
   teams,
   teamsStatsData,
 

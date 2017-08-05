@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { cards } from '../../../lib/Destiny';
+import { characterCards } from '../../../lib/Destiny';
 import { cardImages } from '../../../lib/DestinyImages';
 
 import { addCharacter, setCharacterAny, setCharacterRegular, setCharacterElite, removeCharacter } from '../../../actions';
@@ -104,7 +104,7 @@ class CharacterDetailScreen extends React.Component {
   render() {
     const cardId = this.props.navigation.state.params.id;
 
-    const card = cards.get(cardId);
+    const card = characterCards.get(cardId);
     const character = this.props.charactersState.get('cards')
       .find(characterCard => characterCard.get('id') === this.props.navigation.state.params.id);
 

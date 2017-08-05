@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { cards } from '../../../lib/Destiny';
+import { characterCards } from '../../../lib/Destiny';
 
 import SelectedCharacters from '../../../components/SelectedCharacters';
 import SWDIcon from '../../../components/SWDIcon';
@@ -133,7 +133,7 @@ class CharacterListView extends Component {
 
   renderItem({ item }) {
     const { navigate } = this.props.navigation;
-    const card = cards.get(item.get('id'));
+    const card = characterCards.get(item.get('id'));
     const rowStyle = [styles.row];
     const cardLogoStyle = [styles.cardLogo];
     const cardNameStyle = [styles.cardName];

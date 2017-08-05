@@ -16,7 +16,7 @@ import SWDIcon from '../../../components/SWDIcon';
 
 import { updateSort } from '../../../actions';
 
-import { cards } from '../../../lib/Destiny';
+import { characterCards } from '../../../lib/Destiny';
 
 
 const styles = StyleSheet.create({
@@ -124,7 +124,7 @@ class TeamListView extends Component {
     const arrowStyle = [styles.arrow];
 
     const characterViews = team.get('characters').map((character) => {
-      const card = cards.get(character.get('id'));
+      const card = characterCards.get(character.get('id'));
       const cardNameStyle = [styles.characterName];
       const diceStyles = [styles.dice];
 

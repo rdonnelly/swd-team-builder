@@ -14,7 +14,7 @@ const factionRank = {
 };
 
 const initialState = Immutable.fromJS({
-  cards: Destiny.cards
+  cards: Destiny.characterCards
     .filter(card => card.get('type') === 'character')
     .sort((a, b) => {
       if (b.get('affiliation') !== a.get('affiliation')) {
