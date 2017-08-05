@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Text } from 'react-native';
 
 import swdIcons from '../lib/swd-icons';
@@ -21,7 +22,7 @@ class SWDIcon extends Component {
 export default SWDIcon;
 
 SWDIcon.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  font: React.PropTypes.string.isRequired,
-  style: React.PropTypes.any,
+  type: PropTypes.string.isRequired,
+  font: PropTypes.string.isRequired,
+  style: PropTypes.any,
 };

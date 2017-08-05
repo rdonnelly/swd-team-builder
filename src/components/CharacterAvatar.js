@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   StyleSheet,
@@ -138,7 +139,7 @@ class CharacterAvatar extends Component {
 export default CharacterAvatar;
 
 CharacterAvatar.propTypes = {
-  cardId: React.PropTypes.string.isRequired,
-  isElite: React.PropTypes.bool.isRequired,
-  count: React.PropTypes.number.isRequired,
+  cardId: PropTypes.string.isRequired,
+  isElite: PropTypes.bool.isRequired,
+  count: PropTypes.number.isRequired,
 };

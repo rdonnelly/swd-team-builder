@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   ActionSheetIOS,
   Button,
@@ -273,7 +274,7 @@ const mapDispatchToProps = { updateSort };
 export default connect(mapStateToProps, mapDispatchToProps)(TeamListView);
 
 TeamListView.propTypes = {
-  teamsState: React.PropTypes.object.isRequired,
-  navigation: React.PropTypes.object.isRequired,
-  updateSort: React.PropTypes.func.isRequired,
+  teamsState: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
+  updateSort: PropTypes.func.isRequired,
 };

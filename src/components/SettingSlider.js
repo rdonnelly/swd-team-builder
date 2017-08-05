@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Slider,
   StyleSheet,
@@ -92,12 +93,12 @@ class SettingsSlider extends Component {
 export default SettingsSlider;
 
 SettingsSlider.propTypes = {
-  value: React.PropTypes.number.isRequired,
-  minValue: React.PropTypes.number.isRequired,
-  maxValue: React.PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+  minValue: PropTypes.number.isRequired,
+  maxValue: PropTypes.number.isRequired,
 
-  setting: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
+  setting: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 
-  callback: React.PropTypes.func.isRequired,
+  callback: PropTypes.func.isRequired,
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   ScrollView,
@@ -304,8 +305,8 @@ class TeamDetailScreen extends React.Component {
 }
 
 TeamDetailScreen.propTypes = {
-  navigation: React.PropTypes.object.isRequired,
-  teamsState: React.PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
+  teamsState: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({

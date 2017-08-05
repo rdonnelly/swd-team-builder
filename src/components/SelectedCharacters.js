@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Alert,
   StyleSheet,
@@ -145,7 +146,7 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(SelectedCharacters);
 
 SelectedCharacters.propTypes = {
-  deckState: React.PropTypes.object.isRequired,
-  reset: React.PropTypes.func.isRequired,
-  navigate: React.PropTypes.func.isRequired,
+  deckState: PropTypes.object.isRequired,
+  reset: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
 };

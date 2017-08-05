@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   ScrollView,
   StatusBar,
@@ -171,6 +172,6 @@ const mapDispatchToProps = { updateSetting };
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
 
 SettingsView.propTypes = {
-  teamsState: React.PropTypes.object.isRequired,
-  updateSetting: React.PropTypes.func.isRequired,
+  teamsState: PropTypes.object.isRequired,
+  updateSetting: PropTypes.func.isRequired,
 };

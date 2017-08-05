@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   ScrollView,
@@ -239,13 +240,13 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterDetailScreen);
 
 CharacterDetailScreen.propTypes = {
-  navigation: React.PropTypes.object.isRequired,
-  charactersState: React.PropTypes.object.isRequired,
-  deckState: React.PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
+  charactersState: PropTypes.object.isRequired,
+  deckState: PropTypes.object.isRequired,
 
-  addCharacter: React.PropTypes.func.isRequired,
-  setCharacterAny: React.PropTypes.func.isRequired,
-  setCharacterElite: React.PropTypes.func.isRequired,
-  setCharacterRegular: React.PropTypes.func.isRequired,
-  removeCharacter: React.PropTypes.func.isRequired,
+  addCharacter: PropTypes.func.isRequired,
+  setCharacterAny: PropTypes.func.isRequired,
+  setCharacterElite: PropTypes.func.isRequired,
+  setCharacterRegular: PropTypes.func.isRequired,
+  removeCharacter: PropTypes.func.isRequired,
 };

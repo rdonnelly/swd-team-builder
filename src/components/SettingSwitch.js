@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Switch,
@@ -69,10 +70,10 @@ class SettingsSwitch extends Component {
 export default SettingsSwitch;
 
 SettingsSwitch.propTypes = {
-  value: React.PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
 
-  setting: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
+  setting: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 
-  callback: React.PropTypes.func,
+  callback: PropTypes.func,
 };

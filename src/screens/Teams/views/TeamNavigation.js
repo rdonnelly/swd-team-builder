@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -41,6 +42,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(TeamNavigation);
 
 TeamNavigation.propTypes = {
-  navigationState: React.PropTypes.object.isRequired,
-  dispatch: React.PropTypes.func.isRequired,
+  navigationState: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };

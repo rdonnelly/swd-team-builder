@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -57,9 +58,9 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(BadgeTabIcon);
 
 BadgeTabIcon.propTypes = {
-  teamsState: React.PropTypes.object.isRequired,
-  iconName: React.PropTypes.string.isRequired,
-  size: React.PropTypes.number.isRequired,
-  color: React.PropTypes.string.isRequired,
-  showBadge: React.PropTypes.bool,
+  teamsState: PropTypes.object.isRequired,
+  iconName: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
+  showBadge: PropTypes.bool,
 };

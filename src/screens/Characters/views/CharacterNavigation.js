@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -39,6 +40,6 @@ const mapStateToProps = state => ({ navigationState: state.charactersTab });
 export default connect(mapStateToProps)(CharacterNavigation);
 
 CharacterNavigation.propTypes = {
-  navigationState: React.PropTypes.object.isRequired,
-  dispatch: React.PropTypes.func.isRequired,
+  navigationState: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -233,6 +234,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(CharacterListView);
 
 CharacterListView.propTypes = {
-  charactersState: React.PropTypes.object.isRequired,
-  navigation: React.PropTypes.object.isRequired,
+  charactersState: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
 };
