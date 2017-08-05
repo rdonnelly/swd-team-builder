@@ -58,7 +58,6 @@ class Team {
       id: card.id,
       name: card.name,
       isElite,
-      isUnique: card.isUnique,
       faction: card.faction,
       count: 1,
     };
