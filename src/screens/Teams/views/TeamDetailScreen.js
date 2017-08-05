@@ -165,6 +165,17 @@ class TeamDetailScreen extends React.Component {
     });
   }
 
+  shouldComponentUpdate(nextProps) {
+    const currentTeamKey = this.props.navigation.state.params.key;
+    const nextTeamKey = nextProps.navigation.state.params.key;
+
+    if (currentTeamKey === nextTeamKey) {
+      return false;
+    }
+
+    return true;
+  }
+
   render() {
     const teamKey = this.props.navigation.state.params.key;
     const { teamsState } = this.props;
