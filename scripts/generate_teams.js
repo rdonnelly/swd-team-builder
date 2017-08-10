@@ -3,7 +3,9 @@
 import * as _ from 'lodash';
 import jsonfile from 'jsonfile';
 import path from 'path';
-import { cards } from '../src/lib/Destiny';
+import { characterCards } from '../src/lib/Destiny';
+
+const characterCardsList = characterCards.toList().toJS();
 
 const MIN_DICE = 0;
 const MIN_POINTS = 0;
@@ -117,6 +119,36 @@ class Team {
   }
 }
 
+const getEligibleCharacters = (team, characters, pointsLeft) =>
+  characters
+    .filter(character => character.pointsRegular <= pointsLeft)
+    .filter(character => !character.isUnique || !team.hasCharacter(character));
+
+const checkTeam = (team, eligibleCharacters, pointsLeft) => {
+  if (eligibleCharacters.length > 0 ||
+      team.dice < MIN_DICE ||
+      team.points < MIN_POINTS) {
+    return false;
+  }
+
+  const eliteCheck = _.every(team.characters, (characterCard) => {
+    const card = _.find(characterCardsList, { id: characterCard.id });
+
+    if (characterCard.isElite === false) {
+      if (typeof card.pointsElite !== 'undefined') {
+        const eliteDiff = card.pointsElite - card.pointsRegular;
+        if (eliteDiff <= pointsLeft) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  });
+
+  return eliteCheck;
+};
+
 const checkTeamStats = (team) => {
   if (team.dice < teamsStats.minDice) {
     teamsStats.minDice = team.dice;
@@ -140,14 +172,10 @@ const checkTeamStats = (team) => {
   }
 };
 
-const teamBuilder = (chars, pointsLeft, team) => {
-  const eligibleCharacters = chars
-    .filter(character => character.pointsRegular <= pointsLeft)
-    .filter(character => !character.isUnique || !team.hasCharacter(character));
+const buildTeams = (characters, pointsLeft, team) => {
+  const eligibleCharacters = getEligibleCharacters(team, characters, pointsLeft);
 
-  if (eligibleCharacters.length === 0 &&
-      team.dice >= MIN_DICE &&
-      team.points >= MIN_POINTS) {
+  if (checkTeam(team, eligibleCharacters, pointsLeft)) {
     teams.push(team);
     checkTeamStats(team);
   }
@@ -155,25 +183,22 @@ const teamBuilder = (chars, pointsLeft, team) => {
   eligibleCharacters.forEach((character) => {
     const regularTeam = _.cloneDeep(team);
     regularTeam.addCharacter(character, false);
-    teamBuilder(eligibleCharacters, pointsLeft - character.pointsRegular, regularTeam);
+    buildTeams(eligibleCharacters, pointsLeft - character.pointsRegular, regularTeam);
 
     if (typeof character.pointsElite !== 'undefined' &&
         character.pointsElite <= pointsLeft) {
       const eliteTeam = _.cloneDeep(team);
       eliteTeam.addCharacter(character, true);
-      teamBuilder(eligibleCharacters, pointsLeft - character.pointsElite, eliteTeam);
+      buildTeams(eligibleCharacters, pointsLeft - character.pointsElite, eliteTeam);
     }
   });
 };
 
-const characterCards = cards.toList().toJS()
-  .filter(card => card.type === 'character');
+const heroes = characterCardsList.filter(character => character.affiliation === 'hero');
+buildTeams(heroes, MAX_POINTS, new Team());
 
-const heroes = characterCards.filter(character => character.affiliation === 'hero');
-teamBuilder(heroes, MAX_POINTS, new Team());
-
-const villains = characterCards.filter(character => character.affiliation === 'villain');
-teamBuilder(villains, MAX_POINTS, new Team());
+const villains = characterCardsList.filter(character => character.affiliation === 'villain');
+buildTeams(villains, MAX_POINTS, new Team());
 
 teams = _.uniqBy(teams, team => JSON.stringify(team.getKey()));
 teams = teams.sort((a, b) => {
