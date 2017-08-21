@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-import { teams, teamsStatsData } from '../lib/Destiny';
+import { sets, teams, teamsStatsData } from '../lib/Destiny';
 
 const initialSettings = Immutable.fromJS({
   minPoints: Math.max(teamsStatsData.minPoints, 27),
@@ -13,6 +13,8 @@ const initialSettings = Immutable.fromJS({
   maxHealth: teamsStatsData.maxHealth,
 
   mixedDamage: true,
+
+  showSets: sets.reduce((setCodes, set) => setCodes.concat(set.get('code')), []),
 });
 
 const initialSortOrder = Immutable.fromJS([
@@ -47,6 +49,7 @@ const filterTeamsBySettings = (teamsToFilter, settings) =>
     const maxDice = settings.get('maxDice');
     const minHealth = settings.get('minHealth');
     const showMixedDamage = settings.get('mixedDamage');
+    const showSets = settings.get('showSets');
 
     if (team.get('points') < minPoints) {
       return false;
@@ -70,6 +73,10 @@ const filterTeamsBySettings = (teamsToFilter, settings) =>
 
     if (!showMixedDamage &&
       team.get('damageTypes').count() > 1) {
+      return false;
+    }
+
+    if (!team.get('sets').isSubset(Immutable.fromJS(showSets))) {
       return false;
     }
 
