@@ -10,10 +10,10 @@ import dbCardTypes from 'swdestinydb-json-data/types.json';
 import dbCardSets from 'swdestinydb-json-data/sets.json';
 import dbCardSetAw from 'swdestinydb-json-data/set/AW.json';
 import dbCardSetSoR from 'swdestinydb-json-data/set/SoR.json';
+import dbCardSetEaW from 'swdestinydb-json-data/set/EaW.json';
 
 import teamsData from '../../data/teams.json';
 import teamsStatsData from '../../data/teams_stats.json';
-
 
 const cardAffiliations = Immutable.fromJS(dbCardAffiliations);
 const cardFactions = Immutable.fromJS(dbCardFactions);
@@ -22,7 +22,6 @@ const cardSets = Immutable.fromJS(dbCardSets);
 const cardSideTypes = Immutable.fromJS(dbCardSideTypes);
 const cardSubTypes = Immutable.fromJS(dbCardSubTypes);
 const cardTypes = Immutable.fromJS(dbCardTypes);
-
 
 class Card {
   constructor(
@@ -80,7 +79,11 @@ class Card {
 }
 
 const cards = Immutable.fromJS([]
-    .concat(dbCardSetAw, dbCardSetSoR))
+    .concat(
+      dbCardSetAw,
+      dbCardSetSoR,
+      dbCardSetEaW,
+    ))
     .map(card => new Card(
       card.get('affiliation_code'),
       card.get('cost'),
