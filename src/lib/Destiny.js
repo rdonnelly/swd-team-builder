@@ -7,18 +7,19 @@ import dbCardSideTypes from 'swdestinydb-json-data/sideTypes.json';
 import dbCardSubTypes from 'swdestinydb-json-data/subtypes.json';
 import dbCardTypes from 'swdestinydb-json-data/types.json';
 
-import dbCardSets from 'swdestinydb-json-data/sets.json';
-import dbCardSetAw from 'swdestinydb-json-data/set/AW.json';
-import dbCardSetSoR from 'swdestinydb-json-data/set/SoR.json';
-import dbCardSetEaW from 'swdestinydb-json-data/set/EaW.json';
+import dbSets from 'swdestinydb-json-data/sets.json';
+import dbSetAw from 'swdestinydb-json-data/set/AW.json';
+import dbSetSoR from 'swdestinydb-json-data/set/SoR.json';
+import dbSetEaW from 'swdestinydb-json-data/set/EaW.json';
 
 import teamsData from '../../data/teams.json';
 import teamsStatsData from '../../data/teams_stats.json';
 
+const sets = Immutable.fromJS(dbSets);
+
 const cardAffiliations = Immutable.fromJS(dbCardAffiliations);
 const cardFactions = Immutable.fromJS(dbCardFactions);
 const cardRarities = Immutable.fromJS(dbCardRarities);
-const cardSets = Immutable.fromJS(dbCardSets);
 const cardSideTypes = Immutable.fromJS(dbCardSideTypes);
 const cardSubTypes = Immutable.fromJS(dbCardSubTypes);
 const cardTypes = Immutable.fromJS(dbCardTypes);
@@ -80,9 +81,9 @@ class Card {
 
 const cards = Immutable.fromJS([]
     .concat(
-      dbCardSetAw,
-      dbCardSetSoR,
-      dbCardSetEaW,
+      dbSetAw,
+      dbSetSoR,
+      dbSetEaW,
     ))
     .map(card => new Card(
       card.get('affiliation_code'),
@@ -118,10 +119,11 @@ export {
   teams,
   teamsStatsData,
 
+  sets,
+
   cardAffiliations,
   cardFactions,
   cardRarities,
-  cardSets,
   cardSideTypes,
   cardSubTypes,
   cardTypes,

@@ -89,7 +89,7 @@ class Team {
       return 0;
     });
 
-    this.sets.push(card.set_code);
+    this.sets.push(card.set);
     this.sets = _.uniq(this.sets);
 
     this.affiliation = card.affiliation;
