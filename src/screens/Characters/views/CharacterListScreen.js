@@ -163,7 +163,7 @@ class CharacterListView extends Component {
     }
 
     const subtitle = card.subtitle ? (
-      <Text style={ cardInfoStyle }>&nbsp;{ card.subtitle }&nbsp;&middot;</Text>
+      <Text style={ cardInfoStyle }>{ card.subtitle }&nbsp;&middot;</Text>
     ) : null;
 
     const points = card.points ? (
@@ -172,7 +172,7 @@ class CharacterListView extends Component {
 
     const cardInfo = (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <SWDIcon type={ card.set } font={ 'swdestiny' } style={ cardInfoLogoStyle } />
+        <SWDIcon type={ card.set } font={ 'swdestiny' } style={ cardInfoLogoStyle } addSpace={ true } />
         { subtitle }
         { points }
       </View>
