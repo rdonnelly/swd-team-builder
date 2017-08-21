@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-import * as Destiny from '../lib/Destiny';
+import { characterCards } from '../lib/Destiny';
 
 const affiliationRank = {
   villain: 0,
@@ -14,7 +14,7 @@ const factionRank = {
 };
 
 const initialState = Immutable.fromJS({
-  cards: Destiny.characterCards
+  cards: characterCards
     .filter(card => card.get('type') === 'character')
     .sort((a, b) => {
       if (b.get('affiliation') !== a.get('affiliation')) {
@@ -46,15 +46,15 @@ const initialState = Immutable.fromJS({
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_CHARACTERS': {
-      return state.update('cards', characterCards =>
-        characterCards.map(characterCard =>
+      return state.update('cards', cards =>
+        cards.map(characterCard =>
           characterCard
             .set('inDeck', action.payload.deckCards.some(deckCard => deckCard.get('id') === characterCard.get('id')))
             .set('isCompatibile',
               action.payload.deckCards.every(
                 deckCard =>
-                  Destiny.cards.get(deckCard.get('id')).affiliation ===
-                  Destiny.cards.get(characterCard.get('id')).affiliation)),
+                  characterCards.get(deckCard.get('id')).affiliation ===
+                  characterCards.get(characterCard.get('id')).affiliation)),
         ),
       );
     }
