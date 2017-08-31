@@ -10,7 +10,7 @@ import {
 import SWDIcon from '../components/SWDIcon';
 
 import { characterCards } from '../lib/Destiny';
-import { cardImages } from '../lib/DestinyImages';
+import { cardBackTexture, cardImages } from '../lib/DestinyImages';
 
 const styles = StyleSheet.create({
   container: {
@@ -115,12 +115,14 @@ class CharacterAvatar extends Component {
         x{ count }
       </Text> : null;
 
+    const imageSrc = cardImages.get(cardId, cardBackTexture);
+
     return (
       <View style={ containerStyles }>
         <View style={ styles.imageContainer }>
           <Image
             style={ styles.image }
-            source={ cardImages.get(card.get('id')) }
+            source={ imageSrc }
           />
         </View>
         <View style={ styles.infoContainer }>

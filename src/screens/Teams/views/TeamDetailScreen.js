@@ -18,7 +18,7 @@ import CharacterAvatar from '../../../components/CharacterAvatar';
 import SWDIcon from '../../../components/SWDIcon';
 
 import { characterCards } from '../../../lib/Destiny';
-import { cardImages } from '../../../lib/DestinyImages';
+import { cardBack, cardImages } from '../../../lib/DestinyImages';
 
 
 const styles = StyleSheet.create({
@@ -247,7 +247,7 @@ class TeamDetailScreen extends React.Component {
     const imageViews = team.get('characters').map(character =>
       <View key={ character.get('id') } style={ styles.imageWrapper }>
         <Image
-          source={ cardImages.get(character.get('id')) }
+          source={ cardImages.get(character.get('id'), cardBack) }
           style={{ height: 280, resizeMode: 'contain' }}
         />
       </View>,

@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 
 import { characterCards } from '../../../lib/Destiny';
-import { cardImages } from '../../../lib/DestinyImages';
+import { cardBack, cardImages } from '../../../lib/DestinyImages';
 
 import { addCharacter, setCharacterAny, setCharacterRegular, setCharacterElite, removeCharacter } from '../../../actions';
 import SWDIcon from '../../../components/SWDIcon';
@@ -194,6 +194,8 @@ class CharacterDetailScreen extends React.Component {
         </View>
       </TouchableOpacity> : null;
 
+    const imageSrc = cardImages.get(card.get('id'), cardBack);
+
     return (
       <View style={ styles.container }>
         <ScrollView style={ styles.details }>
@@ -201,7 +203,7 @@ class CharacterDetailScreen extends React.Component {
             <Image
               style={{ flex: 1 }}
               resizeMode='contain'
-              source={ cardImages.get(card.get('id')) }
+              source={ imageSrc }
             />
           </View>
         </ScrollView>

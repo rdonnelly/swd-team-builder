@@ -1,6 +1,9 @@
 /* eslint-disable global-require */
 import Immutable from 'immutable';
 
+const cardBack = require('../../images/back.png');
+const cardBackTexture = require('../../images/back-texture.jpg');
+
 const cardImages = Immutable.fromJS({
   '01001': require('../../images/characters/01001.jpg'),
   '01002': require('../../images/characters/01002.jpg'),
@@ -53,5 +56,7 @@ const cardImages = Immutable.fromJS({
 });
 
 export {
+  cardBack,
+  cardBackTexture,
   cardImages,
 };
