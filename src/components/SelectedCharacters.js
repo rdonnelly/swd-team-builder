@@ -26,6 +26,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     width: '100%',
   },
+  characterView: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginVertical: 2,
+  },
   deckCard: {
     color: 'rgba(255, 255, 255, 1.0)',
     fontSize: 16,
@@ -92,17 +98,19 @@ class SelectedCharacters extends Component {
       }
 
       return (
-        <TouchableOpacity
+        <View
           key={ card.get('id') }
-          onPress={ () => this.props.navigate('CharacterDetailScreen', { id: card.get('id') }) }
+          style={ styles.characterView }
         >
-          <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-start', marginVertical: 2 }}>
+          <TouchableOpacity
+            onPress={ () => this.props.navigate('CharacterDetailScreen', { id: card.get('id') }) }
+          >
             <Text style={ characterStyles }>
               { card.name + (character.get('count') > 1 ? ` x${character.get('count')}` : '') }
             </Text>
             { diceIcons }
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </View>
       );
     });
 
