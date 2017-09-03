@@ -162,19 +162,37 @@ class CharacterListView extends Component {
       arrowStyle.push(styles.arrowIncompatible);
     }
 
+    const setIcon = (
+      <SWDIcon type={ card.set } font={ 'swdestinysite' } style={ cardInfoLogoStyle } />
+    );
+
     const subtitle = card.subtitle ? (
-      <Text style={ cardInfoStyle }>{ card.subtitle }&nbsp;&middot;</Text>
+      <Text style={ cardInfoStyle }>{ card.subtitle }</Text>
     ) : null;
 
     const points = card.points ? (
-      <Text style={ cardInfoStyle }>&nbsp;{ card.points.join('/') }</Text>
+      <Text style={ cardInfoStyle }>{ card.points.join('/') }</Text>
     ) : null;
 
     const cardInfo = (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <SWDIcon type={ card.set } font={ 'swdestiny' } style={ cardInfoLogoStyle } addSpace={ true } />
-        { subtitle }
-        { points }
+        { setIcon &&
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            { setIcon }
+            <Text style={ cardInfoStyle }>&nbsp;</Text>
+          </View>
+        }
+        { subtitle &&
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            { subtitle }
+            <Text style={ cardInfoStyle }>&nbsp;&middot;&nbsp;</Text>
+          </View>
+        }
+        { points &&
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            { points }
+          </View>
+        }
       </View>
     );
 
