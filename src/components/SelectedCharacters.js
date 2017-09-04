@@ -27,10 +27,13 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   characterView: {
+    marginVertical: 2,
+  },
+  characterViewTouchable: {
     alignItems: 'center',
+    alignSelf: 'flex-start',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginVertical: 2,
   },
   deckCard: {
     color: 'rgba(255, 255, 255, 1.0)',
@@ -104,6 +107,7 @@ class SelectedCharacters extends Component {
         >
           <TouchableOpacity
             onPress={ () => this.props.navigate('CharacterDetailScreen', { id: card.get('id') }) }
+            style={ styles.characterViewTouchable }
           >
             <Text style={ characterStyles }>
               { card.name + (character.get('count') > 1 ? ` x${character.get('count')}` : '') }

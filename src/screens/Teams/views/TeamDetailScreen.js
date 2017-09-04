@@ -34,7 +34,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    padding: 16,
+    paddingHorizontal: 8,
+    paddingTop: 8,
+  },
+  characterAvatarWrapper: {
+    paddingHorizontal: 8,
+    paddingVertical: 8,
   },
   teamCharactersWrapper: {
     alignItems: 'center',
@@ -184,13 +189,14 @@ class TeamDetailScreen extends React.Component {
       .find(teamObj => teamObj.get('key') === teamKey);
 
     const characterAvatars = team.get('characters').map(character =>
-      <CharacterAvatar
-        key={ `avatar___${team.get('key')}___${character.get('id')}` }
-        cardId={ character.get('id') }
-        isElite={ character.get('isElite') }
-        count={ character.get('count') }
-      >
-      </CharacterAvatar>,
+      <View style={ styles.characterAvatarWrapper }>
+        <CharacterAvatar
+          key={ `avatar___${team.get('key')}___${character.get('id')}` }
+          cardId={ character.get('id') }
+          isElite={ character.get('isElite') }
+          count={ character.get('count') }
+        />
+      </View>,
     );
 
     const characterViews = team.get('characters').map((character) => {
