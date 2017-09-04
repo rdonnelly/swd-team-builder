@@ -11,6 +11,7 @@ import dbSets from 'swdestinydb-json-data/sets.json';
 import dbSetAw from 'swdestinydb-json-data/set/AW.json';
 import dbSetSoR from 'swdestinydb-json-data/set/SoR.json';
 import dbSetEaW from 'swdestinydb-json-data/set/EaW.json';
+import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 
 import teamsData from '../../data/teams.json';
 import teamsStatsData from '../../data/teams_stats.json';
@@ -84,6 +85,7 @@ const cards = Immutable.fromJS([]
       dbSetAw,
       dbSetSoR,
       dbSetEaW,
+      dbSetTPG,
     ))
     .map(card => new Card(
       card.get('affiliation_code'),

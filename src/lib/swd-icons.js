@@ -24,8 +24,8 @@ export const swdestiny = {
   AWAKENINGS: 'e90d',
   SoR: 'e90e',
   SPIRIT_OF_REBELLION: 'e90e',
-  TPG: 'e90f',
-  TWO_PLAYER_GAME: 'e90f',
-  EaW: 'e910',
-  EMPIRE_AT_WAR: 'e910',
+  TPG: 'e910',
+  TWO_PLAYER_GAME: 'e910',
+  EaW: 'e90f',
+  EMPIRE_AT_WAR: 'e90f',
 };
