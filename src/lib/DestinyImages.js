@@ -29,6 +29,7 @@ const cardImages = Immutable.fromJS({
   '01046': require('../../images/characters/01046.jpg'),
   '01047': require('../../images/characters/01047.jpg'),
   '01048': require('../../images/characters/01048.jpg'),
+
   '02001': require('../../images/characters/02001.jpg'),
   '02002': require('../../images/characters/02002.jpg'),
   '02003': require('../../images/characters/02003.jpg'),
@@ -53,6 +54,33 @@ const cardImages = Immutable.fromJS({
   '02044': require('../../images/characters/02044.jpg'),
   '02045': require('../../images/characters/02045.jpg'),
   '02046': require('../../images/characters/02046.jpg'),
+
+  '03001': require('../../images/characters/03001.jpg'),
+  '03002': require('../../images/characters/03002.jpg'),
+  '03003': require('../../images/characters/03003.jpg'),
+  '03004': require('../../images/characters/03004.jpg'),
+  '03008': require('../../images/characters/03008.jpg'),
+  '03010': require('../../images/characters/03010.jpg'),
+  '03011': require('../../images/characters/03011.jpg'),
+  '03016': require('../../images/characters/03016.jpg'),
+  '03017': require('../../images/characters/03017.jpg'),
+  '03024': require('../../images/characters/03024.jpg'),
+  '03025': require('../../images/characters/03025.jpg'),
+  '03026': require('../../images/characters/03026.jpg'),
+  '03027': require('../../images/characters/03027.jpg'),
+  '03031': require('../../images/characters/03031.jpg'),
+  '03032': require('../../images/characters/03032.jpg'),
+  '03033': require('../../images/characters/03033.jpg'),
+  '03034': require('../../images/characters/03034.jpg'),
+  '03038': require('../../images/characters/03038.jpg'),
+  '03039': require('../../images/characters/03039.jpg'),
+  '03040': require('../../images/characters/03040.jpg'),
+  '03041': require('../../images/characters/03041.jpg'),
+
+  '04001': require('../../images/characters/04001.jpg'),
+  '04002': require('../../images/characters/04002.jpg'),
+  '04024': require('../../images/characters/04024.jpg'),
+  '04025': require('../../images/characters/04025.jpg'),
 });
 
 export {

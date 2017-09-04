@@ -24,25 +24,8 @@ export const swdestiny = {
   AWAKENINGS: 'e90d',
   SoR: 'e90e',
   SPIRIT_OF_REBELLION: 'e90e',
-};
-
-export const swdestinysite = {
-  RESOURCE: 'e907',
-  SPECIAL: 'e909',
-  BLANK: 'e901',
-  DISCARD: 'e902',
-  DISRUPT: 'e903',
-  FOCUS: 'e904',
-  MELEE: 'e905',
-  RANGED: 'e906',
-  SHIELD: 'e908',
-
-  AW: 'e900',
-  AWAKENINGS: 'e900',
-  SoR: 'e90a',
-  SPIRIT_OF_REBELLION: 'e90a',
-  TPG: 'e90b',
-  TWO_PLAYER_GAME: 'e90b',
-  EaW: 'e90c',
-  EMPIRE_AT_WAR: 'e90c',
+  TPG: 'e90f',
+  TWO_PLAYER_GAME: 'e90f',
+  EaW: 'e910',
+  EMPIRE_AT_WAR: 'e910',
 };

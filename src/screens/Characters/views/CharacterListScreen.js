@@ -163,7 +163,7 @@ class CharacterListView extends Component {
     }
 
     const setIcon = (
-      <SWDIcon type={ card.set } font={ 'swdestinysite' } style={ cardInfoLogoStyle } />
+      <SWDIcon type={ card.set } font={ 'swdestiny' } style={ cardInfoLogoStyle } />
     );
 
     const subtitle = card.subtitle ? (
