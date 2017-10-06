@@ -1,132 +1,59 @@
-import Immutable from 'immutable';
+import sets from 'swdestinydb-json-data/sets.json';
 
-import dbCardAffiliations from 'swdestinydb-json-data/affiliations.json';
-import dbCardFactions from 'swdestinydb-json-data/factions.json';
-import dbCardRarities from 'swdestinydb-json-data/rarities.json';
-import dbCardSideTypes from 'swdestinydb-json-data/sideTypes.json';
-import dbCardSubTypes from 'swdestinydb-json-data/subtypes.json';
-import dbCardTypes from 'swdestinydb-json-data/types.json';
-
-import dbSets from 'swdestinydb-json-data/sets.json';
 import dbSetAw from 'swdestinydb-json-data/set/AW.json';
 import dbSetSoR from 'swdestinydb-json-data/set/SoR.json';
 import dbSetEaW from 'swdestinydb-json-data/set/EaW.json';
 import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 
-import teamsData from '../../data/teams.json';
-import teamsStatsData from '../../data/teams_stats.json';
+import teams from '../../data/teams.json';
+import teamsStats from '../../data/teams_stats.json';
 
-const sets = Immutable.fromJS(dbSets);
+const characterCards =
+  [].concat(
+    dbSetAw,
+    dbSetSoR,
+    dbSetEaW,
+    dbSetTPG,
+  ).filter(
+    rawCard => rawCard.type_code === 'character',
+  ).map(
+    (rawCard) => {
+      const card = {};
 
-const cardAffiliations = Immutable.fromJS(dbCardAffiliations);
-const cardFactions = Immutable.fromJS(dbCardFactions);
-const cardRarities = Immutable.fromJS(dbCardRarities);
-const cardSideTypes = Immutable.fromJS(dbCardSideTypes);
-const cardSubTypes = Immutable.fromJS(dbCardSubTypes);
-const cardTypes = Immutable.fromJS(dbCardTypes);
+      card.affiliation = rawCard.affiliation_code;
+      card.faction = rawCard.faction_code;
+      card.flavorText = rawCard.flavor;
+      card.health = rawCard.health;
+      card.id = rawCard.code;
+      card.illustrator = rawCard.illustrator;
+      card.isUnique = rawCard.is_unique;
+      card.limit = rawCard.deck_limit;
+      card.name = rawCard.name;
 
-class Card {
-  constructor(
-    affiliation,
-    cost,
-    faction,
-    flavorText,
-    health,
-    id,
-    illustrator,
-    isUnique,
-    limit,
-    name,
-    points,
-    rarity,
-    set,
-    sides,
-    subtitle,
-    type,
-  ) {
-    this.affiliation = affiliation;
-    this.cost = cost;
-    this.faction = faction;
-    this.flavorText = flavorText;
-    this.health = health;
-    this.id = id;
-    this.illustrator = illustrator;
-    this.isUnique = isUnique;
-    this.limit = limit;
-    this.name = name;
+      card.points = 0;
+      card.pointsRegular = 0;
+      card.pointsElite = 0;
+      if (rawCard.points) {
+        card.points = rawCard.points.split('/').map(v => parseInt(v, 10));
+        card.pointsRegular = card.points[0];
+        card.pointsElite = card.points[1];
+      }
 
-    this.points = 0;
-    this.pointsRegular = 0;
-    this.pointsElite = 0;
-    if (points) {
-      this.points = points.split('/').map(v => parseInt(v, 10));
-      this.pointsRegular = this.points[0];
-      this.pointsElite = this.points[1];
-    }
+      card.rarity = rawCard.rarity_code;
+      card.set = rawCard.set_code;
+      card.sides = rawCard.sides;
+      card.subtitle = rawCard.subtitle;
+      card.type = rawCard.type_code;
 
-    this.rarity = rarity;
-    this.set = set;
-    this.sides = sides;
-    this.subtitle = subtitle;
-    this.type = type;
-  }
-
-  get(key) {
-    if (this[key]) {
-      return this[key];
-    }
-
-    return null;
-  }
-}
-
-const cards = Immutable.fromJS([]
-    .concat(
-      dbSetAw,
-      dbSetSoR,
-      dbSetEaW,
-      dbSetTPG,
-    ))
-    .map(card => new Card(
-      card.get('affiliation_code'),
-      card.get('cost'),
-      card.get('faction_code'),
-      card.get('flavor'),
-      card.get('health'),
-      card.get('code'),
-      card.get('illustrator'),
-      card.get('is_unique'),
-      card.get('deck_limit'),
-      card.get('name'),
-      card.get('points'),
-      card.get('rarity_code'),
-      card.get('set_code'),
-      card.get('sides'),
-      card.get('subtitle'),
-      card.get('type_code'),
-    ))
-    .reduce(
-      (result, item) => result.set(item.get('id'), item),
-      Immutable.OrderedMap(),
-    );
-
-const characterCards = cards.filter(card => card.type === 'character');
-
-const teams = Immutable.fromJS(teamsData);
+      return card;
+    },
+  );
 
 export {
-  cards,
+  sets,
+
   characterCards,
 
   teams,
-  teamsStatsData,
-
-  sets,
-
-  cardAffiliations,
-  cardFactions,
-  cardRarities,
-  cardSideTypes,
-  cardSubTypes,
-  cardTypes,
+  teamsStats,
 };

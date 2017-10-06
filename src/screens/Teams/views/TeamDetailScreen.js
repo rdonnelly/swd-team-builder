@@ -189,9 +189,11 @@ class TeamDetailScreen extends React.Component {
       .find(teamObj => teamObj.get('key') === teamKey);
 
     const characterAvatars = team.get('characters').map(character =>
-      <View style={ styles.characterAvatarWrapper }>
+      <View
+        key={ `avatar__${team.get('key')}__${character.get('id')}` }
+        style={ styles.characterAvatarWrapper }
+      >
         <CharacterAvatar
-          key={ `avatar___${team.get('key')}___${character.get('id')}` }
           cardId={ character.get('id') }
           isElite={ character.get('isElite') }
           count={ character.get('count') }
@@ -199,8 +201,8 @@ class TeamDetailScreen extends React.Component {
       </View>,
     );
 
-    const characterViews = team.get('characters').map((character) => {
-      const card = characterCards.get(character.get('id'));
+    const characterNames = team.get('characters').map((character) => {
+      const card = characterCards.find(characterCard => characterCard.id === character.get('id'));
       const cardNameStyle = [styles.characterName];
       const diceStyles = [styles.dice];
 
@@ -224,7 +226,7 @@ class TeamDetailScreen extends React.Component {
           diceIcons.push(
             <SWDIcon
               font={ 'swdestiny' }
-              key={ `die___${team.get('key')}___${character.get('id')}___${i}` }
+              key={ `die__${team.get('key')}__${character.get('id')}__${i}` }
               style={ diceStyles }
               type={ 'DIE' }
             />,
@@ -234,7 +236,7 @@ class TeamDetailScreen extends React.Component {
 
       return (
         <View
-          key={ `${team.get('key')}___${character.get('id')}` }
+          key={ `name__${team.get('key')}__${character.get('id')}` }
           style={{ flexDirection: 'row' }}
         >
           <Text style={ cardNameStyle }>
@@ -251,7 +253,10 @@ class TeamDetailScreen extends React.Component {
     });
 
     const imageViews = team.get('characters').map(character =>
-      <View key={ character.get('id') } style={ styles.imageWrapper }>
+      <View
+        key={ `image__${team.get('key')}__${character.get('id')}` }
+        style={ styles.imageWrapper }
+      >
         <Image
           source={ cardImages.get(character.get('id'), cardBack) }
           style={{ height: 280, resizeMode: 'contain' }}
@@ -271,7 +276,7 @@ class TeamDetailScreen extends React.Component {
             { characterAvatars }
           </View>
           <View style={ styles.teamCharactersWrapper }>
-            { characterViews }
+            { characterNames }
           </View>
           <View style={ styles.teamStatWrapper }>
             <Text style={ styles.teamStat }>{ team.get('dice') } Dice</Text>
@@ -316,7 +321,7 @@ TeamDetailScreen.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  teamsState: state.teamsReducer,
+  teamsState: state.teams,
 });
 
 export default connect(mapStateToProps)(TeamDetailScreen);

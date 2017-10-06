@@ -115,7 +115,7 @@ class CharacterListView extends Component {
     super(props);
 
     this.state = {
-      characterCards: this.props.charactersState.get('cards').toList(),
+      characterCards: this.props.charactersState.toList(),
     };
 
     this.renderItem = this.renderItem.bind(this);
@@ -124,8 +124,8 @@ class CharacterListView extends Component {
   componentWillReceiveProps(nextProps) {
     const newState = {};
 
-    if (this.state.characterCards !== nextProps.charactersState.get('cards').toList()) {
-      newState.characterCards = nextProps.charactersState.get('cards').toList();
+    if (this.state.characterCards !== nextProps.charactersState.toList()) {
+      newState.characterCards = nextProps.charactersState.toList();
     }
 
     this.setState(newState);
@@ -133,7 +133,7 @@ class CharacterListView extends Component {
 
   renderItem({ item }) {
     const { navigate } = this.props.navigation;
-    const card = characterCards.get(item.get('id'));
+    const card = characterCards.find(characterCard => characterCard.id === item.get('id'));
     const rowStyle = [styles.row];
     const cardLogoStyle = [styles.cardLogo];
     const cardNameStyle = [styles.cardName];
@@ -246,7 +246,7 @@ class CharacterListView extends Component {
 }
 
 const mapStateToProps = state => ({
-  charactersState: state.charactersReducer,
+  charactersState: state.characters,
 });
 
 export default connect(mapStateToProps)(CharacterListView);

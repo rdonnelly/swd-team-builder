@@ -87,17 +87,17 @@ const setSort = sortPriority => ({
 
 export const addCharacter = card =>
   (dispatch, getState) => {
-    if (card.get('isUnique') &&
-        getState().deckReducer.get('cards').includes(card)) {
+    if (card.isUnique &&
+        getState().deck.get('characters').includes(card)) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));
     }
 
     return Promise.resolve()
       .then(dispatch(addCharacterToDeck(card)))
-      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
       .then(dispatch(recalculateTeams(
-        getState().deckReducer.get('cards'),
+        getState().deck.get('characters'),
       )));
   };
 
@@ -105,35 +105,35 @@ export const setCharacterAny = card =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterAnyInDeck(card)))
-      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
-      .then(dispatch(recalculateTeams(getState().deckReducer.get('cards'))));
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
+      .then(dispatch(recalculateTeams(getState().deck.get('characters'))));
 
 export const setCharacterRegular = card =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterRegularInDeck(card)))
-      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
-      .then(dispatch(recalculateTeams(getState().deckReducer.get('cards'))));
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
+      .then(dispatch(recalculateTeams(getState().deck.get('characters'))));
 
 export const setCharacterElite = card =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterEliteInDeck(card)))
-      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
-      .then(dispatch(recalculateTeams(getState().deckReducer.get('cards'))));
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
+      .then(dispatch(recalculateTeams(getState().deck.get('characters'))));
 
 export const removeCharacter = card =>
   (dispatch, getState) => {
-    if (!getState().deckReducer.get('cards').some(deckCard => deckCard.get('id') === card.get('id'))) {
+    if (!getState().deck.get('characters').some(deckCard => deckCard.get('id') === card.get('id'))) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
     }
 
     return Promise.resolve()
       .then(dispatch(removeCharacterFromDeck(card)))
-      .then(dispatch(updateCharacters(getState().deckReducer.get('cards'))))
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
       .then(dispatch(recalculateTeams(
-        getState().deckReducer.get('cards'),
+        getState().deck.get('characters'),
       )));
   };
 
@@ -149,7 +149,7 @@ export const updateSetting = (key, value) =>
     Promise.resolve()
       .then(dispatch(setSetting(key, value)))
       .then(dispatch(recalculateTeams(
-        getState().deckReducer.get('cards'),
+        getState().deck.get('characters'),
       )));
 
 export const updateSort = value =>
@@ -157,5 +157,5 @@ export const updateSort = value =>
     Promise.resolve()
       .then(dispatch(setSort(value)))
       .then(dispatch(recalculateTeams(
-        getState().deckReducer.get('cards'),
+        getState().deck.get('characters'),
       )));

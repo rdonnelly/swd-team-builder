@@ -2,66 +2,67 @@ import Immutable from 'immutable';
 
 import { characterCards } from '../lib/Destiny';
 
-const affiliationRank = {
+const affiliationOrder = Immutable.fromJS({
   villain: 0,
   hero: 1,
-};
+});
 
-const factionRank = {
+const factionOrder = Immutable.fromJS({
   red: 0,
   blue: 1,
   yellow: 2,
-};
-
-const initialState = Immutable.fromJS({
-  cards: characterCards
-    .filter(card => card.get('type') === 'character')
-    .sort((a, b) => {
-      if (b.get('affiliation') !== a.get('affiliation')) {
-        return affiliationRank[b.get('affiliation')] < affiliationRank[a.get('affiliation')] ? 1 : -1;
-      }
-
-      if (b.get('faction') !== a.get('faction')) {
-        return factionRank[b.get('faction')] < factionRank[a.get('faction')] ? 1 : -1;
-      }
-
-      if (b.get('isUnique') !== a.get('isUnique')) {
-        return b.get('isUnique') > a.get('isUnique') ? 1 : -1;
-      }
-
-      if (b.get('name') !== a.get('name')) {
-        return b.get('name') < a.get('name') ? 1 : -1;
-      }
-
-      return 0;
-    })
-    .map(card => (Immutable.fromJS({
-      id: card.get('id'),
-      name: card.get('name'),
-      inDeck: false,
-      isCompatibile: true,
-    }))),
 });
+
+const characters = characterCards
+  .sort((a, b) => {
+    if (a.affiliation !== b.affiliation) {
+      return affiliationOrder.get(a.affiliation) - affiliationOrder.get(b.affiliation);
+    }
+
+    if (a.faction !== b.faction) {
+      return factionOrder.get(a.faction) - factionOrder.get(b.faction);
+    }
+
+    if (a.isUnique !== b.isUnique) {
+      return a.isUnique ? -1 : 1;
+    }
+
+    if (a.name !== b.name) {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      return nameA < nameB ? -1 : 1;
+    }
+
+    return 0;
+  })
+  .map(card => ({
+    id: card.id,
+    name: card.name,
+    inDeck: false,
+    isCompatibile: true,
+  }));
+
+const initialState = Immutable.fromJS(characters);
 
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_CHARACTERS': {
-      return state.update('cards', cards =>
-        cards.map(characterCard =>
-          characterCard
-            .set('inDeck', action.payload.deckCards.some(deckCard => deckCard.get('id') === characterCard.get('id')))
-            .set('isCompatibile',
-              action.payload.deckCards.every(
-                deckCard =>
-                  characterCards.get(deckCard.get('id')).affiliation ===
-                  characterCards.get(characterCard.get('id')).affiliation)),
-        ),
-      );
+      return state.map((characterObject) => {
+        const characterObjectCard =
+          characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
+
+        return characterObject
+          .set('inDeck', action.payload.deckCards.some(deckCard => deckCard.get('id') === characterObject.get('id')))
+          .set('isCompatibile',
+            action.payload.deckCards.every(
+              deckCard =>
+                characterCards.find(characterCard => characterCard.id === deckCard.get('id')).affiliation ===
+                characterObjectCard.affiliation));
+      });
     }
 
     case 'RESET_CHARACTERS': {
-      return state
-        .set('cards', initialState.get('cards'));
+      return initialState;
     }
 
     default:

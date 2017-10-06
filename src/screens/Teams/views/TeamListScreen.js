@@ -123,8 +123,8 @@ class TeamListView extends Component {
     const { navigate } = this.props.navigation;
     const arrowStyle = [styles.arrow];
 
-    const characterViews = team.get('characters').map((character) => {
-      const card = characterCards.get(character.get('id'));
+    const characterViews = team.get('characters').map((characterObject) => {
+      const card = characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
       const cardNameStyle = [styles.characterName];
       const diceStyles = [styles.dice];
 
@@ -142,13 +142,13 @@ class TeamListView extends Component {
       }
 
       const diceIcons = [];
-      if (character.get('isElite') !== null) {
-        const numDice = character.get('isElite') ? 2 : 1;
+      if (characterObject.get('isElite') !== null) {
+        const numDice = characterObject.get('isElite') ? 2 : 1;
         for (let i = 0; i < numDice; i += 1) {
           diceIcons.push(
             <SWDIcon
               font={ 'swdestiny' }
-              key={ `${team.get('key')}___${character.get('id')}___${i}` }
+              key={ `${team.get('key')}___${characterObject.get('id')}___${i}` }
               style={ diceStyles }
               type={ 'DIE' }
             />,
@@ -158,7 +158,7 @@ class TeamListView extends Component {
 
       return (
         <View
-          key={ `${team.get('key')}___${character.get('id')}` }
+          key={ `${team.get('key')}___${characterObject.get('id')}` }
           style={{ flexDirection: 'row' }}
         >
           <Text style={ cardNameStyle }>
@@ -168,7 +168,7 @@ class TeamListView extends Component {
             { diceIcons }
           </View>
           <Text style={ cardNameStyle }>
-            { character.get('count') > 1 ? ` x${character.get('count')}` : '' }
+            { characterObject.get('count') > 1 ? ` x${characterObject.get('count')}` : '' }
           </Text>
         </View>
       );
@@ -266,7 +266,7 @@ class TeamListView extends Component {
 }
 
 const mapStateToProps = state => ({
-  teamsState: state.teamsReducer,
+  teamsState: state.teams,
 });
 
 const mapDispatchToProps = { updateSort };

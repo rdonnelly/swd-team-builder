@@ -52,7 +52,7 @@ class BadgeTabIcon extends Component {
 }
 
 const mapStateToProps = state => ({
-  teamsState: state.teamsReducer,
+  teamsState: state.teams,
 });
 
 export default connect(mapStateToProps)(BadgeTabIcon);

@@ -15,7 +15,7 @@ import SettingSlider from '../../../components/SettingSlider';
 import SettingSwitch from '../../../components/SettingSwitch';
 
 import { updateSetting } from '../../../actions';
-import { teamsStatsData } from '../../../lib/Destiny';
+import { teamsStats } from '../../../lib/Destiny';
 
 
 const styles = StyleSheet.create({
@@ -104,8 +104,8 @@ class SettingsView extends Component {
           <View style={ styles.scrollerInner }>
             <SettingSlider
               value={ settings.get('minDice') }
-              minValue={ teamsStatsData.minDice }
-              maxValue={ teamsStatsData.maxDice }
+              minValue={ teamsStats.minDice }
+              maxValue={ teamsStats.maxDice }
               setting={ 'minDice' }
               label={ 'Minimum Dice' }
               callback={ this.props.updateSetting }
@@ -113,8 +113,8 @@ class SettingsView extends Component {
 
             <SettingSlider
               value={ settings.get('minHealth') }
-              minValue={ teamsStatsData.minHealth }
-              maxValue={ teamsStatsData.maxHealth }
+              minValue={ teamsStats.minHealth }
+              maxValue={ teamsStats.maxHealth }
               setting={ 'minHealth' }
               label={ 'Minimum Health' }
               callback={ this.props.updateSetting }
@@ -122,8 +122,8 @@ class SettingsView extends Component {
 
             <SettingSlider
               value={ settings.get('minPoints') }
-              minValue={ teamsStatsData.minPoints }
-              maxValue={ teamsStatsData.maxPoints }
+              minValue={ teamsStats.minPoints }
+              maxValue={ teamsStats.maxPoints }
               setting={ 'minPoints' }
               label={ 'Minimum Points' }
               callback={ this.props.updateSetting }
@@ -164,7 +164,7 @@ class SettingsView extends Component {
 
 
 const mapStateToProps = state => ({
-  teamsState: state.teamsReducer,
+  teamsState: state.teams,
 });
 
 const mapDispatchToProps = { updateSetting };

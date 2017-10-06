@@ -78,7 +78,7 @@ class CharacterAvatar extends Component {
 
   render() {
     const { cardId, isElite, count } = this.props;
-    const card = characterCards.get(cardId);
+    const card = characterCards.find(characterCard => characterCard.id === cardId);
 
     const containerStyles = [styles.container];
     const dieStyles = [styles.die];

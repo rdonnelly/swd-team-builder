@@ -75,8 +75,8 @@ class SelectedCharacters extends Component {
   render() {
     const { deckState } = this.props;
 
-    const characterViews = deckState.get('cards').map((character) => {
-      const card = characterCards.get(character.get('id'));
+    const characterViews = deckState.get('characters').map((character) => {
+      const card = characterCards.find(characterCard => characterCard.id === character.get('id'));
 
       const characterStyles = [styles.deckCard];
       const diceStyles = [styles.dice];
@@ -102,11 +102,11 @@ class SelectedCharacters extends Component {
 
       return (
         <View
-          key={ card.get('id') }
+          key={ card.id }
           style={ styles.characterView }
         >
           <TouchableOpacity
-            onPress={ () => this.props.navigate('CharacterDetailScreen', { id: card.get('id') }) }
+            onPress={ () => this.props.navigate('CharacterDetailScreen', { id: card.id }) }
             style={ styles.characterViewTouchable }
           >
             <Text style={ characterStyles }>
@@ -118,7 +118,7 @@ class SelectedCharacters extends Component {
       );
     });
 
-    return deckState.get('cards').count() > 0 ? (
+    return deckState.get('characters').count() > 0 ? (
       <View style={ styles.container }>
         <View style={{ flex: 1 }}>
           { characterViews }
@@ -148,7 +148,7 @@ class SelectedCharacters extends Component {
 }
 
 const mapStateToProps = state => ({
-  deckState: state.deckReducer,
+  deckState: state.deck,
 });
 
 const mapDispatchToProps = {
