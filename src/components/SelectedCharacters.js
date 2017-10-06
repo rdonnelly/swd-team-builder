@@ -96,13 +96,20 @@ class SelectedCharacters extends Component {
       if (character.get('isElite') !== null) {
         const numDice = character.get('isElite') ? 2 : 1;
         for (let i = 0; i < numDice; i += 1) {
-          diceIcons.push(<SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ diceStyles } />);
+          diceIcons.push(
+            <SWDIcon
+              key={ `die__${card.id}__${i}` }
+              type={ 'DIE' }
+              font={ 'swdestiny' }
+              style={ diceStyles }
+            />,
+          );
         }
       }
 
       return (
         <View
-          key={ card.id }
+          key={ `character__${card.id}` }
           style={ styles.characterView }
         >
           <TouchableOpacity
