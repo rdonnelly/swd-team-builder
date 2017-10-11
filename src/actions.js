@@ -56,17 +56,6 @@ const resetCharacters = () => ({
 
 // TEAMS ACTIONS
 
-const recalculateTeams = deckCards => ({
-  type: 'RECALCULATE_TEAMS',
-  payload: {
-    deckCards,
-  },
-});
-
-const resetTeams = () => ({
-  type: 'RESET_TEAMS',
-});
-
 const setSetting = (key, value) => ({
   type: 'SET_SETTING',
   payload: {
@@ -95,32 +84,26 @@ export const addCharacter = characterObject =>
 
     return Promise.resolve()
       .then(dispatch(addCharacterToDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
-      .then(dispatch(recalculateTeams(
-        getState().deck.get('characters'),
-      )));
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
   };
 
 export const setCharacterAny = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterAnyInDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
-      .then(dispatch(recalculateTeams(getState().deck.get('characters'))));
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
 
 export const setCharacterRegular = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterRegularInDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
-      .then(dispatch(recalculateTeams(getState().deck.get('characters'))));
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
 
 export const setCharacterElite = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterEliteInDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
-      .then(dispatch(recalculateTeams(getState().deck.get('characters'))));
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
 
 export const removeCharacter = characterObject =>
   (dispatch, getState) => {
@@ -131,31 +114,21 @@ export const removeCharacter = characterObject =>
 
     return Promise.resolve()
       .then(dispatch(removeCharacterFromDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))))
-      .then(dispatch(recalculateTeams(
-        getState().deck.get('characters'),
-      )));
+      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
   };
 
 export const reset = () =>
   dispatch =>
     Promise.resolve()
       .then(dispatch(resetDeck()))
-      .then(dispatch(resetCharacters()))
-      .then(dispatch(resetTeams()));
+      .then(dispatch(resetCharacters()));
 
 export const updateSetting = (key, value) =>
-  (dispatch, getState) =>
+  dispatch =>
     Promise.resolve()
-      .then(dispatch(setSetting(key, value)))
-      .then(dispatch(recalculateTeams(
-        getState().deck.get('characters'),
-      )));
+      .then(dispatch(setSetting(key, value)));
 
 export const updateSort = value =>
-  (dispatch, getState) =>
+  dispatch =>
     Promise.resolve()
-      .then(dispatch(setSort(value)))
-      .then(dispatch(recalculateTeams(
-        getState().deck.get('characters'),
-      )));
+      .then(dispatch(setSort(value)));

@@ -110,8 +110,8 @@ class CharacterDetailScreen extends React.Component {
 
     const { deckState } = this.props;
 
-    const characterIsInDeck = deckState.get('characters').some(deckCard => deckCard.get('id') === characterCard.id);
     const deckCharacter = deckState.get('characters').find(deckCard => deckCard.get('id') === characterCard.id);
+    const characterIsInDeck = !!deckCharacter;
 
     let messageText = '';
     if (!characterObject.get('isCompatibile') || (characterIsInDeck)) {

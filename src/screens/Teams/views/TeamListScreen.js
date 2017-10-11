@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import SWDIcon from '../../../components/SWDIcon';
 
 import { updateSort } from '../../../actions';
+import { getAvailableTeams } from '../../../selectors/teamsSelectors';
 
 import { characterCards } from '../../../lib/Destiny';
 
@@ -203,12 +204,12 @@ class TeamListView extends Component {
   }
 
   render() {
-    const { teamsState } = this.props;
+    const { teams } = this.props;
 
-    const list = teamsState.get('teams').count() ? (
+    const list = teams.count() ? (
       <VirtualizedList
         style={ styles.list }
-        data={ teamsState.get('teams') }
+        data={ teams }
         renderItem={ this.renderItem }
         getItem={ (data, key) => (data.get ? data.get(key) : data[key]) }
         getItemCount={ data => (data.size || data.count || 0) }
@@ -266,7 +267,7 @@ class TeamListView extends Component {
 }
 
 const mapStateToProps = state => ({
-  teamsState: state.teams,
+  teams: getAvailableTeams(state),
 });
 
 const mapDispatchToProps = { updateSort };
@@ -274,7 +275,7 @@ const mapDispatchToProps = { updateSort };
 export default connect(mapStateToProps, mapDispatchToProps)(TeamListView);
 
 TeamListView.propTypes = {
-  teamsState: PropTypes.object.isRequired,
+  teams: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   updateSort: PropTypes.func.isRequired,
 };

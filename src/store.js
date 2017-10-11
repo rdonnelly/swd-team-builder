@@ -14,9 +14,6 @@ import deckReducer from './reducers/deckReducer';
 import teamsReducer from './reducers/teamsReducer';
 
 
-// PRELOADED / INITIAL STATE
-const preloadedState = {};
-
 // STORE REDUCERS
 const rootReducer = combineReducers({
   tabBar: tabBarReducer,
@@ -29,6 +26,9 @@ const rootReducer = combineReducers({
   deck: deckReducer,
   teams: teamsReducer,
 });
+
+// PRELOADED / INITIAL STATE
+const preloadedState = {};
 
 // ENHANCER / MIDDLEWARE
 const middleware = [

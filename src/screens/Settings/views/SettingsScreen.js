@@ -15,6 +15,8 @@ import SettingSlider from '../../../components/SettingSlider';
 import SettingSwitch from '../../../components/SettingSwitch';
 
 import { updateSetting } from '../../../actions';
+import { getSettings } from '../../../selectors/teamsSelectors';
+
 import { teamsStats } from '../../../lib/Destiny';
 
 
@@ -95,8 +97,7 @@ class SettingsView extends Component {
   }
 
   render() {
-    const { teamsState } = this.props;
-    const settings = teamsState.get('settings');
+    const { settings } = this.props;
 
     return (
       <View style={ styles.container }>
@@ -140,7 +141,7 @@ class SettingsView extends Component {
               <Text style={ styles.disclaimerText }>
                 The information presented in this app about Star Wars Destiny,
                 both literal and graphical, is copyrighted by Fantasy Flight
-                Games. This website is not produced by, endorsed by, supported by, or
+                Games. This app is not produced by, endorsed by, supported by, or
                 affiliated with Fantasy Flight Games.
               </Text>
             </View>
@@ -164,7 +165,7 @@ class SettingsView extends Component {
 
 
 const mapStateToProps = state => ({
-  teamsState: state.teams,
+  settings: getSettings(state),
 });
 
 const mapDispatchToProps = { updateSetting };
@@ -172,6 +173,6 @@ const mapDispatchToProps = { updateSetting };
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
 
 SettingsView.propTypes = {
-  teamsState: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
   updateSetting: PropTypes.func.isRequired,
 };

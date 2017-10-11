@@ -34,6 +34,7 @@
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
     "remote-redux-devtools": "^0.5.7",
+    "reselect": "^3.0.1",
     "swdestinydb-json-data": "https://github.com/rdonnelly/swdestinydb-json-data.git"
   },
   "devDependencies": {

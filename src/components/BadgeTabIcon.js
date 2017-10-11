@@ -8,6 +8,8 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 
+import { getAvailableTeams } from '../selectors/teamsSelectors';
+
 const styles = StyleSheet.create({
   badge: {
     alignItems: 'center',
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
 
 class BadgeTabIcon extends Component {
   render() {
-    const { teamsState } = this.props;
+    const { teams } = this.props;
 
     const icon = (
       <Icon name={ this.props.iconName } size={ this.props.size } color={ this.props.color } />
@@ -38,7 +40,7 @@ class BadgeTabIcon extends Component {
 
     const badge = this.props.showBadge ? (
       <View style={ styles.badge }>
-        <Text style={ styles.badgeText }>{ teamsState.get('teams').count() }</Text>
+        <Text style={ styles.badgeText }>{ teams.count() }</Text>
       </View>
     ) : null;
 
@@ -52,13 +54,13 @@ class BadgeTabIcon extends Component {
 }
 
 const mapStateToProps = state => ({
-  teamsState: state.teams,
+  teams: getAvailableTeams(state),
 });
 
 export default connect(mapStateToProps)(BadgeTabIcon);
 
 BadgeTabIcon.propTypes = {
-  teamsState: PropTypes.object.isRequired,
+  teams: PropTypes.object.isRequired,
   iconName: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,

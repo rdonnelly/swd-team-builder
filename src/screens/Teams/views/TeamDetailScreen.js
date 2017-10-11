@@ -17,6 +17,8 @@ import Swiper from 'react-native-swiper';
 import CharacterAvatar from '../../../components/CharacterAvatar';
 import SWDIcon from '../../../components/SWDIcon';
 
+import { getAvailableTeams } from '../../../selectors/teamsSelectors';
+
 import { characterCards } from '../../../lib/Destiny';
 import { cardBack, cardImages } from '../../../lib/DestinyImages';
 
@@ -156,9 +158,8 @@ class TeamDetailScreen extends React.Component {
 
   searchSWDestinyDB() {
     const teamKey = this.props.navigation.state.params.key;
-    const { teamsState } = this.props;
-    const team = teamsState.get('teams')
-      .find(teamObj => teamObj.get('key') === teamKey);
+    const { teams } = this.props;
+    const team = teams.find(teamObj => teamObj.get('key') === teamKey);
 
     const urlParams = [];
     team.get('characters').forEach((character) => {
@@ -184,9 +185,8 @@ class TeamDetailScreen extends React.Component {
 
   render() {
     const teamKey = this.props.navigation.state.params.key;
-    const { teamsState } = this.props;
-    const team = teamsState.get('teams')
-      .find(teamObj => teamObj.get('key') === teamKey);
+    const { teams } = this.props;
+    const team = teams.find(teamObj => teamObj.get('key') === teamKey);
 
     const characterAvatars = team.get('characters').map(character =>
       <View
@@ -317,11 +317,11 @@ class TeamDetailScreen extends React.Component {
 
 TeamDetailScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
-  teamsState: PropTypes.object.isRequired,
+  teams: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  teamsState: state.teams,
+  teams: getAvailableTeams(state),
 });
 
 export default connect(mapStateToProps)(TeamDetailScreen);
