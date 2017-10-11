@@ -1,37 +1,37 @@
 // DECK ACTIONS
 
-const addCharacterToDeck = card => ({
+const addCharacterToDeck = characterObject => ({
   type: 'ADD_CHARACTER_TO_DECK',
   payload: {
-    card,
+    characterObject,
   },
 });
 
-const removeCharacterFromDeck = card => ({
+const removeCharacterFromDeck = characterObject => ({
   type: 'REMOVE_CHARACTER_FROM_DECK',
   payload: {
-    card,
+    characterObject,
   },
 });
 
-const setCharacterAnyInDeck = card => ({
+const setCharacterAnyInDeck = characterObject => ({
   type: 'SET_CHARACTER_ANY_IN_DECK',
   payload: {
-    card,
+    characterObject,
   },
 });
 
-const setCharacterRegularInDeck = card => ({
+const setCharacterRegularInDeck = characterObject => ({
   type: 'SET_CHARACTER_REGULAR_IN_DECK',
   payload: {
-    card,
+    characterObject,
   },
 });
 
-const setCharacterEliteInDeck = card => ({
+const setCharacterEliteInDeck = characterObject => ({
   type: 'SET_CHARACTER_ELITE_IN_DECK',
   payload: {
-    card,
+    characterObject,
   },
 });
 
@@ -85,52 +85,52 @@ const setSort = sortPriority => ({
 
 // ACTIONS
 
-export const addCharacter = card =>
+export const addCharacter = characterObject =>
   (dispatch, getState) => {
-    if (card.isUnique &&
-        getState().deck.get('characters').includes(card)) {
+    if (characterObject.isUnique &&
+        getState().deck.get('characters').includes(characterObject)) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));
     }
 
     return Promise.resolve()
-      .then(dispatch(addCharacterToDeck(card)))
+      .then(dispatch(addCharacterToDeck(characterObject)))
       .then(dispatch(updateCharacters(getState().deck.get('characters'))))
       .then(dispatch(recalculateTeams(
         getState().deck.get('characters'),
       )));
   };
 
-export const setCharacterAny = card =>
+export const setCharacterAny = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
-      .then(dispatch(setCharacterAnyInDeck(card)))
+      .then(dispatch(setCharacterAnyInDeck(characterObject)))
       .then(dispatch(updateCharacters(getState().deck.get('characters'))))
       .then(dispatch(recalculateTeams(getState().deck.get('characters'))));
 
-export const setCharacterRegular = card =>
+export const setCharacterRegular = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
-      .then(dispatch(setCharacterRegularInDeck(card)))
+      .then(dispatch(setCharacterRegularInDeck(characterObject)))
       .then(dispatch(updateCharacters(getState().deck.get('characters'))))
       .then(dispatch(recalculateTeams(getState().deck.get('characters'))));
 
-export const setCharacterElite = card =>
+export const setCharacterElite = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
-      .then(dispatch(setCharacterEliteInDeck(card)))
+      .then(dispatch(setCharacterEliteInDeck(characterObject)))
       .then(dispatch(updateCharacters(getState().deck.get('characters'))))
       .then(dispatch(recalculateTeams(getState().deck.get('characters'))));
 
-export const removeCharacter = card =>
+export const removeCharacter = characterObject =>
   (dispatch, getState) => {
-    if (!getState().deck.get('characters').some(deckCard => deckCard.get('id') === card.get('id'))) {
+    if (!getState().deck.get('characters').some(deckCard => deckCard.get('id') === characterObject.get('id'))) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
     }
 
     return Promise.resolve()
-      .then(dispatch(removeCharacterFromDeck(card)))
+      .then(dispatch(removeCharacterFromDeck(characterObject)))
       .then(dispatch(updateCharacters(getState().deck.get('characters'))))
       .then(dispatch(recalculateTeams(
         getState().deck.get('characters'),

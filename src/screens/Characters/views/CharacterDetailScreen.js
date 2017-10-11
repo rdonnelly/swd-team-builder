@@ -135,7 +135,7 @@ class CharacterDetailScreen extends React.Component {
 
     const addButton = characterObject.get('isCompatibile') && (!characterIsInDeck || !characterCard.isUnique) ? (
       <TouchableOpacity
-        onPress={ () => this.props.addCharacter(characterCard) }
+        onPress={ () => this.props.addCharacter(characterObject) }
         style={ [styles.button, styles.buttonGreen] }
       >
         <Text style={ styles.buttonText }>
@@ -151,7 +151,7 @@ class CharacterDetailScreen extends React.Component {
 
     const removeButton = characterIsInDeck ?
       <TouchableOpacity
-        onPress={ () => this.props.removeCharacter(characterCard) }
+        onPress={ () => this.props.removeCharacter(characterObject) }
         style={ [styles.button, styles.buttonOrange] }
       >
         <Text style={ styles.buttonText }>
@@ -165,7 +165,7 @@ class CharacterDetailScreen extends React.Component {
     const anyButton = characterIsInDeck && characterCard.isUnique ?
       <TouchableOpacity
         disabled={ deckCharacter.get('isElite') === null }
-        onPress={ () => this.props.setCharacterAny(characterCard) }
+        onPress={ () => this.props.setCharacterAny(characterObject) }
         style={ [styles.button, styles.buttonPurple, { marginRight: 4 }, deckCharacter.get('isElite') === null && styles.buttonDisabled] }
       >
         <Text style={ styles.buttonText }>{ 'Any' }</Text>
@@ -174,7 +174,7 @@ class CharacterDetailScreen extends React.Component {
     const regularButton = characterIsInDeck && characterCard.isUnique ?
       <TouchableOpacity
         disabled={ deckCharacter.get('isElite') === false }
-        onPress={ () => this.props.setCharacterRegular(characterCard) }
+        onPress={ () => this.props.setCharacterRegular(characterObject) }
         style={ [styles.button, styles.buttonPurple, { marginHorizontal: 4 }, deckCharacter.get('isElite') === false && styles.buttonDisabled] }
       >
         <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />
@@ -183,7 +183,7 @@ class CharacterDetailScreen extends React.Component {
     const eliteButton = characterIsInDeck && characterCard.isUnique && characterCard.pointsElite ?
       <TouchableOpacity
         disabled={ deckCharacter.get('isElite') === true }
-        onPress={ () => this.props.setCharacterElite(characterCard) }
+        onPress={ () => this.props.setCharacterElite(characterObject) }
         style={ [styles.button, styles.buttonPurple, { marginLeft: 4 }, deckCharacter.get('isElite') === true && styles.buttonDisabled] }
       >
         <View>

@@ -9,7 +9,7 @@ const deckReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_CHARACTER_TO_DECK': {
       const existingCardIndex = state.get('characters')
-        .findIndex(card => card.get('id') === action.payload.card.id);
+        .findIndex(characterObject => characterObject.get('id') === action.payload.characterObject.get('id'));
 
       if (existingCardIndex !== -1) {
         return state.update('characters', characterObjects =>
@@ -18,8 +18,8 @@ const deckReducer = (state = initialState, action) => {
       }
 
       const characterObject = Immutable.fromJS({
-        id: action.payload.card.id,
-        name: action.payload.card.name,
+        id: action.payload.characterObject.get('id'),
+        name: action.payload.characterObject.get('name'),
         isElite: null,
         count: 1,
       });
@@ -29,7 +29,7 @@ const deckReducer = (state = initialState, action) => {
 
     case 'SET_CHARACTER_ANY_IN_DECK': {
       const existingCardIndex = state.get('characters')
-        .findIndex(card => card.get('id') === action.payload.card.id);
+        .findIndex(characterObject => characterObject.get('id') === action.payload.characterObject.get('id'));
 
       return state.update('characters', characterObjects =>
         characterObjects.update(existingCardIndex, characterObject =>
@@ -38,7 +38,7 @@ const deckReducer = (state = initialState, action) => {
 
     case 'SET_CHARACTER_REGULAR_IN_DECK': {
       const existingCardIndex = state.get('characters')
-        .findIndex(card => card.get('id') === action.payload.card.id);
+        .findIndex(characterObject => characterObject.get('id') === action.payload.characterObject.get('id'));
 
       return state.update('characters', characterObjects =>
         characterObjects.update(existingCardIndex, characterObject =>
@@ -47,7 +47,7 @@ const deckReducer = (state = initialState, action) => {
 
     case 'SET_CHARACTER_ELITE_IN_DECK': {
       const existingCardIndex = state.get('characters')
-        .findIndex(card => card.get('id') === action.payload.card.id);
+        .findIndex(characterObject => characterObject.get('id') === action.payload.characterObject.get('id'));
 
       return state.update('characters', characterObjects =>
         characterObjects.update(existingCardIndex, characterObject =>
@@ -56,20 +56,21 @@ const deckReducer = (state = initialState, action) => {
 
     case 'REMOVE_CHARACTER_FROM_DECK': {
       const existingCardIndex = state.get('characters')
-        .findIndex(card => card.get('id') === action.payload.card.id);
+        .findIndex(characterObject => characterObject.get('id') === action.payload.characterObject.get('id'));
 
-      let characterCount = -1;
-      if (existingCardIndex !== -1) {
-        characterCount += state.get('characters').get(existingCardIndex).get('count');
+      if (existingCardIndex === -1) {
+        return state.characters;
       }
 
-      if (characterCount <= 0) {
-        return state.update('characters', characterObjects => characterObjects.delete(existingCardIndex));
-      }
+      return state.update('characters', (characterObjects) => {
+        const existingDeckCharacterObject = characterObjects.get(existingCardIndex);
+        if (existingDeckCharacterObject.get('count') > 1) {
+          return characterObjects.update(existingCardIndex, characterObject =>
+            characterObject.update('count', count => count - 1));
+        }
 
-      return state.update('characters', characterObjects =>
-        characterObjects.update(existingCardIndex, characterObject =>
-          characterObject.set('count', characterCount)));
+        return characterObjects.delete(existingCardIndex);
+      });
     }
 
     case 'RESET_DECK': {
