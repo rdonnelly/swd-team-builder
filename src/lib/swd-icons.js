@@ -15,10 +15,10 @@ export const swdestiny = {
   COLLECTORS: 'e90c',
   DIE: 'e90a',
   EVENT: 'e9b5',
+  PLOT: 'e912',
   SUPPORT: 'e9b4',
   UNIQUE: 'e909',
   UPGRADE: 'e92e',
-
 
   AW: 'e90d',
   AWAKENINGS: 'e90d',
