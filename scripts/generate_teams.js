@@ -5,8 +5,6 @@ import jsonfile from 'jsonfile';
 import path from 'path';
 import { characterCards } from '../src/lib/Destiny';
 
-const characterCardsList = characterCards.toList().toJS();
-
 const MIN_DICE = 0;
 const MIN_POINTS = 0;
 const MAX_POINTS = 30;
@@ -136,7 +134,7 @@ const checkTeam = (team, eligibleCharacters, pointsLeft) => {
   }
 
   const eliteCheck = _.every(team.characters, (characterCard) => {
-    const card = _.find(characterCardsList, { id: characterCard.id });
+    const card = _.find(characterCards, { id: characterCard.id });
 
     if (characterCard.isElite === false) {
       if (typeof card.pointsElite !== 'undefined') {
@@ -198,10 +196,10 @@ const buildTeams = (characters, pointsLeft, team) => {
   });
 };
 
-const heroes = characterCardsList.filter(character => character.affiliation === 'hero');
+const heroes = characterCards.filter(character => character.affiliation === 'hero');
 buildTeams(heroes, MAX_POINTS, new Team());
 
-const villains = characterCardsList.filter(character => character.affiliation === 'villain');
+const villains = characterCards.filter(character => character.affiliation === 'villain');
 buildTeams(villains, MAX_POINTS, new Team());
 
 teams = _.uniqBy(teams, team => JSON.stringify(team.getKey()));
