@@ -17,7 +17,7 @@ import Swiper from 'react-native-swiper';
 import CharacterAvatar from '../../../components/CharacterAvatar';
 import SWDIcon from '../../../components/SWDIcon';
 
-import { getAvailableTeams } from '../../../selectors/teamsSelectors';
+import { getAvailableTeams } from '../../../selectors/teamSelectors';
 
 import { characterCards } from '../../../lib/Destiny';
 import { cardBack, cardImages } from '../../../lib/DestinyImages';

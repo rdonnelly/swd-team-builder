@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import SWDIcon from '../../../components/SWDIcon';
 
 import { updateSort } from '../../../actions';
-import { getAvailableTeams } from '../../../selectors/teamsSelectors';
+import { getAvailableTeams } from '../../../selectors/teamSelectors';
 
 import { characterCards } from '../../../lib/Destiny';
 
@@ -211,9 +211,9 @@ class TeamListView extends Component {
         style={ styles.list }
         data={ teams }
         renderItem={ this.renderItem }
-        getItem={ (data, key) => (data.get ? data.get(key) : data[key]) }
+        getItem={ (data, key) => data.get(key) }
         getItemCount={ data => (data.size || data.count || 0) }
-        keyExtractor={ (item, index) => String(index) }
+        keyExtractor={ item => `team_list__${item.get('id')}` }
       />
     ) : (
       <View style={{ width: '80%' }}>

@@ -10,10 +10,12 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { characterCards } from '../../../lib/Destiny';
-
 import SelectedCharacters from '../../../components/SelectedCharacters';
 import SWDIcon from '../../../components/SWDIcon';
+
+import { getCharacters } from '../../../selectors/characterSelectors';
+
+import { characterCards } from '../../../lib/Destiny';
 
 
 const styles = StyleSheet.create({
@@ -115,20 +117,26 @@ class CharacterListView extends Component {
     super(props);
 
     this.state = {
-      characterCards: this.props.charactersState.toList(),
+      characters: this.props.characters,
     };
 
     this.renderItem = this.renderItem.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    const newState = {};
+    if (!this.state.characters.equals(nextProps.characters)) {
+      this.setState({
+        characters: nextProps.characters,
+      });
+    }
+  }
 
-    if (this.state.characterCards !== nextProps.charactersState.toList()) {
-      newState.characterCards = nextProps.charactersState.toList();
+  shouldComponentUpdate(nextProps) {
+    if (!this.state.characters.equals(nextProps.characters)) {
+      return true;
     }
 
-    this.setState(newState);
+    return false;
   }
 
   renderItem({ item }) {
@@ -233,11 +241,11 @@ class CharacterListView extends Component {
       <View style={ styles.container }>
         <VirtualizedList
           style={ styles.list }
-          data={ this.state.characterCards }
+          data={ this.state.characters }
           renderItem={ this.renderItem }
-          getItem={ (data, key) => (data.get ? data.get(key) : data[key]) }
-          getItemCount={ data => (data.size || data.length || 0) }
-          keyExtractor={ (item, index) => String(index) }
+          getItem={ (data, key) => data.get(key) }
+          getItemCount={ data => (data.size || data.count || 0) }
+          keyExtractor={ item => `character_list__${item.get('id')}` }
         />
         <SelectedCharacters navigate={ navigate }></SelectedCharacters>
       </View>
@@ -245,13 +253,13 @@ class CharacterListView extends Component {
   }
 }
 
+CharacterListView.propTypes = {
+  characters: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = state => ({
-  charactersState: state.characters,
+  characters: getCharacters(state),
 });
 
 export default connect(mapStateToProps)(CharacterListView);
-
-CharacterListView.propTypes = {
-  charactersState: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
-};

@@ -10,9 +10,10 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { reset } from '../actions';
-
 import SWDIcon from './SWDIcon';
+
+import { reset } from '../actions';
+import { getDeckCharacters } from '../selectors/deckSelectors';
 
 import { characterCards } from '../lib/Destiny';
 
@@ -68,14 +69,23 @@ class SelectedCharacters extends Component {
     this.resetDeck = this.resetDeck.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { deckCharacterObjects } = this.props;
+    if (!deckCharacterObjects.equals(nextProps.deckCharacterObjects)) {
+      return true;
+    }
+
+    return false;
+  }
+
   resetDeck() {
     this.props.reset();
   }
 
   render() {
-    const { deckState } = this.props;
+    const { deckCharacterObjects } = this.props;
 
-    const characterViews = deckState.get('characters').map((character) => {
+    const characterViews = deckCharacterObjects.map((character) => {
       const card = characterCards.find(characterCard => characterCard.id === character.get('id'));
 
       const characterStyles = [styles.deckCard];
@@ -125,7 +135,7 @@ class SelectedCharacters extends Component {
       );
     });
 
-    return deckState.get('characters').count() > 0 ? (
+    return deckCharacterObjects.count() > 0 ? (
       <View style={ styles.container }>
         <View style={{ flex: 1 }}>
           { characterViews }
@@ -154,8 +164,14 @@ class SelectedCharacters extends Component {
   }
 }
 
+SelectedCharacters.propTypes = {
+  deckCharacterObjects: PropTypes.object.isRequired,
+  reset: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
-  deckState: state.deck,
+  deckCharacterObjects: getDeckCharacters(state),
 });
 
 const mapDispatchToProps = {
@@ -163,9 +179,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectedCharacters);
-
-SelectedCharacters.propTypes = {
-  deckState: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
-};

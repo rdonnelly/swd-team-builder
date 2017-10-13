@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { getAvailableTeams } from '../selectors/teamsSelectors';
+import { getAvailableTeams } from '../selectors/teamSelectors';
 
 const styles = StyleSheet.create({
   badge: {

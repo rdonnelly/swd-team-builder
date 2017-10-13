@@ -10,11 +10,21 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import SWDIcon from '../../../components/SWDIcon';
+
+import {
+  addCharacter,
+  setCharacterAny,
+  setCharacterRegular,
+  setCharacterElite,
+  removeCharacter,
+} from '../../../actions';
+import { getCharacters } from '../../../selectors/characterSelectors';
+import { getDeckCharacters } from '../../../selectors/deckSelectors';
+
 import { characterCards } from '../../../lib/Destiny';
 import { cardBack, cardImages } from '../../../lib/DestinyImages';
 
-import { addCharacter, setCharacterAny, setCharacterRegular, setCharacterElite, removeCharacter } from '../../../actions';
-import SWDIcon from '../../../components/SWDIcon';
 
 const styles = StyleSheet.create({
   container: {
@@ -102,28 +112,28 @@ class CharacterDetailScreen extends React.Component {
   }
 
   render() {
+    const {
+      characters,
+      deckCharacters,
+    } = this.props;
+
     const cardId = this.props.navigation.state.params.id;
 
     const characterCard = characterCards.find(card => card.id === cardId);
-    const characterObject = this.props.charactersState
-      .find(characterObj => characterObj.get('id') === this.props.navigation.state.params.id);
 
-    const { deckState } = this.props;
-
-    const deckCharacter = deckState.get('characters').find(deckCard => deckCard.get('id') === characterCard.id);
-    const characterIsInDeck = !!deckCharacter;
+    const characterObject = characters.find(characterObj => characterObj.get('id') === cardId);
+    const deckCharacterObject = deckCharacters.find(deckCard => deckCard.get('id') === characterCard.id);
+    const characterIsInDeck = !!deckCharacterObject;
 
     let messageText = '';
-    if (!characterObject.get('isCompatibile') || (characterIsInDeck)) {
-      if (characterIsInDeck) {
-        messageText = 'Character Selected for Team';
+    if (characterIsInDeck) {
+      messageText = 'Character Selected for Team';
 
-        if (!characterCard.isUnique && deckCharacter.get('count') > 1) {
-          messageText += ` (x${deckCharacter.get('count')})`;
-        }
-      } else {
-        messageText = 'Character Incompatible with Team';
+      if (!characterCard.isUnique && deckCharacterObject.get('count') > 1) {
+        messageText += ` (x${deckCharacterObject.get('count')})`;
       }
+    } else if (!characterObject.get('isCompatibile')) {
+      messageText = 'Character Incompatible with Team';
     }
 
     const message = messageText ?
@@ -164,27 +174,27 @@ class CharacterDetailScreen extends React.Component {
 
     const anyButton = characterIsInDeck && characterCard.isUnique ?
       <TouchableOpacity
-        disabled={ deckCharacter.get('isElite') === null }
+        disabled={ deckCharacterObject.get('isElite') === null }
         onPress={ () => this.props.setCharacterAny(characterObject) }
-        style={ [styles.button, styles.buttonPurple, { marginRight: 4 }, deckCharacter.get('isElite') === null && styles.buttonDisabled] }
+        style={ [styles.button, styles.buttonPurple, { marginRight: 4 }, deckCharacterObject.get('isElite') === null && styles.buttonDisabled] }
       >
         <Text style={ styles.buttonText }>{ 'Any' }</Text>
       </TouchableOpacity> : null;
 
     const regularButton = characterIsInDeck && characterCard.isUnique ?
       <TouchableOpacity
-        disabled={ deckCharacter.get('isElite') === false }
+        disabled={ deckCharacterObject.get('isElite') === false }
         onPress={ () => this.props.setCharacterRegular(characterObject) }
-        style={ [styles.button, styles.buttonPurple, { marginHorizontal: 4 }, deckCharacter.get('isElite') === false && styles.buttonDisabled] }
+        style={ [styles.button, styles.buttonPurple, { marginHorizontal: 4 }, deckCharacterObject.get('isElite') === false && styles.buttonDisabled] }
       >
         <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />
       </TouchableOpacity> : null;
 
     const eliteButton = characterIsInDeck && characterCard.isUnique && characterCard.pointsElite ?
       <TouchableOpacity
-        disabled={ deckCharacter.get('isElite') === true }
+        disabled={ deckCharacterObject.get('isElite') === true }
         onPress={ () => this.props.setCharacterElite(characterObject) }
-        style={ [styles.button, styles.buttonPurple, { marginLeft: 4 }, deckCharacter.get('isElite') === true && styles.buttonDisabled] }
+        style={ [styles.button, styles.buttonPurple, { marginLeft: 4 }, deckCharacterObject.get('isElite') === true && styles.buttonDisabled] }
       >
         <View>
           <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />
@@ -226,9 +236,21 @@ class CharacterDetailScreen extends React.Component {
   }
 }
 
+CharacterDetailScreen.propTypes = {
+  navigation: PropTypes.object.isRequired,
+  characters: PropTypes.object.isRequired,
+  deckCharacters: PropTypes.object.isRequired,
+
+  addCharacter: PropTypes.func.isRequired,
+  setCharacterAny: PropTypes.func.isRequired,
+  setCharacterElite: PropTypes.func.isRequired,
+  setCharacterRegular: PropTypes.func.isRequired,
+  removeCharacter: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
-  charactersState: state.characters,
-  deckState: state.deck,
+  characters: getCharacters(state),
+  deckCharacters: getDeckCharacters(state),
 });
 
 const mapDispatchToProps = {
@@ -240,15 +262,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterDetailScreen);
-
-CharacterDetailScreen.propTypes = {
-  navigation: PropTypes.object.isRequired,
-  charactersState: PropTypes.object.isRequired,
-  deckState: PropTypes.object.isRequired,
-
-  addCharacter: PropTypes.func.isRequired,
-  setCharacterAny: PropTypes.func.isRequired,
-  setCharacterElite: PropTypes.func.isRequired,
-  setCharacterRegular: PropTypes.func.isRequired,
-  removeCharacter: PropTypes.func.isRequired,
-};

@@ -15,7 +15,7 @@ import SettingSlider from '../../../components/SettingSlider';
 import SettingSwitch from '../../../components/SettingSwitch';
 
 import { updateSetting } from '../../../actions';
-import { getSettings } from '../../../selectors/teamsSelectors';
+import { getSettings } from '../../../selectors/teamSelectors';
 
 import { teamsStats } from '../../../lib/Destiny';
 

@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -271,6 +272,20 @@
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
 		};
+		956B5A061F8EBADA00AD5B9B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DBE0D001F3B181A0099AA32;
+			remoteInfo = fishhook;
+		};
+		956B5A081F8EBADA00AD5B9B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DBE0D0D1F3B181C0099AA32;
+			remoteInfo = "fishhook-tvOS";
+		};
 		956CA42D1EFD62E10019002D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84B499E0056D4439A41E2F9C /* SafariViewManager.xcodeproj */;
@@ -484,6 +499,8 @@
 			children = (
 				139FDEF41B06529B00C62182 /* libRCTWebSocket.a */,
 				3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */,
+				956B5A071F8EBADA00AD5B9B /* libfishhook.a */,
+				956B5A091F8EBADA00AD5B9B /* libfishhook-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -757,7 +774,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = EZ4AQB6GC7;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1057,6 +1074,20 @@
 			remoteRef = 9539A40F1F363EEF009B4B31 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		956B5A071F8EBADA00AD5B9B /* libfishhook.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfishhook.a;
+			remoteRef = 956B5A061F8EBADA00AD5B9B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		956B5A091F8EBADA00AD5B9B /* libfishhook-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libfishhook-tvOS.a";
+			remoteRef = 956B5A081F8EBADA00AD5B9B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		956CA42E1EFD62E10019002D /* libSafariViewManager.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1294,7 +1325,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = EZ4AQB6GC7;
@@ -1305,7 +1337,7 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 				);
 				INFOPLIST_FILE = SWDTeamBuilder/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1314,8 +1346,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rdonnelly.swdteambuilder;
 				PRODUCT_NAME = SWDTeamBuilder;
-				PROVISIONING_PROFILE = "328cf2af-9b75-4039-ad2f-8740cca880a4";
-				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: com.rdonnelly.swdteambuilder";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1327,7 +1359,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EZ4AQB6GC7;
 				HEADER_SEARCH_PATHS = (
@@ -1337,7 +1370,7 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 				);
 				INFOPLIST_FILE = SWDTeamBuilder/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1346,8 +1379,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rdonnelly.swdteambuilder;
 				PRODUCT_NAME = SWDTeamBuilder;
-				PROVISIONING_PROFILE = "328cf2af-9b75-4039-ad2f-8740cca880a4";
-				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: com.rdonnelly.swdteambuilder";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
