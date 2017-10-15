@@ -85,8 +85,8 @@ class SelectedCharacters extends Component {
   render() {
     const { deckCharacterObjects } = this.props;
 
-    const characterViews = deckCharacterObjects.map((character) => {
-      const card = characterCards.find(characterCard => characterCard.id === character.get('id'));
+    const characterViews = deckCharacterObjects.map((characterObject) => {
+      const card = characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
 
       const characterStyles = [styles.deckCard];
       const diceStyles = [styles.dice];
@@ -103,18 +103,15 @@ class SelectedCharacters extends Component {
       }
 
       const diceIcons = [];
-      if (character.get('isElite') !== null) {
-        const numDice = character.get('isElite') ? 2 : 1;
-        for (let i = 0; i < numDice; i += 1) {
-          diceIcons.push(
-            <SWDIcon
-              key={ `die__${card.id}__${i}` }
-              type={ 'DIE' }
-              font={ 'swdestiny' }
-              style={ diceStyles }
-            />,
-          );
-        }
+      for (let i = 0; i < characterObject.get('numDice'); i += 1) {
+        diceIcons.push(
+          <SWDIcon
+            key={ `die__${card.id}__${i}` }
+            type={ 'DIE' }
+            font={ 'swdestiny' }
+            style={ diceStyles }
+          />,
+        );
       }
 
       return (
@@ -127,7 +124,7 @@ class SelectedCharacters extends Component {
             style={ styles.characterViewTouchable }
           >
             <Text style={ characterStyles }>
-              { card.name + (character.get('count') > 1 ? ` x${character.get('count')}` : '') }
+              { card.name + (characterObject.get('count') > 1 ? ` x${characterObject.get('count')}` : '') }
             </Text>
             { diceIcons }
           </TouchableOpacity>

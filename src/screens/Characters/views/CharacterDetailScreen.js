@@ -174,27 +174,27 @@ class CharacterDetailScreen extends React.Component {
 
     const anyButton = characterIsInDeck && characterCard.isUnique ?
       <TouchableOpacity
-        disabled={ deckCharacterObject.get('isElite') === null }
+        disabled={ deckCharacterObject.get('numDice') === 0 }
         onPress={ () => this.props.setCharacterAny(characterObject) }
-        style={ [styles.button, styles.buttonPurple, { marginRight: 4 }, deckCharacterObject.get('isElite') === null && styles.buttonDisabled] }
+        style={ [styles.button, styles.buttonPurple, { marginRight: 4 }, deckCharacterObject.get('numDice') === 0 && styles.buttonDisabled] }
       >
         <Text style={ styles.buttonText }>{ 'Any' }</Text>
       </TouchableOpacity> : null;
 
     const regularButton = characterIsInDeck && characterCard.isUnique ?
       <TouchableOpacity
-        disabled={ deckCharacterObject.get('isElite') === false }
+        disabled={ deckCharacterObject.get('numDice') === 1 }
         onPress={ () => this.props.setCharacterRegular(characterObject) }
-        style={ [styles.button, styles.buttonPurple, { marginHorizontal: 4 }, deckCharacterObject.get('isElite') === false && styles.buttonDisabled] }
+        style={ [styles.button, styles.buttonPurple, { marginHorizontal: 4 }, deckCharacterObject.get('numDice') === 1 && styles.buttonDisabled] }
       >
         <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />
       </TouchableOpacity> : null;
 
     const eliteButton = characterIsInDeck && characterCard.isUnique && characterCard.pointsElite ?
       <TouchableOpacity
-        disabled={ deckCharacterObject.get('isElite') === true }
+        disabled={ deckCharacterObject.get('numDice') === 2 }
         onPress={ () => this.props.setCharacterElite(characterObject) }
-        style={ [styles.button, styles.buttonPurple, { marginLeft: 4 }, deckCharacterObject.get('isElite') === true && styles.buttonDisabled] }
+        style={ [styles.button, styles.buttonPurple, { marginLeft: 4 }, deckCharacterObject.get('numDice') === 2 && styles.buttonDisabled] }
       >
         <View>
           <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />

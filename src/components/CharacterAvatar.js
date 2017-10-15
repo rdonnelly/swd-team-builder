@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 class CharacterAvatar extends Component {
 
   render() {
-    const { cardId, isElite, count } = this.props;
+    const { cardId, numDice, count } = this.props;
     const card = characterCards.find(characterCard => characterCard.id === cardId);
 
     const containerStyles = [styles.container];
@@ -95,18 +95,15 @@ class CharacterAvatar extends Component {
     }
 
     const diceIcons = [];
-    if (isElite !== null) {
-      const numDice = isElite ? 2 : 1;
-      for (let i = 0; i < numDice; i += 1) {
-        diceIcons.push(
-          <SWDIcon
-            key={ `avatar_die___${cardId}___${i}` }
-            font={ 'swdestiny' }
-            style={ dieStyles }
-            type={ 'DIE' }
-          />,
-        );
-      }
+    for (let i = 0; i < numDice; i += 1) {
+      diceIcons.push(
+        <SWDIcon
+          key={ `avatar_die___${cardId}___${i}` }
+          font={ 'swdestiny' }
+          style={ dieStyles }
+          type={ 'DIE' }
+        />,
+      );
     }
 
     const countText = count > 1 ?
@@ -141,6 +138,6 @@ export default CharacterAvatar;
 
 CharacterAvatar.propTypes = {
   cardId: PropTypes.string.isRequired,
-  isElite: PropTypes.bool.isRequired,
+  numDice: PropTypes.number.isRequired,
   count: PropTypes.number.isRequired,
 };

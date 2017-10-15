@@ -29,6 +29,7 @@ class Team {
   constructor() {
     this.key = '';
     this.characters = [];
+    this.characterKeys = [];
     this.sets = [];
     this.affiliation = null;
     this.damageTypes = [];
@@ -40,13 +41,14 @@ class Team {
 
   getKey() {
     return this.characters
-      .map(character => `${character.id}_${character.isElite ? 2 : 1}_${character.count}`)
+      .map(character => `${character.id}_${character.numDice}_${character.count}`)
       .sort()
       .join('__');
   }
 
-  getCharacterCount() {
-    return this.characters.reduce((count, character) => count + character.count, 0);
+  assembleCharacterKeys() {
+    this.characters.forEach(characterObject =>
+      this.characterKeys.push(`${characterObject.id}_${characterObject.numDice}_${characterObject.count}`));
   }
 
   hasCharacter(card) {
@@ -58,9 +60,9 @@ class Team {
     const characterObj = {
       id: card.id,
       name: card.name,
-      isElite,
       faction: card.faction,
       count: 1,
+      numDice: isElite ? 2 : 1,
     };
 
     const existingCharacterObj = this.characters.find(character => character.id === card.id);
@@ -136,7 +138,7 @@ const checkTeam = (team, eligibleCharacters, pointsLeft) => {
   const eliteCheck = _.every(team.characters, (characterCard) => {
     const card = _.find(characterCards, { id: characterCard.id });
 
-    if (characterCard.isElite === false) {
+    if (characterCard.numDice === 1) {
       if (typeof card.pointsElite !== 'undefined') {
         const eliteDiff = card.pointsElite - card.pointsRegular;
         if (eliteDiff <= pointsLeft) {
@@ -178,8 +180,11 @@ const buildTeams = (characters, pointsLeft, team) => {
   const eligibleCharacters = getEligibleCharacters(team, characters, pointsLeft);
 
   if (checkTeam(team, eligibleCharacters, pointsLeft)) {
-    teams.push(team);
     checkTeamStats(team);
+    team.assembleCharacterKeys();
+    delete team.characters;
+    teams.push(team);
+    return;
   }
 
   eligibleCharacters.forEach((character) => {
@@ -202,12 +207,12 @@ buildTeams(heroes, MAX_POINTS, new Team());
 const villains = characterCards.filter(character => character.affiliation === 'villain');
 buildTeams(villains, MAX_POINTS, new Team());
 
-teams = _.uniqBy(teams, team => JSON.stringify(team.getKey()));
+teams = _.uniqBy(teams, team => JSON.stringify(team.key));
 teams = teams.sort((a, b) => {
   const pointsDiff = b.points - a.points;
   const diceDiff = b.dice - a.dice;
   const healthDiff = b.health - a.health;
-  const characterDiff = a.getCharacterCount() - b.getCharacterCount();
+  const characterDiff = a.characterKeys.length - b.characterKeys.length;
 
   if (diceDiff) {
     return diceDiff;
@@ -224,6 +229,6 @@ teams = teams.sort((a, b) => {
   return characterDiff;
 });
 
-console.log(`Output ${teams.length} teams...`);
+console.log(`Output ${teams.length} teams...`); // eslint-disable-line no-console
 jsonfile.writeFile(path.join(__dirname, '../data/teams.json'), teams);
 jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);

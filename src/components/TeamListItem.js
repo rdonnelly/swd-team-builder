@@ -98,8 +98,9 @@ class TeamListItem extends Component {
 
     const arrowStyle = [styles.arrow];
 
-    const characterViews = teamObject.get('characters').map((characterObject) => {
-      const card = characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
+    const characterViews = teamObject.get('characterKeys').map((characterKey) => {
+      const [cardId, numDice, count] = characterKey.split('_');
+      const card = characterCards.find(characterCard => characterCard.id === cardId);
       const cardNameStyle = [styles.characterName];
       const diceStyles = [styles.dice];
 
@@ -117,23 +118,20 @@ class TeamListItem extends Component {
       }
 
       const diceIcons = [];
-      if (characterObject.get('isElite') !== null) {
-        const numDice = characterObject.get('isElite') ? 2 : 1;
-        for (let i = 0; i < numDice; i += 1) {
-          diceIcons.push(
-            <SWDIcon
-              font={ 'swdestiny' }
-              key={ `${teamObject.get('key')}___${characterObject.get('id')}___${i}` }
-              style={ diceStyles }
-              type={ 'DIE' }
-            />,
-          );
-        }
+      for (let i = 0; i < numDice; i += 1) {
+        diceIcons.push(
+          <SWDIcon
+            font={ 'swdestiny' }
+            key={ `${teamObject.get('key')}___${cardId}___${i}` }
+            style={ diceStyles }
+            type={ 'DIE' }
+          />,
+        );
       }
 
       return (
         <View
-          key={ `${teamObject.get('key')}___${characterObject.get('id')}` }
+          key={ `${teamObject.get('key')}___${cardId}` }
           style={{ flexDirection: 'row' }}
         >
           <Text style={ cardNameStyle }>
@@ -143,7 +141,7 @@ class TeamListItem extends Component {
             { diceIcons }
           </View>
           <Text style={ cardNameStyle }>
-            { characterObject.get('count') > 1 ? ` x${characterObject.get('count')}` : '' }
+            { count > 1 ? ` x${count}` : '' }
           </Text>
         </View>
       );

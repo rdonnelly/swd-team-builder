@@ -162,8 +162,9 @@ class TeamDetailScreen extends React.Component {
     const team = teams.find(teamObj => teamObj.get('key') === teamKey);
 
     const urlParams = [];
-    team.get('characters').forEach((character) => {
-      urlParams.push(`cards[]=${character.get('id')}`);
+    team.get('characterKeys').forEach((characterKey) => {
+      const cardId = characterKey.split('_').shift();
+      urlParams.push(`cards[]=${cardId}`);
     });
 
     SafariView.show({
@@ -188,21 +189,25 @@ class TeamDetailScreen extends React.Component {
     const { teams } = this.props;
     const team = teams.find(teamObj => teamObj.get('key') === teamKey);
 
-    const characterAvatars = team.get('characters').map(character =>
-      <View
-        key={ `avatar__${team.get('key')}__${character.get('id')}` }
-        style={ styles.characterAvatarWrapper }
-      >
-        <CharacterAvatar
-          cardId={ character.get('id') }
-          isElite={ character.get('isElite') }
-          count={ character.get('count') }
-        />
-      </View>,
-    );
+    const characterAvatars = team.get('characterKeys').map((characterKey) => {
+      const [cardId, numDice, count] = characterKey.split('_');
+      return (
+        <View
+          key={ `avatar__${team.get('key')}__${cardId}` }
+          style={ styles.characterAvatarWrapper }
+        >
+          <CharacterAvatar
+            cardId={ cardId }
+            numDice={ parseInt(numDice, 10) }
+            count={ parseInt(count, 10) }
+          />
+        </View>
+      );
+    });
 
-    const characterNames = team.get('characters').map((character) => {
-      const card = characterCards.find(characterCard => characterCard.id === character.get('id'));
+    const characterNames = team.get('characterKeys').map((characterKey) => {
+      const [cardId, numDice, count] = characterKey.split('_');
+      const card = characterCards.find(characterCard => characterCard.id === cardId);
       const cardNameStyle = [styles.characterName];
       const diceStyles = [styles.dice];
 
@@ -220,23 +225,20 @@ class TeamDetailScreen extends React.Component {
       }
 
       const diceIcons = [];
-      if (character.get('isElite') !== null) {
-        const numDice = character.get('isElite') ? 2 : 1;
-        for (let i = 0; i < numDice; i += 1) {
-          diceIcons.push(
-            <SWDIcon
-              font={ 'swdestiny' }
-              key={ `die__${team.get('key')}__${character.get('id')}__${i}` }
-              style={ diceStyles }
-              type={ 'DIE' }
-            />,
-          );
-        }
+      for (let i = 0; i < numDice; i += 1) {
+        diceIcons.push(
+          <SWDIcon
+            font={ 'swdestiny' }
+            key={ `die__${team.get('key')}__${cardId}__${i}` }
+            style={ diceStyles }
+            type={ 'DIE' }
+          />,
+        );
       }
 
       return (
         <View
-          key={ `name__${team.get('key')}__${character.get('id')}` }
+          key={ `name__${team.get('key')}__${cardId}` }
           style={{ flexDirection: 'row' }}
         >
           <Text style={ cardNameStyle }>
@@ -246,23 +248,26 @@ class TeamDetailScreen extends React.Component {
             { diceIcons }
           </View>
           <Text style={ cardNameStyle }>
-            { character.get('count') > 1 ? ` x${character.get('count')}` : '' }
+            { count > 1 ? ` x${count}` : '' }
           </Text>
         </View>
       );
     });
 
-    const imageViews = team.get('characters').map(character =>
-      <View
-        key={ `image__${team.get('key')}__${character.get('id')}` }
-        style={ styles.imageWrapper }
-      >
-        <Image
-          source={ cardImages.get(character.get('id'), cardBack) }
-          style={{ height: 280, resizeMode: 'contain' }}
-        />
-      </View>,
-    ).toJS();
+    const imageViews = team.get('characterKeys').map((characterKey) => {
+      const [cardId] = characterKey.split('_');
+      return (
+        <View
+          key={ `image__${team.get('key')}__${cardId}` }
+          style={ styles.imageWrapper }
+        >
+          <Image
+            source={ cardImages.get(cardId, cardBack) }
+            style={{ height: 280, resizeMode: 'contain' }}
+          />
+        </View>
+      );
+    }).toJS();
 
     return (
       <View style={{

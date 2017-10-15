@@ -20,7 +20,7 @@ const deckReducer = (state = initialState, action) => {
       const characterObject = Immutable.fromJS({
         id: action.payload.characterObject.get('id'),
         name: action.payload.characterObject.get('name'),
-        isElite: null,
+        numDice: 0,
         count: 1,
       });
 
@@ -33,7 +33,7 @@ const deckReducer = (state = initialState, action) => {
 
       return state.update('characters', characterObjects =>
         characterObjects.update(existingCardIndex, characterObject =>
-          characterObject.set('isElite', null)));
+          characterObject.set('numDice', 0)));
     }
 
     case 'SET_CHARACTER_REGULAR_IN_DECK': {
@@ -42,7 +42,7 @@ const deckReducer = (state = initialState, action) => {
 
       return state.update('characters', characterObjects =>
         characterObjects.update(existingCardIndex, characterObject =>
-          characterObject.set('isElite', false)));
+          characterObject.set('numDice', 1)));
     }
 
     case 'SET_CHARACTER_ELITE_IN_DECK': {
@@ -51,7 +51,7 @@ const deckReducer = (state = initialState, action) => {
 
       return state.update('characters', characterObjects =>
         characterObjects.update(existingCardIndex, characterObject =>
-          characterObject.set('isElite', true)));
+          characterObject.set('numDice', 2)));
     }
 
     case 'REMOVE_CHARACTER_FROM_DECK': {
