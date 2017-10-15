@@ -61,15 +61,14 @@ export const filterTeams = (teams, deckCharacters, settings) => {
 
 export const sortTeams = (teams, sortOrder) =>
   teams.sort((a, b) => {
-    let sortValue = b.get('characterKeys').count() - a.get('characterKeys').count();
-
     const sortValues = {
-      dice: b.get('dice') - a.get('dice'),
-      points: b.get('points') - a.get('points'),
-      health: b.get('health') - a.get('health'),
-      characterCount: b.get('characterCount') - a.get('characterCount'),
+      dice: b.get('rankDice') - a.get('rankDice'),
+      points: b.get('rankPoints') - a.get('rankPoints'),
+      health: b.get('rankHealth') - a.get('rankHealth'),
+      characterCount: b.get('rankCharacterCount') - a.get('rankCharacterCount'),
     };
 
+    let sortValue = 0;
     sortOrder.every((sortKey) => {
       if (sortValues[sortKey] !== 0) {
         sortValue = sortValues[sortKey];
