@@ -30,7 +30,10 @@ class Team {
     this.key = '';
     this.characters = [];
     this.characterKeys = [];
+    this.characterCount = 0;
+
     this.sets = [];
+
     this.affiliation = null;
     this.damageTypes = [];
     this.factions = [];
@@ -46,9 +49,16 @@ class Team {
       .join('__');
   }
 
-  assembleCharacterKeys() {
+  setCharacterKeys() {
     this.characters.forEach(characterObject =>
       this.characterKeys.push(`${characterObject.id}_${characterObject.numDice}_${characterObject.count}`));
+  }
+
+  setCharacterCount() {
+    this.characterCount = this.characters.reduce(
+      (count, characterObject) => count + characterObject.count,
+      0,
+    );
   }
 
   hasCharacter(card) {
@@ -181,7 +191,8 @@ const buildTeams = (characters, pointsLeft, team) => {
 
   if (checkTeam(team, eligibleCharacters, pointsLeft)) {
     checkTeamStats(team);
-    team.assembleCharacterKeys();
+    team.setCharacterCount();
+    team.setCharacterKeys();
     delete team.characters;
     teams.push(team);
     return;
@@ -208,26 +219,28 @@ const villains = characterCards.filter(character => character.affiliation === 'v
 buildTeams(villains, MAX_POINTS, new Team());
 
 teams = _.uniqBy(teams, team => JSON.stringify(team.key));
-teams = teams.sort((a, b) => {
-  const pointsDiff = b.points - a.points;
-  const diceDiff = b.dice - a.dice;
-  const healthDiff = b.health - a.health;
-  const characterDiff = a.characterKeys.length - b.characterKeys.length;
 
-  if (diceDiff) {
-    return diceDiff;
-  }
-
-  if (healthDiff) {
-    return healthDiff;
-  }
-
-  if (pointsDiff) {
-    return pointsDiff;
-  }
-
-  return characterDiff;
+teams = _.sortBy(teams, ['dice', 'health', 'points', 'characterCount']).map((team, index) => {
+  team.rankDice = index;
+  return team;
 });
+
+teams = _.sortBy(teams, ['health', 'dice', 'points', 'characterCount']).map((team, index) => {
+  team.rankHealth = index;
+  return team;
+});
+
+teams = _.sortBy(teams, ['points', 'dice', 'health', 'characterCount']).map((team, index) => {
+  team.rankPoints = index;
+  return team;
+});
+
+teams = _.sortBy(teams, ['characterCount', 'dice', 'health', 'points']).map((team, index) => {
+  team.rankCharacterCount = index;
+  return team;
+});
+
+teams = _.sortBy(teams, ['dice', 'health', 'points', 'characterCount']);
 
 console.log(`Output ${teams.length} teams...`); // eslint-disable-line no-console
 jsonfile.writeFile(path.join(__dirname, '../data/teams.json'), teams);

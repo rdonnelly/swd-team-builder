@@ -64,9 +64,10 @@ export const sortTeams = (teams, sortOrder) =>
     let sortValue = b.get('characterKeys').count() - a.get('characterKeys').count();
 
     const sortValues = {
-      points: b.get('points') - a.get('points'),
       dice: b.get('dice') - a.get('dice'),
+      points: b.get('points') - a.get('points'),
       health: b.get('health') - a.get('health'),
+      characterCount: b.get('characterCount') - a.get('characterCount'),
     };
 
     sortOrder.every((sortKey) => {

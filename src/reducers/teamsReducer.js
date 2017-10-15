@@ -20,7 +20,7 @@ const initialState = Immutable.fromJS({
     showSets: sets.map(set => set.code),
   },
   sortOrder: [
-    'dice', 'health', 'points',
+    'dice', 'health', 'points', 'characterCount',
   ],
 });
 
