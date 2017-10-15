@@ -2,20 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
-  Text,
-  TouchableHighlight,
   View,
   VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/Entypo';
 
+import CharacterListItem from '../../../components/CharacterListItem';
 import SelectedCharacters from '../../../components/SelectedCharacters';
-import SWDIcon from '../../../components/SWDIcon';
 
 import { getCharacters } from '../../../selectors/characterSelectors';
-
-import { characterCards } from '../../../lib/Destiny';
 
 
 const styles = StyleSheet.create({
@@ -139,98 +134,14 @@ class CharacterListView extends Component {
     return false;
   }
 
-  renderItem({ item }) {
+  renderItem({ item: characterObject }) {
     const { navigate } = this.props.navigation;
-    const card = characterCards.find(characterCard => characterCard.id === item.get('id'));
-    const rowStyle = [styles.row];
-    const cardLogoStyle = [styles.cardLogo];
-    const cardNameStyle = [styles.cardName];
-    const cardUniqueStyle = [styles.cardUnique];
-    const cardInfoStyle = [styles.cardInfo];
-    const cardInfoLogoStyle = [styles.cardInfoLogo];
-    const arrowStyle = [styles.arrow];
-
-    if (item.get('isCompatibile')) {
-      if (card.faction === 'blue') {
-        cardLogoStyle.push(styles.blueCard);
-      }
-      if (card.faction === 'red') {
-        cardLogoStyle.push(styles.redCard);
-      }
-      if (card.faction === 'yellow') {
-        cardLogoStyle.push(styles.yellowCard);
-      }
-    } else {
-      rowStyle.push(styles.incompatibleRow);
-      cardLogoStyle.push(styles.incompatibleCardLogo);
-      cardNameStyle.push(styles.incompatibleCardName);
-      cardUniqueStyle.push(styles.incompatibleCardUnique);
-      cardInfoStyle.push(styles.incompatibleCardInfo);
-      cardInfoLogoStyle.push(styles.incompatibleCardInfoLogo);
-      arrowStyle.push(styles.arrowIncompatible);
-    }
-
-    const setIcon = (
-      <SWDIcon type={ card.set } font={ 'swdestiny' } style={ cardInfoLogoStyle } />
-    );
-
-    const subtitle = card.subtitle ? (
-      <Text style={ cardInfoStyle }>{ card.subtitle }</Text>
-    ) : null;
-
-    const points = card.points ? (
-      <Text style={ cardInfoStyle }>{ card.points.join('/') }</Text>
-    ) : null;
-
-    const cardInfo = (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        { setIcon &&
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            { setIcon }
-            <Text style={ cardInfoStyle }>&nbsp;</Text>
-          </View>
-        }
-        { subtitle &&
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            { subtitle }
-            <Text style={ cardInfoStyle }>&nbsp;&middot;&nbsp;</Text>
-          </View>
-        }
-        { points &&
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            { points }
-          </View>
-        }
-      </View>
-    );
-
-    const uniqueIcon = card.isUnique ? (
-      <SWDIcon type={ 'UNIQUE' } font={ 'swdestiny' } style={ cardUniqueStyle } />
-    ) : null;
 
     return (
-      <TouchableHighlight
-        activeOpacity={ 0.6 }
-        underlayColor={ 'rgba(236, 240, 241, 1.0)' }
-        onPress={ () => navigate('CharacterDetailScreen', { id: item.get('id') }) }
-      >
-        <View style={ rowStyle }>
-          <View>
-            <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } style={ cardLogoStyle } />
-          </View>
-          <View style={{ flex: 1 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={ cardNameStyle }>{ card.name }</Text>
-              <Text style={ cardNameStyle }>&nbsp;</Text>
-              <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
-            </View>
-            { cardInfo }
-          </View>
-          <View>
-            <Icon name={ 'chevron-right' } size={ 20 } style={ arrowStyle } />
-          </View>
-        </View>
-      </TouchableHighlight>
+      <CharacterListItem
+        characterObject={ characterObject }
+        navigate={ navigate }
+      />
     );
   }
 

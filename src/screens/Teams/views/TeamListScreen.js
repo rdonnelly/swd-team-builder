@@ -5,19 +5,15 @@ import {
   Button,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/Entypo';
 
-import SWDIcon from '../../../components/SWDIcon';
+import TeamListItem from '../../../components/TeamListItem';
 
 import { updateSort } from '../../../actions';
 import { getAvailableTeams } from '../../../selectors/teamSelectors';
-
-import { characterCards } from '../../../lib/Destiny';
 
 
 const styles = StyleSheet.create({
@@ -120,89 +116,16 @@ class TeamListView extends Component {
     });
   }
 
-  renderItem({ item: team }) {
+  renderItem({ item: teamObject }) {
     const { navigate } = this.props.navigation;
-    const arrowStyle = [styles.arrow];
-
-    const characterViews = team.get('characters').map((characterObject) => {
-      const card = characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
-      const cardNameStyle = [styles.characterName];
-      const diceStyles = [styles.dice];
-
-      if (card.faction === 'blue') {
-        cardNameStyle.push(styles.blueCard);
-        diceStyles.push(styles.blueCard);
-      }
-      if (card.faction === 'red') {
-        cardNameStyle.push(styles.redCard);
-        diceStyles.push(styles.redCard);
-      }
-      if (card.faction === 'yellow') {
-        cardNameStyle.push(styles.yellowCard);
-        diceStyles.push(styles.yellowCard);
-      }
-
-      const diceIcons = [];
-      if (characterObject.get('isElite') !== null) {
-        const numDice = characterObject.get('isElite') ? 2 : 1;
-        for (let i = 0; i < numDice; i += 1) {
-          diceIcons.push(
-            <SWDIcon
-              font={ 'swdestiny' }
-              key={ `${team.get('key')}___${characterObject.get('id')}___${i}` }
-              style={ diceStyles }
-              type={ 'DIE' }
-            />,
-          );
-        }
-      }
-
-      return (
-        <View
-          key={ `${team.get('key')}___${characterObject.get('id')}` }
-          style={{ flexDirection: 'row' }}
-        >
-          <Text style={ cardNameStyle }>
-            { card.name }
-          </Text>
-          <View style={ styles.diceWrapper }>
-            { diceIcons }
-          </View>
-          <Text style={ cardNameStyle }>
-            { characterObject.get('count') > 1 ? ` x${characterObject.get('count')}` : '' }
-          </Text>
-        </View>
-      );
-    });
 
     return (
-      <TouchableOpacity
-        activeOpacity={ 0.6 }
-        onPress={ () => navigate('TeamDetailScreen', { key: team.get('key') }) }
-        style={ styles.row }
-        underlayColor={ 'rgba(236, 240, 241, 1.0)' }
-      >
-        <View style={ styles.teamWrapper }>
-          <View style={ styles.teamCharactersWrapper }>
-            { characterViews }
-          </View>
-          <View style={ styles.teamInfoWrapper }>
-            <Text style={ styles.teamStat }>{ team.get('dice') } Dice</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('health') } Health</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('points') } Points</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
-          </View>
-        </View>
-        <View>
-          <Icon name={ 'chevron-right' } size={ 20 } style={ arrowStyle } />
-        </View>
-      </TouchableOpacity>
+      <TeamListItem
+        teamObject={ teamObject }
+        navigate={ navigate }
+      />
     );
   }
-
   render() {
     const { teams } = this.props;
 
@@ -213,7 +136,7 @@ class TeamListView extends Component {
         renderItem={ this.renderItem }
         getItem={ (data, key) => data.get(key) }
         getItemCount={ data => (data.size || data.count || 0) }
-        keyExtractor={ item => `team_list__${item.get('id')}` }
+        keyExtractor={ item => `team_list__${item.get('key')}` }
       />
     ) : (
       <View style={{ width: '80%' }}>
