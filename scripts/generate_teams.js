@@ -110,6 +110,10 @@ class Team {
     this.factions = _.uniq(this.factions);
 
     this.damageTypes = _.uniq([].concat(this.damageTypes, card.sides.reduce((acc, val) => {
+      if (val.includes('ID')) {
+        acc.push('indirect');
+      }
+
       if (val.includes('MD')) {
         acc.push('melee');
       }
