@@ -28,13 +28,23 @@
                                                       moduleName:@"SWDTeamBuilder"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:236.0/255.0 green:240.0/255.0 blue:241.0/255.0 alpha:1.0];
+  
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  
+  UIImageView* loadingView = [[UIImageView alloc] initWithFrame:rootView.bounds];
+  [loadingView setImage:[UIImage imageNamed:@"LaunchImage"]];
+  [loadingView setBackgroundColor:[[UIColor alloc] initWithRed:236.0/255.0 green:240.0/255.0 blue:241.0/255.0 alpha:1.0]];
+  [loadingView setContentMode:UIViewContentModeCenter];
+  rootView.loadingView = loadingView;
+  rootView.loadingViewFadeDelay = 0.5;
+  rootView.loadingViewFadeDuration = 0.5;
+  
   return YES;
 }
 
