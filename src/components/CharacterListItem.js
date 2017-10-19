@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
+import CharacterAvatar from '../components/CharacterAvatar';
 import SWDIcon from '../components/SWDIcon';
 
 import { characterCards } from '../lib/Destiny';
@@ -28,11 +29,8 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(189, 195, 199, 1.0)',
     paddingVertical: 6,
   },
-  cardLogo: {
-    color: 'rgba(189, 195, 199, 1.0)',
-    fontSize: 24,
-    textAlign: 'center',
-    width: 36,
+  cardAvatarWrapper: {
+    marginRight: 10,
   },
   incompatibleCardLogo: {
     color: 'rgba(189, 195, 199, 1.0)',
@@ -71,13 +69,13 @@ const styles = StyleSheet.create({
     color: 'rgba(189, 195, 199, 1.0)',
   },
   blueCard: {
-    color: 'rgba(52, 152, 219, 1.0)',
+    borderColor: 'rgba(52, 152, 219, 1.0)',
   },
   redCard: {
-    color: 'rgba(231, 76, 60, 1.0)',
+    borderColor: 'rgba(231, 76, 60, 1.0)',
   },
   yellowCard: {
-    color: 'rgba(241, 196, 15, 1.0)',
+    borderColor: 'rgba(241, 196, 15, 1.0)',
   },
   arrow: {
     color: 'rgba(149, 165, 166, 1.0)',
@@ -167,6 +165,16 @@ class CharacterListItem extends Component {
       <SWDIcon type={ 'UNIQUE' } font={ 'swdestiny' } style={ cardUniqueStyle } />
     ) : null;
 
+    const avatar = (
+      <View style={ styles.cardAvatarWrapper }>
+        <CharacterAvatar
+          cardId={ characterObject.get('id') }
+          round={ true }
+          size={ 42 }
+        />
+      </View>
+    );
+
     return (
       <TouchableHighlight
         activeOpacity={ 0.6 }
@@ -175,7 +183,7 @@ class CharacterListItem extends Component {
       >
         <View style={ rowStyle }>
           <View>
-            <SWDIcon type={ 'CHARACTER' } font={ 'swdestiny' } style={ cardLogoStyle } />
+            { avatar }
           </View>
           <View style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

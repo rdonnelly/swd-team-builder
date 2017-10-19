@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
+import CharacterAvatar from '../components/CharacterAvatar';
 import SWDIcon from '../components/SWDIcon';
 
 import { characterCards } from '../lib/Destiny';
@@ -41,9 +42,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  characterWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 2,
+  },
+  avatarWrapper: {
+    marginRight: 4,
+  },
   characterName: {
     color: 'rgba(52, 73, 94, 1.0)',
     fontSize: 18,
+    fontWeight: '400',
+  },
+  characterCount: {
+    color: 'rgba(149, 165, 166, 1.0)',
+    fontSize: 16,
   },
   blueCard: {
     color: 'rgba(52, 152, 219, 1.0)',
@@ -55,13 +70,15 @@ const styles = StyleSheet.create({
     color: 'rgba(241, 196, 15, 1.0)',
   },
   diceWrapper: {
+    alignItems: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
     marginLeft: 4,
   },
   dice: {
-    color: 'white',
+    color: 'rgba(149, 165, 166, 1.0)',
     fontSize: 12,
-    marginTop: 4,
+    marginTop: 1,
   },
   teamInfoWrapper: {
     alignItems: 'flex-start',
@@ -101,21 +118,33 @@ class TeamListItem extends Component {
     const characterViews = teamObject.get('characterKeys').map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
       const card = characterCards.find(characterCard => characterCard.id === cardId);
-      const cardNameStyle = [styles.characterName];
+
+      const characterNameStyles = [styles.characterName];
       const diceStyles = [styles.dice];
+      const characterCountStyles = [styles.characterCount];
 
       if (card.faction === 'blue') {
-        cardNameStyle.push(styles.blueCard);
         diceStyles.push(styles.blueCard);
+        characterCountStyles.push(styles.blueCard);
       }
       if (card.faction === 'red') {
-        cardNameStyle.push(styles.redCard);
         diceStyles.push(styles.redCard);
+        characterCountStyles.push(styles.redCard);
       }
       if (card.faction === 'yellow') {
-        cardNameStyle.push(styles.yellowCard);
         diceStyles.push(styles.yellowCard);
+        characterCountStyles.push(styles.yellowCard);
       }
+
+      const avatar = (
+        <View style={ styles.avatarWrapper }>
+          <CharacterAvatar
+            cardId={ card.id }
+            round={ true }
+            size={ 22 }
+          />
+        </View>
+      );
 
       const diceIcons = [];
       for (let i = 0; i < numDice; i += 1) {
@@ -132,15 +161,16 @@ class TeamListItem extends Component {
       return (
         <View
           key={ `${teamObject.get('key')}___${cardId}` }
-          style={{ flexDirection: 'row' }}
+          style={ styles.characterWrapper }
         >
-          <Text style={ cardNameStyle }>
+          { avatar }
+          <Text style={ characterNameStyles }>
             { card.name }
           </Text>
           <View style={ styles.diceWrapper }>
             { diceIcons }
           </View>
-          <Text style={ cardNameStyle }>
+          <Text style={ characterCountStyles }>
             { count > 1 ? ` x${count}` : '' }
           </Text>
         </View>

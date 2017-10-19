@@ -200,6 +200,8 @@ class TeamDetailScreen extends React.Component {
             cardId={ cardId }
             numDice={ parseInt(numDice, 10) }
             count={ parseInt(count, 10) }
+            round={ false }
+            size={ 72 }
           />
         </View>
       );
@@ -212,15 +214,12 @@ class TeamDetailScreen extends React.Component {
       const diceStyles = [styles.dice];
 
       if (card.faction === 'blue') {
-        cardNameStyle.push(styles.blueCard);
         diceStyles.push(styles.blueCard);
       }
       if (card.faction === 'red') {
-        cardNameStyle.push(styles.redCard);
         diceStyles.push(styles.redCard);
       }
       if (card.faction === 'yellow') {
-        cardNameStyle.push(styles.yellowCard);
         diceStyles.push(styles.yellowCard);
       }
 

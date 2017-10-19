@@ -20,22 +20,14 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     width: 72,
   },
-  blueCard: {
+  blueBorder: {
     borderColor: 'rgba(52, 152, 219, 1.0)',
   },
-  redCard: {
+  redBorder: {
     borderColor: 'rgba(231, 76, 60, 1.0)',
   },
-  yellowCard: {
+  yellowBorder: {
     borderColor: 'rgba(241, 196, 15, 1.0)',
-  },
-  imageContainer: {
-    top: -24,
-    left: -20,
-  },
-  image: {
-    height: 156,
-    width: 112,
   },
   infoContainer: {
     alignItems: 'center',
@@ -75,39 +67,64 @@ const styles = StyleSheet.create({
 });
 
 class CharacterAvatar extends Component {
+  getContainerStyles() {
+    const containerStyles = {
+      height: this.props.size,
+      width: this.props.size,
+    };
+
+    if (this.props.round) {
+      containerStyles.borderRadius = this.props.size / 2;
+    }
+
+    return containerStyles;
+  }
+
+  getImageStyles() {
+    const height = (244 / 100) * this.props.size;
+    const width = (175 / 100) * this.props.size;
+
+    const left = (-38 / 100) * this.props.size;
+    const top = (-36 / 100) * this.props.size;
+
+    return {
+      height, width, left, top,
+    };
+  }
 
   render() {
     const { cardId, numDice, count } = this.props;
     const card = characterCards.find(characterCard => characterCard.id === cardId);
 
-    const containerStyles = [styles.container];
-    const dieStyles = [styles.die];
-    const countStyles = [styles.count];
+    const containerStyles = [styles.container, this.getContainerStyles()];
+    const imageStyles = [styles.image, this.getImageStyles()];
 
     if (card.faction === 'blue') {
-      containerStyles.push(styles.blueCard);
+      containerStyles.push(styles.blueBorder);
     }
     if (card.faction === 'red') {
-      containerStyles.push(styles.redCard);
+      containerStyles.push(styles.redBorder);
     }
     if (card.faction === 'yellow') {
-      containerStyles.push(styles.yellowCard);
+      containerStyles.push(styles.yellowBorder);
     }
 
     const diceIcons = [];
-    for (let i = 0; i < numDice; i += 1) {
-      diceIcons.push(
-        <SWDIcon
-          key={ `avatar_die___${cardId}___${i}` }
-          font={ 'swdestiny' }
-          style={ dieStyles }
-          type={ 'DIE' }
-        />,
-      );
+    if (numDice) {
+      for (let i = 0; i < numDice; i += 1) {
+        diceIcons.push(
+          <SWDIcon
+            key={ `avatar_die___${cardId}___${i}` }
+            font={ 'swdestiny' }
+            style={ styles.die }
+            type={ 'DIE' }
+          />,
+        );
+      }
     }
 
     const countText = count > 1 ?
-      <Text style={ countStyles }>
+      <Text style={ styles.count }>
         x{ count }
       </Text> : null;
 
@@ -115,12 +132,10 @@ class CharacterAvatar extends Component {
 
     return (
       <View style={ containerStyles }>
-        <View style={ styles.imageContainer }>
-          <Image
-            style={ styles.image }
-            source={ imageSrc }
-          />
-        </View>
+        <Image
+          source={ imageSrc }
+          style={ imageStyles }
+        />
         <View style={ styles.infoContainer }>
           <View style={ styles.diceContainer }>
             { diceIcons }
@@ -138,6 +153,10 @@ export default CharacterAvatar;
 
 CharacterAvatar.propTypes = {
   cardId: PropTypes.string.isRequired,
-  numDice: PropTypes.number.isRequired,
-  count: PropTypes.number.isRequired,
+
+  size: PropTypes.number.isRequired,
+  round: PropTypes.bool.isRequired,
+
+  numDice: PropTypes.number,
+  count: PropTypes.number,
 };
