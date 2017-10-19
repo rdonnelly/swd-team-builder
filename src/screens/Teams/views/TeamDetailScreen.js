@@ -51,10 +51,29 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     paddingHorizontal: 16,
   },
+  characterWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   characterName: {
     color: 'rgba(52, 73, 94, 1.0)',
     fontSize: 18,
     fontWeight: '700',
+  },
+  diceWrapper: {
+    flexDirection: 'row',
+    marginLeft: 4,
+  },
+  characterCount: {
+    color: 'rgba(52, 73, 94, 1.0)',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  dice: {
+    color: 'rgba(149, 165, 166, 1.0)',
+    fontSize: 12,
+    marginTop: 1,
   },
   blueCard: {
     color: 'rgba(52, 152, 219, 1.0)',
@@ -64,15 +83,6 @@ const styles = StyleSheet.create({
   },
   yellowCard: {
     color: 'rgba(241, 196, 15, 1.0)',
-  },
-  diceWrapper: {
-    flexDirection: 'row',
-    marginLeft: 4,
-  },
-  dice: {
-    color: 'white',
-    fontSize: 14,
-    marginTop: 4,
   },
   teamStatWrapper: {
     alignItems: 'stretch',
@@ -190,7 +200,7 @@ class TeamDetailScreen extends React.Component {
     const team = teams.find(teamObj => teamObj.get('key') === teamKey);
 
     const characterAvatars = team.get('characterKeys').map((characterKey) => {
-      const [cardId, numDice, count] = characterKey.split('_');
+      const [cardId] = characterKey.split('_');
       return (
         <View
           key={ `avatar__${team.get('key')}__${cardId}` }
@@ -198,9 +208,7 @@ class TeamDetailScreen extends React.Component {
         >
           <CharacterAvatar
             cardId={ cardId }
-            numDice={ parseInt(numDice, 10) }
-            count={ parseInt(count, 10) }
-            round={ false }
+            round={ true }
             size={ 72 }
           />
         </View>
@@ -210,17 +218,21 @@ class TeamDetailScreen extends React.Component {
     const characterNames = team.get('characterKeys').map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
       const card = characterCards.find(characterCard => characterCard.id === cardId);
-      const cardNameStyle = [styles.characterName];
+      const characterNameStyles = [styles.characterName];
       const diceStyles = [styles.dice];
+      const characterCountStyles = [styles.characterCount];
 
       if (card.faction === 'blue') {
         diceStyles.push(styles.blueCard);
+        characterCountStyles.push(styles.blueCard);
       }
       if (card.faction === 'red') {
         diceStyles.push(styles.redCard);
+        characterCountStyles.push(styles.redCard);
       }
       if (card.faction === 'yellow') {
         diceStyles.push(styles.yellowCard);
+        characterCountStyles.push(styles.yellowCard);
       }
 
       const diceIcons = [];
@@ -238,15 +250,15 @@ class TeamDetailScreen extends React.Component {
       return (
         <View
           key={ `name__${team.get('key')}__${cardId}` }
-          style={{ flexDirection: 'row' }}
+          style={ styles.characterWrapper }
         >
-          <Text style={ cardNameStyle }>
+          <Text style={ characterNameStyles }>
             { card.name }
           </Text>
           <View style={ styles.diceWrapper }>
             { diceIcons }
           </View>
-          <Text style={ cardNameStyle }>
+          <Text style={ characterCountStyles }>
             { count > 1 ? ` x${count}` : '' }
           </Text>
         </View>
