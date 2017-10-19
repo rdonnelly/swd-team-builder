@@ -22,6 +22,7 @@ export const swdestiny = {
 
   AW: 'e90d',
   AWAKENINGS: 'e90d',
+  LEG: 'e913',
   SoR: 'e90e',
   SPIRIT_OF_REBELLION: 'e90e',
   TPG: 'e910',
