@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
 class SettingsSwitch extends Component {
   static defaultProps = {
-    value: 0,
+    value: true,
   };
 
   state = {
@@ -70,7 +70,7 @@ class SettingsSwitch extends Component {
 export default SettingsSwitch;
 
 SettingsSwitch.propTypes = {
-  value: PropTypes.number.isRequired,
+  value: PropTypes.bool.isRequired,
 
   setting: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

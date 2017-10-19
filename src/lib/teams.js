@@ -27,13 +27,13 @@ export const filterTeams = (teams, deckCharacters, settings) => {
       return false;
     }
 
-    const showMixedDamage = settings.get('mixedDamage');
-    if (!showMixedDamage && team.get('damageTypes').count() > 1) {
+    const damageTypes = settings.get('damageTypes');
+    if (!team.get('damageTypes').isSubset(damageTypes)) {
       return false;
     }
 
-    const showSets = settings.get('showSets');
-    if (!team.get('sets').isSubset(showSets)) {
+    const sets = settings.get('sets');
+    if (!team.get('sets').isSubset(sets)) {
       return false;
     }
 

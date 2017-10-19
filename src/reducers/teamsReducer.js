@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-import { sets, teams, teamsStats } from '../lib/Destiny';
+import { damageTypes, sets, teams, teamsStats } from '../lib/Destiny';
 
 
 const initialState = Immutable.fromJS({
@@ -15,9 +15,13 @@ const initialState = Immutable.fromJS({
     minHealth: Math.max(teamsStats.minHealth, 15),
     maxHealth: teamsStats.maxHealth,
 
-    mixedDamage: true,
+    damageTypes: damageTypes
+      .filter(damageType => ['ID'].indexOf(damageType.code) === -1)
+      .map(damageType => damageType.code),
 
-    showSets: sets.map(set => set.code),
+    sets: sets
+      .filter(set => ['LEG', 'RIV'].indexOf(set.code) === -1)
+      .map(set => set.code),
   },
   sortOrder: [
     'dice', 'health', 'points', 'characterCount',
@@ -27,7 +31,27 @@ const initialState = Immutable.fromJS({
 const teamsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_SETTING': {
-      return state.update('settings', settings => settings.set(action.payload.key, action.payload.value));
+      return state.setIn(['settings', action.payload.key], action.payload.value);
+    }
+
+    case 'SET_SETTING_DAMAGE_TYPES': {
+      return state.updateIn(['settings', 'damageTypes'], (settingDamageTypes) => {
+        if (action.payload.value) {
+          return settingDamageTypes.push(action.payload.key);
+        }
+
+        return settingDamageTypes.filterNot(setCode => setCode === action.payload.key);
+      });
+    }
+
+    case 'SET_SETTING_SETS': {
+      return state.updateIn(['settings', 'sets'], (settingSets) => {
+        if (action.payload.value) {
+          return settingSets.push(action.payload.key);
+        }
+
+        return settingSets.filterNot(setCode => setCode === action.payload.key);
+      });
     }
 
     case 'SET_SORT': {

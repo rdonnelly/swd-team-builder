@@ -64,6 +64,22 @@ const setSetting = (key, value) => ({
   },
 });
 
+const setSettingDamageTypes = (key, value) => ({
+  type: 'SET_SETTING_DAMAGE_TYPES',
+  payload: {
+    key,
+    value,
+  },
+});
+
+const setSettingSets = (key, value) => ({
+  type: 'SET_SETTING_SETS',
+  payload: {
+    key,
+    value,
+  },
+});
+
 const setSort = sortPriority => ({
   type: 'SET_SORT',
   payload: {
@@ -127,6 +143,16 @@ export const updateSetting = (key, value) =>
   dispatch =>
     Promise.resolve()
       .then(dispatch(setSetting(key, value)));
+
+export const updateSettingDamageTypes = (key, value) =>
+  dispatch =>
+    Promise.resolve()
+      .then(dispatch(setSettingDamageTypes(key, value)));
+
+export const updateSettingSets = (key, value) =>
+  dispatch =>
+    Promise.resolve()
+      .then(dispatch(setSettingSets(key, value)));
 
 export const updateSort = value =>
   dispatch =>

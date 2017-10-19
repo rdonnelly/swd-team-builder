@@ -14,10 +14,10 @@ import SafariView from 'react-native-safari-view';
 import SettingSlider from '../../../components/SettingSlider';
 import SettingSwitch from '../../../components/SettingSwitch';
 
-import { updateSetting } from '../../../actions';
+import { updateSetting, updateSettingDamageTypes, updateSettingSets } from '../../../actions';
 import { getSettings } from '../../../selectors/teamSelectors';
 
-import { teamsStats } from '../../../lib/Destiny';
+import { damageTypes, sets, teamsStats } from '../../../lib/Destiny';
 
 
 const styles = StyleSheet.create({
@@ -99,6 +99,26 @@ class SettingsView extends Component {
   render() {
     const { settings } = this.props;
 
+    const setSwitches = sets.map(set => (
+      <SettingSwitch
+        value={ settings.get('sets').includes(set.code) }
+        setting={ set.code }
+        label={ set.name }
+        callback={ this.props.updateSettingSets }
+        key={ `set_switch__${set.code}`}
+      />
+    ));
+
+    const damageTypeSwitches = damageTypes.map(damageType => (
+      <SettingSwitch
+        value={ settings.get('damageTypes').includes(damageType.code) }
+        setting={ damageType.code }
+        label={ damageType.name }
+        callback={ this.props.updateSettingDamageTypes }
+        key={ `damage_type_switch__${damageType.code}`}
+      />
+    ));
+
     return (
       <View style={ styles.container }>
         <ScrollView style={ styles.scrollContainer }>
@@ -130,12 +150,9 @@ class SettingsView extends Component {
               callback={ this.props.updateSetting }
             />
 
-            <SettingSwitch
-              value={ settings.get('minPoints') }
-              setting={ 'mixedDamage' }
-              label={ 'Mixed Damage Teams' }
-              callback={ this.props.updateSetting }
-            />
+            { damageTypeSwitches }
+
+            { setSwitches }
 
             <View style={ styles.information }>
               <Text style={ styles.disclaimerText }>
@@ -168,11 +185,18 @@ const mapStateToProps = state => ({
   settings: getSettings(state),
 });
 
-const mapDispatchToProps = { updateSetting };
+const mapDispatchToProps = {
+  updateSetting,
+  updateSettingDamageTypes,
+  updateSettingSets,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
 
 SettingsView.propTypes = {
   settings: PropTypes.object.isRequired,
+
   updateSetting: PropTypes.func.isRequired,
+  updateSettingDamageTypes: PropTypes.func.isRequired,
+  updateSettingSets: PropTypes.func.isRequired,
 };
