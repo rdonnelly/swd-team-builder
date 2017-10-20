@@ -216,10 +216,10 @@ const buildTeams = (characters, pointsLeft, team) => {
   });
 };
 
-const heroes = characterCards.filter(character => character.affiliation === 'hero');
+const heroes = characterCards.filter(character => ['hero', 'neutral'].indexOf(character.affiliation) !== -1);
 buildTeams(heroes, MAX_POINTS, new Team());
 
-const villains = characterCards.filter(character => character.affiliation === 'villain');
+const villains = characterCards.filter(character => ['neutral', 'villain'].indexOf(character.affiliation) !== -1);
 buildTeams(villains, MAX_POINTS, new Team());
 
 teams = _.uniqBy(teams, team => JSON.stringify(team.key));

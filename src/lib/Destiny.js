@@ -5,6 +5,7 @@ import dbSetSoR from 'swdestinydb-json-data/set/SoR.json';
 import dbSetEaW from 'swdestinydb-json-data/set/EaW.json';
 import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
+import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
 
 import teams from '../../data/teams.json';
 import teamsStats from '../../data/teams_stats.json';
@@ -16,6 +17,7 @@ const characterCards =
     dbSetEaW,
     dbSetTPG,
     dbSetLEG,
+    dbSetRIV,
   ).filter(
     rawCard => rawCard.type_code === 'character',
   ).map(

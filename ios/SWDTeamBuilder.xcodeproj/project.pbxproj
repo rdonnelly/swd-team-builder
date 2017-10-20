@@ -51,6 +51,7 @@
 		C128ED34F9D543E8AD171F5B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40F5955432794195ACDFC328 /* SimpleLineIcons.ttf */; };
 		EEDCABF530544260B8E861B1 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9ACC5CCB25924D0C83364CEB /* EvilIcons.ttf */; };
 		EF1A3691F14D4A469328CDF3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C92F752AF64E70BFCBF7DC /* libz.tbd */; };
+		4A113DF591BB4015A1BF5766 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4940F582768D4D17BF6BF6E9 /* Feather.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -366,6 +367,7 @@
 		E0E2B141AF5F430A991B74A8 /* libSafariViewManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSafariViewManager.a; sourceTree = "<group>"; };
 		E6622025258945C4B3AE3858 /* libBugsnagReactNative.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBugsnagReactNative.a; sourceTree = "<group>"; };
 		FFEF90D920D547649BB2E618 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		4940F582768D4D17BF6BF6E9 /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -550,6 +552,7 @@
 				40F5955432794195ACDFC328 /* SimpleLineIcons.ttf */,
 				7B41E8F1E602438F8CD5C0D8 /* Zocial.ttf */,
 				B495006B2CD64C3D8FAB2582 /* swdestiny.ttf */,
+				4940F582768D4D17BF6BF6E9 /* Feather.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1149,6 +1152,7 @@
 				C128ED34F9D543E8AD171F5B /* SimpleLineIcons.ttf in Resources */,
 				2E6B8CF290604F6DA77785E3 /* Zocial.ttf in Resources */,
 				61167BA0CAD94F59860FA040 /* swdestiny.ttf in Resources */,
+				4A113DF591BB4015A1BF5766 /* Feather.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
