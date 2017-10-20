@@ -34,7 +34,7 @@ class Team {
 
     this.sets = [];
 
-    this.affiliation = null;
+    this.affiliation = 'neutral';
     this.damageTypes = [];
     this.factions = [];
     this.health = 0;
@@ -102,7 +102,9 @@ class Team {
     this.sets.push(card.set);
     this.sets = _.uniq(this.sets);
 
-    this.affiliation = card.affiliation;
+    if (['hero', 'villain'].indexOf(card.affiliation) !== -1) {
+      this.affiliation = card.affiliation;
+    }
 
     this.health += card.health;
 
