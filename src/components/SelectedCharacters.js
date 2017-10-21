@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   deckCard: {
-    color: 'rgba(255, 255, 255, 1.0)',
+    color: 'rgba(189, 195, 199, 1.0)',
     fontSize: 16,
     fontWeight: '500',
   },

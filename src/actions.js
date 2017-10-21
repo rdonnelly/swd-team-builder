@@ -42,10 +42,10 @@ const resetDeck = () => ({
 
 // CHARACTER ACTIONS
 
-const updateCharacters = deckCards => ({
+const updateCharacters = deckAffiliation => ({
   type: 'UPDATE_CHARACTERS',
   payload: {
-    deckCards,
+    deckAffiliation,
   },
 });
 
@@ -100,26 +100,26 @@ export const addCharacter = characterObject =>
 
     return Promise.resolve()
       .then(dispatch(addCharacterToDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
+      .then(dispatch(updateCharacters(getState().deck.get('affiliation'))));
   };
 
 export const setCharacterAny = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterAnyInDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
+      .then(dispatch(updateCharacters(getState().deck.get('affiliation'))));
 
 export const setCharacterRegular = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterRegularInDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
+      .then(dispatch(updateCharacters(getState().deck.get('affiliation'))));
 
 export const setCharacterElite = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterEliteInDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
+      .then(dispatch(updateCharacters(getState().deck.get('affiliation'))));
 
 export const removeCharacter = characterObject =>
   (dispatch, getState) => {
@@ -130,7 +130,7 @@ export const removeCharacter = characterObject =>
 
     return Promise.resolve()
       .then(dispatch(removeCharacterFromDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('characters'))));
+      .then(dispatch(updateCharacters(getState().deck.get('affiliation'))));
   };
 
 export const reset = () =>

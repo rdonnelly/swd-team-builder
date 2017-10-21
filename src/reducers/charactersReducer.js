@@ -5,6 +5,7 @@ import { characterCards } from '../lib/Destiny';
 const affiliationOrder = Immutable.fromJS({
   villain: 0,
   hero: 1,
+  neutral: 2,
 });
 
 const factionOrder = Immutable.fromJS({
@@ -12,6 +13,7 @@ const factionOrder = Immutable.fromJS({
   blue: 1,
   yellow: 2,
 });
+
 
 const characters = characterCards
   .sort((a, b) => {
@@ -34,31 +36,24 @@ const characters = characterCards
     }
 
     return 0;
-  })
-  .map(card => ({
-    id: card.id,
-    name: card.name,
-    inDeck: false,
-    isCompatibile: true,
-  }));
+  });
 
-const initialState = Immutable.fromJS(characters);
+const initialState = Immutable.fromJS(characters
+.map(card => ({
+  id: card.id,
+  name: card.name,
+  affiliation: card.affiliation,
+  isCompatibile: true,
+})));
 
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_CHARACTERS': {
-      return state.map((characterObject) => {
-        const characterObjectCard =
-          characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
-
-        return characterObject
-          .set('inDeck', action.payload.deckCards.some(deckCard => deckCard.get('id') === characterObject.get('id')))
+      return state.map(characterObject =>
+        characterObject
           .set('isCompatibile',
-            action.payload.deckCards.every(
-              deckCard =>
-                characterCards.find(characterCard => characterCard.id === deckCard.get('id')).affiliation ===
-                characterObjectCard.affiliation));
-      });
+            characterObject.get('affiliation') === 'neutral' ||
+              ['neutral', characterObject.get('affiliation')].indexOf(action.payload.deckAffiliation) !== -1));
     }
 
     case 'RESET_CHARACTERS': {

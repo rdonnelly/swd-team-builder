@@ -14,6 +14,7 @@ import { cardBackTexture, cardImages } from '../lib/DestinyImages';
 
 const styles = StyleSheet.create({
   container: {
+    borderColor: 'rgba(149, 165, 166, 1.0)',
     borderRadius: 4,
     borderWidth: 2,
     height: 72,
