@@ -26,11 +26,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   incompatibleRow: {
-    borderColor: 'rgba(189, 195, 199, 1.0)',
     paddingVertical: 6,
   },
   cardAvatarWrapper: {
     marginRight: 10,
+  },
+  incompatibleCardAvatarWrapper: {
+    opacity: 0.4,
   },
   incompatibleCardLogo: {
     color: 'rgba(189, 195, 199, 1.0)',
@@ -100,26 +102,18 @@ class CharacterListItem extends Component {
     const card = characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
 
     const rowStyle = [styles.row];
-    const cardLogoStyle = [styles.cardLogo];
+    const cardAvatarStyles = [styles.cardAvatarWrapper];
     const cardNameStyle = [styles.cardName];
     const cardUniqueStyle = [styles.cardUnique];
     const cardInfoStyle = [styles.cardInfo];
     const cardInfoLogoStyle = [styles.cardInfoLogo];
     const arrowStyle = [styles.arrow];
+    let avatarSize = 42;
 
-    if (characterObject.get('isCompatibile')) {
-      if (card.faction === 'blue') {
-        cardLogoStyle.push(styles.blueCard);
-      }
-      if (card.faction === 'red') {
-        cardLogoStyle.push(styles.redCard);
-      }
-      if (card.faction === 'yellow') {
-        cardLogoStyle.push(styles.yellowCard);
-      }
-    } else {
+    if (!characterObject.get('isCompatibile')) {
       rowStyle.push(styles.incompatibleRow);
-      cardLogoStyle.push(styles.incompatibleCardLogo);
+      cardAvatarStyles.push(styles.incompatibleCardAvatarWrapper);
+      avatarSize = 24;
       cardNameStyle.push(styles.incompatibleCardName);
       cardUniqueStyle.push(styles.incompatibleCardUnique);
       cardInfoStyle.push(styles.incompatibleCardInfo);
@@ -166,18 +160,18 @@ class CharacterListItem extends Component {
     ) : null;
 
     const avatar = (
-      <View style={ styles.cardAvatarWrapper }>
+      <View style={ cardAvatarStyles }>
         <CharacterAvatar
           cardId={ characterObject.get('id') }
           round={ true }
-          size={ 42 }
+          size={ avatarSize }
         />
       </View>
     );
 
     return (
       <TouchableHighlight
-        activeOpacity={ 0.6 }
+        activeOpacity={ 0.4 }
         underlayColor={ 'rgba(236, 240, 241, 1.0)' }
         onPress={ () => this.props.navigate('CharacterDetailScreen', { id: characterObject.get('id') }) }
       >
