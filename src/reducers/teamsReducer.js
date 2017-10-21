@@ -15,13 +15,9 @@ const initialState = Immutable.fromJS({
     minHealth: Math.max(teamsStats.minHealth, 15),
     maxHealth: teamsStats.maxHealth,
 
-    damageTypes: damageTypes
-      .filter(damageType => ['ID'].indexOf(damageType.code) === -1)
-      .map(damageType => damageType.code),
+    damageTypes: damageTypes.map(damageType => damageType.code),
 
-    sets: sets
-      .filter(set => ['LEG', 'RIV'].indexOf(set.code) === -1)
-      .map(set => set.code),
+    sets: sets.map(set => set.code),
   },
   sortOrder: [
     'dice', 'health', 'points', 'characterCount',

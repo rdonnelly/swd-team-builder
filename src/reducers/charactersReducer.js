@@ -36,24 +36,25 @@ const characters = characterCards
     }
 
     return 0;
-  });
+  })
+  .map(card => ({
+    id: card.id,
+    name: card.name,
+    set: card.set,
+    affiliation: card.affiliation,
+    isCompatibile: true,
+  }));
 
-const initialState = Immutable.fromJS(characters
-.map(card => ({
-  id: card.id,
-  name: card.name,
-  affiliation: card.affiliation,
-  isCompatibile: true,
-})));
+const initialState = Immutable.fromJS(characters);
 
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_CHARACTERS': {
       return state.map(characterObject =>
         characterObject
-          .set('isCompatibile',
-            characterObject.get('affiliation') === 'neutral' ||
-              ['neutral', characterObject.get('affiliation')].indexOf(action.payload.deckAffiliation) !== -1));
+          .set('isCompatibile', action.payload.sets.includes(characterObject.get('set')) &&
+            (characterObject.get('affiliation') === 'neutral' ||
+              ['neutral', characterObject.get('affiliation')].indexOf(action.payload.deckAffiliation) !== -1)));
     }
 
     case 'RESET_CHARACTERS': {
