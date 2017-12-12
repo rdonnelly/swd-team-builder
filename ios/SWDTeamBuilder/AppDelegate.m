@@ -38,7 +38,7 @@
   
   
   UIImageView* loadingView = [[UIImageView alloc] initWithFrame:rootView.bounds];
-  [loadingView setImage:[UIImage imageNamed:@"LaunchImage"]];
+  [loadingView setImage:[UIImage imageNamed:@"splash"]];
   [loadingView setBackgroundColor:[[UIColor alloc] initWithRed:236.0/255.0 green:240.0/255.0 blue:241.0/255.0 alpha:1.0]];
   [loadingView setContentMode:UIViewContentModeCenter];
   rootView.loadingView = loadingView;
