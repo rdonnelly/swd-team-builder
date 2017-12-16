@@ -3,10 +3,10 @@ import { createSelector } from 'reselect';
 import { getDeckCharacters } from './deckSelectors';
 import { filterTeamsByDeck, filterTeamsBySettings, sortTeams } from '../lib/teams';
 
-const getTeams = state => state.teams.get('teams');
+const getTeams = state => state.teams.teams;
 
-export const getSettings = state => state.teams.get('settings');
-export const getSortOrder = state => state.teams.get('sortOrder');
+export const getSettings = state => state.teams.settings;
+export const getSortOrder = state => state.teams.settings.get('sortOrder');
 
 export const getFilteredTeamsBySettings = createSelector(
   [getTeams, getSettings],

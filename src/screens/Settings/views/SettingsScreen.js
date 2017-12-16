@@ -14,7 +14,7 @@ import SafariView from 'react-native-safari-view';
 import SettingCloud from '../../../components/SettingCloud';
 import SettingSlider from '../../../components/SettingSlider';
 
-import { updateSetting, updateSettingDamageTypes, updateSettingSets } from '../../../actions';
+import { updateSetting } from '../../../actions';
 import { getSettings } from '../../../selectors/teamSelectors';
 
 import { damageTypes, sets, teamsStats } from '../../../lib/Destiny';
@@ -104,7 +104,7 @@ class SettingsView extends Component {
         label={ 'Damage Types' }
         setting={ 'damageTypes' }
         options={ damageTypes }
-        values={ settings.get('damageTypes') }
+        values={ settings.getIn(['filters', 'damageTypes']) }
         callback={ this.props.updateSetting }
       />
     );
@@ -114,7 +114,7 @@ class SettingsView extends Component {
         label={ 'Sets' }
         setting={ 'sets' }
         options={ sets }
-        values={ settings.get('sets') }
+        values={ settings.getIn(['filters', 'sets']) }
         callback={ this.props.updateSetting }
       />
     );
@@ -124,7 +124,7 @@ class SettingsView extends Component {
         <ScrollView style={ styles.scrollContainer }>
           <View style={ styles.scrollerInner }>
             <SettingSlider
-              value={ settings.get('minDice') }
+              value={ settings.getIn(['filters', 'minDice']) }
               minValue={ teamsStats.minDice }
               maxValue={ teamsStats.maxDice }
               setting={ 'minDice' }
@@ -133,7 +133,7 @@ class SettingsView extends Component {
             />
 
             <SettingSlider
-              value={ settings.get('minHealth') }
+              value={ settings.getIn(['filters', 'minHealth']) }
               minValue={ teamsStats.minHealth }
               maxValue={ teamsStats.maxHealth }
               setting={ 'minHealth' }
@@ -142,7 +142,7 @@ class SettingsView extends Component {
             />
 
             <SettingSlider
-              value={ settings.get('minPoints') }
+              value={ settings.getIn(['filters', 'minPoints']) }
               minValue={ teamsStats.minPoints }
               maxValue={ teamsStats.maxPoints }
               setting={ 'minPoints' }
@@ -187,8 +187,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   updateSetting,
-  updateSettingDamageTypes,
-  updateSettingSets,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
@@ -197,6 +195,4 @@ SettingsView.propTypes = {
   settings: PropTypes.object.isRequired,
 
   updateSetting: PropTypes.func.isRequired,
-  updateSettingDamageTypes: PropTypes.func.isRequired,
-  updateSettingSets: PropTypes.func.isRequired,
 };

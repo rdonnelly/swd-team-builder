@@ -58,7 +58,7 @@ const resetCharacters = () => ({
 // TEAMS ACTIONS
 
 const setSetting = (key, value) => ({
-  type: 'SET_SETTING',
+  type: 'SET_FILTER',
   payload: {
     key,
     value,

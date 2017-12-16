@@ -1,3 +1,52 @@
+export const filterTeamsBySettings = (teams, settings) => {
+  let outputTeams = teams;
+
+  outputTeams = outputTeams.filter((team) => {
+    const minPoints = settings.getIn(['filters', 'minPoints']);
+    if (team.get('p') < minPoints) {
+      return false;
+    }
+
+    const maxPoints = settings.getIn(['filters', 'maxPoints']);
+    if (team.get('p') > maxPoints) {
+      return false;
+    }
+
+    const minDice = settings.getIn(['filters', 'minDice']);
+    if (team.get('nD') < minDice) {
+      return false;
+    }
+
+    const maxDice = settings.getIn(['filters', 'maxDice']);
+    if (team.get('nD') > maxDice) {
+      return false;
+    }
+
+    const minHealth = settings.getIn(['filters', 'minHealth']);
+    if (team.get('h') < minHealth) {
+      return false;
+    }
+
+    const damageTypes = settings.getIn(['filters', 'damageTypes']);
+    if (!team.get('dT').isSubset(damageTypes)) {
+      return false;
+    }
+
+    const sets = settings.getIn(['filters', 'sets']);
+    if (!team.get('s').isSubset(sets)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  if (teams.equals(outputTeams)) {
+    return teams;
+  }
+
+  return outputTeams;
+};
+
 export const filterTeamsByDeck = (teams, deckCharacters) => {
   let outputTeams = teams;
 
@@ -16,55 +65,6 @@ export const filterTeamsByDeck = (teams, deckCharacters) => {
       return team.get('cK').includes(characterKey);
     }),
   );
-
-  if (teams.equals(outputTeams)) {
-    return teams;
-  }
-
-  return outputTeams;
-};
-
-export const filterTeamsBySettings = (teams, settings) => {
-  let outputTeams = teams;
-
-  outputTeams = outputTeams.filter((team) => {
-    const minPoints = settings.get('minPoints');
-    if (team.get('p') < minPoints) {
-      return false;
-    }
-
-    const maxPoints = settings.get('maxPoints');
-    if (team.get('p') > maxPoints) {
-      return false;
-    }
-
-    const minDice = settings.get('minDice');
-    if (team.get('nD') < minDice) {
-      return false;
-    }
-
-    const maxDice = settings.get('maxDice');
-    if (team.get('nD') > maxDice) {
-      return false;
-    }
-
-    const minHealth = settings.get('minHealth');
-    if (team.get('h') < minHealth) {
-      return false;
-    }
-
-    const damageTypes = settings.get('damageTypes');
-    if (!team.get('dT').isSubset(damageTypes)) {
-      return false;
-    }
-
-    const sets = settings.get('sets');
-    if (!team.get('s').isSubset(sets)) {
-      return false;
-    }
-
-    return true;
-  });
 
   if (teams.equals(outputTeams)) {
     return teams;
