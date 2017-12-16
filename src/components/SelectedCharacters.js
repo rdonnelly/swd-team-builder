@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   Alert,
@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Immutable from 'immutable';
 
 import SWDIcon from './SWDIcon';
 
@@ -62,20 +63,11 @@ const styles = StyleSheet.create({
 });
 
 
-class SelectedCharacters extends Component {
+class SelectedCharacters extends PureComponent {
   constructor(props) {
     super(props);
 
     this.resetDeck = this.resetDeck.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const { deckCharacterObjects } = this.props;
-    if (!deckCharacterObjects.equals(nextProps.deckCharacterObjects)) {
-      return true;
-    }
-
-    return false;
   }
 
   resetDeck() {
@@ -162,7 +154,7 @@ class SelectedCharacters extends Component {
 }
 
 SelectedCharacters.propTypes = {
-  deckCharacterObjects: PropTypes.object.isRequired,
+  deckCharacterObjects: PropTypes.instanceOf(Immutable.List),
   reset: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
 };

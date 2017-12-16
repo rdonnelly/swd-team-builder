@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Text } from 'react-native';
 
 import * as swdIconCodes from '../lib/swd-icons';
 
-class SWDIcon extends Component {
+class SWDIcon extends PureComponent {
 
   render() {
     const { type, font, style, addSpace } = this.props;

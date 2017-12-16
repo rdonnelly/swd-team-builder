@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class CharacterAvatar extends Component {
+class CharacterAvatar extends PureComponent {
   getContainerStyles() {
     const containerStyles = {
       height: this.props.size,

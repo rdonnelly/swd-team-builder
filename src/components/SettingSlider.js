@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   Slider,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SettingsSlider extends Component {
+class SettingsSlider extends PureComponent {
   static defaultProps = {
     value: 0,
   };

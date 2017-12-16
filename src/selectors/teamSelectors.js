@@ -25,3 +25,8 @@ export const getAvailableTeams = createSelector(
   (filteredTeams, sortOrder) =>
     sortTeams(filteredTeams, sortOrder),
 );
+
+export const getAvailableTeamsCount = createSelector(
+  [getAvailableTeams],
+  availableTeams => availableTeams.count(),
+);

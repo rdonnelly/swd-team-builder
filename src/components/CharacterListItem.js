@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import Immutable from 'immutable';
 
 import CharacterAvatar from '../components/CharacterAvatar';
 import SWDIcon from '../components/SWDIcon';
@@ -90,15 +91,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class CharacterListItem extends Component {
-  shouldComponentUpdate(nextProps) {
-    if (!this.props.characterObject.equals(nextProps.characterObject)) {
-      return true;
-    }
-
-    return false;
-  }
-
+class CharacterListItem extends PureComponent {
   render() {
     const { characterObject } = this.props;
     const card = characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
@@ -199,7 +192,7 @@ class CharacterListItem extends Component {
 }
 
 CharacterListItem.propTypes = {
-  characterObject: PropTypes.object.isRequired,
+  characterObject: PropTypes.instanceOf(Immutable.Map),
   navigate: PropTypes.func.isRequired,
 };
 

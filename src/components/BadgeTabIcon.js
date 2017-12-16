@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { getAvailableTeams } from '../selectors/teamSelectors';
+import { getAvailableTeamsCount } from '../selectors/teamSelectors';
 
 const styles = StyleSheet.create({
   badge: {
@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     left: 16,
     minWidth: 20,
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingLeft: 4,
+    paddingRight: 4,
     position: 'absolute',
     top: 0,
   },
@@ -30,17 +30,15 @@ const styles = StyleSheet.create({
 });
 
 
-class BadgeTabIcon extends Component {
+class BadgeTabIcon extends PureComponent {
   render() {
-    const { teams } = this.props;
-
     const icon = (
       <Icon name={ this.props.iconName } size={ this.props.size } color={ this.props.color } />
     );
 
     const badge = this.props.showBadge ? (
       <View style={ styles.badge }>
-        <Text style={ styles.badgeText }>{ teams.count() }</Text>
+        <Text style={ styles.badgeText }>{ this.props.teamsCount }</Text>
       </View>
     ) : null;
 
@@ -54,13 +52,13 @@ class BadgeTabIcon extends Component {
 }
 
 const mapStateToProps = state => ({
-  teams: getAvailableTeams(state),
+  teamsCount: getAvailableTeamsCount(state),
 });
 
 export default connect(mapStateToProps)(BadgeTabIcon);
 
 BadgeTabIcon.propTypes = {
-  teams: PropTypes.object.isRequired,
+  teamsCount: PropTypes.number.isRequired,
   iconName: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,

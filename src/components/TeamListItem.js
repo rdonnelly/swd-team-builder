@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import Immutable from 'immutable';
 
 import CharacterAvatar from '../components/CharacterAvatar';
 import SWDIcon from '../components/SWDIcon';
@@ -101,15 +102,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class TeamListItem extends Component {
-  shouldComponentUpdate(nextProps) {
-    if (!this.props.teamObject.equals(nextProps.teamObject)) {
-      return true;
-    }
-
-    return false;
-  }
-
+class TeamListItem extends PureComponent {
   render() {
     const {
       teamObject,
@@ -212,6 +205,6 @@ class TeamListItem extends Component {
 export default TeamListItem;
 
 TeamListItem.propTypes = {
-  teamObject: PropTypes.object.isRequired,
+  teamObject: PropTypes.instanceOf(Immutable.Map),
   navigate: PropTypes.func.isRequired,
 };

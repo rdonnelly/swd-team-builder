@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SettingsSwitch extends Component {
+class SettingsSwitch extends PureComponent {
   static defaultProps = {
     value: true,
   };
