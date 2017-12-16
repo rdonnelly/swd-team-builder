@@ -97,7 +97,9 @@ const deckReducer = (state = initialState, action) => {
     }
 
     case 'RESET_DECK': {
-      return state.set('characters', initialState.get('characters'));
+      return state
+        .set('affiliation', initialState.get('affiliation'))
+        .set('characters', initialState.get('characters'));
     }
 
     default:

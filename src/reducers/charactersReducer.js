@@ -53,8 +53,7 @@ const charactersReducer = (state = initialState, action) => {
       return state.map(characterObject =>
         characterObject
           .set('isCompatibile', action.payload.sets.includes(characterObject.get('set')) &&
-            (characterObject.get('affiliation') === 'neutral' ||
-              ['neutral', characterObject.get('affiliation')].indexOf(action.payload.deckAffiliation) !== -1)));
+          ['neutral', characterObject.get('affiliation')].indexOf(action.payload.deckAffiliation) !== -1));
     }
 
     case 'RESET_CHARACTERS': {

@@ -1,4 +1,30 @@
-export const filterTeams = (teams, deckCharacters, settings) => {
+export const filterTeamsByDeck = (teams, deckCharacters) => {
+  let outputTeams = teams;
+
+  outputTeams = outputTeams.filter(team =>
+    deckCharacters.every((deckCharacterObject) => {
+      const numDice = deckCharacterObject.get('numDice');
+      const characterKey = `${deckCharacterObject.get('id')}_${numDice}_${deckCharacterObject.get('count')}`;
+      const regularCharacterKey = `${deckCharacterObject.get('id')}_1_${deckCharacterObject.get('count')}`;
+      const eliteCharacterKey = `${deckCharacterObject.get('id')}_2_${deckCharacterObject.get('count')}`;
+
+      if (deckCharacterObject.get('numDice') === 0) {
+        return team.get('cK').includes(regularCharacterKey) ||
+          team.get('cK').includes(eliteCharacterKey);
+      }
+
+      return team.get('cK').includes(characterKey);
+    }),
+  );
+
+  if (teams.equals(outputTeams)) {
+    return teams;
+  }
+
+  return outputTeams;
+};
+
+export const filterTeamsBySettings = (teams, settings) => {
   let outputTeams = teams;
 
   outputTeams = outputTeams.filter((team) => {
@@ -37,19 +63,7 @@ export const filterTeams = (teams, deckCharacters, settings) => {
       return false;
     }
 
-    return deckCharacters.every((deckCharacterObject) => {
-      const numDice = deckCharacterObject.get('numDice');
-      const characterKey = `${deckCharacterObject.get('id')}_${numDice}_${deckCharacterObject.get('count')}`;
-      const regularCharacterKey = `${deckCharacterObject.get('id')}_1_${deckCharacterObject.get('count')}`;
-      const eliteCharacterKey = `${deckCharacterObject.get('id')}_2_${deckCharacterObject.get('count')}`;
-
-      if (deckCharacterObject.get('numDice') === 0) {
-        return team.get('characterKeys').includes(regularCharacterKey) ||
-          team.get('characterKeys').includes(eliteCharacterKey);
-      }
-
-      return team.get('characterKeys').includes(characterKey);
-    });
+    return true;
   });
 
   if (teams.equals(outputTeams)) {
@@ -80,6 +94,3 @@ export const sortTeams = (teams, sortOrder) =>
 
     return sortValue;
   });
-
-export const filterAndSortTeams = (teams, deckCharacters, settings, sortOrder) =>
-  sortTeams(filterTeams(teams, deckCharacters, settings), sortOrder);

@@ -6,7 +6,7 @@ import { damageTypes, sets, teams, teamsStats } from '../lib/Destiny';
 const initialState = Immutable.fromJS({
   teams,
   settings: {
-    minPoints: Math.max(teamsStats.minPoints, 27),
+    minPoints: Math.max(teamsStats.minPoints, 23),
     maxPoints: teamsStats.maxPoints,
 
     minDice: Math.max(teamsStats.minDice, 2),
