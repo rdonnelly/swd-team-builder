@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class TeamListView extends Component {
+class TeamListScreen extends Component {
 
   static navigationOptions = ({ navigation }) => {
     const { state } = navigation;
@@ -108,6 +108,16 @@ class TeamListView extends Component {
     super(props);
 
     this.renderItem = this.renderItem.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const currentTabIndex = nextProps.tabBarState.index;
+    const currentTabRouteName = nextProps.tabBarState.routes[currentTabIndex].routeName;
+    if (currentTabRouteName === 'Teams') {
+      return true;
+    }
+
+    return false;
   }
 
   componentWillMount() {
@@ -201,13 +211,14 @@ class TeamListView extends Component {
 
 const mapStateToProps = state => ({
   teams: getAvailableTeams(state),
+  tabBarState: state.tabBar,
 });
 
 const mapDispatchToProps = { updateSort };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeamListView);
+export default connect(mapStateToProps, mapDispatchToProps)(TeamListScreen);
 
-TeamListView.propTypes = {
+TeamListScreen.propTypes = {
   teams: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   updateSort: PropTypes.func.isRequired,

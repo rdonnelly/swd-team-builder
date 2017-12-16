@@ -6,13 +6,14 @@ import SettingsNavigation from '../../screens/Settings/views/SettingsNavigation'
 
 
 const routeConfiguration = {
-  CharacterNavigation: { screen: CharacterNavigation },
-  TeamNavigation: { screen: TeamNavigation },
-  SettingsNavigation: { screen: SettingsNavigation },
+  Characters: { screen: CharacterNavigation },
+  Teams: { screen: TeamNavigation },
+  Settings: { screen: SettingsNavigation },
 };
 
 const tabBarConfiguration = {
   backBehavior: 'none',
+  lazy: true,
   tabBarOptions: {
     activeTintColor: 'rgba(155, 89, 182, 1.0)',
     inactiveTintColor: 'rgba(149, 165, 166, 1.0)',
