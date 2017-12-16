@@ -13,12 +13,15 @@ import SWDIcon from '../components/SWDIcon';
 
 import { characterCards } from '../lib/Destiny';
 
+export const ITEM_HEIGHT = 113;
+
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
+    height: ITEM_HEIGHT,
     justifyContent: 'center',
   },
   list: {

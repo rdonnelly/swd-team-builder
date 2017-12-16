@@ -13,6 +13,7 @@ import SWDIcon from '../components/SWDIcon';
 
 import { characterCards } from '../lib/Destiny';
 
+export const ITEM_HEIGHT = 67;
 
 const styles = StyleSheet.create({
   row: {
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(189, 195, 199, 1.0)',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    height: ITEM_HEIGHT,
     justifyContent: 'space-between',
     paddingHorizontal: 8,
     paddingVertical: 12,
@@ -196,9 +198,9 @@ class CharacterListItem extends Component {
   }
 }
 
-export default CharacterListItem;
-
 CharacterListItem.propTypes = {
   characterObject: PropTypes.object.isRequired,
   navigate: PropTypes.func.isRequired,
 };
+
+export default CharacterListItem;

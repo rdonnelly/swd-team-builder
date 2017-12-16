@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import TeamListItem from '../../../components/TeamListItem';
+import TeamListItem, { ITEM_HEIGHT } from '../../../components/TeamListItem';
 
 import { updateSort } from '../../../actions';
 import { getAvailableTeams } from '../../../selectors/teamSelectors';
@@ -126,6 +126,15 @@ class TeamListView extends Component {
       />
     );
   }
+
+  getItemLayout(data, index) {
+    return {
+      offset: ITEM_HEIGHT * index,
+      length: ITEM_HEIGHT,
+      index,
+    };
+  }
+
   render() {
     const { teams } = this.props;
 
@@ -137,6 +146,7 @@ class TeamListView extends Component {
         getItem={ (data, key) => data.get(key) }
         getItemCount={ data => (data.size || data.count || 0) }
         keyExtractor={ item => `team_list__${item.get('key')}` }
+        getItemLayout={ this.getItemLayout }
       />
     ) : (
       <View style={{ width: '80%' }}>

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import CharacterListItem from '../../../components/CharacterListItem';
+import CharacterListItem, { ITEM_HEIGHT } from '../../../components/CharacterListItem';
 import SelectedCharacters from '../../../components/SelectedCharacters';
 
 import { getCharacters } from '../../../selectors/characterSelectors';
@@ -145,6 +145,14 @@ class CharacterListView extends Component {
     );
   }
 
+  getItemLayout(data, index) {
+    return {
+      offset: ITEM_HEIGHT * index,
+      length: ITEM_HEIGHT,
+      index,
+    };
+  }
+
   render() {
     const { navigate } = this.props.navigation;
 
@@ -157,6 +165,7 @@ class CharacterListView extends Component {
           getItem={ (data, key) => data.get(key) }
           getItemCount={ data => (data.size || data.count || 0) }
           keyExtractor={ item => `character_list__${item.get('id')}` }
+          getItemLayout={ this.getItemLayout }
         />
         <SelectedCharacters navigate={ navigate }></SelectedCharacters>
       </View>
