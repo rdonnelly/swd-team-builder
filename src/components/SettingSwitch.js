@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   },
   label: {
     color: 'rgba(52, 73, 94, 1.0)',
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 18,
+    fontWeight: '700',
   },
 });
 
@@ -46,7 +46,7 @@ class SettingsSwitch extends PureComponent {
     const timeoutId = setTimeout(() => {
       this.props.callback(this.props.setting, value);
       this.setState({ timeoutId: null });
-    }, 500);
+    }, 750);
 
     this.setState({ timeoutId, value });
   }

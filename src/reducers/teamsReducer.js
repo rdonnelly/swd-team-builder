@@ -30,26 +30,6 @@ const teamsReducer = (state = initialState, action) => {
       return state.setIn(['settings', action.payload.key], action.payload.value);
     }
 
-    case 'SET_SETTING_DAMAGE_TYPES': {
-      return state.updateIn(['settings', 'damageTypes'], (settingDamageTypes) => {
-        if (action.payload.value) {
-          return settingDamageTypes.push(action.payload.key);
-        }
-
-        return settingDamageTypes.filterNot(setCode => setCode === action.payload.key);
-      });
-    }
-
-    case 'SET_SETTING_SETS': {
-      return state.updateIn(['settings', 'sets'], (settingSets) => {
-        if (action.payload.value) {
-          return settingSets.push(action.payload.key);
-        }
-
-        return settingSets.filterNot(setCode => setCode === action.payload.key);
-      });
-    }
-
     case 'SET_SORT': {
       const priority = action.payload.sortPriority;
       const sortOrder = initialState.get('sortOrder').sort((a, b) => {

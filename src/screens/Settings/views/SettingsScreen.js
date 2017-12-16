@@ -11,8 +11,8 @@ import {
 import { connect } from 'react-redux';
 import SafariView from 'react-native-safari-view';
 
+import SettingCloud from '../../../components/SettingCloud';
 import SettingSlider from '../../../components/SettingSlider';
-import SettingSwitch from '../../../components/SettingSwitch';
 
 import { updateSetting, updateSettingDamageTypes, updateSettingSets } from '../../../actions';
 import { getSettings } from '../../../selectors/teamSelectors';
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {},
   scrollerInner: {
-    paddingHorizontal: '10%',
+    paddingHorizontal: 24,
     paddingVertical: 24,
   },
   information: {
@@ -99,25 +99,25 @@ class SettingsView extends Component {
   render() {
     const { settings } = this.props;
 
-    const setSwitches = sets.map(set => (
-      <SettingSwitch
-        value={ settings.get('sets').includes(set.code) }
-        setting={ set.code }
-        label={ set.name }
-        callback={ this.props.updateSettingSets }
-        key={ `set_switch__${set.code}`}
+    const damageTypesCloud = (
+      <SettingCloud
+        label={ 'Damage Types' }
+        setting={ 'damageTypes' }
+        options={ damageTypes }
+        values={ settings.get('damageTypes') }
+        callback={ this.props.updateSetting }
       />
-    ));
+    );
 
-    const damageTypeSwitches = damageTypes.map(damageType => (
-      <SettingSwitch
-        value={ settings.get('damageTypes').includes(damageType.code) }
-        setting={ damageType.code }
-        label={ damageType.name }
-        callback={ this.props.updateSettingDamageTypes }
-        key={ `damage_type_switch__${damageType.code}`}
+    const setCloud = (
+      <SettingCloud
+        label={ 'Sets' }
+        setting={ 'sets' }
+        options={ sets }
+        values={ settings.get('sets') }
+        callback={ this.props.updateSetting }
       />
-    ));
+    );
 
     return (
       <View style={ styles.container }>
@@ -150,9 +150,9 @@ class SettingsView extends Component {
               callback={ this.props.updateSetting }
             />
 
-            { damageTypeSwitches }
+            { damageTypesCloud }
 
-            { setSwitches }
+            { setCloud }
 
             <View style={ styles.information }>
               <Text style={ styles.disclaimerText }>

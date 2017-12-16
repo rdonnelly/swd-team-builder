@@ -65,22 +65,6 @@ const setSetting = (key, value) => ({
   },
 });
 
-const setSettingDamageTypes = (key, value) => ({
-  type: 'SET_SETTING_DAMAGE_TYPES',
-  payload: {
-    key,
-    value,
-  },
-});
-
-const setSettingSets = (key, value) => ({
-  type: 'SET_SETTING_SETS',
-  payload: {
-    key,
-    value,
-  },
-});
-
 const setSort = sortPriority => ({
   type: 'SET_SORT',
   payload: {
