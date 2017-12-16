@@ -4820,7 +4820,7 @@ supports-color@^4.0.0:
 
 "swdestinydb-json-data@https://github.com/rdonnelly/swdestinydb-json-data.git":
   version "1.0.0"
-  resolved "https://github.com/rdonnelly/swdestinydb-json-data.git#ba65c0a64439b9f11ba8d525f56b3275c9b2bdf7"
+  resolved "https://github.com/rdonnelly/swdestinydb-json-data.git#276dec104f79e3ea8ff1f8dd0e2d3da927bdad2d"
   dependencies:
     lodash "^4.13.1"
 
