@@ -172,7 +172,7 @@ class TeamDetailScreen extends React.Component {
     const team = teams.find(teamObj => teamObj.get('key') === teamKey);
 
     const urlParams = [];
-    team.get('characterKeys').forEach((characterKey) => {
+    team.get('cK').forEach((characterKey) => {
       const cardId = characterKey.split('_').shift();
       urlParams.push(`cards[]=${cardId}`);
     });
@@ -199,7 +199,7 @@ class TeamDetailScreen extends React.Component {
     const { teams } = this.props;
     const team = teams.find(teamObj => teamObj.get('key') === teamKey);
 
-    const characterAvatars = team.get('characterKeys').map((characterKey) => {
+    const characterAvatars = team.get('cK').map((characterKey) => {
       const [cardId] = characterKey.split('_');
       return (
         <View
@@ -215,7 +215,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const characterNames = team.get('characterKeys').map((characterKey) => {
+    const characterNames = team.get('cK').map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
       const card = characterCards.find(characterCard => characterCard.id === cardId);
       const characterNameStyles = [styles.characterName];
@@ -265,7 +265,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const imageViews = team.get('characterKeys').map((characterKey) => {
+    const imageViews = team.get('cK').map((characterKey) => {
       const [cardId] = characterKey.split('_');
       return (
         <View
@@ -295,13 +295,13 @@ class TeamDetailScreen extends React.Component {
             { characterNames }
           </View>
           <View style={ styles.teamStatWrapper }>
-            <Text style={ styles.teamStat }>{ team.get('dice') } Dice</Text>
+            <Text style={ styles.teamStat }>{ team.get('d') } Dice</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('health') } Health</Text>
+            <Text style={ styles.teamStat }>{ team.get('h') } Health</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('points') } Points</Text>
+            <Text style={ styles.teamStat }>{ team.get('p') } Points</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('affiliation').charAt(0).toUpperCase() + team.get('affiliation').slice(1) }</Text>
+            <Text style={ styles.teamStat }>{ team.get('a').charAt(0).toUpperCase() + team.get('a').slice(1) }</Text>
           </View>
           <View style={ styles.teamSearch }>
             <TouchableOpacity

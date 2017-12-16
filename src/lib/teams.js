@@ -3,37 +3,37 @@ export const filterTeams = (teams, deckCharacters, settings) => {
 
   outputTeams = outputTeams.filter((team) => {
     const minPoints = settings.get('minPoints');
-    if (team.get('points') < minPoints) {
+    if (team.get('p') < minPoints) {
       return false;
     }
 
     const maxPoints = settings.get('maxPoints');
-    if (team.get('points') > maxPoints) {
+    if (team.get('p') > maxPoints) {
       return false;
     }
 
     const minDice = settings.get('minDice');
-    if (team.get('dice') < minDice) {
+    if (team.get('nD') < minDice) {
       return false;
     }
 
     const maxDice = settings.get('maxDice');
-    if (team.get('dice') > maxDice) {
+    if (team.get('nD') > maxDice) {
       return false;
     }
 
     const minHealth = settings.get('minHealth');
-    if (team.get('health') < minHealth) {
+    if (team.get('h') < minHealth) {
       return false;
     }
 
     const damageTypes = settings.get('damageTypes');
-    if (!team.get('damageTypes').isSubset(damageTypes)) {
+    if (!team.get('dT').isSubset(damageTypes)) {
       return false;
     }
 
     const sets = settings.get('sets');
-    if (!team.get('sets').isSubset(sets)) {
+    if (!team.get('s').isSubset(sets)) {
       return false;
     }
 
@@ -62,10 +62,10 @@ export const filterTeams = (teams, deckCharacters, settings) => {
 export const sortTeams = (teams, sortOrder) =>
   teams.sort((a, b) => {
     const sortValues = {
-      dice: b.get('rankDice') - a.get('rankDice'),
-      points: b.get('rankPoints') - a.get('rankPoints'),
-      health: b.get('rankHealth') - a.get('rankHealth'),
-      characterCount: b.get('rankCharacterCount') - a.get('rankCharacterCount'),
+      dice: b.get('rD') - a.get('rD'),
+      points: b.get('rP') - a.get('rP'),
+      health: b.get('rH') - a.get('rH'),
+      characterCount: b.get('rC') - a.get('rC'),
     };
 
     let sortValue = 0;

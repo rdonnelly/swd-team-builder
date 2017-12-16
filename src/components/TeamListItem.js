@@ -118,7 +118,7 @@ class TeamListItem extends Component {
 
     const arrowStyle = [styles.arrow];
 
-    const characterViews = teamObject.get('characterKeys').map((characterKey) => {
+    const characterViews = teamObject.get('cK').map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
       const card = characterCards.find(characterCard => characterCard.id === cardId);
 
@@ -192,13 +192,13 @@ class TeamListItem extends Component {
             { characterViews }
           </View>
           <View style={ styles.teamInfoWrapper }>
-            <Text style={ styles.teamStat }>{ teamObject.get('dice') } Dice</Text>
+            <Text style={ styles.teamStat }>{ teamObject.get('nD') } Dice</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.get('health') } Health</Text>
+            <Text style={ styles.teamStat }>{ teamObject.get('h') } Health</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.get('points') } Points</Text>
+            <Text style={ styles.teamStat }>{ teamObject.get('p') } Points</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.get('affiliation').charAt(0).toUpperCase() + teamObject.get('affiliation').slice(1) }</Text>
+            <Text style={ styles.teamStat }>{ teamObject.get('a').charAt(0).toUpperCase() + teamObject.get('a').slice(1) }</Text>
           </View>
         </View>
         <View>
