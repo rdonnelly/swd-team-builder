@@ -8,20 +8,20 @@ const getTeams = state => state.teams.teams;
 export const getSettings = state => state.teams.settings;
 export const getSortOrder = state => state.teams.settings.get('sortOrder');
 
-export const getFilteredTeamsBySettings = createSelector(
-  [getTeams, getSettings],
-  (teams, deckCharacters, settings) =>
-    filterTeamsBySettings(teams, deckCharacters, settings),
-);
-
 export const getFilteredTeamsByDeck = createSelector(
-  [getFilteredTeamsBySettings, getDeckCharacters],
+  [getTeams, getDeckCharacters],
   (teams, deckCharacters, settings) =>
     filterTeamsByDeck(teams, deckCharacters, settings),
 );
 
+export const getFilteredTeamsBySettings = createSelector(
+  [getFilteredTeamsByDeck, getSettings],
+  (teams, deckCharacters, settings) =>
+    filterTeamsBySettings(teams, deckCharacters, settings),
+);
+
 export const getAvailableTeams = createSelector(
-  [getFilteredTeamsByDeck, getSortOrder],
+  [getFilteredTeamsBySettings, getSortOrder],
   (filteredTeams, sortOrder) =>
     sortTeams(filteredTeams, sortOrder),
 );

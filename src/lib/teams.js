@@ -1,3 +1,25 @@
+export const filterTeamsByDeck = (teams, deckCharacters) => {
+  let outputTeams = teams;
+
+  deckCharacters.forEach((deckCharacterObject) => {
+    const numDice = deckCharacterObject.get('numDice');
+    const characterKey = `${deckCharacterObject.get('id')}_${numDice}_${deckCharacterObject.get('count')}`;
+    const regularCharacterKey = `${deckCharacterObject.get('id')}_1_${deckCharacterObject.get('count')}`;
+    const eliteCharacterKey = `${deckCharacterObject.get('id')}_2_${deckCharacterObject.get('count')}`;
+
+    outputTeams = outputTeams.filter((team) => {
+      if (numDice === 0) {
+        return team.get('cK').includes(regularCharacterKey) ||
+          team.get('cK').includes(eliteCharacterKey);
+      }
+
+      return team.get('cK').includes(characterKey);
+    });
+  });
+
+  return outputTeams;
+};
+
 export const filterTeamsBySettings = (teams, settings) => {
   let outputTeams = teams;
 
@@ -39,36 +61,6 @@ export const filterTeamsBySettings = (teams, settings) => {
 
     return true;
   });
-
-  if (teams.equals(outputTeams)) {
-    return teams;
-  }
-
-  return outputTeams;
-};
-
-export const filterTeamsByDeck = (teams, deckCharacters) => {
-  let outputTeams = teams;
-
-  outputTeams = outputTeams.filter(team =>
-    deckCharacters.every((deckCharacterObject) => {
-      const numDice = deckCharacterObject.get('numDice');
-      const characterKey = `${deckCharacterObject.get('id')}_${numDice}_${deckCharacterObject.get('count')}`;
-      const regularCharacterKey = `${deckCharacterObject.get('id')}_1_${deckCharacterObject.get('count')}`;
-      const eliteCharacterKey = `${deckCharacterObject.get('id')}_2_${deckCharacterObject.get('count')}`;
-
-      if (deckCharacterObject.get('numDice') === 0) {
-        return team.get('cK').includes(regularCharacterKey) ||
-          team.get('cK').includes(eliteCharacterKey);
-      }
-
-      return team.get('cK').includes(characterKey);
-    }),
-  );
-
-  if (teams.equals(outputTeams)) {
-    return teams;
-  }
 
   return outputTeams;
 };
