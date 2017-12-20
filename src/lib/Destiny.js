@@ -7,8 +7,12 @@ import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
 import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
 
-import teams from '../../data/teams.json';
+import heroTeams from '../../data/hero_teams.json';
+import villainTeams from '../../data/villain_teams.json';
+import neutralTeams from '../../data/neutral_teams.json';
 import teamsStats from '../../data/teams_stats.json';
+
+const teams = [].concat(heroTeams, villainTeams, neutralTeams);
 
 const characterCards =
   [].concat(
@@ -60,12 +64,11 @@ const damageTypes = [
 ];
 
 export {
-  sets,
-
-  characterCards,
-
   teams,
   teamsStats,
 
+  characterCards,
+
   damageTypes,
+  sets,
 };

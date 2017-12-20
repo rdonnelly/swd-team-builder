@@ -170,31 +170,6 @@ const checkTeam = (team, eligibleCharacters, pointsLeft) => {
   return eliteCheck;
 };
 
-const calculateStats = () => {
-  teams.forEach((team) => {
-    if (team.nD < teamsStats.minDice) {
-      teamsStats.minDice = team.nD;
-    }
-    if (team.nD > teamsStats.maxDice) {
-      teamsStats.maxDice = team.nD;
-    }
-
-    if (team.h < teamsStats.minHealth) {
-      teamsStats.minHealth = team.h;
-    }
-    if (team.h > teamsStats.maxHealth) {
-      teamsStats.maxHealth = team.h;
-    }
-
-    if (team.p < teamsStats.minPoints) {
-      teamsStats.minPoints = team.p;
-    }
-    if (team.p > teamsStats.maxPoints) {
-      teamsStats.maxPoints = team.p;
-    }
-  });
-};
-
 const buildTeams = (characters, pointsLeft, team) => {
   const eligibleCharacters = getEligibleCharacters(team, characters, pointsLeft);
 
@@ -234,32 +209,61 @@ const generateSetCombinations = (startSetCodes) => {
   return result;
 };
 
-const cleanUpTeams = () => {
-  teams = _.filter(teams, team => team.cC > 0);
+const cleanUpTeams = (dirtyTeams) => {
+  let cleanTeams = dirtyTeams;
 
-  teams = _.uniqBy(teams, team => JSON.stringify(team.key));
+  cleanTeams = _.filter(cleanTeams, team => team.cC > 0);
 
-  teams = _.sortBy(teams, ['nD', 'h', 'p', 'cC']).map((team, index) => {
+  cleanTeams = _.uniqBy(cleanTeams, team => JSON.stringify(team.key));
+
+  cleanTeams = _.sortBy(cleanTeams, ['nD', 'h', 'p', 'cC']).map((team, index) => {
     team.rD = index;
     return team;
   });
 
-  teams = _.sortBy(teams, ['h', 'nD', 'p', 'cC']).map((team, index) => {
+  cleanTeams = _.sortBy(cleanTeams, ['h', 'nD', 'p', 'cC']).map((team, index) => {
     team.rH = index;
     return team;
   });
 
-  teams = _.sortBy(teams, ['p', 'nD', 'h', 'cC']).map((team, index) => {
+  cleanTeams = _.sortBy(cleanTeams, ['p', 'nD', 'h', 'cC']).map((team, index) => {
     team.rP = index;
     return team;
   });
 
-  teams = _.sortBy(teams, ['cC', 'nD', 'h', 'p']).map((team, index) => {
+  cleanTeams = _.sortBy(cleanTeams, ['cC', 'nD', 'h', 'p']).map((team, index) => {
     team.rC = index;
     return team;
   });
 
-  teams = _.sortBy(teams, ['nD', 'h', 'p', 'cC']);
+  cleanTeams = _.sortBy(cleanTeams, ['nD', 'h', 'p', 'cC']);
+
+  return cleanTeams;
+};
+
+const calculateStats = (statsTeams) => {
+  statsTeams.forEach((team) => {
+    if (team.nD < teamsStats.minDice) {
+      teamsStats.minDice = team.nD;
+    }
+    if (team.nD > teamsStats.maxDice) {
+      teamsStats.maxDice = team.nD;
+    }
+
+    if (team.h < teamsStats.minHealth) {
+      teamsStats.minHealth = team.h;
+    }
+    if (team.h > teamsStats.maxHealth) {
+      teamsStats.maxHealth = team.h;
+    }
+
+    if (team.p < teamsStats.minPoints) {
+      teamsStats.minPoints = team.p;
+    }
+    if (team.p > teamsStats.maxPoints) {
+      teamsStats.maxPoints = team.p;
+    }
+  });
 };
 
 const setCombinations = generateSetCombinations(_.map(sets, 'code'));
@@ -274,18 +278,36 @@ setCombinations.forEach((setCombination) => {
     new Team(),
   );
 
+  teams = cleanUpTeams(teams);
+
   buildTeams(
     villains.filter(character => setCombination.indexOf(character.set) !== -1),
     MAX_POINTS,
     new Team(),
   );
 
-  cleanUpTeams();
+  teams = cleanUpTeams(teams);
 });
 
-calculateStats();
+const heroTeams = teams.filter(team => team.a === 'hero');
+const villainTeams = teams.filter(team => team.a === 'villain');
+const neutralTeams = teams.filter(team => team.a === 'neutral');
 
-console.log(`Output ${teams.length} teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/teams.json'), teams);
+calculateStats(heroTeams);
+calculateStats(villainTeams);
+calculateStats(neutralTeams);
+
+console.log(`Output ${heroTeams.length} hero teams...`); // eslint-disable-line no-console
+jsonfile.writeFile(path.join(__dirname, '../data/hero_teams.json'), heroTeams);
+
+console.log(`Output ${villainTeams.length} villain teams...`); // eslint-disable-line no-console
+jsonfile.writeFile(path.join(__dirname, '../data/villain_teams.json'), villainTeams);
+
+console.log(`Output ${neutralTeams.length} neutral teams...`); // eslint-disable-line no-console
+jsonfile.writeFile(path.join(__dirname, '../data/neutral_teams.json'), neutralTeams);
+
 jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
-jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), { checksum: checksum(path.join(__dirname, '../data/teams.json')) });
+jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
+  heroChecksum: checksum(path.join(__dirname, '../data/hero_teams.json')),
+  villainChecksum: checksum(path.join(__dirname, '../data/villain_teams.json')),
+});
