@@ -11,6 +11,11 @@ import Icon from 'react-native-vector-icons/Entypo';
 import { getAvailableTeamsCount } from '../selectors/teamSelectors';
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 4,
+  },
   badge: {
     alignItems: 'center',
     backgroundColor: 'rgba(155, 89, 182, 1.0)',
@@ -43,7 +48,7 @@ class BadgeTabIcon extends PureComponent {
     ) : null;
 
     return (
-      <View>
+      <View style={[styles.container, { height: this.props.size }]}>
         { icon }
         { badge }
       </View>
