@@ -50,10 +50,15 @@ const initialState = Immutable.fromJS(characters);
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_CHARACTERS': {
-      return state.map(characterObject =>
-        characterObject
-          .set('isCompatibile', action.payload.sets.includes(characterObject.get('set')) &&
-          ['neutral', characterObject.get('affiliation')].indexOf(action.payload.deckAffiliation) !== -1));
+      return state.map((characterObject) => {
+        const hasValidAffiliation =
+          characterObject.get('affiliation') === 'neutral' ||
+          action.payload.deckAffiliation === 'neutral' ||
+          characterObject.get('affiliation') === action.payload.deckAffiliation;
+        const hasValidSet = action.payload.sets.includes(characterObject.get('set'));
+        return characterObject.set('isCompatibile', hasValidAffiliation && hasValidSet);
+      })
+        ;
     }
 
     case 'RESET_CHARACTERS': {

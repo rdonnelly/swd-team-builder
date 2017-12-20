@@ -125,9 +125,10 @@ export const reset = () =>
       .then(dispatch(resetCharacters()));
 
 export const updateSetting = (key, value) =>
-  dispatch =>
+  (dispatch, getState) =>
     Promise.resolve()
-      .then(dispatch(setSetting(key, value)));
+      .then(dispatch(setSetting(key, value)))
+      .then(dispatch(updateCharacters(getState().deck.get('affiliation'), getState().teams.settings.getIn(['filters', 'sets']))));
 
 export const updateSort = value =>
   dispatch =>
