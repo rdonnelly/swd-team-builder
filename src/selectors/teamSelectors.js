@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { getDeckCharacters } from './deckSelectors';
+import { getDeckCharacters, getDeckAffiliation } from './deckSelectors';
 import { filterTeamsByDeck, filterTeamsBySettings, sortTeams } from '../lib/teams';
 
 const getTeams = state => state.teams.teams;
@@ -8,10 +8,16 @@ const getTeams = state => state.teams.teams;
 export const getSettings = state => state.teams.settings;
 export const getSortOrder = state => state.teams.settings.get('sortOrder');
 
+export const getSortedTeams = createSelector(
+  [getTeams, getSortOrder],
+  (teams, sortOrder) =>
+    sortTeams(teams, sortOrder),
+);
+
 export const getFilteredTeamsByDeck = createSelector(
-  [getTeams, getDeckCharacters],
-  (teams, deckCharacters, settings) =>
-    filterTeamsByDeck(teams, deckCharacters, settings),
+  [getSortedTeams, getDeckCharacters, getDeckAffiliation],
+  (sortedTeams, deckCharacters, deckAffiliation) =>
+    filterTeamsByDeck(sortedTeams, deckCharacters, deckAffiliation),
 );
 
 export const getFilteredTeamsBySettings = createSelector(
@@ -21,9 +27,8 @@ export const getFilteredTeamsBySettings = createSelector(
 );
 
 export const getAvailableTeams = createSelector(
-  [getFilteredTeamsBySettings, getSortOrder],
-  (filteredTeams, sortOrder) =>
-    sortTeams(filteredTeams, sortOrder),
+  [getFilteredTeamsBySettings],
+  filteredTeams => filteredTeams,
 );
 
 export const getAvailableTeamsCount = createSelector(

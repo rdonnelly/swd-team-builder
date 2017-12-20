@@ -1,4 +1,6 @@
-export const filterTeamsByDeck = (teams, deckCharacters) => {
+import { damageTypes as damageTypesList, sets as setsList} from '../lib/Destiny';
+
+export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation) => {
   let outputTeams = teams;
 
   deckCharacters.forEach((deckCharacterObject) => {
@@ -8,6 +10,10 @@ export const filterTeamsByDeck = (teams, deckCharacters) => {
     const eliteCharacterKey = `${deckCharacterObject.get('id')}_2_${deckCharacterObject.get('count')}`;
 
     outputTeams = outputTeams.filter((team) => {
+      if (deckAffiliation !== 'neutral' && team.get('a') !== deckAffiliation) {
+        return false;
+      }
+
       if (numDice === 0) {
         return team.get('cK').includes(regularCharacterKey) ||
           team.get('cK').includes(eliteCharacterKey);
@@ -22,40 +28,48 @@ export const filterTeamsByDeck = (teams, deckCharacters) => {
 
 export const filterTeamsBySettings = (teams, settings) => {
   let outputTeams = teams;
+  const minPoints = settings.getIn(['filters', 'minPoints']);
+  // const maxPoints = settings.getIn(['filters', 'maxPoints']);
+  const minDice = settings.getIn(['filters', 'minDice']);
+  // const maxDice = settings.getIn(['filters', 'maxDice']);
+  const minHealth = settings.getIn(['filters', 'minHealth']);
+  let damageTypes = settings.getIn(['filters', 'damageTypes']);
+  let sets = settings.getIn(['filters', 'sets']);
+
+  if (damageTypes.count() >= damageTypesList.length) {
+    damageTypes = null;
+  }
+
+  if (sets.count() >= setsList.length) {
+    sets = null;
+  }
 
   outputTeams = outputTeams.filter((team) => {
-    const minPoints = settings.getIn(['filters', 'minPoints']);
     if (team.get('p') < minPoints) {
       return false;
     }
 
-    const maxPoints = settings.getIn(['filters', 'maxPoints']);
-    if (team.get('p') > maxPoints) {
-      return false;
-    }
+    // if (team.get('p') > maxPoints) {
+    //   return false;
+    // }
 
-    const minDice = settings.getIn(['filters', 'minDice']);
     if (team.get('nD') < minDice) {
       return false;
     }
 
-    const maxDice = settings.getIn(['filters', 'maxDice']);
-    if (team.get('nD') > maxDice) {
-      return false;
-    }
+    // if (team.get('nD') > maxDice) {
+    //   return false;
+    // }
 
-    const minHealth = settings.getIn(['filters', 'minHealth']);
     if (team.get('h') < minHealth) {
       return false;
     }
 
-    const damageTypes = settings.getIn(['filters', 'damageTypes']);
-    if (!team.get('dT').isSubset(damageTypes)) {
+    if (damageTypes && !team.get('dT').isSubset(damageTypes)) {
       return false;
     }
 
-    const sets = settings.getIn(['filters', 'sets']);
-    if (!team.get('s').isSubset(sets)) {
+    if (sets && !team.get('s').isSubset(sets)) {
       return false;
     }
 
