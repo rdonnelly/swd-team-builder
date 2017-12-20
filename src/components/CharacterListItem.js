@@ -28,19 +28,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 12,
   },
-  incompatibleRow: {
-    paddingVertical: 6,
-  },
   cardAvatarWrapper: {
+    alignItems: 'center',
     marginRight: 10,
+    width: 42,
   },
   incompatibleCardAvatarWrapper: {
     opacity: 0.4,
-  },
-  incompatibleCardLogo: {
-    color: 'rgba(189, 195, 199, 1.0)',
-    fontSize: 20,
-    paddingHorizontal: 2,
   },
   cardName: {
     color: 'rgba(52, 73, 94, 1.0)',
@@ -48,7 +42,6 @@ const styles = StyleSheet.create({
   },
   incompatibleCardName: {
     color: 'rgba(189, 195, 199, 1.0)',
-    fontSize: 16,
   },
   cardUnique: {
     color: 'rgba(149, 165, 166, 1.0)',
@@ -64,7 +57,6 @@ const styles = StyleSheet.create({
   },
   incompatibleCardInfo: {
     color: 'rgba(189, 195, 199, 1.0)',
-    fontSize: 12,
   },
   cardInfoLogo: {
     color: 'rgba(149, 165, 166, 1.0)',
@@ -96,19 +88,15 @@ class CharacterListItem extends PureComponent {
     const { characterObject } = this.props;
     const card = characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
 
-    const rowStyle = [styles.row];
     const cardAvatarStyles = [styles.cardAvatarWrapper];
     const cardNameStyle = [styles.cardName];
     const cardUniqueStyle = [styles.cardUnique];
     const cardInfoStyle = [styles.cardInfo];
     const cardInfoLogoStyle = [styles.cardInfoLogo];
     const arrowStyle = [styles.arrow];
-    let avatarSize = 42;
 
     if (!characterObject.get('isCompatibile')) {
-      rowStyle.push(styles.incompatibleRow);
       cardAvatarStyles.push(styles.incompatibleCardAvatarWrapper);
-      avatarSize = 24;
       cardNameStyle.push(styles.incompatibleCardName);
       cardUniqueStyle.push(styles.incompatibleCardUnique);
       cardInfoStyle.push(styles.incompatibleCardInfo);
@@ -159,7 +147,7 @@ class CharacterListItem extends PureComponent {
         <CharacterAvatar
           cardId={ characterObject.get('id') }
           round={ true }
-          size={ avatarSize }
+          size={ StyleSheet.flatten(styles.cardAvatarWrapper).width }
         />
       </View>
     );
@@ -170,7 +158,7 @@ class CharacterListItem extends PureComponent {
         underlayColor={ 'rgba(236, 240, 241, 1.0)' }
         onPress={ () => this.props.navigate('CharacterDetailScreen', { id: characterObject.get('id') }) }
       >
-        <View style={ rowStyle }>
+        <View style={ styles.row }>
           <View>
             { avatar }
           </View>
