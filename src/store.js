@@ -33,8 +33,8 @@ const preloadedState = {};
 // ENHANCER / MIDDLEWARE
 const middleware = [
   ReduxThunk,
-  createLogger(),
-];
+  __DEV__ && createLogger(), // eslint-disable-line no-undef
+].filter(Boolean);
 
 const enhancer = applyMiddleware(...middleware);
 
