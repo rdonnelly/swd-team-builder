@@ -102,6 +102,7 @@ const cardImages = Immutable.fromJS({
   '05031': require('../../images/characters/05031.jpg'),
   '05032': require('../../images/characters/05032.jpg'),
   '05033': require('../../images/characters/05033.jpg'),
+  '05038': require('../../images/characters/05038.jpg'),
   '05039': require('../../images/characters/05039.jpg'),
   '05040': require('../../images/characters/05040.jpg'),
   '05041': require('../../images/characters/05041.jpg'),
