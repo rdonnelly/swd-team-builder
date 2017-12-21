@@ -6,6 +6,10 @@ import {
 } from '../lib/Destiny';
 
 export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation) => {
+  if (deckCharacters.isEmpty()) {
+    return teams;
+  }
+
   let outputTeams = teams;
 
   deckCharacters.forEach((deckCharacterObject) => {
@@ -100,10 +104,10 @@ export const filterTeamsBySettings = (teams, settings) => {
 export const sortTeams = (teams, sortOrder) =>
   teams.sort((a, b) => {
     const sortValues = {
-      dice: b.get('rD') - a.get('rD'),
-      health: b.get('rH') - a.get('rH'),
-      points: b.get('rP') - a.get('rP'),
-      characterCount: b.get('rC') - a.get('rC'),
+      dice: a.get('rD') - b.get('rD'),
+      health: a.get('rH') - b.get('rH'),
+      points: a.get('rP') - b.get('rP'),
+      characterCount: a.get('rC') - b.get('rC'),
     };
 
     let sortValue = 0;

@@ -130,7 +130,7 @@ class CharacterDetailScreen extends React.Component {
       if (!characterObject.get('isUnique') && deckCharacterObject.get('count') > 1) {
         messageText += ` (x${deckCharacterObject.get('count')})`;
       }
-    } else if (!characterObject.get('isCompatibile')) {
+    } else if (!characterObject.get('isCompatibile', true)) {
       messageText = 'Character Incompatible with Selected Characters or Settings';
     }
 
@@ -141,7 +141,7 @@ class CharacterDetailScreen extends React.Component {
         </Text>
       </View> : null;
 
-    const addButton = characterObject.get('isCompatibile') && (!characterIsInDeck || !characterObject.get('isUnique')) ? (
+    const addButton = characterObject.get('isCompatibile', true) && (!characterIsInDeck || !characterObject.get('isUnique')) ? (
       <TouchableOpacity
         onPress={ () => this.props.addCharacter(characterObject) }
         style={ [styles.button, styles.buttonGreen] }

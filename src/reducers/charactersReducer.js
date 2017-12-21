@@ -2,9 +2,7 @@ import Immutable from 'immutable';
 
 import { characters } from '../lib/Destiny';
 
-const initialState = Immutable.fromJS(
-  Object.values(characters).map(card => Object.assign({}, card, { isCompatibile: true })),
-);
+const initialState = Immutable.fromJS(Object.values(characters));
 
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -33,8 +31,7 @@ const charactersReducer = (state = initialState, action) => {
         const hasValidDamageTypes = characterDamageTypes.isSubset(validDamageTypes);
         return characterObject.set('isCompatibile',
           hasValidAffiliation && hasValidDamageTypes && hasValidFaction && hasValidSet);
-      })
-        ;
+      });
     }
 
     case 'RESET_CHARACTERS': {

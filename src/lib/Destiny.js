@@ -2,12 +2,23 @@ import sets from 'swdestinydb-json-data/sets.json';
 
 import characters from '../../data/characters.json';
 
-import heroTeams from '../../data/hero_teams.json';
-import villainTeams from '../../data/villain_teams.json';
-import neutralTeams from '../../data/neutral_teams.json';
+import teamsWith1Die from '../../data/teams_1.json';
+import teamsWith2Dice from '../../data/teams_2.json';
+import teamsWith3Dice from '../../data/teams_3.json';
+import teamsWith4Dice from '../../data/teams_4.json';
+import teamsWith5Dice from '../../data/teams_5.json';
+import teamsWith6Dice from '../../data/teams_6.json';
+
 import teamsStats from '../../data/teams_stats.json';
 
-const teams = [].concat(heroTeams, villainTeams, neutralTeams);
+const teams = [].concat(
+  teamsWith6Dice,
+  teamsWith5Dice,
+  teamsWith4Dice,
+  teamsWith3Dice,
+  teamsWith2Dice,
+  teamsWith1Die,
+);
 
 const affiliations = [
   { code: 'villain', name: 'Villain' },

@@ -209,27 +209,27 @@ const cleanUpTeams = (dirtyTeams) => {
 const sortTeams = (dirtyTeams) => {
   let cleanTeams = dirtyTeams;
 
-  cleanTeams = _.sortBy(cleanTeams, ['nD', 'h', 'p', 'cC']).map((team, index) => {
+  cleanTeams = _.sortBy(cleanTeams, ['nD', 'h', 'p', 'cC']).reverse().map((team, index) => {
     team.rD = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['h', 'nD', 'p', 'cC']).map((team, index) => {
+  cleanTeams = _.sortBy(cleanTeams, ['h', 'nD', 'p', 'cC']).reverse().map((team, index) => {
     team.rH = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['p', 'nD', 'h', 'cC']).map((team, index) => {
+  cleanTeams = _.sortBy(cleanTeams, ['p', 'nD', 'h', 'cC']).reverse().map((team, index) => {
     team.rP = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['cC', 'nD', 'h', 'p']).map((team, index) => {
+  cleanTeams = _.sortBy(cleanTeams, ['cC', 'nD', 'h', 'p']).reverse().map((team, index) => {
     team.rC = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['nD', 'h', 'p', 'cC']);
+  cleanTeams = _.sortBy(cleanTeams, ['rD', 'rH', 'rP', 'rC']);
 
   return cleanTeams;
 };
@@ -289,25 +289,35 @@ setCombinations.forEach((setCombination) => {
   teams = cleanUpTeams(teams);
 });
 
-sortTeams(teams);
+teams = sortTeams(teams);
 calculateStats(teams);
 
-const heroTeams = teams.filter(team => team.a.indexOf('hero') !== -1);
-const villainTeams = teams.filter(team => team.a.indexOf('villain') !== -1);
-const neutralTeams = teams.filter(team => _.isEqual(team.a, ['neutral']));
+const teamsWith1Die = teams.filter(team => team.nD === 1);
+const teamsWith2Dice = teams.filter(team => team.nD === 2);
+const teamsWith3Dice = teams.filter(team => team.nD === 3);
+const teamsWith4Dice = teams.filter(team => team.nD === 4);
+const teamsWith5Dice = teams.filter(team => team.nD === 5);
+const teamsWith6Dice = teams.filter(team => team.nD === 6);
 
-console.log(`Output ${heroTeams.length} hero teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/hero_teams.json'), heroTeams);
+console.log(`Output ${teamsWith1Die.length} 1 die teams...`); // eslint-disable-line no-console
+jsonfile.writeFile(path.join(__dirname, '../data/teams_1.json'), teamsWith1Die);
 
-console.log(`Output ${villainTeams.length} villain teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/villain_teams.json'), villainTeams);
+console.log(`Output ${teamsWith2Dice.length} 2 die teams...`); // eslint-disable-line no-console
+jsonfile.writeFile(path.join(__dirname, '../data/teams_2.json'), teamsWith2Dice);
 
-console.log(`Output ${neutralTeams.length} neutral teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/neutral_teams.json'), neutralTeams);
+console.log(`Output ${teamsWith3Dice.length} 3 die teams...`); // eslint-disable-line no-console
+jsonfile.writeFile(path.join(__dirname, '../data/teams_3.json'), teamsWith3Dice);
+
+console.log(`Output ${teamsWith4Dice.length} 4 die teams...`); // eslint-disable-line no-console
+jsonfile.writeFile(path.join(__dirname, '../data/teams_4.json'), teamsWith4Dice);
+
+console.log(`Output ${teamsWith5Dice.length} 5 die teams...`); // eslint-disable-line no-console
+jsonfile.writeFile(path.join(__dirname, '../data/teams_5.json'), teamsWith5Dice);
+
+console.log(`Output ${teamsWith6Dice.length} 6 die teams...`); // eslint-disable-line no-console
+jsonfile.writeFile(path.join(__dirname, '../data/teams_6.json'), teamsWith6Dice);
 
 jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
 jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
-  heroChecksum: checksum(heroTeams),
-  neutralChecksum: checksum(neutralTeams),
-  villainChecksum: checksum(villainTeams),
+  checksum: checksum(teams),
 });

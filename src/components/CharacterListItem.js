@@ -95,7 +95,7 @@ class CharacterListItem extends PureComponent {
     const cardInfoLogoStyle = [styles.cardInfoLogo];
     const arrowStyle = [styles.arrow];
 
-    if (!characterObject.get('isCompatibile')) {
+    if (!characterObject.get('isCompatibile', true)) {
       cardAvatarStyles.push(styles.incompatibleCardAvatarWrapper);
       cardNameStyle.push(styles.incompatibleCardName);
       cardUniqueStyle.push(styles.incompatibleCardUnique);
