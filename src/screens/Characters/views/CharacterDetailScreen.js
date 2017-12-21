@@ -203,7 +203,7 @@ class CharacterDetailScreen extends Component {
         </View>
       </TouchableOpacity> : null;
 
-    const imageSrc = cardImages.get(characterObject.get('id'), cardBack);
+    const imageSrc = cardImages[characterObject.get('id')] || cardBack;
 
     return (
       <View style={ styles.container }>

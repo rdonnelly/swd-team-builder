@@ -273,7 +273,7 @@ class TeamDetailScreen extends React.Component {
           style={ styles.imageWrapper }
         >
           <Image
-            source={ cardImages.get(cardId, cardBack) }
+            source={ cardImages[cardId] || cardBack }
             style={{ height: 280, resizeMode: 'contain' }}
           />
         </View>
