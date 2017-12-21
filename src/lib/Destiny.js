@@ -57,10 +57,23 @@ const characterCards =
     },
   );
 
+const affiliations = [
+  { code: 'villain', name: 'Villain' },
+  { code: 'hero', name: 'Hero' },
+  { code: 'neutral', name: 'Neutral' },
+];
+
 const damageTypes = [
   { code: 'ID', name: 'Indirect Damage' },
   { code: 'MD', name: 'Melee Damage' },
   { code: 'RD', name: 'Range Damage' },
+];
+
+const factions = [
+  { code: 'red', name: 'Red' },
+  { code: 'blue', name: 'Blue' },
+  { code: 'yellow', name: 'Yellow' },
+  { code: 'gray', name: 'Gray' },
 ];
 
 export {
@@ -69,6 +82,8 @@ export {
 
   characterCards,
 
+  affiliations,
   damageTypes,
+  factions,
   sets,
 };

@@ -1,4 +1,9 @@
-import { damageTypes as damageTypesList, sets as setsList} from '../lib/Destiny';
+import {
+  affiliations as affiliationsList,
+  factions as factionsList,
+  damageTypes as damageTypesList,
+  sets as setsList,
+} from '../lib/Destiny';
 
 export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation) => {
   let outputTeams = teams;
@@ -29,12 +34,20 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation) => {
 export const filterTeamsBySettings = (teams, settings) => {
   let outputTeams = teams;
   const minPoints = settings.getIn(['filters', 'minPoints']);
-  // const maxPoints = settings.getIn(['filters', 'maxPoints']);
   const minDice = settings.getIn(['filters', 'minDice']);
-  // const maxDice = settings.getIn(['filters', 'maxDice']);
   const minHealth = settings.getIn(['filters', 'minHealth']);
+  let affiliations = settings.getIn(['filters', 'affiliations']);
+  let factions = settings.getIn(['filters', 'factions']);
   let damageTypes = settings.getIn(['filters', 'damageTypes']);
   let sets = settings.getIn(['filters', 'sets']);
+
+  if (affiliations.count() >= affiliationsList.length) {
+    affiliations = null;
+  }
+
+  if (factions.count() >= factionsList.length) {
+    factions = null;
+  }
 
   if (damageTypes.count() >= damageTypesList.length) {
     damageTypes = null;
@@ -49,23 +62,23 @@ export const filterTeamsBySettings = (teams, settings) => {
       return false;
     }
 
-    // if (team.get('p') > maxPoints) {
-    //   return false;
-    // }
-
     if (team.get('nD') < minDice) {
       return false;
     }
-
-    // if (team.get('nD') > maxDice) {
-    //   return false;
-    // }
 
     if (team.get('h') < minHealth) {
       return false;
     }
 
+    if (affiliations && !affiliations.includes(team.get('a'))) {
+      return false;
+    }
+
     if (damageTypes && !team.get('dT').isSubset(damageTypes)) {
+      return false;
+    }
+
+    if (factions && !team.get('f').isSubset(factions)) {
       return false;
     }
 

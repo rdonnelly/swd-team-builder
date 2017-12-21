@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   actionBar: {
     backgroundColor: 'rgba(52, 73, 94, 1.0)',
     paddingBottom: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
     paddingTop: 16,
     width: '100%',
   },
@@ -57,11 +57,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     marginBottom: 8,
+    textAlign: 'center',
   },
   buttonView: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
+    paddingHorizontal: 8,
   },
   button: {
     alignItems: 'center',
@@ -133,7 +135,7 @@ class CharacterDetailScreen extends React.Component {
         messageText += ` (x${deckCharacterObject.get('count')})`;
       }
     } else if (!characterObject.get('isCompatibile')) {
-      messageText = 'Character Incompatible with Team';
+      messageText = 'Character Incompatible with Selected Characters or Settings';
     }
 
     const message = messageText ?

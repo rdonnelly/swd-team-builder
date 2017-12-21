@@ -17,7 +17,14 @@ import SettingSlider from '../../../components/SettingSlider';
 import { updateSetting } from '../../../actions';
 import { getSettings } from '../../../selectors/teamSelectors';
 
-import { damageTypes, sets, teamsStats } from '../../../lib/Destiny';
+import {
+  teamsStats,
+
+  affiliations,
+  damageTypes,
+  factions,
+  sets,
+} from '../../../lib/Destiny';
 
 
 const styles = StyleSheet.create({
@@ -99,6 +106,26 @@ class SettingsView extends Component {
   render() {
     const { settings } = this.props;
 
+    const affiliationsCloud = (
+      <SettingCloud
+        label={ 'Affiliations' }
+        setting={ 'affiliations' }
+        options={ affiliations }
+        values={ settings.getIn(['filters', 'affiliations']) }
+        callback={ this.props.updateSetting }
+      />
+    );
+
+    const factionsCloud = (
+      <SettingCloud
+        label={ 'Factions' }
+        setting={ 'factions' }
+        options={ factions }
+        values={ settings.getIn(['filters', 'factions']) }
+        callback={ this.props.updateSetting }
+      />
+    );
+
     const damageTypesCloud = (
       <SettingCloud
         label={ 'Damage Types' }
@@ -109,7 +136,7 @@ class SettingsView extends Component {
       />
     );
 
-    const setCloud = (
+    const setsCloud = (
       <SettingCloud
         label={ 'Sets' }
         setting={ 'sets' }
@@ -150,9 +177,13 @@ class SettingsView extends Component {
               callback={ this.props.updateSetting }
             />
 
+            { affiliationsCloud }
+
+            { factionsCloud }
+
             { damageTypesCloud }
 
-            { setCloud }
+            { setsCloud }
 
             <View style={ styles.information }>
               <Text style={ styles.disclaimerText }>

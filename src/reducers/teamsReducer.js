@@ -1,6 +1,14 @@
 import Immutable from 'immutable';
 
-import { damageTypes, sets, teams, teamsStats } from '../lib/Destiny';
+import {
+  teams,
+  teamsStats,
+
+  affiliations,
+  factions,
+  damageTypes,
+  sets,
+} from '../lib/Destiny';
 
 
 const initialState = {
@@ -16,8 +24,9 @@ const initialState = {
       minHealth: Math.max(teamsStats.minHealth, 15),
       maxHealth: teamsStats.maxHealth,
 
+      affiliations: affiliations.map(affiliation => affiliation.code),
       damageTypes: damageTypes.map(damageType => damageType.code),
-
+      factions: factions.map(faction => faction.code),
       sets: sets.map(set => set.code),
     },
     sortOrder: [

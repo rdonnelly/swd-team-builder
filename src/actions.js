@@ -42,11 +42,20 @@ const resetDeck = () => ({
 
 // CHARACTER ACTIONS
 
-const updateCharacters = (deckAffiliation, sets) => ({
+const updateCharacters = (
+  validAffiliations,
+  validFactions,
+  validDamageTypes,
+  validSets,
+  deckAffiliation,
+) => ({
   type: 'UPDATE_CHARACTERS',
   payload: {
+    validAffiliations,
+    validFactions,
+    validDamageTypes,
+    validSets,
     deckAffiliation,
-    sets,
   },
 });
 
@@ -73,6 +82,20 @@ const setSort = sortPriority => ({
 });
 
 
+// HELPERS
+
+const updateCharacterHelper = (dispatch, getState) =>
+  dispatch(
+    updateCharacters(
+      getState().teams.settings.getIn(['filters', 'affiliations']),
+      getState().teams.settings.getIn(['filters', 'factions']),
+      getState().teams.settings.getIn(['filters', 'damageTypes']),
+      getState().teams.settings.getIn(['filters', 'sets']),
+      getState().deck.get('affiliation'),
+    ),
+  );
+
+
 // ACTIONS
 
 export const addCharacter = characterObject =>
@@ -85,26 +108,26 @@ export const addCharacter = characterObject =>
 
     return Promise.resolve()
       .then(dispatch(addCharacterToDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('affiliation'), getState().teams.settings.getIn(['filters', 'sets']))));
+      .then(updateCharacterHelper(dispatch, getState));
   };
 
 export const setCharacterAny = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterAnyInDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('affiliation'), getState().teams.settings.getIn(['filters', 'sets']))));
+      .then(updateCharacterHelper(dispatch, getState));
 
 export const setCharacterRegular = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterRegularInDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('affiliation'), getState().teams.settings.getIn(['filters', 'sets']))));
+      .then(updateCharacterHelper(dispatch, getState));
 
 export const setCharacterElite = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterEliteInDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('affiliation'), getState().teams.settings.getIn(['filters', 'sets']))));
+      .then(updateCharacterHelper(dispatch, getState));
 
 export const removeCharacter = characterObject =>
   (dispatch, getState) => {
@@ -115,7 +138,7 @@ export const removeCharacter = characterObject =>
 
     return Promise.resolve()
       .then(dispatch(removeCharacterFromDeck(characterObject)))
-      .then(dispatch(updateCharacters(getState().deck.get('affiliation'), getState().teams.settings.getIn(['filters', 'sets']))));
+      .then(updateCharacterHelper(dispatch, getState));
   };
 
 export const reset = () =>
@@ -128,7 +151,7 @@ export const updateSetting = (key, value) =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setSetting(key, value)))
-      .then(dispatch(updateCharacters(getState().deck.get('affiliation'), getState().teams.settings.getIn(['filters', 'sets']))));
+      .then(updateCharacterHelper(dispatch, getState));
 
 export const updateSort = value =>
   dispatch =>

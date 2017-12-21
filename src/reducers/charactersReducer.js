@@ -42,6 +42,7 @@ const characters = characterCards
     name: card.name,
     set: card.set,
     affiliation: card.affiliation,
+    faction: card.faction,
     isCompatibile: true,
   }));
 
@@ -51,12 +52,26 @@ const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_CHARACTERS': {
       return state.map((characterObject) => {
+        const {
+          validAffiliations,
+          validFactions,
+          validSets,
+          deckAffiliation,
+        } = action.payload;
+
+        const characterAffiliation = characterObject.get('affiliation');
+        const characterFaction = characterObject.get('faction');
+        const characterSet = characterObject.get('set');
+
         const hasValidAffiliation =
-          characterObject.get('affiliation') === 'neutral' ||
-          action.payload.deckAffiliation === 'neutral' ||
-          characterObject.get('affiliation') === action.payload.deckAffiliation;
-        const hasValidSet = action.payload.sets.includes(characterObject.get('set'));
-        return characterObject.set('isCompatibile', hasValidAffiliation && hasValidSet);
+          validAffiliations.indexOf(characterAffiliation) !== -1 &&
+          (characterAffiliation === 'neutral' ||
+          deckAffiliation === 'neutral' ||
+          characterAffiliation === deckAffiliation);
+        const hasValidFaction = validFactions.includes(characterFaction);
+        const hasValidSet = validSets.includes(characterSet);
+        return characterObject.set('isCompatibile',
+          hasValidAffiliation && hasValidFaction && hasValidSet);
       })
         ;
     }
