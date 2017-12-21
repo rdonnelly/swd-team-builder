@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
 });
 
 class TeamListScreen extends Component {
-
   static navigationOptions = ({ navigation }) => {
     const { state } = navigation;
     return {
@@ -111,10 +110,6 @@ class TeamListScreen extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.teams === nextProps.teams) {
-      return false;
-    }
-
     const currentTabIndex = nextProps.tabBarState.index;
     const currentTabRouteName = nextProps.tabBarState.routes[currentTabIndex].routeName;
     if (currentTabRouteName !== 'Teams') {
