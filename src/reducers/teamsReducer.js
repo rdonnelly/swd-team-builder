@@ -15,14 +15,17 @@ const initialState = {
   teams: Immutable.fromJS(teams),
   settings: Immutable.fromJS({
     filters: {
-      minPoints: Math.max(teamsStats.minPoints, 23),
-      maxPoints: teamsStats.maxPoints,
-
       minDice: Math.max(teamsStats.minDice, 2),
       maxDice: teamsStats.maxDice,
 
       minHealth: Math.max(teamsStats.minHealth, 15),
       maxHealth: teamsStats.maxHealth,
+
+      minPoints: Math.max(teamsStats.minPoints, 23),
+      maxPoints: teamsStats.maxPoints,
+
+      minCharacterCount: Math.max(teamsStats.minCharacterCount, 1),
+      maxCharacterCount: teamsStats.maxHealth,
 
       affiliations: affiliations.map(affiliation => affiliation.code),
       damageTypes: damageTypes.map(damageType => damageType.code),

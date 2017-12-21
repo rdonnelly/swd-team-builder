@@ -177,6 +177,15 @@ class SettingsView extends Component {
               callback={ this.props.updateSetting }
             />
 
+            <SettingSlider
+              value={ settings.getIn(['filters', 'minCharacterCount']) }
+              minValue={ teamsStats.minCharacterCount }
+              maxValue={ teamsStats.maxCharacterCount }
+              setting={ 'minCharacterCount' }
+              label={ 'Minimum Character Count' }
+              callback={ this.props.updateSetting }
+            />
+
             { affiliationsCloud }
 
             { factionsCloud }

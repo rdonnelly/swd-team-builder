@@ -18,6 +18,8 @@ const teamsStats = {
   maxDice: 0,
   minHealth: 1000,
   maxHealth: 0,
+  minCharacterCount: 1000,
+  maxCharacterCount: 0,
   minPoints: 1000,
   maxPoints: 0,
 };
@@ -249,6 +251,13 @@ const calculateStats = (statsTeams) => {
     }
     if (team.h > teamsStats.maxHealth) {
       teamsStats.maxHealth = team.h;
+    }
+
+    if (team.cC < teamsStats.minCharacterCount) {
+      teamsStats.minCharacterCount = team.cC;
+    }
+    if (team.cC > teamsStats.maxCharacterCount) {
+      teamsStats.maxCharacterCount = team.cC;
     }
 
     if (team.p < teamsStats.minPoints) {

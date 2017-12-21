@@ -33,9 +33,10 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation) => {
 
 export const filterTeamsBySettings = (teams, settings) => {
   let outputTeams = teams;
-  const minPoints = settings.getIn(['filters', 'minPoints']);
   const minDice = settings.getIn(['filters', 'minDice']);
   const minHealth = settings.getIn(['filters', 'minHealth']);
+  const minPoints = settings.getIn(['filters', 'minPoints']);
+  const minCharacterCount = settings.getIn(['filters', 'minCharacterCount']);
   let affiliations = settings.getIn(['filters', 'affiliations']);
   let factions = settings.getIn(['filters', 'factions']);
   let damageTypes = settings.getIn(['filters', 'damageTypes']);
@@ -58,15 +59,19 @@ export const filterTeamsBySettings = (teams, settings) => {
   }
 
   outputTeams = outputTeams.filter((team) => {
-    if (team.get('p') < minPoints) {
-      return false;
-    }
-
     if (team.get('nD') < minDice) {
       return false;
     }
 
     if (team.get('h') < minHealth) {
+      return false;
+    }
+
+    if (team.get('p') < minPoints) {
+      return false;
+    }
+
+    if (team.get('cC') < minCharacterCount) {
       return false;
     }
 
@@ -96,8 +101,8 @@ export const sortTeams = (teams, sortOrder) =>
   teams.sort((a, b) => {
     const sortValues = {
       dice: b.get('rD') - a.get('rD'),
-      points: b.get('rP') - a.get('rP'),
       health: b.get('rH') - a.get('rH'),
+      points: b.get('rP') - a.get('rP'),
       characterCount: b.get('rC') - a.get('rC'),
     };
 
