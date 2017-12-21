@@ -160,10 +160,12 @@ class TeamListScreen extends Component {
     ) : (
       <View style={{ width: '80%' }}>
         <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: 'rgba(149, 165, 166, 1.0)', fontSize: 24, fontWeight: '700', textAlign: 'center' }}>No Teams Found</Text>
+          <Text style={{ color: 'rgba(149, 165, 166, 1.0)', fontSize: 24, fontWeight: '700', textAlign: 'center' }}>No Teams Compatible</Text>
         </View>
         <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: 'rgba(149, 165, 166, 1.0)', textAlign: 'center' }}>Try changing your characters or adjusting your settings.</Text>
+          <Text style={{ color: 'rgba(149, 165, 166, 1.0)', textAlign: 'center' }}>
+            Try changing your selected characters or adjusting your settings.
+          </Text>
         </View>
       </View>
     );
