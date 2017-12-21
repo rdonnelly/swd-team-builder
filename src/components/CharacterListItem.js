@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -83,7 +83,15 @@ const styles = StyleSheet.create({
   },
 });
 
-class CharacterListItem extends PureComponent {
+class CharacterListItem extends Component {
+  shouldComponentUpdate(nextProps) {
+    if (this.props.characterObject === nextProps.characterObject) {
+      return false;
+    }
+
+    return true;
+  }
+
   render() {
     const { characterObject } = this.props;
     const card = characters[characterObject.get('id')];

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -102,7 +102,15 @@ const styles = StyleSheet.create({
   },
 });
 
-class TeamListItem extends PureComponent {
+class TeamListItem extends Component {
+  shouldComponentUpdate(nextProps) {
+    if (this.props.teamObject === nextProps.teamObject) {
+      return false;
+    }
+
+    return true;
+  }
+
   render() {
     const {
       teamObject,

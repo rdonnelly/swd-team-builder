@@ -111,13 +111,17 @@ class TeamListScreen extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const currentTabIndex = nextProps.tabBarState.index;
-    const currentTabRouteName = nextProps.tabBarState.routes[currentTabIndex].routeName;
-    if (currentTabRouteName === 'Teams') {
-      return true;
+    if (this.props.teams === nextProps.teams) {
+      return false;
     }
 
-    return false;
+    const currentTabIndex = nextProps.tabBarState.index;
+    const currentTabRouteName = nextProps.tabBarState.routes[currentTabIndex].routeName;
+    if (currentTabRouteName !== 'Teams') {
+      return false;
+    }
+
+    return true;
   }
 
   componentWillMount() {

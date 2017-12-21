@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 });
 
 
-class CharacterDetailScreen extends React.Component {
+class CharacterDetailScreen extends Component {
   static navigationOptions = {
     title: 'Character Details',
     headerTintColor: 'rgba(255, 255, 255, 1.0)',

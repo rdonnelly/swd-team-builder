@@ -6,6 +6,7 @@ import {
   VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Immutable from 'immutable';
 
 import CharacterListItem, { ITEM_HEIGHT } from '../../../components/CharacterListItem';
 import SelectedCharacters from '../../../components/SelectedCharacters';
@@ -111,27 +112,15 @@ class CharacterListView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      characters: this.props.characters,
-    };
-
     this.renderItem = this.renderItem.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.state.characters.equals(nextProps.characters)) {
-      this.setState({
-        characters: nextProps.characters,
-      });
-    }
-  }
-
   shouldComponentUpdate(nextProps) {
-    if (!this.state.characters.equals(nextProps.characters)) {
-      return true;
+    if (this.props.characters === nextProps.characters) {
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   renderItem({ item: characterObject }) {
@@ -160,7 +149,7 @@ class CharacterListView extends Component {
       <View style={ styles.container }>
         <VirtualizedList
           style={ styles.list }
-          data={ this.state.characters }
+          data={ this.props.characters }
           renderItem={ this.renderItem }
           getItem={ (data, key) => data.get(key) }
           getItemCount={ data => (data.size || data.count || 0) }
@@ -174,7 +163,7 @@ class CharacterListView extends Component {
 }
 
 CharacterListView.propTypes = {
-  characters: PropTypes.object.isRequired,
+  characters: PropTypes.instanceOf(Immutable.List).isRequired,
   navigation: PropTypes.object.isRequired,
 };
 
