@@ -16,7 +16,7 @@ import SWDIcon from './SWDIcon';
 import { reset } from '../actions';
 import { getDeckCharacters } from '../selectors/deckSelectors';
 
-import { characterCards } from '../lib/Destiny';
+import { characters } from '../lib/Destiny';
 
 
 const styles = StyleSheet.create({
@@ -78,7 +78,7 @@ class SelectedCharacters extends PureComponent {
     const { deckCharacterObjects } = this.props;
 
     const characterViews = deckCharacterObjects.map((characterObject) => {
-      const card = characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
+      const card = characters[characterObject.get('id')];
 
       const characterStyles = [styles.deckCard];
       const diceStyles = [styles.dice];

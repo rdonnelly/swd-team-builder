@@ -12,7 +12,7 @@ import Immutable from 'immutable';
 import CharacterAvatar from '../components/CharacterAvatar';
 import SWDIcon from '../components/SWDIcon';
 
-import { characterCards } from '../lib/Destiny';
+import { characters } from '../lib/Destiny';
 
 export const ITEM_HEIGHT = 67;
 
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 class CharacterListItem extends PureComponent {
   render() {
     const { characterObject } = this.props;
-    const card = characterCards.find(characterCard => characterCard.id === characterObject.get('id'));
+    const card = characters[characterObject.get('id')];
 
     const cardAvatarStyles = [styles.cardAvatarWrapper];
     const cardNameStyle = [styles.cardName];

@@ -12,7 +12,7 @@ import Immutable from 'immutable';
 import CharacterAvatar from '../components/CharacterAvatar';
 import SWDIcon from '../components/SWDIcon';
 
-import { characterCards } from '../lib/Destiny';
+import { characters } from '../lib/Destiny';
 
 export const ITEM_HEIGHT = 113;
 
@@ -113,7 +113,7 @@ class TeamListItem extends PureComponent {
 
     const characterViews = teamObject.get('cK').map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
-      const card = characterCards.find(characterCard => characterCard.id === cardId);
+      const card = characters[cardId];
 
       const characterNameStyles = [styles.characterName];
       const diceStyles = [styles.dice];

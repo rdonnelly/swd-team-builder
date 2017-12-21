@@ -9,7 +9,7 @@ import {
 
 import SWDIcon from '../components/SWDIcon';
 
-import { characterCards } from '../lib/Destiny';
+import { characters } from '../lib/Destiny';
 import { cardBackTexture, cardImages } from '../lib/DestinyImages';
 
 const styles = StyleSheet.create({
@@ -95,7 +95,7 @@ class CharacterAvatar extends PureComponent {
 
   render() {
     const { cardId, numDice, count } = this.props;
-    const card = characterCards.find(characterCard => characterCard.id === cardId);
+    const card = characters[cardId];
 
     const containerStyles = [styles.container, this.getContainerStyles()];
     const imageStyles = [styles.image, this.getImageStyles()];

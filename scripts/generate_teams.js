@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
 import * as _ from 'lodash';
-import checksum from 'checksum';
+import checksum from 'json-checksum';
 import jsonfile from 'jsonfile';
 import path from 'path';
-import { characterCards, sets } from '../src/lib/Destiny';
+
+import sets from 'swdestinydb-json-data/sets.json';
+import characters from '../data/characters.json';
 
 const MIN_DICE = 0;
 const MIN_POINTS = 0;
@@ -112,21 +114,7 @@ class Team {
     this.f.push(card.faction);
     this.f = _.uniq(this.f);
 
-    this.dT = _.uniq([].concat(this.dT, card.sides.reduce((acc, val) => {
-      if (val.includes('ID')) {
-        acc.push('ID');
-      }
-
-      if (val.includes('MD')) {
-        acc.push('MD');
-      }
-
-      if (val.includes('RD')) {
-        acc.push('RD');
-      }
-
-      return acc;
-    }, [])));
+    this.dT = _.uniq([].concat(this.dT, card.damageTypes));
 
     if (isElite) {
       this.nD += 2;
@@ -140,8 +128,8 @@ class Team {
   }
 }
 
-const getEligibleCharacters = (team, characters, pointsLeft) =>
-  characters
+const getEligibleCharacters = (teamCharacters, pointsLeft, team) =>
+  teamCharacters
     .filter(character => character.pointsRegular <= pointsLeft)
     .filter(character => !character.isUnique || !team.hasCharacter(character));
 
@@ -153,7 +141,7 @@ const checkTeam = (team, eligibleCharacters, pointsLeft) => {
   }
 
   const eliteCheck = _.every(team.chars, (characterCard) => {
-    const card = _.find(characterCards, { id: characterCard.id });
+    const card = characters[characterCard.id];
 
     if (characterCard.numDice === 1) {
       if (typeof card.pointsElite !== 'undefined') {
@@ -170,8 +158,8 @@ const checkTeam = (team, eligibleCharacters, pointsLeft) => {
   return eliteCheck;
 };
 
-const buildTeams = (characters, pointsLeft, team) => {
-  const eligibleCharacters = getEligibleCharacters(team, characters, pointsLeft);
+const buildTeams = (teamCharacters, pointsLeft, team) => {
+  const eligibleCharacters = getEligibleCharacters(teamCharacters, pointsLeft, team);
 
   if (checkTeam(team, eligibleCharacters, pointsLeft)) {
     team.setCharacterCount();
@@ -215,6 +203,12 @@ const cleanUpTeams = (dirtyTeams) => {
   cleanTeams = _.filter(cleanTeams, team => team.cC > 0);
 
   cleanTeams = _.uniqBy(cleanTeams, team => JSON.stringify(team.key));
+
+  return cleanTeams;
+};
+
+const sortTeams = (dirtyTeams) => {
+  let cleanTeams = dirtyTeams;
 
   cleanTeams = _.sortBy(cleanTeams, ['nD', 'h', 'p', 'cC']).map((team, index) => {
     team.rD = index;
@@ -266,10 +260,12 @@ const calculateStats = (statsTeams) => {
   });
 };
 
-const setCombinations = generateSetCombinations(_.map(sets, 'code'));
+const setCombinations =
+  generateSetCombinations(_.map(sets, 'code'))
+    .sort((a, b) => a.length - b.length);
 
-const heroes = characterCards.filter(character => ['hero', 'neutral'].indexOf(character.affiliation) !== -1);
-const villains = characterCards.filter(character => ['neutral', 'villain'].indexOf(character.affiliation) !== -1);
+const heroes = Object.values(characters).filter(character => ['hero', 'neutral'].indexOf(character.affiliation) !== -1);
+const villains = Object.values(characters).filter(character => ['neutral', 'villain'].indexOf(character.affiliation) !== -1);
 
 setCombinations.forEach((setCombination) => {
   buildTeams(
@@ -277,8 +273,6 @@ setCombinations.forEach((setCombination) => {
     MAX_POINTS,
     new Team(),
   );
-
-  teams = cleanUpTeams(teams);
 
   buildTeams(
     villains.filter(character => setCombination.indexOf(character.set) !== -1),
@@ -289,13 +283,12 @@ setCombinations.forEach((setCombination) => {
   teams = cleanUpTeams(teams);
 });
 
+sortTeams(teams);
+calculateStats(teams);
+
 const heroTeams = teams.filter(team => team.a === 'hero');
 const villainTeams = teams.filter(team => team.a === 'villain');
 const neutralTeams = teams.filter(team => team.a === 'neutral');
-
-calculateStats(heroTeams);
-calculateStats(villainTeams);
-calculateStats(neutralTeams);
 
 console.log(`Output ${heroTeams.length} hero teams...`); // eslint-disable-line no-console
 jsonfile.writeFile(path.join(__dirname, '../data/hero_teams.json'), heroTeams);
@@ -308,6 +301,7 @@ jsonfile.writeFile(path.join(__dirname, '../data/neutral_teams.json'), neutralTe
 
 jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
 jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
-  heroChecksum: checksum(path.join(__dirname, '../data/hero_teams.json')),
-  villainChecksum: checksum(path.join(__dirname, '../data/villain_teams.json')),
+  heroChecksum: checksum(heroTeams),
+  neutralChecksum: checksum(neutralTeams),
+  villainChecksum: checksum(villainTeams),
 });

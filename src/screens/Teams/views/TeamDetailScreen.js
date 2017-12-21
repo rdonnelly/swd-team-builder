@@ -19,7 +19,7 @@ import SWDIcon from '../../../components/SWDIcon';
 
 import { getAvailableTeams } from '../../../selectors/teamSelectors';
 
-import { characterCards } from '../../../lib/Destiny';
+import { characters } from '../../../lib/Destiny';
 import { cardBack, cardImages } from '../../../lib/DestinyImages';
 
 
@@ -217,7 +217,7 @@ class TeamDetailScreen extends React.Component {
 
     const characterNames = team.get('cK').map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
-      const card = characterCards.find(characterCard => characterCard.id === cardId);
+      const card = characters[cardId];
       const characterNameStyles = [styles.characterName];
       const diceStyles = [styles.dice];
       const characterCountStyles = [styles.characterCount];
