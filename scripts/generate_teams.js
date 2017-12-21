@@ -39,7 +39,7 @@ class Team {
 
     this.s = [];
 
-    this.a = 'neutral';
+    this.a = [];
     this.dT = [];
     this.f = [];
     this.h = 0;
@@ -107,14 +107,11 @@ class Team {
     this.s.push(card.set);
     this.s = _.uniq(this.s);
 
-    if (['hero', 'villain'].indexOf(card.affiliation) !== -1) {
-      this.a = card.affiliation;
-    }
+    this.a = _.uniq([].concat(this.a, [card.affiliation]));
 
     this.h += card.health;
 
-    this.f.push(card.faction);
-    this.f = _.uniq(this.f);
+    this.f = _.uniq([].concat(this.f, [card.faction]));
 
     this.dT = _.uniq([].concat(this.dT, card.damageTypes));
 
@@ -295,9 +292,9 @@ setCombinations.forEach((setCombination) => {
 sortTeams(teams);
 calculateStats(teams);
 
-const heroTeams = teams.filter(team => team.a === 'hero');
-const villainTeams = teams.filter(team => team.a === 'villain');
-const neutralTeams = teams.filter(team => team.a === 'neutral');
+const heroTeams = teams.filter(team => team.a.indexOf('hero') !== -1);
+const villainTeams = teams.filter(team => team.a.indexOf('villain') !== -1);
+const neutralTeams = teams.filter(team => _.isEqual(team.a, ['neutral']));
 
 console.log(`Output ${heroTeams.length} hero teams...`); // eslint-disable-line no-console
 jsonfile.writeFile(path.join(__dirname, '../data/hero_teams.json'), heroTeams);

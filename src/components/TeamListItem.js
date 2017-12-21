@@ -173,6 +173,13 @@ class TeamListItem extends PureComponent {
       );
     });
 
+    let teamAffiliationLabel = 'Neutral';
+    if (teamObject.get('a').includes('villain')) {
+      teamAffiliationLabel = 'Villain';
+    } else if (teamObject.get('a').includes('hero')) {
+      teamAffiliationLabel = 'Hero';
+    }
+
     return (
       <TouchableOpacity
         activeOpacity={ 0.6 }
@@ -191,7 +198,7 @@ class TeamListItem extends PureComponent {
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ teamObject.get('p') } Points</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.get('a').charAt(0).toUpperCase() + teamObject.get('a').slice(1) }</Text>
+            <Text style={ styles.teamStat }>{ teamAffiliationLabel }</Text>
           </View>
         </View>
         <View>

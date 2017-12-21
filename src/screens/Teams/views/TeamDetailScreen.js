@@ -280,6 +280,13 @@ class TeamDetailScreen extends React.Component {
       );
     }).toJS();
 
+    let teamAffiliationLabel = 'Neutral';
+    if (team.get('a').includes('villain')) {
+      teamAffiliationLabel = 'Villain';
+    } else if (team.get('a').includes('hero')) {
+      teamAffiliationLabel = 'Hero';
+    }
+
     return (
       <View style={{
         alignItems: 'center',
@@ -301,7 +308,7 @@ class TeamDetailScreen extends React.Component {
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ team.get('p') } Points</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('a').charAt(0).toUpperCase() + team.get('a').slice(1) }</Text>
+            <Text style={ styles.teamStat }>{ teamAffiliationLabel }</Text>
           </View>
           <View style={ styles.teamSearch }>
             <TouchableOpacity

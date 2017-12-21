@@ -15,7 +15,7 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation) => {
     const eliteCharacterKey = `${deckCharacterObject.get('id')}_2_${deckCharacterObject.get('count')}`;
 
     outputTeams = outputTeams.filter((team) => {
-      if (deckAffiliation !== 'neutral' && team.get('a') !== deckAffiliation) {
+      if (deckAffiliation !== 'neutral' && !team.get('a').includes(deckAffiliation)) {
         return false;
       }
 
@@ -75,7 +75,7 @@ export const filterTeamsBySettings = (teams, settings) => {
       return false;
     }
 
-    if (affiliations && !affiliations.includes(team.get('a'))) {
+    if (affiliations && !team.get('a').isSubset(affiliations)) {
       return false;
     }
 
