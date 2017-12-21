@@ -51,3 +51,10 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+
+
+# react-native-bundle-visualizer
+# https://github.com/IjzerenHein/react-native-bundle-visualizer
+dist/
+.happypack/
+haul-debug.log
