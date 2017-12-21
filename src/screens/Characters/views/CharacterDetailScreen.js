@@ -189,7 +189,7 @@ class CharacterDetailScreen extends Component {
       </TouchableOpacity> : null;
 
     const eliteButton =
-      characterIsInDeck && characterObject.get('isUnique') && characterObject.pointsElite ?
+      characterIsInDeck && characterObject.get('isUnique') && characterObject.get('pointsElite') ?
       <TouchableOpacity
         disabled={ deckCharacterObject.get('numDice') === 2 }
         onPress={ () => this.props.setCharacterElite(characterObject) }
