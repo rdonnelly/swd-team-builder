@@ -294,6 +294,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = SafariViewManager;
 		};
+		95B173311FEC52EB00315938 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
+			remoteInfo = privatedata;
+		};
+		95B173331FEC52EB00315938 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
+			remoteInfo = "privatedata-tvOS";
+		};
 		95B2F9EE1ED4C19000506B45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CD41CF8B7C484C1F9C16B977 /* BugsnagReactNative.xcodeproj */;
@@ -535,6 +549,8 @@
 				951DF32D1F68CAB300826AD1 /* libthird-party.a */,
 				9539A40E1F363EEF009B4B31 /* libdouble-conversion.a */,
 				9539A4101F363EEF009B4B31 /* libdouble-conversion.a */,
+				95B173321FEC52EB00315938 /* libprivatedata.a */,
+				95B173341FEC52EB00315938 /* libprivatedata-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1096,6 +1112,20 @@
 			fileType = archive.ar;
 			path = libSafariViewManager.a;
 			remoteRef = 956CA42D1EFD62E10019002D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95B173321FEC52EB00315938 /* libprivatedata.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libprivatedata.a;
+			remoteRef = 95B173311FEC52EB00315938 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95B173341FEC52EB00315938 /* libprivatedata-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libprivatedata-tvOS.a";
+			remoteRef = 95B173331FEC52EB00315938 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		95B2F9EF1ED4C19000506B45 /* libBugsnagReactNative.a */ = {
