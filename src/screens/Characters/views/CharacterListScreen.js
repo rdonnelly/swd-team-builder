@@ -11,7 +11,7 @@ import Immutable from 'immutable';
 import CharacterListItem, { ITEM_HEIGHT } from '../../../components/CharacterListItem';
 import SelectedCharacters from '../../../components/SelectedCharacters';
 
-import { getCharacters } from '../../../selectors/characterSelectors';
+import { getCharactersSorted } from '../../../selectors/characterSelectors';
 
 
 const styles = StyleSheet.create({
@@ -168,7 +168,7 @@ CharacterListView.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  characters: getCharacters(state),
+  characters: getCharactersSorted(state),
 });
 
 export default connect(mapStateToProps)(CharacterListView);

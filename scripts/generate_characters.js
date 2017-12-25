@@ -108,7 +108,7 @@ characters = characters
   });
 
 characters = characters
-  .map(card => ({
+  .map((card, index) => ({
     id: card.id,
     name: card.name,
     subtitle: card.subtitle,
@@ -124,6 +124,8 @@ characters = characters
     points: card.points,
     pointsRegular: card.pointsRegular,
     pointsElite: card.pointsElite,
+
+    rank: index,
   }));
 
 const charactersObject = {};

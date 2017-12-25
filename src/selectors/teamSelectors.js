@@ -7,10 +7,22 @@ let initialSortRun = true;
 let initialFilteredByDeckRun = true;
 let initialFilteredBySettingsRun = true;
 
-const getTeams = state => state.teams.teams;
+const getTeamsState = state => state.teams;
 
-export const getSettings = state => state.teams.settings;
-export const getSortOrder = state => state.teams.settings.get('sortOrder');
+export const getTeams = createSelector(
+  [getTeamsState],
+  teamsState => teamsState.teams,
+);
+
+export const getSettings = createSelector(
+  [getTeamsState],
+  teamsState => teamsState.settings,
+);
+
+export const getSortOrder = createSelector(
+  [getSettings],
+  settings => settings.get('sortOrder'),
+);
 
 export const getTeamsSorted = createSelector(
   [getTeams, getSortOrder],
