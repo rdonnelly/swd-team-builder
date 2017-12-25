@@ -37,10 +37,27 @@
   [self.window makeKeyAndVisible];
   
   
-  UIImageView* loadingView = [[UIImageView alloc] initWithFrame:rootView.bounds];
-  [loadingView setImage:[UIImage imageNamed:@"splash"]];
+  
+  UIView *loadingView = [[UIView alloc] initWithFrame:rootView.bounds];
   [loadingView setBackgroundColor:[[UIColor alloc] initWithRed:236.0/255.0 green:240.0/255.0 blue:241.0/255.0 alpha:1.0]];
-  [loadingView setContentMode:UIViewContentModeCenter];
+  
+  
+  
+  UIImageView* splashView = [[UIImageView alloc] initWithFrame:loadingView.bounds];
+  [splashView setImage:[UIImage imageNamed:@"splash"]];
+  [splashView setContentMode:UIViewContentModeCenter];
+  [loadingView addSubview:splashView];
+  
+  
+  
+  UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+  spinner.color = [[UIColor alloc] initWithRed:155.0/255.0 green:89.0/255.0 blue:182.0/255.0 alpha:1.0];
+  spinner.center = CGPointMake(loadingView.frame.size.width * 0.5, loadingView.frame.size.height * 0.85);
+  [spinner startAnimating];
+  [loadingView addSubview:spinner];
+  
+  
+  
   rootView.loadingView = loadingView;
   rootView.loadingViewFadeDelay = 0.5;
   rootView.loadingViewFadeDuration = 0.5;
