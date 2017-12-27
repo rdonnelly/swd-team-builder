@@ -26,12 +26,12 @@ import { cardBack, cardImages } from '../../../lib/DestinyImages';
 const styles = StyleSheet.create({
   teamWrapper: {
     alignContent: 'center',
+    backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
     width: '100%',
   },
   characterAvatars: {
     alignItems: 'stretch',
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
   },
   teamCharactersWrapper: {
     alignItems: 'center',
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
     flexDirection: 'column',
     justifyContent: 'center',
     paddingBottom: 16,
@@ -125,6 +124,7 @@ const styles = StyleSheet.create({
   },
   swiperWrapper: {
     alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 1.0)',
     justifyContent: 'center',
     paddingVertical: 16,
   },
