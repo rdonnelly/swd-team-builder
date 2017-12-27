@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import App from './screens/App';
 import store from './store';
 
+
 export default function setup() {
   class Root extends React.Component {
     render() {

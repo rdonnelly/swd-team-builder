@@ -1,13 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { addNavigationHelpers } from 'react-navigation';
-import { connect } from 'react-redux';
 
 import { CharacterNavigator } from '../navigationConfiguration';
 import BadgeTabIcon from '../../../components/BadgeTabIcon';
 
 
-class CharacterNavigation extends React.Component {
+export default class CharacterNavigation extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Characters',
     tabBarIcon: ({ tintColor, focused }) =>
@@ -21,25 +18,8 @@ class CharacterNavigation extends React.Component {
   }
 
   render() {
-    const { navigationState, dispatch } = this.props;
     return (
-      <CharacterNavigator
-        navigation={
-          addNavigationHelpers({
-            dispatch,
-            state: navigationState,
-          })
-        }
-      />
+      <CharacterNavigator />
     );
   }
 }
-
-const mapStateToProps = state => ({ navigationState: state.charactersTab });
-
-export default connect(mapStateToProps)(CharacterNavigation);
-
-CharacterNavigation.propTypes = {
-  navigationState: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};

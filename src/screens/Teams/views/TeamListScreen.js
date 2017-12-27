@@ -110,8 +110,8 @@ class TeamListScreen extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const currentTabIndex = nextProps.tabBarState.index;
-    const currentTabRouteName = nextProps.tabBarState.routes[currentTabIndex].routeName;
+    const currentTabIndex = nextProps.tabNavigation.index;
+    const currentTabRouteName = nextProps.tabNavigation.routes[currentTabIndex].routeName;
     if (currentTabRouteName !== 'Teams') {
       return false;
     }
@@ -212,7 +212,7 @@ class TeamListScreen extends Component {
 
 const mapStateToProps = state => ({
   teams: getAvailableTeams(state),
-  tabBarState: state.tabBar,
+  tabNavigation: state.tabNavigation,
 });
 
 const mapDispatchToProps = { updateSort };

@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
 });
 
 
-class CharacterListView extends Component {
+class CharacterListScreen extends Component {
   static navigationOptions = {
     title: 'Characters',
     headerTintColor: 'rgba(255, 255, 255, 1.0)',
@@ -108,12 +108,6 @@ class CharacterListView extends Component {
       backgroundColor: 'rgba(155, 89, 182, 1.0)',
     },
   };
-
-  constructor(props) {
-    super(props);
-
-    this.renderItem = this.renderItem.bind(this);
-  }
 
   shouldComponentUpdate(nextProps) {
     if (this.props.characters === nextProps.characters) {
@@ -150,7 +144,7 @@ class CharacterListView extends Component {
         <VirtualizedList
           style={ styles.list }
           data={ this.props.characters }
-          renderItem={ this.renderItem }
+          renderItem={ this.renderItem.bind(this) }
           getItem={ (data, key) => data.get(key) }
           getItemCount={ data => (data.size || data.count || 0) }
           keyExtractor={ item => `character_list__${item.get('id')}` }
@@ -162,7 +156,7 @@ class CharacterListView extends Component {
   }
 }
 
-CharacterListView.propTypes = {
+CharacterListScreen.propTypes = {
   characters: PropTypes.instanceOf(Immutable.List).isRequired,
   navigation: PropTypes.object.isRequired,
 };
@@ -171,4 +165,4 @@ const mapStateToProps = state => ({
   characters: getCharactersSorted(state),
 });
 
-export default connect(mapStateToProps)(CharacterListView);
+export default connect(mapStateToProps)(CharacterListScreen);

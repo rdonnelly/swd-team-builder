@@ -3,35 +3,45 @@
 const addCharacterToDeck = characterObject => ({
   type: 'ADD_CHARACTER_TO_DECK',
   payload: {
-    characterObject,
+    characterAffiliation: characterObject.get('affiliation'),
+    characterId: characterObject.get('id'),
+    characterName: characterObject.get('name'),
   },
 });
 
 const removeCharacterFromDeck = characterObject => ({
   type: 'REMOVE_CHARACTER_FROM_DECK',
   payload: {
-    characterObject,
+    characterAffiliation: characterObject.get('affiliation'),
+    characterId: characterObject.get('id'),
+    characterName: characterObject.get('name'),
   },
 });
 
 const setCharacterAnyInDeck = characterObject => ({
   type: 'SET_CHARACTER_ANY_IN_DECK',
   payload: {
-    characterObject,
+    characterAffiliation: characterObject.get('affiliation'),
+    characterId: characterObject.get('id'),
+    characterName: characterObject.get('name'),
   },
 });
 
 const setCharacterRegularInDeck = characterObject => ({
   type: 'SET_CHARACTER_REGULAR_IN_DECK',
   payload: {
-    characterObject,
+    characterAffiliation: characterObject.get('affiliation'),
+    characterId: characterObject.get('id'),
+    characterName: characterObject.get('name'),
   },
 });
 
 const setCharacterEliteInDeck = characterObject => ({
   type: 'SET_CHARACTER_ELITE_IN_DECK',
   payload: {
-    characterObject,
+    characterAffiliation: characterObject.get('affiliation'),
+    characterId: characterObject.get('id'),
+    characterName: characterObject.get('name'),
   },
 });
 
@@ -100,7 +110,7 @@ const updateCharacterHelper = (dispatch, getState) =>
 
 export const addCharacter = characterObject =>
   (dispatch, getState) => {
-    if (characterObject.isUnique &&
+    if (characterObject.get('isUnique') &&
         getState().deck.get('characters').includes(characterObject)) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));

@@ -1,13 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { addNavigationHelpers } from 'react-navigation';
-import { connect } from 'react-redux';
 
 import { SettingsNavigator } from '../navigationConfiguration';
 import BadgeTabIcon from '../../../components/BadgeTabIcon';
 
 
-class SettingsNavigation extends React.Component {
+export default class SettingsNavigation extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Settings',
     tabBarIcon: ({ tintColor, focused }) =>
@@ -21,25 +18,8 @@ class SettingsNavigation extends React.Component {
   }
 
   render() {
-    const { navigationState, dispatch } = this.props;
     return (
-      <SettingsNavigator
-        navigation={
-          addNavigationHelpers({
-            dispatch,
-            state: navigationState,
-          })
-        }
-      />
+      <SettingsNavigator />
     );
   }
 }
-
-const mapStateToProps = state => ({ navigationState: state.settingsTab });
-
-export default connect(mapStateToProps)(SettingsNavigation);
-
-SettingsNavigation.propTypes = {
-  navigationState: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};

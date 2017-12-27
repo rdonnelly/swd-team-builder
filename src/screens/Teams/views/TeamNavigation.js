@@ -1,13 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { addNavigationHelpers } from 'react-navigation';
-import { connect } from 'react-redux';
 
 import { TeamNavigator } from '../navigationConfiguration';
 import BadgeTabIcon from '../../../components/BadgeTabIcon';
 
 
-class TeamNavigation extends React.Component {
+export default class TeamNavigation extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Teams',
     tabBarIcon: ({ tintColor, focused }) =>
@@ -21,27 +18,8 @@ class TeamNavigation extends React.Component {
   }
 
   render() {
-    const { navigationState, dispatch } = this.props;
     return (
-      <TeamNavigator
-        navigation={
-          addNavigationHelpers({
-            dispatch,
-            state: navigationState,
-          })
-        }
-      />
+      <TeamNavigator />
     );
   }
 }
-
-const mapStateToProps = state => ({
-  navigationState: state.teamsTab,
-});
-
-export default connect(mapStateToProps)(TeamNavigation);
-
-TeamNavigation.propTypes = {
-  navigationState: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
