@@ -53,7 +53,7 @@ let characters =
           acc.push('RD');
         }
 
-        return acc;
+        return acc.sort();
       }, []));
 
       card.faction = rawCard.faction_code;
@@ -115,13 +115,12 @@ characters = characters
     set: card.set,
 
     affiliation: card.affiliation,
-    damageTypes: card.damageTypes,
+    damageTypes: card.damageTypes.reduce((acc, val) => acc + val, ''),
     faction: card.faction,
 
     health: card.health,
 
     isUnique: card.isUnique,
-    points: card.points,
     pointsRegular: card.pointsRegular,
     pointsElite: card.pointsElite,
 

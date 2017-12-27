@@ -120,8 +120,12 @@ class CharacterListItem extends Component {
       <Text style={ cardInfoStyle }>{ card.subtitle }</Text>
     ) : null;
 
-    const points = card.points ? (
-      <Text style={ cardInfoStyle }>{ card.points.join('/') }</Text>
+    const pointsArray = [card.pointsRegular];
+    if (card.pointsElite) {
+      pointsArray.push(card.pointsElite);
+    }
+    const points = pointsArray ? (
+      <Text style={ cardInfoStyle }>{ pointsArray.join('/') }</Text>
     ) : null;
 
     const cardInfo = (

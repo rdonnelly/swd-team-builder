@@ -21,7 +21,7 @@ const charactersReducer = (state = initialState, action) => {
             } = action.payload;
 
             const characterAffiliation = characterObject.get('affiliation');
-            const characterDamageTypes = characterObject.get('damageTypes');
+            const characterDamageTypes = Immutable.fromJS(characterObject.get('damageTypes').match(/([IMR]D)/g) || []);
             const characterFaction = characterObject.get('faction');
             const characterSet = characterObject.get('set');
 
