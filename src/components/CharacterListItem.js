@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import Immutable from 'immutable';
 
 import CharacterAvatar from '../components/CharacterAvatar';
+import { validate as validateIcon, swdestiny as swdIcons } from '../lib/swd-icons';
 import SWDIcon from '../components/SWDIcon';
 
 import { characters } from '../lib/Destiny';
@@ -112,9 +113,9 @@ class CharacterListItem extends Component {
       arrowStyle.push(styles.arrowIncompatible);
     }
 
-    const setIcon = (
+    const setIcon = validateIcon(swdIcons, card.set) ? (
       <SWDIcon type={ card.set } font={ 'swdestiny' } style={ cardInfoLogoStyle } />
-    );
+    ) : null;
 
     const subtitle = card.subtitle ? (
       <Text style={ cardInfoStyle }>{ card.subtitle }</Text>

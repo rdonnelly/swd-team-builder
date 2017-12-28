@@ -1,3 +1,5 @@
+import _has from 'lodash/has';
+
 export const swdestiny = {
   RESOURCE: 'e900',
   SPECIAL: 'e901',
@@ -30,3 +32,5 @@ export const swdestiny = {
   EaW: 'e90f',
   EMPIRE_AT_WAR: 'e90f',
 };
+
+export const validate = (font, key) => _has(font, key);
