@@ -119,18 +119,18 @@ class CharacterDetailScreen extends Component {
     } = this.props;
 
     const cardId = this.props.navigation.state.params.id;
-    const characterObject = characters.find(character => character.id === cardId);
-    const deckCharacterObject = deckCharacters.find(deckCard => deckCard.get('id') === characterObject.id);
+    const characterObject = characters.find(character => character.get('id') === cardId);
+    const deckCharacterObject = deckCharacters.find(deckCard => deckCard.get('id') === characterObject.get('id'));
     const characterIsInDeck = !!deckCharacterObject;
 
     let messageText = '';
     if (characterIsInDeck) {
       messageText = 'Character Selected for Team';
 
-      if (!characterObject.isUnique && deckCharacterObject.get('count') > 1) {
+      if (!characterObject.get('isUnique') && deckCharacterObject.get('count') > 1) {
         messageText += ` (x${deckCharacterObject.get('count')})`;
       }
-    } else if (!characterObject.isCompatibile) {
+    } else if (!characterObject.get('isCompatibile', true)) {
       messageText = 'Character Incompatible with Selected Characters or Settings';
     }
 
@@ -142,17 +142,17 @@ class CharacterDetailScreen extends Component {
       </View> : null;
 
     const addButton =
-      characterObject.isCompatibile && (!characterIsInDeck || !characterObject.isUnique) ? (
+      characterObject.get('isCompatibile', true) && (!characterIsInDeck || !characterObject.get('isUnique')) ? (
         <TouchableOpacity
           onPress={ () => this.props.addCharacter(characterObject) }
           style={ [styles.button, styles.buttonGreen] }
         >
           <Text style={ styles.buttonText }>
-            { !characterIsInDeck || characterObject.isUnique ?
+            { !characterIsInDeck || characterObject.get('isUnique') ?
               'Add ' :
               'Add Another ' }
             <Text style={ styles.buttonTextHighlight }>
-              { characterObject.name }
+              { characterObject.get('name') }
             </Text>
           </Text>
         </TouchableOpacity>
@@ -166,12 +166,12 @@ class CharacterDetailScreen extends Component {
         <Text style={ styles.buttonText }>
           { 'Remove ' }
           <Text style={ styles.buttonTextHighlight }>
-            { characterObject.name }
+            { characterObject.get('name') }
           </Text>
         </Text>
       </TouchableOpacity> : null;
 
-    const anyButton = characterIsInDeck && characterObject.isUnique ?
+    const anyButton = characterIsInDeck && characterObject.get('isUnique') ?
       <TouchableOpacity
         disabled={ deckCharacterObject.get('numDice') === 0 }
         onPress={ () => this.props.setCharacterAny(characterObject) }
@@ -180,7 +180,7 @@ class CharacterDetailScreen extends Component {
         <Text style={ styles.buttonText }>{ 'Any' }</Text>
       </TouchableOpacity> : null;
 
-    const regularButton = characterIsInDeck && characterObject.isUnique ?
+    const regularButton = characterIsInDeck && characterObject.get('isUnique') ?
       <TouchableOpacity
         disabled={ deckCharacterObject.get('numDice') === 1 }
         onPress={ () => this.props.setCharacterRegular(characterObject) }
@@ -190,7 +190,7 @@ class CharacterDetailScreen extends Component {
       </TouchableOpacity> : null;
 
     const eliteButton =
-      characterIsInDeck && characterObject.isUnique && characterObject.pointsElite ?
+      characterIsInDeck && characterObject.get('isUnique') && characterObject.get('pointsElite') ?
       <TouchableOpacity
         disabled={ deckCharacterObject.get('numDice') === 2 }
         onPress={ () => this.props.setCharacterElite(characterObject) }
@@ -204,7 +204,7 @@ class CharacterDetailScreen extends Component {
         </View>
       </TouchableOpacity> : null;
 
-    const imageSrc = cardImages[characterObject.id] || cardBack;
+    const imageSrc = cardImages[characterObject.get('id')] || cardBack;
 
     return (
       <View style={ styles.container }>
