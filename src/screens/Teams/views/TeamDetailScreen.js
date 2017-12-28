@@ -166,6 +166,24 @@ class TeamDetailScreen extends React.Component {
     );
   }
 
+  shouldComponentUpdate(nextProps) {
+    const currentTeamKey = this.props.navigation.state.params.key;
+    const nextTeamKey = nextProps.navigation.state.params.key;
+
+    if (currentTeamKey === nextTeamKey) {
+      return false;
+    }
+
+    return true;
+  }
+
+  scrollSwiper(index) {
+    const scrollBy = index - this.swiper.state.index;
+    if (scrollBy) {
+      this.swiper.scrollBy(scrollBy);
+    }
+  }
+
   searchSWDestinyDB() {
     const teamKey = this.props.navigation.state.params.key;
     const { teams } = this.props;
@@ -183,35 +201,25 @@ class TeamDetailScreen extends React.Component {
     });
   }
 
-  shouldComponentUpdate(nextProps) {
-    const currentTeamKey = this.props.navigation.state.params.key;
-    const nextTeamKey = nextProps.navigation.state.params.key;
-
-    if (currentTeamKey === nextTeamKey) {
-      return false;
-    }
-
-    return true;
-  }
-
   render() {
     const teamKey = this.props.navigation.state.params.key;
     const { teams } = this.props;
     const team = teams.find(teamObj => teamObj.get('key') === teamKey);
 
-    const characterAvatars = team.get('cK').map((characterKey) => {
+    const characterAvatars = team.get('cK').map((characterKey, index) => {
       const [cardId] = characterKey.split('_');
       return (
-        <View
+        <TouchableOpacity
           key={ `avatar__${team.get('key')}__${cardId}` }
           style={ styles.characterAvatarWrapper }
+          onPress={ () => this.scrollSwiper.bind(this)(index) }
         >
           <CharacterAvatar
             cardId={ cardId }
             round={ true }
             size={ 72 }
           />
-        </View>
+        </TouchableOpacity>
       );
     });
 
@@ -327,6 +335,7 @@ class TeamDetailScreen extends React.Component {
               dotColor={ 'rgba(149, 165, 166, 1.0)' }
               height={ 300 }
               loop={ false }
+              ref={ (component) => { this.swiper = component; } }
               removeClippedSubviews={ false }
             >
               { imageViews }
