@@ -41,6 +41,7 @@ export const filterTeamsBySettings = (teams, settings) => {
   const minHealth = settings.getIn(['filters', 'minHealth']);
   const minPoints = settings.getIn(['filters', 'minPoints']);
   const minCharacterCount = settings.getIn(['filters', 'minCharacterCount']);
+  const maxCharacterCount = settings.getIn(['filters', 'maxCharacterCount']);
   let affiliations = settings.getIn(['filters', 'affiliations']);
   let factions = settings.getIn(['filters', 'factions']);
   let damageTypes = settings.getIn(['filters', 'damageTypes']);
@@ -76,6 +77,10 @@ export const filterTeamsBySettings = (teams, settings) => {
     }
 
     if (team.get('cC') < minCharacterCount) {
+      return false;
+    }
+
+    if (team.get('cC') > maxCharacterCount) {
       return false;
     }
 

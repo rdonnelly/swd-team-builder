@@ -25,7 +25,7 @@ const initialState = {
       maxPoints: teamsStats.maxPoints,
 
       minCharacterCount: Math.max(teamsStats.minCharacterCount, 1),
-      maxCharacterCount: teamsStats.maxHealth,
+      maxCharacterCount: teamsStats.maxCharacterCount,
 
       affiliations: affiliations.map(affiliation => affiliation.code),
       damageTypes: damageTypes.map(damageType => damageType.code),

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   information: {
     borderColor: 'rgba(189, 195, 199,1.0)',
     borderTopWidth: 1,
-    marginTop: 16,
+    marginTop: 24,
     paddingTop: 24,
   },
   disclaimerText: {
@@ -183,6 +183,15 @@ class SettingsView extends Component {
               maxValue={ teamsStats.maxCharacterCount }
               setting={ 'minCharacterCount' }
               label={ 'Minimum Character Count' }
+              callback={ this.props.updateSetting }
+            />
+
+            <SettingSlider
+              value={ settings.getIn(['filters', 'maxCharacterCount']) }
+              minValue={ teamsStats.minCharacterCount }
+              maxValue={ teamsStats.maxCharacterCount }
+              setting={ 'maxCharacterCount' }
+              label={ 'Maximum Character Count' }
               callback={ this.props.updateSetting }
             />
 
