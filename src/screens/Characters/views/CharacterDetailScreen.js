@@ -123,21 +123,31 @@ class CharacterDetailScreen extends Component {
     const deckCharacterObject = deckCharacters.find(deckCard => deckCard.get('id') === characterObject.get('id'));
     const characterIsInDeck = !!deckCharacterObject;
 
-    let messageText = '';
+    let deckMessageText = '';
     if (characterIsInDeck) {
-      messageText = 'Character Selected for Team';
+      deckMessageText = 'Character Selected for Team';
 
       if (!characterObject.get('isUnique') && deckCharacterObject.get('count') > 1) {
-        messageText += ` (x${deckCharacterObject.get('count')})`;
+        deckMessageText += ` (x${deckCharacterObject.get('count')})`;
       }
-    } else if (!characterObject.get('isCompatibile', true)) {
-      messageText = 'Character Incompatible with Selected Characters or Settings';
     }
 
-    const message = messageText ?
+    const deckMessage = deckMessageText ?
       <View style={ styles.buttonView }>
         <Text style={ styles.message }>
-          { messageText }
+          { deckMessageText }
+        </Text>
+      </View> : null;
+
+    let incompatibleMessageText = '';
+    if (!characterObject.get('isCompatibile', true)) {
+      incompatibleMessageText = 'Character Incompatible with Selected Characters or Settings';
+    }
+
+    const incompatibleMessage = incompatibleMessageText ?
+      <View style={ styles.buttonView }>
+        <Text style={ styles.message }>
+          { incompatibleMessageText }
         </Text>
       </View> : null;
 
@@ -218,7 +228,8 @@ class CharacterDetailScreen extends Component {
           </View>
         </ScrollView>
         <View style={ styles.actionBar }>
-          { message }
+          { incompatibleMessage }
+          { deckMessage }
           <View style={ styles.buttonView }>
             { anyButton }
             { regularButton }
