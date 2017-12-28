@@ -5,8 +5,8 @@ import {
   sets as setsList,
 } from '../lib/Destiny';
 
-export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation) => {
-  if (deckCharacters.isEmpty()) {
+export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, excludedCharacterIds) => {
+  if (deckCharacters.isEmpty() && excludedCharacterIds.isEmpty()) {
     return teams;
   }
 
@@ -30,6 +30,12 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation) => {
 
       return team.get('cK').includes(characterKey);
     });
+  });
+
+  excludedCharacterIds.forEach((excludedCharacterId) => {
+    outputTeams = outputTeams.filter(team =>
+      !team.get('cK').some(key => key.startsWith(`${excludedCharacterId}_`)),
+    );
   });
 
   return outputTeams;

@@ -11,3 +11,8 @@ export const getDeckCharacters = createSelector(
   [getDeck],
   deck => deck.get('characters'),
 );
+
+export const getExcludedCharacterIds = createSelector(
+  [getDeck],
+  deck => deck.get('excludedCharacterIds'),
+);

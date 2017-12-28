@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 const initialState = Immutable.fromJS({
   affiliation: 'neutral',
   characters: [],
+  excludedCharacterIds: [],
 });
 
 const deckReducer = (state = initialState, action) => {
@@ -94,6 +95,28 @@ const deckReducer = (state = initialState, action) => {
 
           return newAffiliation;
         });
+    }
+
+    case 'INCLUDE_CHARACTER': {
+      const existingIndex = state.get('excludedCharacterIds')
+        .findIndex(excludedCharacterId => excludedCharacterId === action.payload.characterId);
+
+      if (existingIndex !== -1) {
+        return state.update('excludedCharacterIds', excludedCharacterIds => excludedCharacterIds.delete(existingIndex));
+      }
+
+      return state;
+    }
+
+    case 'EXCLUDE_CHARACTER': {
+      const existingIndex = state.get('excludedCharacterIds')
+        .findIndex(excludedCharacterId => excludedCharacterId === action.payload.characterId);
+
+      if (existingIndex === -1) {
+        return state.update('excludedCharacterIds', excludedCharacterIds => excludedCharacterIds.push(action.payload.characterId));
+      }
+
+      return state;
     }
 
     case 'RESET_DECK': {

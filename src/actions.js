@@ -45,6 +45,20 @@ const setCharacterEliteInDeck = characterObject => ({
   },
 });
 
+const includeCharacterInDeck = characterObject => ({
+  type: 'INCLUDE_CHARACTER',
+  payload: {
+    characterId: characterObject.get('id'),
+  },
+});
+
+const excludeCharacterInDeck = characterObject => ({
+  type: 'EXCLUDE_CHARACTER',
+  payload: {
+    characterId: characterObject.get('id'),
+  },
+});
+
 const resetDeck = () => ({
   type: 'RESET_DECK',
 });
@@ -150,6 +164,18 @@ export const removeCharacter = characterObject =>
       .then(dispatch(removeCharacterFromDeck(characterObject)))
       .then(updateCharacterHelper(dispatch, getState));
   };
+
+export const includeCharacter = characterObject =>
+  (dispatch, getState) =>
+    Promise.resolve()
+      .then(dispatch(includeCharacterInDeck(characterObject)))
+      .then(updateCharacterHelper(dispatch, getState));
+
+export const excludeCharacter = characterObject =>
+  (dispatch, getState) =>
+    Promise.resolve()
+      .then(dispatch(excludeCharacterInDeck(characterObject)))
+      .then(updateCharacterHelper(dispatch, getState));
 
 export const reset = () =>
   dispatch =>

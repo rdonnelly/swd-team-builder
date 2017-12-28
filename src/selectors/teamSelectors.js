@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { getDeckCharacters, getDeckAffiliation } from './deckSelectors';
+import { getDeckCharacters, getDeckAffiliation, getExcludedCharacterIds } from './deckSelectors';
 import { filterTeamsByDeck, filterTeamsBySettings, sortTeams } from '../lib/teams';
 
 let initialSortRun = true;
@@ -37,14 +37,16 @@ export const getTeamsSorted = createSelector(
 );
 
 export const getFilteredTeamsByDeck = createSelector(
-  [getTeamsSorted, getDeckCharacters, getDeckAffiliation],
-  (teams, deckCharacters, deckAffiliation) => {
+  [getTeamsSorted, getDeckCharacters, getDeckAffiliation, getExcludedCharacterIds],
+  (teams, deckCharacters, deckAffiliation, excludedCharacterIds) => {
     if (initialFilteredByDeckRun) {
       initialFilteredByDeckRun = false;
       return teams;
     }
 
-    return filterTeamsByDeck(teams, deckCharacters, deckAffiliation);
+    console.log('we gonna re do the teams');
+
+    return filterTeamsByDeck(teams, deckCharacters, deckAffiliation, excludedCharacterIds);
   },
 );
 
