@@ -73,13 +73,20 @@ const updateCharacters = (
   validSets,
   deckAffiliation,
 ) => ({
-  type: 'UPDATE_CHARACTERS',
+  type: 'UPDATE_CHARACTERS_COMPATIBILITY',
   payload: {
     validAffiliations,
     validFactions,
     validDamageTypes,
     validSets,
     deckAffiliation,
+  },
+});
+
+const updateCharacterInclusion = excludedCharacterIds => ({
+  type: 'UPDATE_CHARACTER_INCLUSION',
+  payload: {
+    excludedCharacterIds,
   },
 });
 
@@ -169,13 +176,13 @@ export const includeCharacter = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(includeCharacterInDeck(characterObject)))
-      .then(updateCharacterHelper(dispatch, getState));
+      .then(dispatch(updateCharacterInclusion(getState().deck.get('excludedCharacterIds'))));
 
 export const excludeCharacter = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(excludeCharacterInDeck(characterObject)))
-      .then(updateCharacterHelper(dispatch, getState));
+      .then(dispatch(updateCharacterInclusion(getState().deck.get('excludedCharacterIds'))));
 
 export const reset = () =>
   dispatch =>

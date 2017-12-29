@@ -20,14 +20,22 @@ export const ITEM_HEIGHT = 67;
 const styles = StyleSheet.create({
   row: {
     alignItems: 'center',
+    borderLeftWidth: 4,
+    borderLeftColor: 'rgba(189, 195, 199, 1.0)',
     borderBottomWidth: 1,
-    borderColor: 'rgba(189, 195, 199, 1.0)',
+    borderBottomColor: 'rgba(189, 195, 199, 1.0)',
     flexDirection: 'row',
     flexWrap: 'wrap',
     height: ITEM_HEIGHT,
     justifyContent: 'space-between',
     paddingHorizontal: 8,
     paddingVertical: 12,
+  },
+  excludedRow: {
+    borderLeftColor: 'rgba(230, 126, 34, 1.0)',
+  },
+  incompatibleRow: {
+    borderLeftColor: 'rgba(149, 165, 166, 1.0)',
   },
   cardAvatarWrapper: {
     alignItems: 'center',
@@ -97,6 +105,7 @@ class CharacterListItem extends Component {
     const { characterObject } = this.props;
     const card = characters[characterObject.get('id')];
 
+    const rowStyles = [styles.row];
     const cardAvatarStyles = [styles.cardAvatarWrapper];
     const cardNameStyle = [styles.cardName];
     const cardUniqueStyle = [styles.cardUnique];
@@ -104,13 +113,18 @@ class CharacterListItem extends Component {
     const cardInfoLogoStyle = [styles.cardInfoLogo];
     const arrowStyle = [styles.arrow];
 
-    if (!characterObject.get('isCompatibile', true)) {
+    if (characterObject.get('isIncompatible') || characterObject.get('isExcluded')) {
+      rowStyles.push(styles.incompatibleRow);
       cardAvatarStyles.push(styles.incompatibleCardAvatarWrapper);
       cardNameStyle.push(styles.incompatibleCardName);
       cardUniqueStyle.push(styles.incompatibleCardUnique);
       cardInfoStyle.push(styles.incompatibleCardInfo);
       cardInfoLogoStyle.push(styles.incompatibleCardInfoLogo);
       arrowStyle.push(styles.arrowIncompatible);
+    }
+
+    if (characterObject.get('isExcluded')) {
+      rowStyles.push(styles.excludedRow);
     }
 
     const setIcon = validateIcon(swdIcons, card.set) ? (
@@ -171,7 +185,6 @@ class CharacterListItem extends Component {
         underlayColor={ 'rgba(236, 240, 241, 1.0)' }
         onPress={ () => this.props.navigate('CharacterDetailScreen', { id: characterObject.get('id') }) }
       >
-        <View style={ styles.row }>
           <View>
             { avatar }
           </View>
@@ -180,6 +193,7 @@ class CharacterListItem extends Component {
               <Text style={ cardNameStyle }>{ card.name }</Text>
               <Text style={ cardNameStyle }>&nbsp;</Text>
               <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
+          <View style={ rowStyles }>
             </View>
             { cardInfo }
           </View>

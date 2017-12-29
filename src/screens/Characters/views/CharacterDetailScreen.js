@@ -18,6 +18,8 @@ import {
   setCharacterRegular,
   setCharacterElite,
   removeCharacter,
+  includeCharacter,
+  excludeCharacter,
 } from '../../../actions';
 import { getCharacters } from '../../../selectors/characterSelectors';
 import { getDeckCharacters } from '../../../selectors/deckSelectors';
@@ -122,6 +124,8 @@ class CharacterDetailScreen extends Component {
     const characterObject = characters.find(character => character.get('id') === cardId);
     const deckCharacterObject = deckCharacters.find(deckCard => deckCard.get('id') === characterObject.get('id'));
     const characterIsInDeck = !!deckCharacterObject;
+    const characterIsIncompatible = characterObject.get('isIncompatible');
+    const characterIsExcluded = characterObject.get('isExcluded');
 
     let deckMessageText = '';
     if (characterIsInDeck) {
@@ -140,7 +144,7 @@ class CharacterDetailScreen extends Component {
       </View> : null;
 
     let incompatibleMessageText = '';
-    if (!characterObject.get('isCompatibile', true)) {
+    if (characterIsIncompatible) {
       incompatibleMessageText = 'Character Incompatible with Selected Characters or Settings';
     }
 
@@ -151,8 +155,38 @@ class CharacterDetailScreen extends Component {
         </Text>
       </View> : null;
 
+    const excludeButton =
+      !characterIsExcluded && !characterIsInDeck && !characterIsIncompatible ? (
+        <TouchableOpacity
+          onPress={ () => this.props.excludeCharacter(characterObject) }
+          style={ [styles.button, styles.buttonOrange] }
+        >
+          <Text style={ styles.buttonText }>
+            { 'Exclude ' }
+            <Text style={ styles.buttonTextHighlight }>
+              { characterObject.get('name') }
+            </Text>
+          </Text>
+        </TouchableOpacity>
+      ) : null;
+
+    const includeButton =
+      characterIsExcluded && !characterIsInDeck && !characterIsIncompatible ? (
+        <TouchableOpacity
+          onPress={ () => this.props.includeCharacter(characterObject) }
+          style={ [styles.button, styles.buttonOrange] }
+        >
+          <Text style={ styles.buttonText }>
+            { 'Include ' }
+            <Text style={ styles.buttonTextHighlight }>
+              { characterObject.get('name') }
+            </Text>
+          </Text>
+        </TouchableOpacity>
+      ) : null;
+
     const addButton =
-      characterObject.get('isCompatibile', true) && (!characterIsInDeck || !characterObject.get('isUnique')) ? (
+      (!characterIsInDeck || !characterObject.get('isUnique')) && !characterIsIncompatible && !characterIsExcluded ? (
         <TouchableOpacity
           onPress={ () => this.props.addCharacter(characterObject) }
           style={ [styles.button, styles.buttonGreen] }
@@ -241,6 +275,12 @@ class CharacterDetailScreen extends Component {
           <View style={ styles.buttonView }>
             { removeButton }
           </View>
+          <View style={ styles.buttonView }>
+            { excludeButton }
+          </View>
+          <View style={ styles.buttonView }>
+            { includeButton }
+          </View>
         </View>
       </View>
     );
@@ -257,6 +297,9 @@ CharacterDetailScreen.propTypes = {
   setCharacterElite: PropTypes.func.isRequired,
   setCharacterRegular: PropTypes.func.isRequired,
   removeCharacter: PropTypes.func.isRequired,
+
+  includeCharacter: PropTypes.func.isRequired,
+  excludeCharacter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -270,6 +313,8 @@ const mapDispatchToProps = {
   setCharacterRegular,
   setCharacterElite,
   removeCharacter,
+  includeCharacter,
+  excludeCharacter,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterDetailScreen);

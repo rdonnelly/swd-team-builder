@@ -11,11 +11,11 @@ export const getCharactersSorted = createSelector(
   [getCharacters],
   characters =>
     characters.sort((a, b) => {
-      if (a.get('isCompatibile') && !b.get('isCompatibile')) {
+      if (!a.get('isIncompatible') && b.get('isIncompatible')) {
         return -1;
       }
 
-      if (!a.get('isCompatibile') && b.get('isCompatibile')) {
+      if (a.get('isIncompatible') && !b.get('isIncompatible')) {
         return 1;
       }
 
