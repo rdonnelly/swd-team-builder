@@ -5276,6 +5276,12 @@ react-native-safari-view@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-safari-view/-/react-native-safari-view-2.0.0.tgz#3aeb40693b0765df16b9beaf8654b60c7ff1d7ed"
 
+react-native-swipeable@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-swipeable/-/react-native-swipeable-0.6.0.tgz#0fe551330018b83c754d27f505709a594f554370"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-swiper@^1.5.5:
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.5.tgz#faf306fcaa676465f50459f16ee25c40c2d70e28"

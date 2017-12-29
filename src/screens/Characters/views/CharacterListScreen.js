@@ -109,6 +109,10 @@ class CharacterListScreen extends Component {
     },
   };
 
+  state = {
+    currentlyOpenSwipeable: null,
+  };
+
   shouldComponentUpdate(nextProps) {
     if (this.props.characters === nextProps.characters) {
       return false;
@@ -117,13 +121,33 @@ class CharacterListScreen extends Component {
     return true;
   }
 
+  handleScroll = () => {
+    const { currentlyOpenSwipeable } = this.state;
+
+    if (currentlyOpenSwipeable) {
+      currentlyOpenSwipeable.recenter();
+    }
+  };
+
   renderItem({ item: characterObject }) {
     const { navigate } = this.props.navigation;
+    const itemProps = {
+      onOpen: (event, gestureState, swipeable) => {
+        const { currentlyOpenSwipeable } = this.state;
+        if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
+          currentlyOpenSwipeable.recenter();
+        }
+
+        this.setState({ currentlyOpenSwipeable: swipeable });
+      },
+      onClose: () => this.setState({ currentlyOpenSwipeable: null }),
+    };
 
     return (
       <CharacterListItem
         characterObject={ characterObject }
         navigate={ navigate }
+        { ...itemProps }
       />
     );
   }
@@ -149,6 +173,8 @@ class CharacterListScreen extends Component {
           getItemCount={ data => (data.size || data.count || 0) }
           keyExtractor={ item => `character_list__${item.get('id')}` }
           getItemLayout={ this.getItemLayout }
+          scrollEventThrottle={ 0 }
+          onScroll={ this.handleScroll.bind(this) }
         />
         <SelectedCharacters navigate={ navigate }></SelectedCharacters>
       </View>

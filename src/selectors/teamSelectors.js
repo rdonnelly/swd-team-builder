@@ -44,8 +44,6 @@ export const getFilteredTeamsByDeck = createSelector(
       return teams;
     }
 
-    console.log('we gonna re do the teams');
-
     return filterTeamsByDeck(teams, deckCharacters, deckAffiliation, excludedCharacterIds);
   },
 );

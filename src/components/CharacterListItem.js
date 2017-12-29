@@ -6,13 +6,19 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
+import Swipeable from 'react-native-swipeable';
 import Immutable from 'immutable';
 
 import CharacterAvatar from '../components/CharacterAvatar';
 import { validate as validateIcon, swdestiny as swdIcons } from '../lib/swd-icons';
 import SWDIcon from '../components/SWDIcon';
 
+import {
+  includeCharacter,
+  excludeCharacter,
+} from '../actions';
 import { characters } from '../lib/Destiny';
 
 export const ITEM_HEIGHT = 67;
@@ -21,7 +27,7 @@ const styles = StyleSheet.create({
   row: {
     alignItems: 'center',
     borderLeftWidth: 4,
-    borderLeftColor: 'rgba(189, 195, 199, 1.0)',
+    borderLeftColor: 'rgba(236, 240, 241, 1.0)',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(189, 195, 199, 1.0)',
     flexDirection: 'row',
@@ -90,6 +96,15 @@ const styles = StyleSheet.create({
   arrowIncompatible: {
     color: 'rgba(189, 195, 199, 1.0)',
   },
+  rightSwipeItem: {
+    alignItems: 'flex-start',
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 12,
+  },
+  rightSwipeItemText: {
+    color: 'rgba(255, 255, 255, 1.0)',
+  },
 });
 
 class CharacterListItem extends Component {
@@ -102,7 +117,7 @@ class CharacterListItem extends Component {
   }
 
   render() {
-    const { characterObject } = this.props;
+    const { characterObject, onOpen, onClose } = this.props;
     const card = characters[characterObject.get('id')];
 
     const rowStyles = [styles.row];
@@ -179,29 +194,66 @@ class CharacterListItem extends Component {
       </View>
     );
 
-    return (
+    const rightButtons = characterObject.get('isExcluded') ? [
       <TouchableHighlight
-        activeOpacity={ 0.4 }
-        underlayColor={ 'rgba(236, 240, 241, 1.0)' }
-        onPress={ () => this.props.navigate('CharacterDetailScreen', { id: characterObject.get('id') }) }
+        activeOpacity={ 0.9 }
+        style={[styles.rightSwipeItem, { backgroundColor: 'rgba(230, 126, 34, 1.0)' }]}
+        underlayColor='rgba(211, 84, 0, 1.0)'
+        onPress={ () => {
+          this.swipeable.recenter();
+          setTimeout(() => {
+            this.props.includeCharacter(characterObject);
+          }, 250);
+        } }
       >
-          <View>
-            { avatar }
-          </View>
-          <View style={{ flex: 1 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={ cardNameStyle }>{ card.name }</Text>
-              <Text style={ cardNameStyle }>&nbsp;</Text>
-              <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
+        <Text style={ styles.rightSwipeItemText }>Include</Text>
+      </TouchableHighlight>,
+    ] : [
+      <TouchableHighlight
+        activeOpacity={ 0.9 }
+        style={[styles.rightSwipeItem, { backgroundColor: 'rgba(230, 126, 34, 1.0)' }]}
+        underlayColor='rgba(211, 84, 0, 1.0)'
+        onPress={ () => {
+          this.swipeable.recenter();
+          setTimeout(() => {
+            this.props.excludeCharacter(characterObject);
+          }, 250);
+        } }
+      >
+        <Text style={ styles.rightSwipeItemText }>Exclude</Text>
+      </TouchableHighlight>,
+    ];
+
+    return (
+      <Swipeable
+        rightButtons={ rightButtons }
+        onRef={ (component) => { this.swipeable = component; } }
+        onRightButtonsOpenRelease={ onOpen }
+        onRightButtonsCloseRelease={ onClose }
+      >
+        <TouchableHighlight
+          activeOpacity={ 0.4 }
+          underlayColor={ 'rgba(236, 240, 241, 1.0)' }
+          onPress={ () => this.props.navigate('CharacterDetailScreen', { id: characterObject.get('id') }) }
+        >
           <View style={ rowStyles }>
+            <View>
+              { avatar }
             </View>
-            { cardInfo }
+            <View style={{ flex: 1 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={ cardNameStyle }>{ card.name }</Text>
+                <Text style={ cardNameStyle }>&nbsp;</Text>
+                <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
+              </View>
+              { cardInfo }
+            </View>
+            <View>
+              <Icon name={ 'chevron-right' } size={ 20 } style={ arrowStyle } />
+            </View>
           </View>
-          <View>
-            <Icon name={ 'chevron-right' } size={ 20 } style={ arrowStyle } />
-          </View>
-        </View>
-      </TouchableHighlight>
+        </TouchableHighlight>
+      </Swipeable>
     );
   }
 }
@@ -209,6 +261,17 @@ class CharacterListItem extends Component {
 CharacterListItem.propTypes = {
   characterObject: PropTypes.instanceOf(Immutable.Map),
   navigate: PropTypes.func.isRequired,
+
+  includeCharacter: PropTypes.func.isRequired,
+  excludeCharacter: PropTypes.func.isRequired,
+
+  onOpen: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
-export default CharacterListItem;
+const mapDispatchToProps = {
+  includeCharacter,
+  excludeCharacter,
+};
+
+export default connect(null, mapDispatchToProps)(CharacterListItem);
