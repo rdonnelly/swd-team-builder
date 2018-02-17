@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderLeftWidth: 4,
     borderLeftColor: 'rgba(236, 240, 241, 1.0)',
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: 'rgba(189, 195, 199, 1.0)',
     flexDirection: 'row',
     flexWrap: 'wrap',

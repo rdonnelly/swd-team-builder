@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   information: {
     borderColor: 'rgba(189, 195, 199,1.0)',
-    borderTopWidth: 1,
+    borderTopWidth: StyleSheet.hairlineWidth,
     marginTop: 24,
     paddingTop: 24,
   },

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   deckCard: {
     color: 'rgba(189, 195, 199, 1.0)',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '700',
   },
   blueCard: {
     color: 'rgba(52, 152, 219, 1.0)',
@@ -57,8 +57,9 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   deckInfo: {
-    color: 'rgba(149, 165, 166, 1.0)',
-    fontSize: 13,
+    color: 'rgba(236, 240, 241, 1.0)',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
 
@@ -131,16 +132,18 @@ class SelectedCharacters extends PureComponent {
         </View>
         <View style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
           <TouchableOpacity
-          onPress={() => Alert.alert(
-            'Clear Characters?',
-            'This will reset your selections to allow you to choose different characters and look for different teams.',
-            [
-              { text: 'Cancel' },
-              { text: 'Clear', onPress: () => this.props.reset(), style: 'destructive' },
-            ],
-          )}>
-          <Icon name={ 'trash-o' } size={ 28 } color={ 'rgba(236, 240, 241, 1.0)' } />
-        </TouchableOpacity>
+            style={{ padding: 4 }}
+            onPress={() => Alert.alert(
+              'Clear Characters?',
+              'This will reset your selections to allow you to choose different characters and look for different teams.',
+              [
+                { text: 'Cancel' },
+                { text: 'Clear', onPress: () => this.props.reset(), style: 'destructive' },
+              ],
+            )}
+          >
+            <Icon name={ 'trash-o' } size={ 24 } color={ 'rgba(236, 240, 241, 1.0)' } />
+          </TouchableOpacity>
         </View>
       </View>
     ) : (
