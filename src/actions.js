@@ -3,59 +3,59 @@
 const addCharacterToDeck = characterObject => ({
   type: 'ADD_CHARACTER_TO_DECK',
   payload: {
-    characterAffiliation: characterObject.get('affiliation'),
-    characterId: characterObject.get('id'),
-    characterName: characterObject.get('name'),
+    characterAffiliation: characterObject.affiliation,
+    characterId: characterObject.id,
+    characterName: characterObject.name,
   },
 });
 
 const removeCharacterFromDeck = characterObject => ({
   type: 'REMOVE_CHARACTER_FROM_DECK',
   payload: {
-    characterAffiliation: characterObject.get('affiliation'),
-    characterId: characterObject.get('id'),
-    characterName: characterObject.get('name'),
+    characterAffiliation: characterObject.affiliation,
+    characterId: characterObject.id,
+    characterName: characterObject.name,
   },
 });
 
 const setCharacterAnyInDeck = characterObject => ({
   type: 'SET_CHARACTER_ANY_IN_DECK',
   payload: {
-    characterAffiliation: characterObject.get('affiliation'),
-    characterId: characterObject.get('id'),
-    characterName: characterObject.get('name'),
+    characterAffiliation: characterObject.affiliation,
+    characterId: characterObject.id,
+    characterName: characterObject.name,
   },
 });
 
 const setCharacterRegularInDeck = characterObject => ({
   type: 'SET_CHARACTER_REGULAR_IN_DECK',
   payload: {
-    characterAffiliation: characterObject.get('affiliation'),
-    characterId: characterObject.get('id'),
-    characterName: characterObject.get('name'),
+    characterAffiliation: characterObject.affiliation,
+    characterId: characterObject.id,
+    characterName: characterObject.name,
   },
 });
 
 const setCharacterEliteInDeck = characterObject => ({
   type: 'SET_CHARACTER_ELITE_IN_DECK',
   payload: {
-    characterAffiliation: characterObject.get('affiliation'),
-    characterId: characterObject.get('id'),
-    characterName: characterObject.get('name'),
+    characterAffiliation: characterObject.affiliation,
+    characterId: characterObject.id,
+    characterName: characterObject.name,
   },
 });
 
 const includeCharacterInDeck = characterObject => ({
   type: 'INCLUDE_CHARACTER',
   payload: {
-    characterId: characterObject.get('id'),
+    characterId: characterObject.id,
   },
 });
 
 const excludeCharacterInDeck = characterObject => ({
   type: 'EXCLUDE_CHARACTER',
   payload: {
-    characterId: characterObject.get('id'),
+    characterId: characterObject.id,
   },
 });
 
@@ -131,7 +131,7 @@ const updateCharacterHelper = (dispatch, getState) =>
 
 export const addCharacter = characterObject =>
   (dispatch, getState) => {
-    if (characterObject.get('isUnique') &&
+    if (characterObject.isUnique &&
         getState().deck.get('characters').includes(characterObject)) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));
@@ -162,7 +162,7 @@ export const setCharacterElite = characterObject =>
 
 export const removeCharacter = characterObject =>
   (dispatch, getState) => {
-    if (!getState().deck.get('characters').some(deckCard => deckCard.get('id') === characterObject.get('id'))) {
+    if (!getState().deck.get('characters').some(deckCard => deckCard.get('id') === characterObject.id)) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
     }

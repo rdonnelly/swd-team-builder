@@ -1,9 +1,8 @@
-import Immutable from 'immutable';
-
+import _intersection from 'lodash/intersection';
 import { characters } from '../lib/Destiny';
 
 const initialState = {
-  characters: Immutable.fromJS(Object.values(characters)),
+  characters: Object.values(characters),
 };
 
 const charactersReducer = (state = initialState, action) => {
@@ -20,10 +19,10 @@ const charactersReducer = (state = initialState, action) => {
               deckAffiliation,
             } = action.payload;
 
-            const characterAffiliation = characterObject.get('affiliation');
-            const characterDamageTypes = Immutable.fromJS(characterObject.get('damageTypes').match(/([IMR]D)/g) || []);
-            const characterFaction = characterObject.get('faction');
-            const characterSet = characterObject.get('set');
+            const characterAffiliation = characterObject.affiliation;
+            const characterDamageTypes = characterObject.damageTypes.match(/([IMR]D)/g) || [];
+            const characterFaction = characterObject.faction;
+            const characterSet = characterObject.set;
 
             const hasValidAffiliation =
               validAffiliations.indexOf(characterAffiliation) !== -1 &&
@@ -32,9 +31,16 @@ const charactersReducer = (state = initialState, action) => {
               characterAffiliation === deckAffiliation);
             const hasValidFaction = validFactions.includes(characterFaction);
             const hasValidSet = validSets.includes(characterSet);
-            const hasValidDamageTypes = characterDamageTypes.isSubset(validDamageTypes);
-            return characterObject.set('isIncompatible',
-              !hasValidAffiliation || !hasValidDamageTypes || !hasValidFaction || !hasValidSet);
+            const hasValidDamageTypes =
+              characterDamageTypes.length ===
+              _intersection(characterDamageTypes, validDamageTypes.toJS()).length;
+
+            const isIncompatible =
+              !hasValidAffiliation || !hasValidDamageTypes || !hasValidFaction || !hasValidSet;
+
+            return Object.assign({}, characterObject, {
+              isIncompatible,
+            });
           }),
       });
     }
@@ -47,10 +53,12 @@ const charactersReducer = (state = initialState, action) => {
               excludedCharacterIds,
             } = action.payload;
 
-            const characterId = characterObject.get('id');
+            const characterId = characterObject.id;
             const isExcluded = excludedCharacterIds.includes(characterId);
 
-            return characterObject.set('isExcluded', isExcluded);
+            return Object.assign({}, characterObject, {
+              isExcluded,
+            });
           }),
       });
     }

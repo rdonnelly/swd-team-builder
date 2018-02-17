@@ -9,7 +9,6 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import Swipeable from 'react-native-swipeable';
-import Immutable from 'immutable';
 
 import CharacterAvatar from '../components/CharacterAvatar';
 import { validate as validateIcon, swdestiny as swdIcons } from '../lib/swd-icons';
@@ -109,16 +108,24 @@ const styles = StyleSheet.create({
 
 class CharacterListItem extends Component {
   shouldComponentUpdate(nextProps) {
-    if (this.props.characterObject === nextProps.characterObject) {
-      return false;
+    if (this.props.characterObject.id !== nextProps.characterObject.id) {
+      return true;
     }
 
-    return true;
+    if (this.props.characterObject.isExcluded !== nextProps.characterObject.isExcluded) {
+      return true;
+    }
+
+    if (this.props.characterObject.isIncompatible !== nextProps.characterObject.isIncompatible) {
+      return true;
+    }
+
+    return false;
   }
 
   render() {
     const { characterObject, onOpen, onClose } = this.props;
-    const card = characters[characterObject.get('id')];
+    const card = characters[characterObject.id];
 
     const rowStyles = [styles.row];
     const cardAvatarStyles = [styles.cardAvatarWrapper];
@@ -128,7 +135,7 @@ class CharacterListItem extends Component {
     const cardInfoLogoStyle = [styles.cardInfoLogo];
     const arrowStyle = [styles.arrow];
 
-    if (characterObject.get('isIncompatible') || characterObject.get('isExcluded')) {
+    if (characterObject.isIncompatible || characterObject.isExcluded) {
       rowStyles.push(styles.incompatibleRow);
       cardAvatarStyles.push(styles.incompatibleCardAvatarWrapper);
       cardNameStyle.push(styles.incompatibleCardName);
@@ -138,7 +145,7 @@ class CharacterListItem extends Component {
       arrowStyle.push(styles.arrowIncompatible);
     }
 
-    if (characterObject.get('isExcluded')) {
+    if (characterObject.isExcluded) {
       rowStyles.push(styles.excludedRow);
     }
 
@@ -187,14 +194,14 @@ class CharacterListItem extends Component {
     const avatar = (
       <View style={ cardAvatarStyles }>
         <CharacterAvatar
-          cardId={ characterObject.get('id') }
+          cardId={ characterObject.id }
           round={ true }
           size={ StyleSheet.flatten(styles.cardAvatarWrapper).width }
         />
       </View>
     );
 
-    const rightButtons = characterObject.get('isExcluded') ? [
+    const rightButtons = characterObject.isExcluded ? [
       <TouchableHighlight
         activeOpacity={ 0.9 }
         style={[styles.rightSwipeItem, { backgroundColor: 'rgba(230, 126, 34, 1.0)' }]}
@@ -234,7 +241,7 @@ class CharacterListItem extends Component {
         <TouchableHighlight
           activeOpacity={ 0.4 }
           underlayColor={ 'rgba(236, 240, 241, 1.0)' }
-          onPress={ () => this.props.navigate('CharacterDetailScreen', { id: characterObject.get('id') }) }
+          onPress={ () => this.props.navigate('CharacterDetailScreen', { id: characterObject.id }) }
         >
           <View style={ rowStyles }>
             <View>
@@ -259,7 +266,7 @@ class CharacterListItem extends Component {
 }
 
 CharacterListItem.propTypes = {
-  characterObject: PropTypes.instanceOf(Immutable.Map),
+  characterObject: PropTypes.object.isRequired,
   navigate: PropTypes.func.isRequired,
 
   includeCharacter: PropTypes.func.isRequired,

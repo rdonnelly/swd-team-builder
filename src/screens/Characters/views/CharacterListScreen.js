@@ -6,7 +6,6 @@ import {
   VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Immutable from 'immutable';
 
 import CharacterListItem, { ITEM_HEIGHT } from '../../../components/CharacterListItem';
 import SelectedCharacters from '../../../components/SelectedCharacters';
@@ -169,9 +168,9 @@ class CharacterListScreen extends Component {
           style={ styles.list }
           data={ this.props.characters }
           renderItem={ this.renderItem.bind(this) }
-          getItem={ (data, key) => data.get(key) }
-          getItemCount={ data => (data.size || data.count || 0) }
-          keyExtractor={ item => `character_list__${item.get('id')}` }
+          getItem={ (data, key) => data[key] }
+          getItemCount={ data => (data.length) }
+          keyExtractor={ item => `character_list__${item.id}` }
           getItemLayout={ this.getItemLayout }
           scrollEventThrottle={ 0 }
           onScroll={ this.handleScroll.bind(this) }
@@ -183,7 +182,7 @@ class CharacterListScreen extends Component {
 }
 
 CharacterListScreen.propTypes = {
-  characters: PropTypes.instanceOf(Immutable.List).isRequired,
+  characters: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired,
 };
 
