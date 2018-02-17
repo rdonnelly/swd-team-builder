@@ -1,4 +1,7 @@
 import ReduxThunk from 'redux-thunk';
+import {
+  createReactNavigationReduxMiddleware,
+} from 'react-navigation-redux-helpers';
 
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
@@ -19,13 +22,19 @@ const rootReducer = combineReducers({
   teams: teamsReducer,
 });
 
+const rootNavigationMiddleware = createReactNavigationReduxMiddleware(
+  'tabNavigation',
+  state => state.tabNavigation,
+);
+
 // PRELOADED / INITIAL STATE
 const preloadedState = {};
 
 // ENHANCER / MIDDLEWARE
 const middleware = [
+  rootNavigationMiddleware,
   ReduxThunk,
-  __DEV__ && createLogger(), // eslint-disable-line no-undef
+  // __DEV__ && createLogger(), // eslint-disable-line no-undef
 ].filter(Boolean);
 
 const enhancer = applyMiddleware(...middleware);

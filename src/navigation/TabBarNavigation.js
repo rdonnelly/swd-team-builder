@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TabNavigator, addNavigationHelpers } from 'react-navigation';
+import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -15,7 +16,6 @@ const TabBar = TabNavigator(
   },
   {
     backBehavior: 'none',
-    lazy: true,
     tabBarOptions: {
       activeTintColor: 'rgba(155, 89, 182, 1.0)',
       inactiveTintColor: 'rgba(149, 165, 166, 1.0)',
@@ -28,13 +28,16 @@ const TabBar = TabNavigator(
 
 class TabBarComponent extends Component {
   render() {
-    const { dispatch, navigationState } = this.props;
+    const { dispatch, tabNavigation } = this.props;
+    const addListener = createReduxBoundAddListener('tabNavigation');
+
     return (
       <TabBar
         navigation={
           addNavigationHelpers({
             dispatch,
-            state: navigationState,
+            state: tabNavigation,
+            addListener,
           })
         }
       />
@@ -44,10 +47,10 @@ class TabBarComponent extends Component {
 
 TabBarComponent.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  navigationState: PropTypes.object.isRequired,
+  tabNavigation: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({ navigationState: state.tabNavigation });
+const mapStateToProps = state => ({ tabNavigation: state.tabNavigation });
 
 export const TabBarNavigation = connect(mapStateToProps)(TabBarComponent);
 
