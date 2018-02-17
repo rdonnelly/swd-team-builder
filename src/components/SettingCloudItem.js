@@ -9,7 +9,7 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(255, 255, 255, 1.0)',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderRadius: 4,
     marginBottom: 8,
     marginRight: 8,
@@ -17,11 +17,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   containerOn: {
+    backgroundColor: 'rgba(255, 255, 255, 1.0)',
   },
   text: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: 'rgba(127, 140, 141, 1.0)',
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   textOn: {
     color: 'rgba(155, 89, 182, 1.0)',
