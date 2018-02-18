@@ -1,128 +1,197 @@
-import Immutable from 'immutable';
+import _without from 'lodash/without';
 
 
-const initialState = Immutable.fromJS({
+const initialState = {
   affiliation: 'neutral',
   characters: [],
   excludedCharacterIds: [],
-});
+};
 
 const deckReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_CHARACTER_TO_DECK': {
-      const existingCardIndex = state.get('characters')
-        .findIndex(characterObject => characterObject.get('id') === action.payload.characterId);
+      const existingCardIndex = state.characters
+        .findIndex(characterObject => characterObject.id === action.payload.characterId);
 
       if (existingCardIndex !== -1) {
-        return state.updateIn(['characters', existingCardIndex, 'count'], count => count + 1);
+        return {
+          ...state,
+          characters: state.characters.map((characterObject, index) => {
+            if (index !== existingCardIndex) {
+              return characterObject;
+            }
+
+            return {
+              ...characterObject,
+              count: characterObject.count + 1,
+            };
+          }),
+        };
       }
 
-      const characterObject = Immutable.fromJS({
+      const characterObject = {
         id: action.payload.characterId,
         name: action.payload.characterName,
         affiliation: action.payload.characterAffiliation,
         numDice: 0,
         count: 1,
-      });
+      };
 
-      return state
-        .update('affiliation',
-          affiliation => (affiliation === 'neutral' ? action.payload.characterAffiliation : affiliation))
-        .update('characters', cards => cards.push(characterObject));
+      return {
+        ...state,
+        affiliation: state.affiliation === 'neutral' ? action.payload.characterAffiliation : state.affiliation,
+        characters: [
+          ...state.characters,
+          characterObject,
+        ],
+      };
     }
 
     case 'SET_CHARACTER_ANY_IN_DECK': {
-      const existingCardIndex = state.get('characters')
-        .findIndex(characterObject => characterObject.get('id') === action.payload.characterId);
+      const existingCardIndex = state.characters
+        .findIndex(characterObject => characterObject.id === action.payload.characterId);
 
-      return state.setIn(['characters', existingCardIndex, 'numDice'], 0);
+      if (existingCardIndex === -1) {
+        return state;
+      }
+
+      return {
+        ...state,
+        characters: state.characters.map((characterObject, index) => {
+          if (index !== existingCardIndex) {
+            return characterObject;
+          }
+
+          return {
+            ...characterObject,
+            numDice: 0,
+          };
+        }),
+      };
     }
 
     case 'SET_CHARACTER_REGULAR_IN_DECK': {
-      const existingCardIndex = state.get('characters')
-        .findIndex(characterObject => characterObject.get('id') === action.payload.characterId);
+      const existingCardIndex = state.characters
+        .findIndex(characterObject => characterObject.id === action.payload.characterId);
 
-      return state.setIn(['characters', existingCardIndex, 'numDice'], 1);
+      if (existingCardIndex === -1) {
+        return state;
+      }
+
+      return {
+        ...state,
+        characters: state.characters.map((characterObject, index) => {
+          if (index !== existingCardIndex) {
+            return characterObject;
+          }
+
+          return {
+            ...characterObject,
+            numDice: 1,
+          };
+        }),
+      };
     }
 
     case 'SET_CHARACTER_ELITE_IN_DECK': {
-      const existingCardIndex = state.get('characters')
-        .findIndex(characterObject => characterObject.get('id') === action.payload.characterId);
+      const existingCardIndex = state.characters
+        .findIndex(characterObject => characterObject.id === action.payload.characterId);
 
-      return state.setIn(['characters', existingCardIndex, 'numDice'], 2);
+      if (existingCardIndex === -1) {
+        return state;
+      }
+
+      return {
+        ...state,
+        characters: state.characters.map((characterObject, index) => {
+          if (index !== existingCardIndex) {
+            return characterObject;
+          }
+
+          return {
+            ...characterObject,
+            numDice: 2,
+          };
+        }),
+      };
     }
 
     case 'REMOVE_CHARACTER_FROM_DECK': {
-      const existingCardIndex = state.get('characters')
-        .findIndex(characterObject => characterObject.get('id') === action.payload.characterId);
+      const existingCardIndex = state.characters
+        .findIndex(characterObject => characterObject.id === action.payload.characterId);
 
       if (existingCardIndex === -1) {
-        return state.characters;
+        return state;
       }
 
-      return state
-        .update('characters', (characterObjects) => {
-          const existingDeckCharacterObject = characterObjects.get(existingCardIndex);
-          if (existingDeckCharacterObject.get('count') > 1) {
-            return characterObjects.updateIn([existingCardIndex, 'count'], count => count - 1);
+      let affiliation = 'neutral';
+
+      const characters = state.characters.reduce((array, characterObject, index) => {
+        if (index === existingCardIndex) {
+          if (characterObject.count > 1) {
+            array.push({
+              ...characterObject,
+              count: characterObject.count - 1,
+            });
+
+            if (characterObject.affiliation !== 'neutral') {
+              affiliation = characterObject.affiliation;
+            }
           }
-
-          return characterObjects.delete(existingCardIndex);
-        })
-        .update('affiliation', (affiliation) => {
-          if (affiliation === 'neutral') {
-            return 'neutral';
-          }
-
-          let newAffiliation = 'neutral';
-          state.get('characters').every((characterObject, index) => {
-            const characterAffiliation = characterObject.get('affiliation');
-            if (index === existingCardIndex) {
-              return true;
-            }
-
-            if (characterAffiliation === 'neutral') {
-              return true;
-            }
-
-            if (characterAffiliation !== 'neutral') {
-              newAffiliation = characterAffiliation;
-              return false;
-            }
-
-            return true;
+        } else {
+          array.push({
+            ...characterObject,
           });
 
-          return newAffiliation;
-        });
+          if (characterObject.affiliation !== 'neutral') {
+            affiliation = characterObject.affiliation;
+          }
+        }
+
+        return array;
+      }, []);
+
+      return {
+        ...state,
+        characters,
+        affiliation,
+      };
     }
 
     case 'INCLUDE_CHARACTER': {
-      const existingIndex = state.get('excludedCharacterIds')
+      const existingIndex = state.excludedCharacterIds
         .findIndex(excludedCharacterId => excludedCharacterId === action.payload.characterId);
 
       if (existingIndex !== -1) {
-        return state.update('excludedCharacterIds', excludedCharacterIds => excludedCharacterIds.delete(existingIndex));
+        return {
+          ...state,
+          excludedCharacterIds: _without(state.excludedCharacterIds, action.payload.characterId),
+        };
       }
 
       return state;
     }
 
     case 'EXCLUDE_CHARACTER': {
-      const existingIndex = state.get('excludedCharacterIds')
+      const existingIndex = state.excludedCharacterIds
         .findIndex(excludedCharacterId => excludedCharacterId === action.payload.characterId);
 
       if (existingIndex === -1) {
-        return state.update('excludedCharacterIds', excludedCharacterIds => excludedCharacterIds.push(action.payload.characterId));
+        return {
+          ...state,
+          excludedCharacterIds: [...state.excludedCharacterIds, action.payload.characterId],
+        };
       }
 
       return state;
     }
 
     case 'RESET_DECK': {
-      return state
-        .set('affiliation', initialState.get('affiliation'))
-        .set('characters', initialState.get('characters'));
+      return {
+        ...state,
+        affiliation: 'neutral',
+        characters: [],
+      };
     }
 
     default:

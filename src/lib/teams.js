@@ -6,17 +6,17 @@ import {
 } from '../lib/Destiny';
 
 export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, excludedCharacterIds) => {
-  if (deckCharacters.isEmpty() && excludedCharacterIds.isEmpty()) {
+  if (deckCharacters.length === 0 && excludedCharacterIds.length === 0) {
     return teams;
   }
 
   let outputTeams = teams;
 
   deckCharacters.forEach((deckCharacterObject) => {
-    const numDice = deckCharacterObject.get('numDice');
-    const characterKey = `${deckCharacterObject.get('id')}_${numDice}_${deckCharacterObject.get('count')}`;
-    const regularCharacterKey = `${deckCharacterObject.get('id')}_1_${deckCharacterObject.get('count')}`;
-    const eliteCharacterKey = `${deckCharacterObject.get('id')}_2_${deckCharacterObject.get('count')}`;
+    const numDice = deckCharacterObject.numDice;
+    const characterKey = `${deckCharacterObject.id}_${numDice}_${deckCharacterObject.count}`;
+    const regularCharacterKey = `${deckCharacterObject.id}_1_${deckCharacterObject.count}`;
+    const eliteCharacterKey = `${deckCharacterObject.id}_2_${deckCharacterObject.count}`;
 
     outputTeams = outputTeams.filter((team) => {
       if (deckAffiliation !== 'neutral' && !team.get('a').includes(deckAffiliation)) {

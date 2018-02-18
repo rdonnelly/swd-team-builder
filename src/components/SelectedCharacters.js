@@ -79,7 +79,7 @@ class SelectedCharacters extends PureComponent {
     const { deckCharacterObjects } = this.props;
 
     const characterViews = deckCharacterObjects.map((characterObject) => {
-      const card = characters[characterObject.get('id')];
+      const card = characters[characterObject.id];
 
       const characterStyles = [styles.deckCard];
       const diceStyles = [styles.dice];
@@ -96,7 +96,7 @@ class SelectedCharacters extends PureComponent {
       }
 
       const diceIcons = [];
-      for (let i = 0; i < characterObject.get('numDice'); i += 1) {
+      for (let i = 0; i < characterObject.numDice; i += 1) {
         diceIcons.push(
           <SWDIcon
             key={ `die__${card.id}__${i}` }
@@ -117,7 +117,7 @@ class SelectedCharacters extends PureComponent {
             style={ styles.characterViewTouchable }
           >
             <Text style={ characterStyles }>
-              { card.name + (characterObject.get('count') > 1 ? ` x${characterObject.get('count')}` : '') }
+              { card.name + (characterObject.count > 1 ? ` x${characterObject.count}` : '') }
             </Text>
             { diceIcons }
           </TouchableOpacity>
@@ -125,7 +125,7 @@ class SelectedCharacters extends PureComponent {
       );
     });
 
-    return deckCharacterObjects.count() > 0 ? (
+    return deckCharacterObjects.length ? (
       <View style={ styles.container }>
         <View style={{ flex: 1 }}>
           { characterViews }
@@ -157,7 +157,7 @@ class SelectedCharacters extends PureComponent {
 }
 
 SelectedCharacters.propTypes = {
-  deckCharacterObjects: PropTypes.instanceOf(Immutable.List),
+  deckCharacterObjects: PropTypes.array.isRequired,
   reset: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
 };

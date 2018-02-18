@@ -122,7 +122,8 @@ class CharacterDetailScreen extends Component {
 
     const cardId = this.props.navigation.state.params.id;
     const characterObject = characters.find(character => character.id === cardId);
-    const deckCharacterObject = deckCharacters.find(deckCard => deckCard.get('id') === characterObject.id);
+    const deckCharacterObject =
+      deckCharacters.find(deckCharacter => deckCharacter.id === characterObject.id);
     const characterIsInDeck = !!deckCharacterObject;
     const characterIsIncompatible = characterObject.isIncompatible;
     const characterIsExcluded = characterObject.isExcluded;
@@ -131,8 +132,8 @@ class CharacterDetailScreen extends Component {
     if (characterIsInDeck) {
       deckMessageText = 'Character Selected for Team';
 
-      if (!characterObject.isUnique && deckCharacterObject.get('count') > 1) {
-        deckMessageText += ` (x${deckCharacterObject.get('count')})`;
+      if (!characterObject.isUnique && deckCharacterObject.count > 1) {
+        deckMessageText += ` (x${deckCharacterObject.count})`;
       }
     }
 
@@ -186,7 +187,8 @@ class CharacterDetailScreen extends Component {
       ) : null;
 
     const addButton =
-      (!characterIsInDeck || !characterObject.isUnique) && !characterIsIncompatible && !characterIsExcluded ? (
+      (!characterIsInDeck || !characterObject.isUnique) &&
+      !characterIsIncompatible && !characterIsExcluded ? (
         <TouchableOpacity
           onPress={ () => this.props.addCharacter(characterObject) }
           style={ [styles.button, styles.buttonGreen] }
@@ -217,18 +219,28 @@ class CharacterDetailScreen extends Component {
 
     const anyButton = characterIsInDeck && characterObject.isUnique ?
       <TouchableOpacity
-        disabled={ deckCharacterObject.get('numDice') === 0 }
+        disabled={ deckCharacterObject.numDice === 0 }
         onPress={ () => this.props.setCharacterAny(characterObject) }
-        style={ [styles.button, styles.buttonPurple, { marginRight: 4 }, deckCharacterObject.get('numDice') === 0 && styles.buttonDisabled] }
+        style={ [
+          styles.button,
+          styles.buttonPurple,
+          { marginRight: 4 },
+          deckCharacterObject.numDice === 0 && styles.buttonDisabled,
+        ] }
       >
         <Text style={ styles.buttonText }>{ 'Any' }</Text>
       </TouchableOpacity> : null;
 
     const regularButton = characterIsInDeck && characterObject.isUnique ?
       <TouchableOpacity
-        disabled={ deckCharacterObject.get('numDice') === 1 }
+        disabled={ deckCharacterObject.numDice === 1 }
         onPress={ () => this.props.setCharacterRegular(characterObject) }
-        style={ [styles.button, styles.buttonPurple, { marginHorizontal: 4 }, deckCharacterObject.get('numDice') === 1 && styles.buttonDisabled] }
+        style={ [
+          styles.button,
+          styles.buttonPurple,
+          { marginHorizontal: 4 },
+          deckCharacterObject.numDice === 1 && styles.buttonDisabled,
+        ] }
       >
         <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />
       </TouchableOpacity> : null;
@@ -236,9 +248,14 @@ class CharacterDetailScreen extends Component {
     const eliteButton =
       characterIsInDeck && characterObject.isUnique && characterObject.pointsElite ?
       <TouchableOpacity
-        disabled={ deckCharacterObject.get('numDice') === 2 }
+        disabled={ deckCharacterObject.numDice === 2 }
         onPress={ () => this.props.setCharacterElite(characterObject) }
-        style={ [styles.button, styles.buttonPurple, { marginLeft: 4 }, deckCharacterObject.get('numDice') === 2 && styles.buttonDisabled] }
+        style={ [
+          styles.button,
+          styles.buttonPurple,
+          { marginLeft: 4 },
+          deckCharacterObject.numDice === 2 && styles.buttonDisabled,
+        ] }
       >
         <View>
           <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />
@@ -290,7 +307,7 @@ class CharacterDetailScreen extends Component {
 CharacterDetailScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
   characters: PropTypes.array.isRequired,
-  deckCharacters: PropTypes.object.isRequired,
+  deckCharacters: PropTypes.array.isRequired,
 
   addCharacter: PropTypes.func.isRequired,
   setCharacterAny: PropTypes.func.isRequired,

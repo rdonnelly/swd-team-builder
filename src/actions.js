@@ -122,7 +122,7 @@ const updateCharacterHelper = (dispatch, getState) =>
       getState().teams.settings.getIn(['filters', 'factions']),
       getState().teams.settings.getIn(['filters', 'damageTypes']),
       getState().teams.settings.getIn(['filters', 'sets']),
-      getState().deck.get('affiliation'),
+      getState().deck.affiliation,
     ),
   );
 
@@ -131,8 +131,8 @@ const updateCharacterHelper = (dispatch, getState) =>
 
 export const addCharacter = characterObject =>
   (dispatch, getState) => {
-    if (characterObject.isUnique &&
-        getState().deck.get('characters').includes(characterObject)) {
+    if (characterObject.isUnique && getState().deck.characters.some(
+        deckCharacterObject => deckCharacterObject.id === characterObject.id)) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));
     }
@@ -162,7 +162,8 @@ export const setCharacterElite = characterObject =>
 
 export const removeCharacter = characterObject =>
   (dispatch, getState) => {
-    if (!getState().deck.get('characters').some(deckCard => deckCard.get('id') === characterObject.id)) {
+    if (!getState().deck.characters.some(
+        deckCharacterObject => deckCharacterObject.id === characterObject.id)) {
       return Promise.resolve()
         .then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
     }
@@ -176,13 +177,13 @@ export const includeCharacter = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(includeCharacterInDeck(characterObject)))
-      .then(dispatch(updateCharacterInclusion(getState().deck.get('excludedCharacterIds'))));
+      .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
 
 export const excludeCharacter = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(excludeCharacterInDeck(characterObject)))
-      .then(dispatch(updateCharacterInclusion(getState().deck.get('excludedCharacterIds'))));
+      .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
 
 export const reset = () =>
   dispatch =>
