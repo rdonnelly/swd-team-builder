@@ -21,7 +21,7 @@ export const getSettings = createSelector(
 
 export const getSortOrder = createSelector(
   [getSettings],
-  settings => settings.get('sortOrder'),
+  settings => settings.sortOrder,
 );
 
 export const getTeamsSorted = createSelector(

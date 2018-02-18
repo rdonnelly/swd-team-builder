@@ -1,3 +1,4 @@
+import _intersection from 'lodash/intersection';
 import {
   affiliations as affiliationsList,
   factions as factionsList,
@@ -43,30 +44,34 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
 
 export const filterTeamsBySettings = (teams, settings) => {
   let outputTeams = teams;
-  const minDice = settings.getIn(['filters', 'minDice']);
-  const minHealth = settings.getIn(['filters', 'minHealth']);
-  const minPoints = settings.getIn(['filters', 'minPoints']);
-  const minCharacterCount = settings.getIn(['filters', 'minCharacterCount']);
-  const maxCharacterCount = settings.getIn(['filters', 'maxCharacterCount']);
-  let affiliations = settings.getIn(['filters', 'affiliations']);
-  let factions = settings.getIn(['filters', 'factions']);
-  let damageTypes = settings.getIn(['filters', 'damageTypes']);
-  let sets = settings.getIn(['filters', 'sets']);
+  const minDice = settings.filters.minDice;
+  const minHealth = settings.filters.minHealth;
+  const minPoints = settings.filters.minPoints;
+  const minCharacterCount = settings.filters.minCharacterCount;
+  const maxCharacterCount = settings.filters.maxCharacterCount;
+  const affiliations = settings.filters.affiliations;
+  const factions = settings.filters.factions;
+  const damageTypes = settings.filters.damageTypes;
+  const sets = settings.filters.sets;
 
-  if (affiliations.count() >= affiliationsList.length) {
-    affiliations = null;
+  let skipAffiliations = false;
+  if (affiliations.length >= affiliationsList.length) {
+    skipAffiliations = true;
   }
 
-  if (factions.count() >= factionsList.length) {
-    factions = null;
+  let skipFactions = false;
+  if (factions.length >= factionsList.length) {
+    skipFactions = true;
   }
 
-  if (damageTypes.count() >= damageTypesList.length) {
-    damageTypes = null;
+  let skipDamageTypes = false;
+  if (damageTypes.length >= damageTypesList.length) {
+    skipDamageTypes = true;
   }
 
-  if (sets.count() >= setsList.length) {
-    sets = null;
+  let skipSets = false;
+  if (sets.length >= setsList.length) {
+    skipSets = true;
   }
 
   outputTeams = outputTeams.filter((team) => {
@@ -90,20 +95,36 @@ export const filterTeamsBySettings = (teams, settings) => {
       return false;
     }
 
-    if (affiliations && !team.get('a').isSubset(affiliations)) {
-      return false;
+    const teamAffiliations = team.get('a').toJS();
+    if (!skipAffiliations) {
+      if (affiliations.length === 0 ||
+          (_intersection(teamAffiliations, affiliations).length !== teamAffiliations.length)) {
+        return false;
+      }
     }
 
-    if (damageTypes && !team.get('dT').isSubset(damageTypes)) {
-      return false;
+    const teamDamageTypes = team.get('dT').toJS();
+    if (!skipDamageTypes) {
+      if (damageTypes.length === 0 ||
+          (_intersection(teamDamageTypes, damageTypes).length !== teamDamageTypes.length)) {
+        return false;
+      }
     }
 
-    if (factions && !team.get('f').isSubset(factions)) {
-      return false;
+    const teamFactions = team.get('f').toJS();
+    if (!skipFactions) {
+      if (factions.length === 0 ||
+          (_intersection(teamFactions, factions).length !== teamFactions.length)) {
+        return false;
+      }
     }
 
-    if (sets && !team.get('s').isSubset(sets)) {
-      return false;
+    const teamSets = team.get('s').toJS();
+    if (!skipSets) {
+      if (sets.length === 0 ||
+          (_intersection(teamSets, sets).length !== teamSets.length)) {
+        return false;
+      }
     }
 
     return true;

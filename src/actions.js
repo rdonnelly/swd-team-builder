@@ -118,10 +118,10 @@ const setSort = sortPriority => ({
 const updateCharacterHelper = (dispatch, getState) =>
   dispatch(
     updateCharacters(
-      getState().teams.settings.getIn(['filters', 'affiliations']),
-      getState().teams.settings.getIn(['filters', 'factions']),
-      getState().teams.settings.getIn(['filters', 'damageTypes']),
-      getState().teams.settings.getIn(['filters', 'sets']),
+      getState().teams.settings.filters.affiliations,
+      getState().teams.settings.filters.factions,
+      getState().teams.settings.filters.damageTypes,
+      getState().teams.settings.filters.sets,
       getState().deck.affiliation,
     ),
   );

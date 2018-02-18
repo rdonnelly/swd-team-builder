@@ -273,7 +273,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const imageViews = team.get('cK').map((characterKey) => {
+    const imageViews = team.get('cK').toJS().map((characterKey) => {
       const [cardId] = characterKey.split('_');
       return (
         <View
@@ -286,7 +286,7 @@ class TeamDetailScreen extends React.Component {
           />
         </View>
       );
-    }).toJS();
+    });
 
     let teamAffiliationLabel = 'Neutral';
     if (team.get('a').includes('villain')) {

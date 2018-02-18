@@ -1,3 +1,4 @@
+import _without from 'lodash/without';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -5,7 +6,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import Immutable from 'immutable';
 
 import SettingCloudItem from './SettingCloudItem';
 
@@ -47,11 +47,11 @@ class SettingCloud extends PureComponent {
   }
 
   onValueChange(code, value) {
-    let newValues = this.state.values;
+    let newValues = this.state.values.slice(0);
     if (value) {
-      newValues = newValues.push(code);
+      newValues.push(code);
     } else {
-      newValues = newValues.filterNot(setCode => setCode === code);
+      newValues = _without(newValues, code);
     }
 
     if (this.state.timeoutId) {
@@ -100,7 +100,7 @@ SettingCloud.propTypes = {
   setting: PropTypes.string.isRequired,
 
   options: PropTypes.array.isRequired,
-  values: PropTypes.instanceOf(Immutable.List),
+  values: PropTypes.array.isRequired,
 
   callback: PropTypes.func,
 };

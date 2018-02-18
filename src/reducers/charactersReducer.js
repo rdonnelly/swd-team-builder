@@ -33,7 +33,7 @@ const charactersReducer = (state = initialState, action) => {
             const hasValidSet = validSets.includes(characterSet);
             const hasValidDamageTypes =
               characterDamageTypes.length ===
-              _intersection(characterDamageTypes, validDamageTypes.toJS()).length;
+              _intersection(characterDamageTypes, validDamageTypes).length;
 
             const isIncompatible =
               !hasValidAffiliation || !hasValidDamageTypes || !hasValidFaction || !hasValidSet;

@@ -90,19 +90,6 @@ class SettingsView extends Component {
     });
   }
 
-  updateSetting(key, value) {
-    if (this.state.updateTimeoutId) {
-      clearTimeout(this.state.updateTimeoutId);
-    }
-
-    const updateTimeoutId = setTimeout(() => {
-      this.setState({ updateTimeoutId: null });
-      this.props.updateSetting(key, value);
-    }, 0);
-
-    this.setState({ updateTimeoutId });
-  }
-
   render() {
     const { settings } = this.props;
 
@@ -111,7 +98,7 @@ class SettingsView extends Component {
         label={ 'Affiliations' }
         setting={ 'affiliations' }
         options={ affiliations }
-        values={ settings.getIn(['filters', 'affiliations']) }
+        values={ settings.filters.affiliations }
         callback={ this.props.updateSetting }
       />
     );
@@ -121,7 +108,7 @@ class SettingsView extends Component {
         label={ 'Factions' }
         setting={ 'factions' }
         options={ factions }
-        values={ settings.getIn(['filters', 'factions']) }
+        values={ settings.filters.factions }
         callback={ this.props.updateSetting }
       />
     );
@@ -131,7 +118,7 @@ class SettingsView extends Component {
         label={ 'Damage Types' }
         setting={ 'damageTypes' }
         options={ damageTypes }
-        values={ settings.getIn(['filters', 'damageTypes']) }
+        values={ settings.filters.damageTypes }
         callback={ this.props.updateSetting }
       />
     );
@@ -141,7 +128,7 @@ class SettingsView extends Component {
         label={ 'Sets' }
         setting={ 'sets' }
         options={ sets }
-        values={ settings.getIn(['filters', 'sets']) }
+        values={ settings.filters.sets }
         callback={ this.props.updateSetting }
       />
     );
@@ -151,7 +138,7 @@ class SettingsView extends Component {
         <ScrollView style={ styles.scrollContainer }>
           <View style={ styles.scrollerInner }>
             <SettingSlider
-              value={ settings.getIn(['filters', 'minDice']) }
+              value={ settings.filters.minDice }
               minValue={ teamsStats.minDice }
               maxValue={ teamsStats.maxDice }
               setting={ 'minDice' }
@@ -160,7 +147,7 @@ class SettingsView extends Component {
             />
 
             <SettingSlider
-              value={ settings.getIn(['filters', 'minHealth']) }
+              value={ settings.filters.minHealth }
               minValue={ teamsStats.minHealth }
               maxValue={ teamsStats.maxHealth }
               setting={ 'minHealth' }
@@ -169,7 +156,7 @@ class SettingsView extends Component {
             />
 
             <SettingSlider
-              value={ settings.getIn(['filters', 'minPoints']) }
+              value={ settings.filters.minPoints }
               minValue={ teamsStats.minPoints }
               maxValue={ teamsStats.maxPoints }
               setting={ 'minPoints' }
@@ -178,7 +165,7 @@ class SettingsView extends Component {
             />
 
             <SettingSlider
-              value={ settings.getIn(['filters', 'minCharacterCount']) }
+              value={ settings.filters.minCharacterCount }
               minValue={ teamsStats.minCharacterCount }
               maxValue={ teamsStats.maxCharacterCount }
               setting={ 'minCharacterCount' }
@@ -187,7 +174,7 @@ class SettingsView extends Component {
             />
 
             <SettingSlider
-              value={ settings.getIn(['filters', 'maxCharacterCount']) }
+              value={ settings.filters.maxCharacterCount }
               minValue={ teamsStats.minCharacterCount }
               maxValue={ teamsStats.maxCharacterCount }
               setting={ 'maxCharacterCount' }

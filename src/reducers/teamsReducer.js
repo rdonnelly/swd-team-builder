@@ -13,7 +13,7 @@ import {
 
 const initialState = {
   teams: Immutable.fromJS(teams),
-  settings: Immutable.fromJS({
+  settings: {
     filters: {
       minDice: Math.max(teamsStats.minDice, 2),
       maxDice: teamsStats.maxDice,
@@ -35,20 +35,32 @@ const initialState = {
     sortOrder: [
       'dice', 'health', 'points', 'characterCount',
     ],
-  }),
+  },
 };
 
 const teamsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_FILTER': {
-      return Object.assign({}, state, {
-        settings: state.settings.setIn(['filters', action.payload.key], action.payload.value),
-      });
+      const filters = {
+        ...state.settings.filters,
+      };
+
+      filters[action.payload.key] = action.payload.value;
+
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          filters,
+        },
+      };
     }
 
     case 'SET_SORT': {
       const priority = action.payload.sortPriority;
-      const sortOrder = initialState.settings.get('sortOrder').sort((a, b) => {
+      const sortOrder = initialState.settings.sortOrder.slice(0);
+
+      sortOrder.sort((a, b) => {
         if (a === priority) return -1;
         if (b === priority) return 1;
         if (a < b) return -1;
@@ -56,9 +68,10 @@ const teamsReducer = (state = initialState, action) => {
         return 0;
       });
 
-      return Object.assign({}, state, {
-        settings: state.settings.set('sortOrder', sortOrder),
-      });
+      return {
+        ...state,
+        sortOrder,
+      };
     }
 
     default:
