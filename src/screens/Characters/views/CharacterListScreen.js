@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  FlatList,
   StyleSheet,
   View,
-  VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -112,6 +112,13 @@ class CharacterListScreen extends Component {
     currentlyOpenSwipeable: null,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.handleScroll = this.handleScroll.bind(this);
+    this.renderItem = this.renderItem.bind(this);
+  }
+
   shouldComponentUpdate(nextProps) {
     if (this.props.characters === nextProps.characters) {
       return false;
@@ -144,6 +151,7 @@ class CharacterListScreen extends Component {
 
     return (
       <CharacterListItem
+        // key={ `character-list-item--${characterObject.id}` }
         characterObject={ characterObject }
         navigate={ navigate }
         { ...itemProps }
@@ -164,16 +172,14 @@ class CharacterListScreen extends Component {
 
     return (
       <View style={ styles.container }>
-        <VirtualizedList
+        <FlatList
           style={ styles.list }
           data={ this.props.characters }
-          renderItem={ this.renderItem.bind(this) }
-          getItem={ (data, key) => data[key] }
-          getItemCount={ data => (data.length) }
-          keyExtractor={ item => `character_list__${item.id}` }
+          renderItem={ this.renderItem }
+          keyExtractor={ item => item.id }
           getItemLayout={ this.getItemLayout }
           scrollEventThrottle={ 0 }
-          onScroll={ this.handleScroll.bind(this) }
+          onScroll={ this.handleScroll }
         />
         <SelectedCharacters navigate={ navigate }></SelectedCharacters>
       </View>
