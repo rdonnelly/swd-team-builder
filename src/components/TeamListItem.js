@@ -14,19 +14,10 @@ import SWDIcon from '../components/SWDIcon';
 
 import { characters } from '../lib/Destiny';
 
-export const ITEM_HEIGHT = 113;
-
+export const ITEM_HEIGHT = 136 + StyleSheet.hairlineWidth;
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
-    flex: 1,
-    height: ITEM_HEIGHT,
-    justifyContent: 'center',
-  },
-  list: {
-    width: '100%',
   },
   row: {
     alignItems: 'center',
@@ -34,6 +25,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(189, 195, 199, 1.0)',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    height: ITEM_HEIGHT,
     justifyContent: 'space-between',
     paddingHorizontal: 8,
     paddingVertical: 12,

@@ -20,7 +20,7 @@ import {
 } from '../actions';
 import { characters } from '../lib/Destiny';
 
-export const ITEM_HEIGHT = 67;
+export const ITEM_HEIGHT = 67 + StyleSheet.hairlineWidth;
 
 const styles = StyleSheet.create({
   row: {
