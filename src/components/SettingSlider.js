@@ -21,8 +21,9 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   value: {
-    color: colors.darkGray,
-    fontSize: 18,
+    color: colors.brand,
+    fontSize: 20,
+    fontWeight: '600',
   },
 });
 
