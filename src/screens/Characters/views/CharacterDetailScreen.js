@@ -174,6 +174,7 @@ class CharacterDetailScreen extends Component {
             { 'Exclude ' }
             <Text style={ styles.buttonTextHighlight }>
               { characterObject.name }
+              &nbsp;{ setIcon }
             </Text>
           </Text>
         </TouchableOpacity>
@@ -189,6 +190,7 @@ class CharacterDetailScreen extends Component {
             { 'Include ' }
             <Text style={ styles.buttonTextHighlight }>
               { characterObject.name }
+              &nbsp;{ setIcon }
             </Text>
           </Text>
         </TouchableOpacity>
@@ -222,6 +224,7 @@ class CharacterDetailScreen extends Component {
           { 'Remove ' }
           <Text style={ styles.buttonTextHighlight }>
             { characterObject.name }
+            &nbsp;{ setIcon }
           </Text>
         </Text>
       </TouchableOpacity> : null;
