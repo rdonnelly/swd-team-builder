@@ -30,6 +30,7 @@ const damageTypes = [
   { code: 'ID', name: 'Indirect Damage' },
   { code: 'MD', name: 'Melee Damage' },
   { code: 'RD', name: 'Range Damage' },
+  { code: 'ND', name: 'No Damage' },
 ];
 
 const factions = [

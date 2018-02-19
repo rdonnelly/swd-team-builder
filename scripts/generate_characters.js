@@ -56,6 +56,10 @@ let characters =
         return acc.sort();
       }, []));
 
+      if (card.damageTypes.length === 0) {
+        card.damageTypes = ['ND']; // no damage
+      }
+
       card.faction = rawCard.faction_code;
       card.flavorText = rawCard.flavor;
       card.health = rawCard.health;
