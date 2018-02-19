@@ -68,7 +68,10 @@ const teamsReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        sortOrder,
+        settings: {
+          ...state.settings,
+          sortOrder,
+        },
       };
     }
 
