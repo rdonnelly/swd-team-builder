@@ -9,7 +9,7 @@ export default class TeamNavigation extends React.Component {
     tabBarLabel: 'Teams',
     tabBarIcon: ({ tintColor, focused }) =>
       <BadgeTabIcon
-        iconName="list"
+        iconName={ 'list' }
         size={ 30 }
         color={ tintColor }
         selected={ focused }

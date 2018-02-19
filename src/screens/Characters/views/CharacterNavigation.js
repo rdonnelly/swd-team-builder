@@ -9,7 +9,7 @@ export default class CharacterNavigation extends React.Component {
     tabBarLabel: 'Characters',
     tabBarIcon: ({ tintColor, focused }) =>
       <BadgeTabIcon
-        iconName="copy"
+        iconName={ 'documents' }
         size={ 24 }
         color={ tintColor }
         selected={ focused }

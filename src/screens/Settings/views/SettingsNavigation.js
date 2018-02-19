@@ -9,7 +9,7 @@ export default class SettingsNavigation extends React.Component {
     tabBarLabel: 'Settings',
     tabBarIcon: ({ tintColor, focused }) =>
       <BadgeTabIcon
-        iconName="cog"
+        iconName={ 'cog' }
         size={ 24 }
         color={ tintColor }
         selected={ focused }

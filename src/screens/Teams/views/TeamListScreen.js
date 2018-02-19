@@ -181,7 +181,7 @@ class TeamListScreen extends Component {
       title: 'Sort Teams',
       message: 'Sort the list of teams by one of the following stats in descending order',
       cancelButtonIndex: 3,
-      tintColor: colors.purple,
+      tintColor: colors.brand,
     },
     (buttonIndex) => {
       switch (buttonIndex) {
