@@ -20,7 +20,7 @@ const charactersReducer = (state = initialState, action) => {
             } = action.payload;
 
             const characterAffiliation = characterObject.affiliation;
-            const characterDamageTypes = characterObject.damageTypes.match(/([IMR]D)/g) || [];
+            const characterDamageTypes = characterObject.damageTypes.match(/([IMRN]D)/g) || [];
             const characterFaction = characterObject.faction;
             const characterSet = characterObject.set;
 
