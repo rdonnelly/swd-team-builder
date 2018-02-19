@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import { validate as validateIcon, swdestiny as swdIcons } from '../../../lib/swd-icons';
 import SWDIcon from '../../../components/SWDIcon';
 
 import {
@@ -102,6 +103,9 @@ const styles = StyleSheet.create({
   buttonTextHighlight: {
     fontStyle: 'italic',
   },
+  buttonTextIcon: {
+    fontSize: 11,
+  },
 });
 
 
@@ -127,6 +131,10 @@ class CharacterDetailScreen extends Component {
     const characterIsInDeck = !!deckCharacterObject;
     const characterIsIncompatible = characterObject.isIncompatible;
     const characterIsExcluded = characterObject.isExcluded;
+
+    const setIcon = validateIcon(swdIcons, characterObject.set) ? (
+      <SWDIcon type={ characterObject.set } font={ 'swdestiny' } style={ styles.buttonTextIcon } />
+    ) : null;
 
     let deckMessageText = '';
     if (characterIsInDeck) {
@@ -199,6 +207,7 @@ class CharacterDetailScreen extends Component {
               'Add Another ' }
             <Text style={ styles.buttonTextHighlight }>
               { characterObject.name }
+              &nbsp;{ setIcon }
             </Text>
           </Text>
         </TouchableOpacity>
