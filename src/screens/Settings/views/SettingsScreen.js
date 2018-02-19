@@ -181,6 +181,7 @@ class SettingsView extends Component {
               maxValue={ teamsStats.maxCharacterCount }
               setting={ 'maxCharacterCount' }
               label={ 'Maximum Character Count' }
+              reverse={ true }
               callback={ this.props.updateSetting }
             />
 

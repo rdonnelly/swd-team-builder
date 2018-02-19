@@ -67,6 +67,8 @@ class SettingsSlider extends PureComponent {
   }
 
   render() {
+    const { reverse } = this.props;
+
     return (
       <View style={ styles.container }>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
@@ -78,8 +80,8 @@ class SettingsSlider extends PureComponent {
           </Text>
         </View>
         <Slider
-          minimumTrackTintColor={ colors.gray }
-          maximumTrackTintColor={ colors.purple }
+          minimumTrackTintColor={ reverse ? colors.gray : colors.purple }
+          maximumTrackTintColor={ reverse ? colors.purple : colors.gray }
           value={ this.state.value }
           minimumValue={ this.props.minValue }
           maximumValue={ this.props.maxValue }
@@ -101,6 +103,8 @@ SettingsSlider.propTypes = {
 
   setting: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+
+  reverse: PropTypes.bool,
 
   callback: PropTypes.func.isRequired,
 };

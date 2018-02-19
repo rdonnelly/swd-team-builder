@@ -180,6 +180,7 @@ class CharacterListScreen extends Component {
           renderItem={ this.renderItem }
           keyExtractor={ item => item.id }
           getItemLayout={ this.getItemLayout }
+          initialNumToRender={ 0 }
           scrollEventThrottle={ 0 }
           onScroll={ this.handleScroll }
         />
