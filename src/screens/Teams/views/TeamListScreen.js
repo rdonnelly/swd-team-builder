@@ -7,11 +7,10 @@ import {
   StyleSheet,
   Text,
   View,
-  VirtualizedList,
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import TeamListItem, { ITEM_HEIGHT } from '../../../components/TeamListItem';
+import TeamListItem from '../../../components/TeamListItem';
 
 import { updateSort } from '../../../actions';
 import { getAvailableTeams } from '../../../selectors/teamSelectors';
@@ -137,14 +136,6 @@ class TeamListScreen extends Component {
     );
   }
 
-  getItemLayout(data, index) {
-    return {
-      offset: ITEM_HEIGHT * index,
-      length: ITEM_HEIGHT,
-      index,
-    };
-  }
-
   render() {
     const list = this.props.teams.length ? (
       <FlatList
@@ -152,7 +143,8 @@ class TeamListScreen extends Component {
         data={ this.props.teams }
         renderItem={ this.renderItem }
         keyExtractor={ item => item.key }
-        getItemLayout={ this.getItemLayout }
+        showsVerticalScrollIndicator={ false }
+        initialNumToRender={ 0 }
       />
     ) : (
       <View style={{ width: '80%' }}>

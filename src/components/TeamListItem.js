@@ -7,14 +7,11 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import Immutable from 'immutable';
 
 import CharacterAvatar from '../components/CharacterAvatar';
 import SWDIcon from '../components/SWDIcon';
 
 import { characters } from '../lib/Destiny';
-
-export const ITEM_HEIGHT = 136 + StyleSheet.hairlineWidth;
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +22,6 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(189, 195, 199, 1.0)',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    height: ITEM_HEIGHT,
     justifyContent: 'space-between',
     paddingHorizontal: 8,
     paddingVertical: 12,
