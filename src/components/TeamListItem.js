@@ -111,7 +111,7 @@ class TeamListItem extends Component {
 
     const arrowStyle = [styles.arrow];
 
-    const characterViews = teamObject.get('cK').map((characterKey) => {
+    const characterViews = teamObject.cK.map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
       const card = characters[cardId];
 
@@ -147,7 +147,7 @@ class TeamListItem extends Component {
         diceIcons.push(
           <SWDIcon
             font={ 'swdestiny' }
-            key={ `${teamObject.get('key')}___${cardId}___${i}` }
+            key={ `${teamObject.key}___${cardId}___${i}` }
             style={ diceStyles }
             type={ 'DIE' }
           />,
@@ -156,7 +156,7 @@ class TeamListItem extends Component {
 
       return (
         <View
-          key={ `${teamObject.get('key')}___${cardId}` }
+          key={ `${teamObject.key}___${cardId}` }
           style={ styles.characterWrapper }
         >
           { avatar }
@@ -174,16 +174,16 @@ class TeamListItem extends Component {
     });
 
     let teamAffiliationLabel = 'Neutral';
-    if (teamObject.get('a').includes('villain')) {
+    if (teamObject.a.includes('villain')) {
       teamAffiliationLabel = 'Villain';
-    } else if (teamObject.get('a').includes('hero')) {
+    } else if (teamObject.a.includes('hero')) {
       teamAffiliationLabel = 'Hero';
     }
 
     return (
       <TouchableOpacity
         activeOpacity={ 0.6 }
-        onPress={ () => navigate('TeamDetailScreen', { key: teamObject.get('key') }) }
+        onPress={ () => navigate('TeamDetailScreen', { key: teamObject.key }) }
         style={ styles.row }
         underlayColor={ 'rgba(236, 240, 241, 1.0)' }
       >
@@ -192,11 +192,11 @@ class TeamListItem extends Component {
             { characterViews }
           </View>
           <View style={ styles.teamInfoWrapper }>
-            <Text style={ styles.teamStat }>{ teamObject.get('nD') } Dice</Text>
+            <Text style={ styles.teamStat }>{ teamObject.nD } Dice</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.get('h') } Health</Text>
+            <Text style={ styles.teamStat }>{ teamObject.h } Health</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.get('p') } Points</Text>
+            <Text style={ styles.teamStat }>{ teamObject.p } Points</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ teamAffiliationLabel }</Text>
           </View>
@@ -212,6 +212,6 @@ class TeamListItem extends Component {
 export default TeamListItem;
 
 TeamListItem.propTypes = {
-  teamObject: PropTypes.instanceOf(Immutable.Map),
+  teamObject: PropTypes.object.isRequired,
   navigate: PropTypes.func.isRequired,
 };

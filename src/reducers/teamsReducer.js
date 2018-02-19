@@ -1,5 +1,3 @@
-import Immutable from 'immutable';
-
 import {
   teams,
   teamsStats,
@@ -12,7 +10,7 @@ import {
 
 
 const initialState = {
-  teams: Immutable.fromJS(teams),
+  teams,
   settings: {
     filters: {
       minDice: Math.max(teamsStats.minDice, 2),

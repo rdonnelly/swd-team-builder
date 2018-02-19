@@ -20,22 +20,22 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
     const eliteCharacterKey = `${deckCharacterObject.id}_2_${deckCharacterObject.count}`;
 
     outputTeams = outputTeams.filter((team) => {
-      if (deckAffiliation !== 'neutral' && !team.get('a').includes(deckAffiliation)) {
+      if (deckAffiliation !== 'neutral' && !team.a.includes(deckAffiliation)) {
         return false;
       }
 
       if (numDice === 0) {
-        return team.get('cK').includes(regularCharacterKey) ||
-          team.get('cK').includes(eliteCharacterKey);
+        return team.cK.includes(regularCharacterKey) ||
+          team.cK.includes(eliteCharacterKey);
       }
 
-      return team.get('cK').includes(characterKey);
+      return team.cK.includes(characterKey);
     });
   });
 
   excludedCharacterIds.forEach((excludedCharacterId) => {
     outputTeams = outputTeams.filter(team =>
-      !team.get('cK').some(key => key.startsWith(`${excludedCharacterId}_`)),
+      !team.cK.some(key => key.startsWith(`${excludedCharacterId}_`)),
     );
   });
 
@@ -75,54 +75,50 @@ export const filterTeamsBySettings = (teams, settings) => {
   }
 
   outputTeams = outputTeams.filter((team) => {
-    if (team.get('nD') < minDice) {
+    if (team.nD < minDice) {
       return false;
     }
 
-    if (team.get('h') < minHealth) {
+    if (team.h < minHealth) {
       return false;
     }
 
-    if (team.get('p') < minPoints) {
+    if (team.p < minPoints) {
       return false;
     }
 
-    if (team.get('cC') < minCharacterCount) {
+    if (team.cC < minCharacterCount) {
       return false;
     }
 
-    if (team.get('cC') > maxCharacterCount) {
+    if (team.cC > maxCharacterCount) {
       return false;
     }
 
-    const teamAffiliations = team.get('a').toJS();
     if (!skipAffiliations) {
       if (affiliations.length === 0 ||
-          (_intersection(teamAffiliations, affiliations).length !== teamAffiliations.length)) {
+          (_intersection(team.a, affiliations).length !== team.a.length)) {
         return false;
       }
     }
 
-    const teamDamageTypes = team.get('dT').toJS();
     if (!skipDamageTypes) {
       if (damageTypes.length === 0 ||
-          (_intersection(teamDamageTypes, damageTypes).length !== teamDamageTypes.length)) {
+          (_intersection(team.dT, damageTypes).length !== team.dT.length)) {
         return false;
       }
     }
 
-    const teamFactions = team.get('f').toJS();
     if (!skipFactions) {
       if (factions.length === 0 ||
-          (_intersection(teamFactions, factions).length !== teamFactions.length)) {
+          (_intersection(team.f, factions).length !== team.f.length)) {
         return false;
       }
     }
 
-    const teamSets = team.get('s').toJS();
     if (!skipSets) {
       if (sets.length === 0 ||
-          (_intersection(teamSets, sets).length !== teamSets.length)) {
+          (_intersection(team.s, sets).length !== team.s.length)) {
         return false;
       }
     }

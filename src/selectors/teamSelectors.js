@@ -67,5 +67,5 @@ export const getAvailableTeams = createSelector(
 
 export const getAvailableTeamsCount = createSelector(
   [getAvailableTeams],
-  teams => teams.count(),
+  teams => teams.length,
 );

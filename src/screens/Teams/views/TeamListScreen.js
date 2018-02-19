@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   ActionSheetIOS,
   Button,
+  FlatList,
   StyleSheet,
   Text,
   View,
@@ -145,16 +146,12 @@ class TeamListScreen extends Component {
   }
 
   render() {
-    const { teams } = this.props;
-
-    const list = teams.count() ? (
-      <VirtualizedList
+    const list = this.props.teams.length ? (
+      <FlatList
         style={ styles.list }
-        data={ teams }
+        data={ this.props.teams }
         renderItem={ this.renderItem }
-        getItem={ (data, key) => data.get(key) }
-        getItemCount={ data => (data.size || data.count || 0) }
-        keyExtractor={ item => `team_list__${item.get('key')}` }
+        keyExtractor={ item => item.key }
         getItemLayout={ this.getItemLayout }
       />
     ) : (
@@ -220,7 +217,7 @@ const mapDispatchToProps = { updateSort };
 export default connect(mapStateToProps, mapDispatchToProps)(TeamListScreen);
 
 TeamListScreen.propTypes = {
-  teams: PropTypes.object.isRequired,
+  teams: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired,
   updateSort: PropTypes.func.isRequired,
 };

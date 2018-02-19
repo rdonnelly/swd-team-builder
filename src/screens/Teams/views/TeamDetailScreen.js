@@ -187,10 +187,10 @@ class TeamDetailScreen extends React.Component {
   searchSWDestinyDB() {
     const teamKey = this.props.navigation.state.params.key;
     const { teams } = this.props;
-    const team = teams.find(teamObj => teamObj.get('key') === teamKey);
+    const team = teams.find(teamObj => teamObj.key === teamKey);
 
     const urlParams = [];
-    team.get('cK').forEach((characterKey) => {
+    team.cK.forEach((characterKey) => {
       const cardId = characterKey.split('_').shift();
       urlParams.push(`cards[]=${cardId}`);
     });
@@ -204,13 +204,13 @@ class TeamDetailScreen extends React.Component {
   render() {
     const teamKey = this.props.navigation.state.params.key;
     const { teams } = this.props;
-    const team = teams.find(teamObj => teamObj.get('key') === teamKey);
+    const team = teams.find(teamObj => teamObj.key === teamKey);
 
-    const characterAvatars = team.get('cK').map((characterKey, index) => {
+    const characterAvatars = team.cK.map((characterKey, index) => {
       const [cardId] = characterKey.split('_');
       return (
         <TouchableOpacity
-          key={ `avatar__${team.get('key')}__${cardId}` }
+          key={ `avatar__${team.key}__${cardId}` }
           style={ styles.characterAvatarWrapper }
           onPress={ () => this.scrollSwiper.bind(this)(index) }
         >
@@ -223,7 +223,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const characterNames = team.get('cK').map((characterKey) => {
+    const characterNames = team.cK.map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
       const card = characters[cardId];
       const characterNameStyles = [styles.characterName];
@@ -248,7 +248,7 @@ class TeamDetailScreen extends React.Component {
         diceIcons.push(
           <SWDIcon
             font={ 'swdestiny' }
-            key={ `die__${team.get('key')}__${cardId}__${i}` }
+            key={ `die__${team.key}__${cardId}__${i}` }
             style={ diceStyles }
             type={ 'DIE' }
           />,
@@ -257,7 +257,7 @@ class TeamDetailScreen extends React.Component {
 
       return (
         <View
-          key={ `name__${team.get('key')}__${cardId}` }
+          key={ `name__${team.key}__${cardId}` }
           style={ styles.characterWrapper }
         >
           <Text style={ characterNameStyles }>
@@ -273,11 +273,11 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const imageViews = team.get('cK').toJS().map((characterKey) => {
+    const imageViews = team.cK.map((characterKey) => {
       const [cardId] = characterKey.split('_');
       return (
         <View
-          key={ `image__${team.get('key')}__${cardId}` }
+          key={ `image__${team.key}__${cardId}` }
           style={ styles.imageWrapper }
         >
           <Image
@@ -289,9 +289,9 @@ class TeamDetailScreen extends React.Component {
     });
 
     let teamAffiliationLabel = 'Neutral';
-    if (team.get('a').includes('villain')) {
+    if (team.a.includes('villain')) {
       teamAffiliationLabel = 'Villain';
-    } else if (team.get('a').includes('hero')) {
+    } else if (team.a.includes('hero')) {
       teamAffiliationLabel = 'Hero';
     }
 
@@ -310,11 +310,11 @@ class TeamDetailScreen extends React.Component {
             { characterNames }
           </View>
           <View style={ styles.teamStatWrapper }>
-            <Text style={ styles.teamStat }>{ team.get('d') } Dice</Text>
+            <Text style={ styles.teamStat }>{ team.d } Dice</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('h') } Health</Text>
+            <Text style={ styles.teamStat }>{ team.h } Health</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.get('p') } Points</Text>
+            <Text style={ styles.teamStat }>{ team.p } Points</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ teamAffiliationLabel }</Text>
           </View>
@@ -349,7 +349,7 @@ class TeamDetailScreen extends React.Component {
 
 TeamDetailScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
-  teams: PropTypes.object.isRequired,
+  teams: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({
