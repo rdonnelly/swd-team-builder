@@ -12,6 +12,8 @@ import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
 import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
 
+import formats from 'swdestinydb-json-data/formats.json';
+
 const affiliationOrder = {
   villain: 0,
   hero: 1,
@@ -23,6 +25,8 @@ const factionOrder = {
   blue: 1,
   yellow: 2,
 };
+
+const infiniteFormat = formats.filter(format => format.code === 'INF').pop();
 
 let characters =
   [].concat(
@@ -72,8 +76,14 @@ let characters =
       card.points = 0;
       card.pointsRegular = 0;
       card.pointsElite = 0;
-      if (rawCard.points) {
-        card.points = rawCard.points.split('/').map(v => parseInt(v, 10));
+
+      let cardPoints = rawCard.points;
+      if (rawCard.code in infiniteFormat.data.balance) {
+        cardPoints = infiniteFormat.data.balance[rawCard.code];
+      }
+
+      if (cardPoints) {
+        card.points = cardPoints.split('/').map(v => parseInt(v, 10));
         card.pointsRegular = card.points[0];
         card.pointsElite = card.points[1];
       }
