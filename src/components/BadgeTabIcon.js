@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Platform,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
+import DeviceInfo from 'react-native-device-info';
 
 import { getAvailableTeamsCount } from '../selectors/teamSelectors';
 
@@ -17,7 +19,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 4,
   },
   badge: {
     alignItems: 'center',
@@ -25,10 +26,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 20,
     justifyContent: 'center',
-    left: 16,
-    minWidth: 20,
-    paddingLeft: 4,
-    paddingRight: 4,
+    left: 24,
+    minWidth: 24,
+    paddingHorizontal: 4,
     position: 'absolute',
     top: 0,
   },
@@ -40,18 +40,37 @@ const styles = StyleSheet.create({
 
 class BadgeTabIcon extends PureComponent {
   render() {
+    const majorVersion = parseInt(Platform.Version, 10);
+    const isIos = Platform.OS === 'ios';
+    const useHorizontalTabs = DeviceInfo.isTablet() && isIos && majorVersion >= 11;
+
+    const containerStyles = [
+      styles.container,
+      { marginTop: useHorizontalTabs ? 2 : 4 },
+    ];
+
+    const badgeStyles = [
+      styles.badge,
+      {
+        left: useHorizontalTabs ? 76 : 24,
+        top: useHorizontalTabs ? -24 : -2,
+      },
+    ];
+
     const icon = (
       <Icon name={ this.props.iconName } size={ this.props.size } color={ this.props.color } />
     );
 
     const badge = this.props.showBadge ? (
-      <View style={ styles.badge }>
-        <Text style={ styles.badgeText }>{ this.props.teamsCount }</Text>
+      <View style={ badgeStyles }>
+        <Text style={ styles.badgeText }>
+          { this.props.teamsCount }
+        </Text>
       </View>
     ) : null;
 
     return (
-      <View style={[styles.container, { height: this.props.size }]}>
+      <View style={ containerStyles }>
         { icon }
         { badge }
       </View>

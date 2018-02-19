@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Platform } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import { TabNavigator, addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
@@ -10,6 +12,9 @@ import SettingsNavigation from '../screens/Settings/views/SettingsNavigation';
 
 import { colors } from '../styles';
 
+const majorVersion = parseInt(Platform.Version, 10);
+const isIos = Platform.OS === 'ios';
+const useHorizontalTabs = DeviceInfo.isTablet() && isIos && majorVersion >= 11;
 
 const TabBar = TabNavigator(
   {
@@ -23,7 +28,7 @@ const TabBar = TabNavigator(
       activeTintColor: colors.tabActiveTint,
       inactiveTintColor: colors.tabInactiveTint,
       labelStyle: {
-        fontSize: 13,
+        fontSize: useHorizontalTabs ? 15 : 13,
       },
     },
   },

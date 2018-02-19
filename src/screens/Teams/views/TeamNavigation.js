@@ -10,7 +10,7 @@ export default class TeamNavigation extends React.Component {
     tabBarIcon: ({ tintColor, focused }) =>
       <BadgeTabIcon
         iconName={ 'list' }
-        size={ 30 }
+        size={ 24 }
         color={ tintColor }
         selected={ focused }
         showBadge={ true }
