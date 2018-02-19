@@ -8,6 +8,9 @@ import CharacterNavigation from '../screens/Characters/views/CharacterNavigation
 import TeamNavigation from '../screens/Teams/views/TeamNavigation';
 import SettingsNavigation from '../screens/Settings/views/SettingsNavigation';
 
+import { colors } from '../styles';
+
+
 const TabBar = TabNavigator(
   {
     Characters: { screen: CharacterNavigation },
@@ -17,8 +20,8 @@ const TabBar = TabNavigator(
   {
     backBehavior: 'none',
     tabBarOptions: {
-      activeTintColor: 'rgba(155, 89, 182, 1.0)',
-      inactiveTintColor: 'rgba(149, 165, 166, 1.0)',
+      activeTintColor: colors.activeTintColor,
+      inactiveTintColor: colors.inactiveTintColor,
       labelStyle: {
         fontSize: 13,
       },

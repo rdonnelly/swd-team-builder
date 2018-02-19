@@ -7,6 +7,8 @@ import {
   View,
 } from 'react-native';
 
+import { colors } from '../styles';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -14,12 +16,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   label: {
-    color: 'rgba(52, 73, 94, 1.0)',
+    color: colors.darkGray,
     fontSize: 20,
     fontWeight: '800',
   },
   value: {
-    color: 'rgba(52, 73, 94, 1.0)',
+    color: colors.darkGray,
     fontSize: 18,
   },
 });
@@ -75,8 +77,8 @@ class SettingsSlider extends PureComponent {
           </Text>
         </View>
         <Slider
-          minimumTrackTintColor={ 'rgba(149, 165, 166, 1.0)' }
-          maximumTrackTintColor={ 'rgba(155, 89, 182, 1.0)' }
+          minimumTrackTintColor={ colors.gray }
+          maximumTrackTintColor={ colors.purple }
           value={ this.state.value }
           minimumValue={ this.props.minValue }
           maximumValue={ this.props.maxValue }

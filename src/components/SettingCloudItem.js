@@ -6,10 +6,12 @@ import {
   Text,
 } from 'react-native';
 
+import { colors } from '../styles';
+
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: colors.whiteTranslucent,
     borderRadius: 4,
     marginBottom: 8,
     marginRight: 8,
@@ -17,15 +19,15 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   containerOn: {
-    backgroundColor: 'rgba(255, 255, 255, 1.0)',
+    backgroundColor: colors.white,
   },
   text: {
-    color: 'rgba(127, 140, 141, 1.0)',
+    color: colors.grayDark,
     fontSize: 15,
     fontWeight: '700',
   },
   textOn: {
-    color: 'rgba(155, 89, 182, 1.0)',
+    color: colors.purple,
   },
 });
 

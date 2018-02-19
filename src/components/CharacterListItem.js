@@ -14,6 +14,8 @@ import CharacterAvatar from '../components/CharacterAvatar';
 import { validate as validateIcon, swdestiny as swdIcons } from '../lib/swd-icons';
 import SWDIcon from '../components/SWDIcon';
 
+import { colors } from '../styles';
+
 import {
   includeCharacter,
   excludeCharacter,
@@ -26,9 +28,9 @@ const styles = StyleSheet.create({
   row: {
     alignItems: 'center',
     borderLeftWidth: 4,
-    borderLeftColor: 'rgba(236, 240, 241, 1.0)',
+    borderLeftColor: colors.lightGray,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(189, 195, 199, 1.0)',
+    borderBottomColor: colors.lightGrayDark,
     flexDirection: 'row',
     flexWrap: 'wrap',
     height: ITEM_HEIGHT,
@@ -37,10 +39,10 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   excludedRow: {
-    borderLeftColor: 'rgba(230, 126, 34, 1.0)',
+    borderLeftColor: colors.orange,
   },
   incompatibleRow: {
-    borderLeftColor: 'rgba(149, 165, 166, 1.0)',
+    borderLeftColor: colors.gray,
   },
   cardAvatarWrapper: {
     alignItems: 'center',
@@ -51,49 +53,49 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
   cardName: {
-    color: 'rgba(52, 73, 94, 1.0)',
+    color: colors.darkGray,
     fontSize: 20,
   },
   incompatibleCardName: {
-    color: 'rgba(189, 195, 199, 1.0)',
+    color: colors.lightGrayDark,
   },
   cardUnique: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     fontSize: 16,
   },
   incompatibleCardUnique: {
-    color: 'rgba(189, 195, 199, 1.0)',
+    color: colors.lightGrayDark,
   },
   cardInfo: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     fontSize: 13,
     fontWeight: '500',
   },
   incompatibleCardInfo: {
-    color: 'rgba(189, 195, 199, 1.0)',
+    color: colors.lightGrayDark,
   },
   cardInfoLogo: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     fontSize: 10,
   },
   incompatibleCardInfoLogo: {
-    color: 'rgba(189, 195, 199, 1.0)',
+    color: colors.lightGrayDark,
   },
   blueCard: {
-    borderColor: 'rgba(52, 152, 219, 1.0)',
+    borderColor: colors.cardBlue,
   },
   redCard: {
-    borderColor: 'rgba(231, 76, 60, 1.0)',
+    borderColor: colors.cardRed,
   },
   yellowCard: {
-    borderColor: 'rgba(241, 196, 15, 1.0)',
+    borderColor: colors.cardYellow,
   },
   arrow: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     marginTop: 2,
   },
   arrowIncompatible: {
-    color: 'rgba(189, 195, 199, 1.0)',
+    color: colors.lightGrayDark,
   },
   rightSwipeItem: {
     alignItems: 'flex-start',
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
   },
   rightSwipeItemText: {
-    color: 'rgba(255, 255, 255, 1.0)',
+    color: colors.white,
   },
 });
 
@@ -204,8 +206,8 @@ class CharacterListItem extends Component {
     const rightButtons = characterObject.isExcluded ? [
       <TouchableHighlight
         activeOpacity={ 0.9 }
-        style={[styles.rightSwipeItem, { backgroundColor: 'rgba(230, 126, 34, 1.0)' }]}
-        underlayColor='rgba(211, 84, 0, 1.0)'
+        style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
+        underlayColor={ colors.orangeDark }
         onPress={ () => {
           this.swipeable.recenter();
           setTimeout(() => {
@@ -218,8 +220,8 @@ class CharacterListItem extends Component {
     ] : [
       <TouchableHighlight
         activeOpacity={ 0.9 }
-        style={[styles.rightSwipeItem, { backgroundColor: 'rgba(230, 126, 34, 1.0)' }]}
-        underlayColor='rgba(211, 84, 0, 1.0)'
+        style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
+        underlayColor={ colors.orangeDark }
         onPress={ () => {
           this.swipeable.recenter();
           setTimeout(() => {
@@ -240,7 +242,7 @@ class CharacterListItem extends Component {
       >
         <TouchableHighlight
           activeOpacity={ 0.4 }
-          underlayColor={ 'rgba(236, 240, 241, 1.0)' }
+          underlayColor={ colors.lightGray }
           onPress={ () => this.props.navigate('CharacterDetailScreen', { id: characterObject.id }) }
         >
           <View style={ rowStyles }>

@@ -10,6 +10,9 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 import { getAvailableTeamsCount } from '../selectors/teamSelectors';
 
+import { colors } from '../styles';
+
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
@@ -18,7 +21,7 @@ const styles = StyleSheet.create({
   },
   badge: {
     alignItems: 'center',
-    backgroundColor: 'rgba(155, 89, 182, 1.0)',
+    backgroundColor: colors.brand,
     borderRadius: 10,
     height: 20,
     justifyContent: 'center',

@@ -12,9 +12,12 @@ import SWDIcon from '../components/SWDIcon';
 import { characters } from '../lib/Destiny';
 import { cardBackTexture, cardImages } from '../lib/DestinyImages';
 
+import { colors } from '../styles';
+
+
 const styles = StyleSheet.create({
   container: {
-    borderColor: 'rgba(149, 165, 166, 1.0)',
+    borderColor: colors.gray,
     borderRadius: 4,
     borderWidth: 2,
     height: 72,
@@ -22,13 +25,13 @@ const styles = StyleSheet.create({
     width: 72,
   },
   blueBorder: {
-    borderColor: 'rgba(52, 152, 219, 1.0)',
+    borderColor: colors.cardBlue,
   },
   redBorder: {
-    borderColor: 'rgba(231, 76, 60, 1.0)',
+    borderColor: colors.cardRed,
   },
   yellowBorder: {
-    borderColor: 'rgba(241, 196, 15, 1.0)',
+    borderColor: colors.cardYellow,
   },
   infoContainer: {
     alignItems: 'center',
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
   },
   die: {
     backgroundColor: 'transparent',
-    color: 'rgba(255, 255, 255, 1.0)',
+    color: colors.white,
     fontSize: 14,
     marginRight: 4,
   },
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
   },
   count: {
     backgroundColor: 'transparent',
-    color: 'rgba(255, 255, 255, 1.0)',
+    color: colors.white,
     fontSize: 15,
     fontWeight: '900',
   },

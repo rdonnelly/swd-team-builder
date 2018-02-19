@@ -13,13 +13,16 @@ import SWDIcon from '../components/SWDIcon';
 
 import { characters } from '../lib/Destiny';
 
+import { colors } from '../styles';
+
+
 const styles = StyleSheet.create({
   container: {
   },
   row: {
     alignItems: 'center',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(189, 195, 199, 1.0)',
+    borderColor: colors.lightGrayDark,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
@@ -44,22 +47,22 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   characterName: {
-    color: 'rgba(52, 73, 94, 1.0)',
+    color: colors.darkGray,
     fontSize: 18,
     fontWeight: '400',
   },
   characterCount: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     fontSize: 16,
   },
   blueCard: {
-    color: 'rgba(52, 152, 219, 1.0)',
+    color: colors.cardBlue,
   },
   redCard: {
-    color: 'rgba(231, 76, 60, 1.0)',
+    color: colors.cardRed,
   },
   yellowCard: {
-    color: 'rgba(241, 196, 15, 1.0)',
+    color: colors.cardYellow,
   },
   diceWrapper: {
     alignItems: 'center',
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   dice: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     fontSize: 12,
     marginTop: 1,
   },
@@ -79,13 +82,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   teamStat: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     fontSize: 13,
     fontWeight: '500',
     paddingRight: 8,
   },
   arrow: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     marginTop: 2,
   },
 });
@@ -181,7 +184,7 @@ class TeamListItem extends Component {
         activeOpacity={ 0.6 }
         onPress={ () => navigate('TeamDetailScreen', { key: teamObject.key }) }
         style={ styles.row }
-        underlayColor={ 'rgba(236, 240, 241, 1.0)' }
+        underlayColor={ colors.lightGray }
       >
         <View style={ styles.teamWrapper }>
           <View style={ styles.teamCharactersWrapper }>

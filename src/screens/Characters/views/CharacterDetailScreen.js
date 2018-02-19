@@ -27,6 +27,8 @@ import { getDeckCharacters } from '../../../selectors/deckSelectors';
 
 import { cardBack, cardImages } from '../../../lib/DestinyImages';
 
+import { colors } from '../../../styles';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -48,14 +50,14 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   actionBar: {
-    backgroundColor: 'rgba(52, 73, 94, 1.0)',
+    backgroundColor: colors.darkGray,
     paddingBottom: 8,
     paddingHorizontal: 8,
     paddingTop: 16,
     width: '100%',
   },
   message: {
-    color: 'rgba(255, 255, 255, 1.0)',
+    color: colors.white,
     fontSize: 13,
     fontWeight: '600',
     marginBottom: 8,
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: 'rgba(44, 62, 80, 1.0)',
+    backgroundColor: colors.darkGrayDark,
     borderRadius: 4,
     flex: 1,
     flexDirection: 'row',
@@ -78,16 +80,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   buttonDisabled: {
-    backgroundColor: 'rgba(44, 62, 80, 1.0)',
+    backgroundColor: colors.darkGrayDark,
   },
   buttonGreen: {
-    backgroundColor: 'rgba(46, 204, 113, 1.0)',
+    backgroundColor: colors.green,
   },
   buttonOrange: {
-    backgroundColor: 'rgba(230, 126, 34, 1.0)',
+    backgroundColor: colors.orange,
   },
   buttonPurple: {
-    backgroundColor: 'rgba(155, 89, 182, 1.0)',
+    backgroundColor: colors.purple,
   },
   buttonIcon: {
     color: 'white',
@@ -112,9 +114,9 @@ const styles = StyleSheet.create({
 class CharacterDetailScreen extends Component {
   static navigationOptions = {
     title: 'Character Details',
-    headerTintColor: 'rgba(255, 255, 255, 1.0)',
+    headerTintColor: colors.headerTint,
     headerStyle: {
-      backgroundColor: 'rgba(155, 89, 182, 1.0)',
+      backgroundColor: colors.headerBackground,
     },
   }
 

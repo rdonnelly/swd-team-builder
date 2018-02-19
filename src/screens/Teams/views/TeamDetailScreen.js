@@ -22,11 +22,13 @@ import { getAvailableTeams } from '../../../selectors/teamSelectors';
 import { characters } from '../../../lib/Destiny';
 import { cardBack, cardImages } from '../../../lib/DestinyImages';
 
+import { colors } from '../../../styles';
+
 
 const styles = StyleSheet.create({
   teamWrapper: {
     alignContent: 'center',
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    backgroundColor: colors.lightGray,
     flex: 1,
     width: '100%',
   },
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   characterName: {
-    color: 'rgba(52, 73, 94, 1.0)',
+    color: colors.darkGray,
     fontSize: 18,
     fontWeight: '700',
   },
@@ -65,27 +67,27 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   characterCount: {
-    color: 'rgba(52, 73, 94, 1.0)',
+    color: colors.darkGray,
     fontSize: 16,
     fontWeight: '700',
   },
   dice: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     fontSize: 12,
     marginTop: 1,
   },
   blueCard: {
-    color: 'rgba(52, 152, 219, 1.0)',
+    color: colors.cardBlue,
   },
   redCard: {
-    color: 'rgba(231, 76, 60, 1.0)',
+    color: colors.cardRed,
   },
   yellowCard: {
-    color: 'rgba(241, 196, 15, 1.0)',
+    color: colors.cardYellow,
   },
   teamStatWrapper: {
     alignItems: 'stretch',
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    backgroundColor: colors.lightGray,
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -94,14 +96,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   teamStat: {
-    color: 'rgba(52, 73, 94, 1.0)',
+    color: colors.darkGray,
     fontSize: 14,
     fontWeight: '600',
     paddingRight: 8,
   },
   teamSearch: {
     alignItems: 'stretch',
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    backgroundColor: colors.lightGray,
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
   },
   teamSearchButton: {
     alignItems: 'center',
-    backgroundColor: 'rgba(44, 62, 80, 1.0)',
+    backgroundColor: colors.darkGrayDark,
     borderRadius: 4,
     flex: 1,
     flexDirection: 'row',
@@ -120,11 +122,11 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   teamSearchButtonText: {
-    color: 'rgba(255, 255, 255, 1.0)',
+    color: colors.white,
   },
   swiperWrapper: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 1.0)',
+    backgroundColor: colors.white,
     justifyContent: 'center',
     paddingVertical: 16,
   },
@@ -140,9 +142,9 @@ const styles = StyleSheet.create({
 class TeamDetailScreen extends React.Component {
   static navigationOptions = {
     title: 'Team Details',
-    headerTintColor: 'rgba(255, 255, 255, 1.0)',
+    headerTintColor: colors.headerTint,
     headerStyle: {
-      backgroundColor: 'rgba(155, 89, 182, 1.0)',
+      backgroundColor: colors.headerBackground,
     },
   }
 
@@ -196,7 +198,7 @@ class TeamDetailScreen extends React.Component {
     });
 
     SafariView.show({
-      tintColor: 'rgba(155, 89, 182, 1.0)',
+      tintColor: colors.purple,
       url: `http://swdestinydb.com/decklists/find?${urlParams.join('&')}`,
     });
   }
@@ -330,9 +332,9 @@ class TeamDetailScreen extends React.Component {
           </View>
           <View style={ styles.swiperWrapper }>
             <Swiper
-              activeDotColor={ 'rgba(155, 89, 182, 1.0)' }
+              activeDotColor={ colors.purple }
               bounces={ true }
-              dotColor={ 'rgba(149, 165, 166, 1.0)' }
+              dotColor={ colors.gray }
               height={ 300 }
               loop={ false }
               ref={ (component) => { this.swiper = component; } }

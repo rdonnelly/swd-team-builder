@@ -26,10 +26,12 @@ import {
   sets,
 } from '../../../lib/Destiny';
 
+import { colors } from '../../../styles';
+
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    backgroundColor: colors.lightGray,
     flex: 1,
     width: '100%',
   },
@@ -39,17 +41,17 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
   },
   information: {
-    borderColor: 'rgba(189, 195, 199,1.0)',
+    borderColor: colors.lightGrayDark,
     borderTopWidth: StyleSheet.hairlineWidth,
     marginTop: 24,
     paddingTop: 24,
   },
   disclaimerText: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     textAlign: 'center',
   },
   linkText: {
-    color: 'rgba(155, 89, 182, 1.0)',
+    color: colors.purple,
     textAlign: 'center',
   },
 });
@@ -57,9 +59,9 @@ const styles = StyleSheet.create({
 class SettingsView extends Component {
   static navigationOptions = {
     title: 'Settings',
-    headerTintColor: 'rgba(255, 255, 255, 1.0)',
+    headerTintColor: colors.headerTint,
     headerStyle: {
-      backgroundColor: 'rgba(155, 89, 182, 1.0)',
+      backgroundColor: colors.headerBackground,
     },
   }
 
@@ -85,7 +87,7 @@ class SettingsView extends Component {
 
   visitWebpage() {
     SafariView.show({
-      tintColor: 'rgba(155, 89, 182, 1.0)',
+      tintColor: colors.purple,
       url: 'http://rdonnelly.com/swd-team-builder/',
     });
   }

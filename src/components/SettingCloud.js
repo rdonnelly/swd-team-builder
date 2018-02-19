@@ -9,6 +9,8 @@ import {
 
 import SettingCloudItem from './SettingCloudItem';
 
+import { colors } from '../styles';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +21,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   label: {
-    color: 'rgba(52, 73, 94, 1.0)',
+    color: colors.darkGray,
     fontSize: 20,
     fontWeight: '800',
   },

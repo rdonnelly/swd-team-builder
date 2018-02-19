@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Immutable from 'immutable';
 
 import SWDIcon from './SWDIcon';
 
@@ -18,11 +17,13 @@ import { getDeckCharacters } from '../selectors/deckSelectors';
 
 import { characters } from '../lib/Destiny';
 
+import { colors } from '../styles';
+
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: 'rgba(52, 73, 94, 1.0)',
+    backgroundColor: colors.darkGray,
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -38,18 +39,18 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   deckCard: {
-    color: 'rgba(189, 195, 199, 1.0)',
+    color: colors.lightGrayDark,
     fontSize: 16,
     fontWeight: '700',
   },
   blueCard: {
-    color: 'rgba(52, 152, 219, 1.0)',
+    color: colors.cardBlue,
   },
   redCard: {
-    color: 'rgba(231, 76, 60, 1.0)',
+    color: colors.cardRed,
   },
   yellowCard: {
-    color: 'rgba(241, 196, 15, 1.0)',
+    color: colors.cardYellow,
   },
   dice: {
     color: 'white',
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   deckInfo: {
-    color: 'rgba(236, 240, 241, 1.0)',
+    color: colors.lightGray,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -142,7 +143,7 @@ class SelectedCharacters extends PureComponent {
               ],
             )}
           >
-            <Icon name={ 'trash-o' } size={ 24 } color={ 'rgba(236, 240, 241, 1.0)' } />
+            <Icon name={ 'trash-o' } size={ 24 } color={ colors.lightGray } />
           </TouchableOpacity>
         </View>
       </View>

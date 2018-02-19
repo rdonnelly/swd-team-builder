@@ -15,11 +15,13 @@ import TeamListItem from '../../../components/TeamListItem';
 import { updateSort } from '../../../actions';
 import { getAvailableTeams } from '../../../selectors/teamSelectors';
 
+import { colors } from '../../../styles';
+
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: 'rgba(236, 240, 241, 1.0)',
+    backgroundColor: colors.lightGray,
     flex: 1,
     justifyContent: 'center',
   },
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
   row: {
     alignItems: 'center',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(189, 195, 199, 1.0)',
+    borderColor: colors.lightGrayDark,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
@@ -45,17 +47,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   characterName: {
-    color: 'rgba(52, 73, 94, 1.0)',
+    color: colors.darkGray,
     fontSize: 18,
   },
   blueCard: {
-    color: 'rgba(52, 152, 219, 1.0)',
+    color: colors.cardBlue,
   },
   redCard: {
-    color: 'rgba(231, 76, 60, 1.0)',
+    color: colors.cardRed,
   },
   yellowCard: {
-    color: 'rgba(241, 196, 15, 1.0)',
+    color: colors.cardYellow,
   },
   diceWrapper: {
     flexDirection: 'row',
@@ -73,13 +75,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   teamStat: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     fontSize: 13,
     fontWeight: '500',
     paddingRight: 8,
   },
   arrow: {
-    color: 'rgba(149, 165, 166, 1.0)',
+    color: colors.gray,
     marginTop: 2,
   },
 });
@@ -92,13 +94,13 @@ class TeamListScreen extends Component {
       headerRight: (
         <Button
           title={ 'Sort' }
-          color={ 'rgba(255, 255, 255, 1.0)' }
+          color={ colors.white }
           onPress={ () => { state.params.showSortActionSheet(); } }
         />
       ),
-      headerTintColor: 'rgba(255, 255, 255, 1.0)',
+      headerTintColor: colors.headerTint,
       headerStyle: {
-        backgroundColor: 'rgba(155, 89, 182, 1.0)',
+        backgroundColor: colors.headerBackground,
       },
     };
   };
@@ -149,10 +151,10 @@ class TeamListScreen extends Component {
     ) : (
       <View style={{ width: '80%' }}>
         <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: 'rgba(149, 165, 166, 1.0)', fontSize: 24, fontWeight: '700', textAlign: 'center' }}>No Teams Compatible</Text>
+          <Text style={{ color: colors.gray, fontSize: 24, fontWeight: '700', textAlign: 'center' }}>No Teams Compatible</Text>
         </View>
         <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: 'rgba(149, 165, 166, 1.0)', textAlign: 'center' }}>
+          <Text style={{ color: colors.gray, textAlign: 'center' }}>
             Try changing your selected characters or adjusting your settings.
           </Text>
         </View>
@@ -179,7 +181,7 @@ class TeamListScreen extends Component {
       title: 'Sort Teams',
       message: 'Sort the list of teams by one of the following stats in descending order',
       cancelButtonIndex: 3,
-      tintColor: 'rgba(155, 89, 182, 1.0)',
+      tintColor: colors.purple,
     },
     (buttonIndex) => {
       switch (buttonIndex) {
