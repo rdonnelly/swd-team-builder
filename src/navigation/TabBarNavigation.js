@@ -20,8 +20,8 @@ const TabBar = TabNavigator(
   {
     backBehavior: 'none',
     tabBarOptions: {
-      activeTintColor: colors.activeTintColor,
-      inactiveTintColor: colors.inactiveTintColor,
+      tabActiveTint: colors.tabActiveTint,
+      tabInactiveTint: colors.tabInactiveTint,
       labelStyle: {
         fontSize: 13,
       },
