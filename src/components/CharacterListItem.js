@@ -243,7 +243,7 @@ class CharacterListItem extends Component {
         <TouchableHighlight
           activeOpacity={ 0.4 }
           underlayColor={ colors.lightGray }
-          onPress={ () => this.props.navigate('CharacterDetailScreen', { id: characterObject.id }) }
+          onPress={ () => this.props.navigate(characterObject) }
         >
           <View style={ rowStyles }>
             <View>

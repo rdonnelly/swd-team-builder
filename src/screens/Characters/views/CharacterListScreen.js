@@ -118,6 +118,9 @@ class CharacterListScreen extends Component {
     super(props);
 
     this.handleScroll = this.handleScroll.bind(this);
+    this.onSwipeableOpen = this.onSwipeableOpen.bind(this);
+    this.onSwipeableClose = this.onSwipeableClose.bind(this);
+    this.navigateToCharacterDetails = this.navigateToCharacterDetails.bind(this);
     this.renderItem = this.renderItem.bind(this);
   }
 
@@ -129,34 +132,38 @@ class CharacterListScreen extends Component {
     return true;
   }
 
-  handleScroll = () => {
+  handleScroll() {
     const { currentlyOpenSwipeable } = this.state;
 
     if (currentlyOpenSwipeable) {
       currentlyOpenSwipeable.recenter();
     }
-  };
+  }
+
+  onSwipeableOpen(event, gestureState, swipeable) {
+    const { currentlyOpenSwipeable } = this.state;
+    if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
+      currentlyOpenSwipeable.recenter();
+    }
+
+    this.setState({ currentlyOpenSwipeable: swipeable });
+  }
+
+  onSwipeableClose() {
+    this.setState({ currentlyOpenSwipeable: null });
+  }
+
+  navigateToCharacterDetails(characterObject) {
+    this.props.navigation.navigate('CharacterDetailScreen', { id: characterObject.id });
+  }
 
   renderItem({ item: characterObject }) {
-    const { navigate } = this.props.navigation;
-    const itemProps = {
-      onOpen: (event, gestureState, swipeable) => {
-        const { currentlyOpenSwipeable } = this.state;
-        if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
-          currentlyOpenSwipeable.recenter();
-        }
-
-        this.setState({ currentlyOpenSwipeable: swipeable });
-      },
-      onClose: () => this.setState({ currentlyOpenSwipeable: null }),
-    };
-
     return (
       <CharacterListItem
-        // key={ `character-list-item--${characterObject.id}` }
         characterObject={ characterObject }
-        navigate={ navigate }
-        { ...itemProps }
+        navigate={ this.navigateToCharacterDetails }
+        onOpen={ this.onSwipeableOpen }
+        onClose={ this.onSwipeableClose }
       />
     );
   }
@@ -180,8 +187,6 @@ class CharacterListScreen extends Component {
           renderItem={ this.renderItem }
           keyExtractor={ item => item.id }
           getItemLayout={ this.getItemLayout }
-          initialNumToRender={ 0 }
-          scrollEventThrottle={ 0 }
           onScroll={ this.handleScroll }
         />
         <SelectedCharacters navigate={ navigate }></SelectedCharacters>

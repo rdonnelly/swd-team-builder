@@ -146,7 +146,6 @@ class TeamListScreen extends Component {
         renderItem={ this.renderItem }
         keyExtractor={ item => item.key }
         showsVerticalScrollIndicator={ false }
-        initialNumToRender={ 0 }
       />
     ) : (
       <View style={{ width: '80%' }}>
