@@ -11,6 +11,10 @@ export const getDeckCharacters = createSelector(
   [getDeck],
   deck => deck.characters,
 );
+export const getDeckCharactersCount = createSelector(
+  [getDeckCharacters],
+  characters => characters.length,
+);
 
 export const getExcludedCharacterIds = createSelector(
   [getDeck],

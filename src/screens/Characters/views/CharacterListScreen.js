@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   FlatList,
@@ -7,10 +7,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import CharacterListItem, { ITEM_HEIGHT } from '../../../components/CharacterListItem';
-import SelectedCharacters from '../../../components/SelectedCharacters';
+import CharacterListItem, { ITEM_HEIGHT as characterListItemHeight } from '../../../components/CharacterListItem';
+import SelectedCharacters, { ITEM_HEIGHT as selectedCharactersItemHeight } from '../../../components/SelectedCharacters';
 
 import { getCharactersSorted } from '../../../selectors/characterSelectors';
+import { getDeckCharactersCount } from '../../../selectors/deckSelectors';
 
 import { colors } from '../../../styles';
 
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   list: {
+    flex: 1,
     width: '100%',
   },
   row: {
@@ -98,10 +100,16 @@ const styles = StyleSheet.create({
   arrowIncompatible: {
     color: colors.lightGrayDark,
   },
+  selectedCharactersContainer: {
+    bottom: 6,
+    left: 6,
+    position: 'absolute',
+    right: 6,
+  },
 });
 
 
-class CharacterListScreen extends Component {
+class CharacterListScreen extends PureComponent {
   static navigationOptions = {
     title: 'Characters',
     headerTintColor: colors.headerTint,
@@ -122,14 +130,6 @@ class CharacterListScreen extends Component {
     this.onSwipeableClose = this.onSwipeableClose.bind(this);
     this.navigateToCharacterDetails = this.navigateToCharacterDetails.bind(this);
     this.renderItem = this.renderItem.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    if (this.props.characters === nextProps.characters) {
-      return false;
-    }
-
-    return true;
   }
 
   handleScrollBeginDrag() {
@@ -160,7 +160,6 @@ class CharacterListScreen extends Component {
   renderItem({ item: characterObject }) {
     return (
       <CharacterListItem
-        // characterObject={ characterObject }
         characterId={ characterObject.id }
         characterIsExcluded={ characterObject.isExcluded }
         characterIsIncompatible={ characterObject.isIncompatible }
@@ -173,14 +172,17 @@ class CharacterListScreen extends Component {
 
   getItemLayout(data, index) {
     return {
-      offset: ITEM_HEIGHT * index,
-      length: ITEM_HEIGHT,
+      offset: characterListItemHeight * index,
+      length: characterListItemHeight,
       index,
     };
   }
 
   render() {
     const { navigate } = this.props.navigation;
+
+    const selectedCharactersHeight =
+      Math.max(1, this.props.deckCharacterCount) * selectedCharactersItemHeight;
 
     return (
       <View style={ styles.container }>
@@ -192,8 +194,11 @@ class CharacterListScreen extends Component {
           keyExtractor={ item => item.id }
           getItemLayout={ this.getItemLayout }
           onScrollBeginDrag={ this.handleScrollBeginDrag }
+          contentContainerStyle={{ paddingBottom: selectedCharactersHeight + 12 }}
         />
-        <SelectedCharacters navigate={ navigate }></SelectedCharacters>
+        <View style={ styles.selectedCharactersContainer }>
+          <SelectedCharacters navigate={ navigate }></SelectedCharacters>
+        </View>
       </View>
     );
   }
@@ -201,11 +206,13 @@ class CharacterListScreen extends Component {
 
 CharacterListScreen.propTypes = {
   characters: PropTypes.array.isRequired,
+  deckCharacterCount: PropTypes.number.isRequired,
   navigation: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   characters: getCharactersSorted(state),
+  deckCharacterCount: getDeckCharactersCount(state),
 });
 
 export default connect(mapStateToProps)(CharacterListScreen);

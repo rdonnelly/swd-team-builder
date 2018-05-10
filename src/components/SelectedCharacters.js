@@ -20,21 +20,30 @@ import { characters } from '../lib/Destiny';
 import { colors } from '../styles';
 
 
+export const ITEM_HEIGHT = 42;
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     backgroundColor: colors.darkGray,
+    borderRadius: 4,
     flexDirection: 'row',
     paddingHorizontal: 16,
-    paddingVertical: 12,
     width: '100%',
   },
-  characterView: {
-    marginVertical: 2,
+  item: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    height: ITEM_HEIGHT,
+  },
+  characterViews: {
+    flex: 1,
   },
   characterViewTouchable: {
     alignItems: 'center',
-    alignSelf: 'flex-start',
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
@@ -109,26 +118,22 @@ class SelectedCharacters extends PureComponent {
       }
 
       return (
-        <View
-          key={ `character__${card.id}` }
-          style={ styles.characterView }
-        >
           <TouchableOpacity
             onPress={ () => this.props.navigate('CharacterDetailScreen', { id: card.id }) }
-            style={ styles.characterViewTouchable }
+            key={ `character__${card.id}` }
+            style={ styles.item }
           >
             <Text style={ characterStyles }>
               { card.name + (characterObject.count > 1 ? ` x${characterObject.count}` : '') }
             </Text>
             { diceIcons }
           </TouchableOpacity>
-        </View>
       );
     });
 
     return deckCharacterObjects.length ? (
       <View style={ styles.container }>
-        <View style={{ flex: 1 }}>
+        <View style={ styles.characterViews }>
           { characterViews }
         </View>
         <View style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
@@ -149,7 +154,7 @@ class SelectedCharacters extends PureComponent {
       </View>
     ) : (
       <View style={ styles.container }>
-        <View style={{ width: '100%' }}>
+        <View style={ styles.item }>
           <Text style={ styles.deckInfo }>{ 'No Characters Selected' }</Text>
         </View>
       </View>
