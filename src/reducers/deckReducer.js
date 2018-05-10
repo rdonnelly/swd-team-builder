@@ -191,6 +191,7 @@ const deckReducer = (state = initialState, action) => {
         ...state,
         affiliation: 'neutral',
         characters: [],
+        excludedCharacterIds: [],
       };
     }
 
