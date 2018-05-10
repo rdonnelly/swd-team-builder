@@ -22,7 +22,7 @@ import {
 } from '../actions';
 import { characters } from '../lib/Destiny';
 
-export const ITEM_HEIGHT = 67 + StyleSheet.hairlineWidth;
+export const ITEM_HEIGHT = 72;
 
 const styles = StyleSheet.create({
   row: {
@@ -110,24 +110,24 @@ const styles = StyleSheet.create({
 
 class CharacterListItem extends Component {
   shouldComponentUpdate(nextProps) {
-    if (this.props.characterObject.id !== nextProps.characterObject.id) {
-      return true;
+    if (this.props.characterId === nextProps.characterId &&
+        this.props.characterIsExcluded === nextProps.characterIsExcluded &&
+        this.props.characterIsIncompatible === nextProps.characterIsIncompatible) {
+      return false;
     }
 
-    if (this.props.characterObject.isExcluded !== nextProps.characterObject.isExcluded) {
-      return true;
-    }
-
-    if (this.props.characterObject.isIncompatible !== nextProps.characterObject.isIncompatible) {
-      return true;
-    }
-
-    return false;
+    return true;
   }
 
   render() {
-    const { characterObject, onOpen, onClose } = this.props;
-    const card = characters[characterObject.id];
+    const {
+      characterId,
+      characterIsExcluded,
+      characterIsIncompatible,
+      onOpen,
+      onClose,
+    } = this.props;
+    const card = characters[characterId];
 
     const rowStyles = [styles.row];
     const cardAvatarStyles = [styles.cardAvatarWrapper];
@@ -137,7 +137,7 @@ class CharacterListItem extends Component {
     const cardInfoLogoStyle = [styles.cardInfoLogo];
     const arrowStyle = [styles.arrow];
 
-    if (characterObject.isIncompatible || characterObject.isExcluded) {
+    if (characterIsIncompatible || characterIsExcluded) {
       rowStyles.push(styles.incompatibleRow);
       cardAvatarStyles.push(styles.incompatibleCardAvatarWrapper);
       cardNameStyle.push(styles.incompatibleCardName);
@@ -147,7 +147,7 @@ class CharacterListItem extends Component {
       arrowStyle.push(styles.arrowIncompatible);
     }
 
-    if (characterObject.isExcluded) {
+    if (characterIsExcluded) {
       rowStyles.push(styles.excludedRow);
     }
 
@@ -196,14 +196,14 @@ class CharacterListItem extends Component {
     const avatar = (
       <View style={ cardAvatarStyles }>
         <CharacterAvatar
-          cardId={ characterObject.id }
+          cardId={ characterId }
           round={ true }
           size={ StyleSheet.flatten(styles.cardAvatarWrapper).width }
         />
       </View>
     );
 
-    const rightButtons = characterObject.isExcluded ? [
+    const rightButtons = characterIsExcluded ? [
       <TouchableHighlight
         activeOpacity={ 0.9 }
         style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
@@ -211,7 +211,7 @@ class CharacterListItem extends Component {
         onPress={ () => {
           this.swipeable.recenter();
           setTimeout(() => {
-            this.props.includeCharacter(characterObject);
+            this.props.includeCharacter(characterId);
           }, 250);
         } }
       >
@@ -225,7 +225,7 @@ class CharacterListItem extends Component {
         onPress={ () => {
           this.swipeable.recenter();
           setTimeout(() => {
-            this.props.excludeCharacter(characterObject);
+            this.props.excludeCharacter(characterId);
           }, 250);
         } }
       >
@@ -243,7 +243,7 @@ class CharacterListItem extends Component {
         <TouchableHighlight
           activeOpacity={ 0.4 }
           underlayColor={ colors.lightGray }
-          onPress={ () => this.props.navigate(characterObject) }
+          onPress={ () => this.props.navigate(characterId) }
         >
           <View style={ rowStyles }>
             <View>
@@ -268,7 +268,9 @@ class CharacterListItem extends Component {
 }
 
 CharacterListItem.propTypes = {
-  characterObject: PropTypes.object.isRequired,
+  characterId: PropTypes.string.isRequired,
+  characterIsExcluded: PropTypes.bool,
+  characterIsIncompatible: PropTypes.bool,
   navigate: PropTypes.func.isRequired,
 
   includeCharacter: PropTypes.func.isRequired,

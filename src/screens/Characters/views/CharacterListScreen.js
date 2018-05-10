@@ -117,7 +117,7 @@ class CharacterListScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.handleScroll = this.handleScroll.bind(this);
+    this.handleScrollBeginDrag = this.handleScrollBeginDrag.bind(this);
     this.onSwipeableOpen = this.onSwipeableOpen.bind(this);
     this.onSwipeableClose = this.onSwipeableClose.bind(this);
     this.navigateToCharacterDetails = this.navigateToCharacterDetails.bind(this);
@@ -132,7 +132,7 @@ class CharacterListScreen extends Component {
     return true;
   }
 
-  handleScroll() {
+  handleScrollBeginDrag() {
     const { currentlyOpenSwipeable } = this.state;
 
     if (currentlyOpenSwipeable) {
@@ -153,14 +153,17 @@ class CharacterListScreen extends Component {
     this.setState({ currentlyOpenSwipeable: null });
   }
 
-  navigateToCharacterDetails(characterObject) {
-    this.props.navigation.navigate('CharacterDetailScreen', { id: characterObject.id });
+  navigateToCharacterDetails(characterId) {
+    this.props.navigation.navigate('CharacterDetailScreen', { id: characterId });
   }
 
   renderItem({ item: characterObject }) {
     return (
       <CharacterListItem
-        characterObject={ characterObject }
+        // characterObject={ characterObject }
+        characterId={ characterObject.id }
+        characterIsExcluded={ characterObject.isExcluded }
+        characterIsIncompatible={ characterObject.isIncompatible }
         navigate={ this.navigateToCharacterDetails }
         onOpen={ this.onSwipeableOpen }
         onClose={ this.onSwipeableClose }
@@ -184,10 +187,11 @@ class CharacterListScreen extends Component {
         <FlatList
           style={ styles.list }
           data={ this.props.characters }
+          extraData={ this.state }
           renderItem={ this.renderItem }
           keyExtractor={ item => item.id }
           getItemLayout={ this.getItemLayout }
-          onScroll={ this.handleScroll }
+          onScrollBeginDrag={ this.handleScrollBeginDrag }
         />
         <SelectedCharacters navigate={ navigate }></SelectedCharacters>
       </View>
