@@ -45,17 +45,17 @@ const setCharacterEliteInDeck = characterObject => ({
   },
 });
 
-const includeCharacterInDeck = characterObject => ({
+const includeCharacterInDeck = characterId => ({
   type: 'INCLUDE_CHARACTER',
   payload: {
-    characterId: characterObject.id,
+    characterId,
   },
 });
 
-const excludeCharacterInDeck = characterObject => ({
+const excludeCharacterInDeck = characterId => ({
   type: 'EXCLUDE_CHARACTER',
   payload: {
-    characterId: characterObject.id,
+    characterId,
   },
 });
 
@@ -90,8 +90,21 @@ const updateCharacterInclusion = excludedCharacterIds => ({
   },
 });
 
-const resetCharacters = () => ({
+const resetCharacters = (
+  validAffiliations,
+  validFactions,
+  validDamageTypes,
+  validSets,
+  deckAffiliation,
+) => ({
   type: 'RESET_CHARACTERS',
+  payload: {
+    validAffiliations,
+    validFactions,
+    validDamageTypes,
+    validSets,
+    deckAffiliation,
+  },
 });
 
 
@@ -115,7 +128,18 @@ const setSort = sortPriority => ({
 
 // HELPERS
 
-const updateCharacterHelper = (dispatch, getState) =>
+const resetCharactersHelper = (dispatch, getState) =>
+  dispatch(
+    resetCharacters(
+      getState().teams.settings.filters.affiliations,
+      getState().teams.settings.filters.factions,
+      getState().teams.settings.filters.damageTypes,
+      getState().teams.settings.filters.sets,
+      getState().deck.affiliation,
+    ),
+  );
+
+const updateCharactersHelper = (dispatch, getState) =>
   dispatch(
     updateCharacters(
       getState().teams.settings.filters.affiliations,
@@ -139,26 +163,26 @@ export const addCharacter = characterObject =>
 
     return Promise.resolve()
       .then(dispatch(addCharacterToDeck(characterObject)))
-      .then(updateCharacterHelper(dispatch, getState));
+      .then(updateCharactersHelper(dispatch, getState));
   };
 
 export const setCharacterAny = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterAnyInDeck(characterObject)))
-      .then(updateCharacterHelper(dispatch, getState));
+      .then(updateCharactersHelper(dispatch, getState));
 
 export const setCharacterRegular = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterRegularInDeck(characterObject)))
-      .then(updateCharacterHelper(dispatch, getState));
+      .then(updateCharactersHelper(dispatch, getState));
 
 export const setCharacterElite = characterObject =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setCharacterEliteInDeck(characterObject)))
-      .then(updateCharacterHelper(dispatch, getState));
+      .then(updateCharactersHelper(dispatch, getState));
 
 export const removeCharacter = characterObject =>
   (dispatch, getState) => {
@@ -170,32 +194,32 @@ export const removeCharacter = characterObject =>
 
     return Promise.resolve()
       .then(dispatch(removeCharacterFromDeck(characterObject)))
-      .then(updateCharacterHelper(dispatch, getState));
+      .then(updateCharactersHelper(dispatch, getState));
   };
 
-export const includeCharacter = characterObject =>
+export const includeCharacter = characterId =>
   (dispatch, getState) =>
     Promise.resolve()
-      .then(dispatch(includeCharacterInDeck(characterObject)))
+      .then(dispatch(includeCharacterInDeck(characterId)))
       .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
 
-export const excludeCharacter = characterObject =>
+export const excludeCharacter = characterId =>
   (dispatch, getState) =>
     Promise.resolve()
-      .then(dispatch(excludeCharacterInDeck(characterObject)))
+      .then(dispatch(excludeCharacterInDeck(characterId)))
       .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
 
 export const reset = () =>
-  dispatch =>
+  (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(resetDeck()))
-      .then(dispatch(resetCharacters()));
+      .then(dispatch(resetCharactersHelper(dispatch, getState)));
 
 export const updateSetting = (key, value) =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(setSetting(key, value)))
-      .then(updateCharacterHelper(dispatch, getState));
+      .then(updateCharactersHelper(dispatch, getState));
 
 export const updateSort = value =>
   dispatch =>

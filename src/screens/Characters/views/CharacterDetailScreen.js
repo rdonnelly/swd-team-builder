@@ -169,7 +169,7 @@ class CharacterDetailScreen extends Component {
     const excludeButton =
       !characterIsExcluded && !characterIsInDeck && !characterIsIncompatible ? (
         <TouchableOpacity
-          onPress={ () => this.props.excludeCharacter(characterObject) }
+          onPress={ () => this.props.excludeCharacter(characterObject.id) }
           style={ [styles.button, styles.buttonOrange] }
         >
           <Text style={ styles.buttonText }>
@@ -185,7 +185,7 @@ class CharacterDetailScreen extends Component {
     const includeButton =
       characterIsExcluded && !characterIsInDeck && !characterIsIncompatible ? (
         <TouchableOpacity
-          onPress={ () => this.props.includeCharacter(characterObject) }
+          onPress={ () => this.props.includeCharacter(characterObject.id) }
           style={ [styles.button, styles.buttonOrange] }
         >
           <Text style={ styles.buttonText }>

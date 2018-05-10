@@ -5,43 +5,61 @@ const initialState = {
   characters: Object.values(characters),
 };
 
+const updateCharactersCompatibility =
+  (
+    charactersToUpdate,
+    validAffiliations,
+    validDamageTypes,
+    validFactions,
+    validSets,
+    deckAffiliation,
+  ) =>
+    charactersToUpdate.map((characterObject) => {
+      const characterAffiliation = characterObject.affiliation;
+      const characterDamageTypes = characterObject.damageTypes.match(/([IMRN]D)/g) || [];
+      const characterFaction = characterObject.faction;
+      const characterSet = characterObject.set;
+
+      const hasValidAffiliation =
+        validAffiliations.indexOf(characterAffiliation) !== -1 &&
+        (characterAffiliation === 'neutral' ||
+        deckAffiliation === 'neutral' ||
+        characterAffiliation === deckAffiliation);
+      const hasValidFaction = validFactions.includes(characterFaction);
+      const hasValidSet = validSets.includes(characterSet);
+      const hasValidDamageTypes =
+        characterDamageTypes.length ===
+        _intersection(characterDamageTypes, validDamageTypes).length;
+
+      const isIncompatible =
+        !hasValidAffiliation || !hasValidDamageTypes || !hasValidFaction || !hasValidSet;
+
+      return Object.assign({}, characterObject, {
+        isIncompatible,
+      });
+    });
+
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_CHARACTERS_COMPATIBILITY': {
+      const {
+        validAffiliations,
+        validDamageTypes,
+        validFactions,
+        validSets,
+        deckAffiliation,
+      } = action.payload;
+
       return Object.assign({}, state, {
         characters:
-          state.characters.map((characterObject) => {
-            const {
-              validAffiliations,
-              validDamageTypes,
-              validFactions,
-              validSets,
-              deckAffiliation,
-            } = action.payload;
-
-            const characterAffiliation = characterObject.affiliation;
-            const characterDamageTypes = characterObject.damageTypes.match(/([IMRN]D)/g) || [];
-            const characterFaction = characterObject.faction;
-            const characterSet = characterObject.set;
-
-            const hasValidAffiliation =
-              validAffiliations.indexOf(characterAffiliation) !== -1 &&
-              (characterAffiliation === 'neutral' ||
-              deckAffiliation === 'neutral' ||
-              characterAffiliation === deckAffiliation);
-            const hasValidFaction = validFactions.includes(characterFaction);
-            const hasValidSet = validSets.includes(characterSet);
-            const hasValidDamageTypes =
-              characterDamageTypes.length ===
-              _intersection(characterDamageTypes, validDamageTypes).length;
-
-            const isIncompatible =
-              !hasValidAffiliation || !hasValidDamageTypes || !hasValidFaction || !hasValidSet;
-
-            return Object.assign({}, characterObject, {
-              isIncompatible,
-            });
-          }),
+          updateCharactersCompatibility(
+            state.characters,
+            validAffiliations,
+            validDamageTypes,
+            validFactions,
+            validSets,
+            deckAffiliation,
+          ),
       });
     }
 
@@ -64,7 +82,25 @@ const charactersReducer = (state = initialState, action) => {
     }
 
     case 'RESET_CHARACTERS': {
-      return initialState;
+      const {
+        validAffiliations,
+        validDamageTypes,
+        validFactions,
+        validSets,
+        deckAffiliation,
+      } = action.payload;
+
+      return Object.assign({}, state, {
+        characters:
+          updateCharactersCompatibility(
+            initialState.characters,
+            validAffiliations,
+            validDamageTypes,
+            validFactions,
+            validSets,
+            deckAffiliation,
+          ),
+      });
     }
 
     default:
