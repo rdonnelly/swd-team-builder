@@ -20,6 +20,7 @@ import { characters } from '../lib/Destiny';
 import { colors } from '../styles';
 
 
+export const CONTAINER_PADDING = 24;
 export const ITEM_HEIGHT = 42;
 
 const styles = StyleSheet.create({
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     flexDirection: 'row',
     paddingHorizontal: 16,
+    paddingVertical: CONTAINER_PADDING / 2,
     width: '100%',
   },
   item: {
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
   },
   deckCard: {
     color: colors.lightGrayDark,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
   },
   blueCard: {
@@ -63,12 +65,12 @@ const styles = StyleSheet.create({
   },
   dice: {
     color: 'white',
-    fontSize: 12,
+    fontSize: 14,
     marginLeft: 4,
   },
   deckInfo: {
     color: colors.lightGray,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '600',
   },
 });

@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 
 import CharacterListItem, { ITEM_HEIGHT as characterListItemHeight } from '../../../components/CharacterListItem';
-import SelectedCharacters, { ITEM_HEIGHT as selectedCharactersItemHeight } from '../../../components/SelectedCharacters';
+import SelectedCharacters, { CONTAINER_PADDING as selectedCharactersContainerPadding, ITEM_HEIGHT as selectedCharactersItemHeight } from '../../../components/SelectedCharacters';
 
 import { getCharactersSorted } from '../../../selectors/characterSelectors';
 import { getDeckCharactersCount } from '../../../selectors/deckSelectors';
@@ -125,14 +125,14 @@ class CharacterListScreen extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.handleScrollBeginDrag = this.handleScrollBeginDrag.bind(this);
+    this.closeOpenSwipeable = this.closeOpenSwipeable.bind(this);
     this.onSwipeableOpen = this.onSwipeableOpen.bind(this);
     this.onSwipeableClose = this.onSwipeableClose.bind(this);
     this.navigateToCharacterDetails = this.navigateToCharacterDetails.bind(this);
     this.renderItem = this.renderItem.bind(this);
   }
 
-  handleScrollBeginDrag() {
+  closeOpenSwipeable() {
     const { currentlyOpenSwipeable } = this.state;
 
     if (currentlyOpenSwipeable) {
@@ -181,8 +181,8 @@ class CharacterListScreen extends PureComponent {
   render() {
     const { navigate } = this.props.navigation;
 
-    const selectedCharactersHeight =
-      Math.max(1, this.props.deckCharacterCount) * selectedCharactersItemHeight;
+    const selectedCharactersHeight = selectedCharactersContainerPadding +
+      (Math.max(1, this.props.deckCharacterCount) * selectedCharactersItemHeight);
 
     return (
       <View style={ styles.container }>
@@ -193,7 +193,7 @@ class CharacterListScreen extends PureComponent {
           renderItem={ this.renderItem }
           keyExtractor={ item => item.id }
           getItemLayout={ this.getItemLayout }
-          onScrollBeginDrag={ this.handleScrollBeginDrag }
+          onScrollEndDrag={ this.closeOpenSwipeable }
           contentContainerStyle={{ paddingBottom: selectedCharactersHeight + 12 }}
         />
         <View style={ styles.selectedCharactersContainer }>
