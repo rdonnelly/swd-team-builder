@@ -72,6 +72,7 @@ const updateCharacters = (
   validDamageTypes,
   validSets,
   deckAffiliation,
+  deckCharacters,
 ) => ({
   type: 'UPDATE_CHARACTERS_COMPATIBILITY',
   payload: {
@@ -80,6 +81,7 @@ const updateCharacters = (
     validDamageTypes,
     validSets,
     deckAffiliation,
+    deckCharacters,
   },
 });
 
@@ -147,6 +149,7 @@ const updateCharactersHelper = (dispatch, getState) =>
       getState().teams.settings.filters.damageTypes,
       getState().teams.settings.filters.sets,
       getState().deck.affiliation,
+      getState().deck.characters,
     ),
   );
 

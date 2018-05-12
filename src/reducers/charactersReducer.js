@@ -1,3 +1,4 @@
+import _find from 'lodash/find';
 import _intersection from 'lodash/intersection';
 import { characters } from '../lib/Destiny';
 
@@ -13,11 +14,15 @@ const updateCharactersCompatibility =
     validFactions,
     validSets,
     deckAffiliation,
+    deckCharacters,
   ) =>
     charactersToUpdate.map((characterObject) => {
       const characterAffiliation = characterObject.affiliation;
       const characterDamageTypes = characterObject.damageTypes.match(/([IMRN]D)/g) || [];
       const characterFaction = characterObject.faction;
+      const characterId = characterObject.id;
+      const characterName = characterObject.name;
+      const characterIsUnique = characterObject.isUnique;
       const characterSet = characterObject.set;
 
       const hasValidAffiliation =
@@ -31,8 +36,19 @@ const updateCharactersCompatibility =
         characterDamageTypes.length ===
         _intersection(characterDamageTypes, validDamageTypes).length;
 
+      // if character shares a name, isn't the same card as the one in the deck,
+      // and is unique
+      const hasValidUniqueness = !characterIsUnique ||
+        !_find(deckCharacters,
+          deckCharacter =>
+            deckCharacter.id !== characterId && deckCharacter.name === characterName);
+
       const isIncompatible =
-        !hasValidAffiliation || !hasValidDamageTypes || !hasValidFaction || !hasValidSet;
+        !hasValidAffiliation ||
+        !hasValidDamageTypes ||
+        !hasValidFaction ||
+        !hasValidSet ||
+        !hasValidUniqueness;
 
       return Object.assign({}, characterObject, {
         isIncompatible,
@@ -48,6 +64,7 @@ const charactersReducer = (state = initialState, action) => {
         validFactions,
         validSets,
         deckAffiliation,
+        deckCharacters,
       } = action.payload;
 
       return Object.assign({}, state, {
@@ -59,6 +76,7 @@ const charactersReducer = (state = initialState, action) => {
             validFactions,
             validSets,
             deckAffiliation,
+            deckCharacters,
           ),
       });
     }
