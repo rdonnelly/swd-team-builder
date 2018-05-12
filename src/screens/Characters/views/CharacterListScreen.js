@@ -195,6 +195,10 @@ class CharacterListScreen extends PureComponent {
           getItemLayout={ this.getItemLayout }
           onScrollEndDrag={ this.closeOpenSwipeable }
           contentContainerStyle={{ paddingBottom: selectedCharactersHeight + 12 }}
+          initialNumToRender={ 9 }
+          maxToRenderPerBatch={ 9 }
+          updateCellsBatchingPeriod={ 100 }
+          windowSize={ 35 }
         />
         <View style={ styles.selectedCharactersContainer }>
           <SelectedCharacters navigate={ navigate }></SelectedCharacters>
