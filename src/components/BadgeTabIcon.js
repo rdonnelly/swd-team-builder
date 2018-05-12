@@ -18,15 +18,26 @@ import { colors } from '../styles';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
+  },
+  badgeContainer: {
+    alignItems: 'center',
+    flex: 1,
+    height: '100%',
+    justifyContent: 'center',
+    position: 'absolute',
+    width: 64,
   },
   badge: {
     alignItems: 'center',
     backgroundColor: colors.brand,
     borderRadius: 10,
+    flexGrow: 1,
     height: 20,
     justifyContent: 'center',
     left: 24,
+    marginTop: 2,
     minWidth: 24,
     paddingHorizontal: 4,
     position: 'absolute',
@@ -44,16 +55,10 @@ class BadgeTabIcon extends PureComponent {
     const isIos = Platform.OS === 'ios';
     const useHorizontalTabs = DeviceInfo.isTablet() && isIos && majorVersion >= 11;
 
-    const containerStyles = [
-      styles.container,
-      { marginTop: useHorizontalTabs ? 2 : 4 },
-    ];
-
     const badgeStyles = [
       styles.badge,
       {
-        left: useHorizontalTabs ? 76 : 24,
-        top: useHorizontalTabs ? -24 : -2,
+        left: useHorizontalTabs ? 100 : 48,
       },
     ];
 
@@ -62,15 +67,17 @@ class BadgeTabIcon extends PureComponent {
     );
 
     const badge = this.props.showBadge ? (
-      <View style={ badgeStyles }>
-        <Text style={ styles.badgeText }>
-          { this.props.teamsCount }
-        </Text>
+      <View style={ styles.badgeContainer }>
+        <View style={ badgeStyles }>
+          <Text style={ styles.badgeText }>
+            { this.props.teamsCount }
+          </Text>
+        </View>
       </View>
     ) : null;
 
     return (
-      <View style={ containerStyles }>
+      <View style={ styles.container }>
         { icon }
         { badge }
       </View>
