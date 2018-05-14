@@ -21,7 +21,7 @@ import { colors } from '../styles';
 
 
 export const CONTAINER_PADDING = 24;
-export const ITEM_HEIGHT = 42;
+export const ITEM_HEIGHT = 36;
 
 const styles = StyleSheet.create({
   container: {
