@@ -10,8 +10,8 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/Entypo';
 import SafariView from 'react-native-safari-view';
-
 import Swiper from 'react-native-swiper';
 
 import CharacterAvatar from '../../../components/CharacterAvatar';
@@ -19,7 +19,7 @@ import SWDIcon from '../../../components/SWDIcon';
 
 import { getAvailableTeams } from '../../../selectors/teamSelectors';
 
-import { characters } from '../../../lib/Destiny';
+import { characters, teamsStats } from '../../../lib/Destiny';
 import { cardBack, cardImages } from '../../../lib/DestinyImages';
 
 import { colors } from '../../../styles';
@@ -101,14 +101,22 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingRight: 8,
   },
-  teamSearch: {
-    alignItems: 'stretch',
-    backgroundColor: colors.lightGray,
+  plotStatus: {
+    backgroundColor: colors.lightGrayTranslucent,
+    borderRadius: 4,
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    paddingBottom: 16,
+    marginBottom: 16,
+    marginHorizontal: 16,
+    padding: 16,
+  },
+  plotStatusText: {
+    color: colors.darkGray,
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  teamSearch: {
+    flex: 1,
     paddingHorizontal: 16,
   },
   teamSearchButton: {
@@ -117,21 +125,31 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 8,
-    padding: 8,
+    justifyContent: 'space-between',
+    marginBottom: 16,
+    padding: 16,
   },
   teamSearchButtonText: {
     color: colors.white,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  teamSearchButtonArrow: {
+    color: colors.white,
+    marginTop: 2,
   },
   swiperWrapper: {
     alignItems: 'center',
     backgroundColor: colors.white,
+    borderRadius: 4,
     justifyContent: 'center',
+    marginBottom: 16,
+    overflow: 'hidden',
     paddingVertical: 16,
   },
   imageWrapper: {
     alignItems: 'center',
+    justifyContent: 'center',
     flex: 1,
     height: 300,
     width: '100%',
@@ -207,6 +225,7 @@ class TeamDetailScreen extends React.Component {
     const teamKey = this.props.navigation.state.params.key;
     const { teams } = this.props;
     const team = teams.find(teamObj => teamObj.key === teamKey);
+    const maxPlotPoint = teamsStats.maxPoints - team.p;
 
     const characterAvatars = team.cK.map((characterKey, index) => {
       const [cardId] = characterKey.split('_');
@@ -320,6 +339,13 @@ class TeamDetailScreen extends React.Component {
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ teamAffiliationLabel }</Text>
           </View>
+          { maxPlotPoint ? (
+            <View style={ styles.plotStatus }>
+              <Text style={ styles.plotStatusText }>
+                Team Supports Plot of Cost { maxPlotPoint } or Less
+              </Text>
+            </View>) : null
+          }
           <View style={ styles.teamSearch }>
             <TouchableOpacity
               onPress={ this.searchSWDestinyDB }
@@ -328,6 +354,7 @@ class TeamDetailScreen extends React.Component {
               <Text style={ styles.teamSearchButtonText }>
                 Search for Decks on SWDestinyDB
               </Text>
+              <Icon name={ 'chevron-right' } size={ 20 } style={ styles.teamSearchButtonArrow } />
             </TouchableOpacity>
           </View>
           <View style={ styles.swiperWrapper }>
@@ -338,7 +365,7 @@ class TeamDetailScreen extends React.Component {
               height={ 300 }
               loop={ false }
               ref={ (component) => { this.swiper = component; } }
-              removeClippedSubviews={ false }
+              removeClippedSubviews={ true }
             >
               { imageViews }
             </Swiper>
