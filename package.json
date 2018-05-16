@@ -57,6 +57,9 @@
     "react-native-bundle-visualizer": "^1.2.0",
     "react-test-renderer": "16.0.0-alpha.6"
   },
+  "resolutions": {
+    "react-deep-force-update": "1.1.1"
+  },
   "jest": {
     "preset": "react-native"
   },
