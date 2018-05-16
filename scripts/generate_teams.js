@@ -7,10 +7,12 @@ import path from 'path';
 
 import sets from 'swdestinydb-json-data/sets.json';
 import characters from '../data/characters.json';
+import plots from '../data/plots.json';
 
 const MIN_DICE = 0;
 const MIN_POINTS = 0;
 const MAX_POINTS = 30;
+const PAGE_SIZE = 5000;
 
 let teams = [];
 const teamsStats = {
@@ -22,6 +24,7 @@ const teamsStats = {
   maxCharacterCount: 0,
   minPoints: 1000,
   maxPoints: 0,
+  numPages: 0,
 };
 
 const factionRank = {
@@ -126,6 +129,9 @@ class Team {
     this.key = this.getKey();
   }
 }
+
+const collectPlotPointCosts = () =>
+  _.uniq(Object.values(plots).map(plot => plot.points));
 
 const getEligibleCharacters = (teamCharacters, pointsLeft, team) =>
   teamCharacters
@@ -266,6 +272,8 @@ const calculateStats = (statsTeams) => {
   });
 };
 
+const plotPointCosts = collectPlotPointCosts();
+
 const setCombinations =
   generateSetCombinations(_.map(sets, 'code'))
     .sort((a, b) => a.length - b.length);
@@ -274,6 +282,22 @@ const heroes = Object.values(characters).filter(character => ['hero', 'neutral']
 const villains = Object.values(characters).filter(character => ['neutral', 'villain'].indexOf(character.affiliation) !== -1);
 
 setCombinations.forEach((setCombination) => {
+  plotPointCosts.forEach((plotPointCost) => {
+    buildTeams(
+      heroes.filter(character => setCombination.indexOf(character.set) !== -1),
+      MAX_POINTS - plotPointCost,
+      new Team(),
+    );
+
+    buildTeams(
+      villains.filter(character => setCombination.indexOf(character.set) !== -1),
+      MAX_POINTS - plotPointCost,
+      new Team(),
+    );
+
+    teams = cleanUpTeams(teams);
+  });
+
   buildTeams(
     heroes.filter(character => setCombination.indexOf(character.set) !== -1),
     MAX_POINTS,
@@ -292,32 +316,22 @@ setCombinations.forEach((setCombination) => {
 teams = sortTeams(teams);
 calculateStats(teams);
 
-const teamsWith1Die = teams.filter(team => team.nD === 1);
-const teamsWith2Dice = teams.filter(team => team.nD === 2);
-const teamsWith3Dice = teams.filter(team => team.nD === 3);
-const teamsWith4Dice = teams.filter(team => team.nD === 4);
-const teamsWith5Dice = teams.filter(team => team.nD === 5);
-const teamsWith6Dice = teams.filter(team => team.nD === 6);
+const numPages = Math.ceil(teams.length / PAGE_SIZE);
+teamsStats.numPages = numPages;
 
-console.log(`Output ${teamsWith1Die.length} 1 die teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/teams_1.json'), teamsWith1Die);
+console.log(`Generated ${teams.length} teams...`);
 
-console.log(`Output ${teamsWith2Dice.length} 2 die teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/teams_2.json'), teamsWith2Dice);
+for (let i = 0; i < numPages; i += 1) {
+  const startIndex = i * PAGE_SIZE;
+  const endIndex = ((i + 1) * PAGE_SIZE);
+  const teamSlice = teams.slice(startIndex, endIndex);
 
-console.log(`Output ${teamsWith3Dice.length} 3 die teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/teams_3.json'), teamsWith3Dice);
-
-console.log(`Output ${teamsWith4Dice.length} 4 die teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/teams_4.json'), teamsWith4Dice);
-
-console.log(`Output ${teamsWith5Dice.length} 5 die teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/teams_5.json'), teamsWith5Dice);
-
-console.log(`Output ${teamsWith6Dice.length} 6 die teams...`); // eslint-disable-line no-console
-jsonfile.writeFile(path.join(__dirname, '../data/teams_6.json'), teamsWith6Dice);
+  jsonfile.writeFile(path.join(__dirname, `../data/teams_${i}.json`), teamSlice);
+  console.log(`Output ${teamSlice.length} teams in page ${i}`); // eslint-disable-line no-console
+}
 
 jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
 jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
   checksum: checksum(teams),
+  stats_checksum: checksum(teamsStats),
 });

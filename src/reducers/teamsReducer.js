@@ -13,6 +13,9 @@ const initialState = {
   teams,
   settings: {
     filters: {
+      minCharacterCount: Math.max(teamsStats.minCharacterCount, 1),
+      maxCharacterCount: teamsStats.maxCharacterCount,
+
       minDice: Math.max(teamsStats.minDice, 2),
       maxDice: teamsStats.maxDice,
 
@@ -22,8 +25,7 @@ const initialState = {
       minPoints: Math.max(teamsStats.minPoints, 23),
       maxPoints: teamsStats.maxPoints,
 
-      minCharacterCount: Math.max(teamsStats.minCharacterCount, 1),
-      maxCharacterCount: teamsStats.maxCharacterCount,
+      plotPoints: 0,
 
       affiliations: affiliations.map(affiliation => affiliation.code),
       damageTypes: damageTypes.map(damageType => damageType.code),

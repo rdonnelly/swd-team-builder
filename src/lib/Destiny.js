@@ -1,23 +1,20 @@
 import sets from 'swdestinydb-json-data/sets.json';
 
 import characters from '../../data/characters.json';
+import plots from '../../data/plots.json';
 
-import teamsWith1Die from '../../data/teams_1.json';
-import teamsWith2Dice from '../../data/teams_2.json';
-import teamsWith3Dice from '../../data/teams_3.json';
-import teamsWith4Dice from '../../data/teams_4.json';
-import teamsWith5Dice from '../../data/teams_5.json';
-import teamsWith6Dice from '../../data/teams_6.json';
-
+import plotsStats from '../../data/plots_stats.json';
 import teamsStats from '../../data/teams_stats.json';
 
 const teams = [].concat(
-  teamsWith6Dice,
-  teamsWith5Dice,
-  teamsWith4Dice,
-  teamsWith3Dice,
-  teamsWith2Dice,
-  teamsWith1Die,
+  require('../../data/teams_0.json'),
+  require('../../data/teams_1.json'),
+  require('../../data/teams_2.json'),
+  require('../../data/teams_3.json'),
+  require('../../data/teams_4.json'),
+  require('../../data/teams_5.json'),
+  require('../../data/teams_6.json'),
+  require('../../data/teams_7.json'),
 );
 
 const affiliations = [
@@ -41,10 +38,13 @@ const factions = [
 ];
 
 export {
+  characters,
+
+  plots,
+  plotsStats,
+
   teams,
   teamsStats,
-
-  characters,
 
   affiliations,
   damageTypes,
