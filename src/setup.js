@@ -3,11 +3,11 @@ import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 
 import App from './screens/App';
-import store from './store';
+import configureStore from './configureStore';
 
 
 export default function setup() {
-  class Root extends Component {
+  class AppContainer extends Component {
     componentDidMount() {
       setTimeout(() => {
         StatusBar.setBarStyle('light-content');
@@ -16,12 +16,12 @@ export default function setup() {
 
     render() {
       return (
-        <Provider store={store}>
+        <Provider store={ configureStore() }>
           <App />
         </Provider>
       );
     }
   }
 
-  return Root;
+  return AppContainer;
 }
