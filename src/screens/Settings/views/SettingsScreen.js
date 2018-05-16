@@ -18,6 +18,7 @@ import { updateSetting } from '../../../actions';
 import { getSettings } from '../../../selectors/teamSelectors';
 
 import {
+  plotsStats,
   teamsStats,
 
   affiliations,
@@ -158,15 +159,6 @@ class SettingsView extends Component {
             />
 
             <SettingSlider
-              value={ settings.filters.minPoints }
-              minValue={ teamsStats.minPoints }
-              maxValue={ teamsStats.maxPoints }
-              setting={ 'minPoints' }
-              label={ 'Minimum Points' }
-              callback={ this.props.updateSetting }
-            />
-
-            <SettingSlider
               value={ settings.filters.minCharacterCount }
               minValue={ teamsStats.minCharacterCount }
               maxValue={ teamsStats.maxCharacterCount }
@@ -182,6 +174,24 @@ class SettingsView extends Component {
               setting={ 'maxCharacterCount' }
               label={ 'Maximum Character Count' }
               reverse={ true }
+              callback={ this.props.updateSetting }
+            />
+
+            <SettingSlider
+              value={ settings.filters.minPoints }
+              minValue={ teamsStats.minPoints }
+              maxValue={ teamsStats.maxPoints }
+              setting={ 'minPoints' }
+              label={ 'Minimum Points' }
+              callback={ this.props.updateSetting }
+            />
+
+            <SettingSlider
+              value={ settings.filters.plotPoints }
+              minValue={ 0 }
+              maxValue={ plotsStats.maxPoints }
+              setting={ 'plotPoints' }
+              label={ 'Plot Points' }
               callback={ this.props.updateSetting }
             />
 

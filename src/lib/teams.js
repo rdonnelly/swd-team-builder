@@ -1,5 +1,6 @@
 import _intersection from 'lodash/intersection';
 import {
+  teamsStats,
   affiliations as affiliationsList,
   factions as factionsList,
   damageTypes as damageTypesList,
@@ -44,11 +45,12 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
 
 export const filterTeamsBySettings = (teams, settings) => {
   let outputTeams = teams;
+  const maxCharacterCount = settings.filters.maxCharacterCount;
+  const minCharacterCount = settings.filters.minCharacterCount;
   const minDice = settings.filters.minDice;
   const minHealth = settings.filters.minHealth;
   const minPoints = settings.filters.minPoints;
-  const minCharacterCount = settings.filters.minCharacterCount;
-  const maxCharacterCount = settings.filters.maxCharacterCount;
+  const plotPoints = settings.filters.plotPoints;
   const affiliations = settings.filters.affiliations;
   const factions = settings.filters.factions;
   const damageTypes = settings.filters.damageTypes;
@@ -84,6 +86,10 @@ export const filterTeamsBySettings = (teams, settings) => {
     }
 
     if (team.p < minPoints) {
+      return false;
+    }
+
+    if (team.p > teamsStats.maxPoints - plotPoints) {
       return false;
     }
 
