@@ -58,3 +58,6 @@ buck-out/
 dist/
 .happypack/
 haul-debug.log
+
+# Bundle artifact
+*.jsbundle

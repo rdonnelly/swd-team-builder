@@ -46,6 +46,16 @@ class SettingCloudItem extends PureComponent {
     this.onValueChange = this.onValueChange.bind(this);
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.value === prevState.value) {
+      return null;
+    }
+
+    return {
+      value: nextProps,
+    };
+  }
+
   onValueChange() {
     this.setState({ value: !this.state.value });
     this.props.callback(this.props.setting, !this.state.value);
