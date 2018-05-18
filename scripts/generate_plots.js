@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import * as _ from 'lodash';
 import checksum from 'json-checksum';
 import jsonfile from 'jsonfile';
 import path from 'path';
@@ -12,8 +13,10 @@ import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
 import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
 
 const plotsStats = {
-  minPoints: 1000,
+  affiliations: [],
+  factions: [],
   maxPoints: 0,
+  minPoints: 1000,
 };
 
 let plots =
@@ -49,6 +52,12 @@ let plots =
       if (card.points > plotsStats.maxPoints) {
         plotsStats.maxPoints = card.points;
       }
+
+      plotsStats.affiliations.push(card.affiliation);
+      plotsStats.affiliations = _.uniq(plotsStats.affiliations);
+
+      plotsStats.factions.push(card.faction);
+      plotsStats.factions = _.uniq(plotsStats.factions);
 
       return card;
     },
@@ -92,8 +101,6 @@ const plotsObject = {};
 plots.forEach((plot) => {
   plotsObject[plot.id] = plot;
 });
-
-
 
 
 console.log(`Output ${plots.length} plots...`); // eslint-disable-line no-console

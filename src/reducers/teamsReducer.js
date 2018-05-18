@@ -16,16 +16,17 @@ const initialState = {
       minCharacterCount: Math.max(teamsStats.minCharacterCount, 1),
       maxCharacterCount: teamsStats.maxCharacterCount,
 
-      minDice: Math.max(teamsStats.minDice, 2),
+      minDice: teamsStats.minDice,
       maxDice: teamsStats.maxDice,
 
-      minHealth: Math.max(teamsStats.minHealth, 15),
+      minHealth: teamsStats.minHealth,
       maxHealth: teamsStats.maxHealth,
 
-      minPoints: Math.max(teamsStats.minPoints, 23),
+      minPoints: teamsStats.minPoints,
       maxPoints: teamsStats.maxPoints,
 
       plotPoints: 0,
+      plotFactions: ['gray'],
 
       affiliations: affiliations.map(affiliation => affiliation.code),
       damageTypes: damageTypes.map(damageType => damageType.code),
@@ -46,6 +47,7 @@ const teamsReducer = (state = initialState, action) => {
       };
 
       filters[action.payload.key] = action.payload.value;
+      console.log(action.payload.key, action.payload.value);
 
       return {
         ...state,

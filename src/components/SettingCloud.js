@@ -1,5 +1,6 @@
+import _difference from 'lodash/difference';
 import _without from 'lodash/without';
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -33,8 +34,9 @@ const styles = StyleSheet.create({
   },
 });
 
-class SettingCloud extends PureComponent {
+class SettingCloud extends Component {
   static defaultProps = {
+    radio: false,
     value: true,
   };
 
@@ -48,11 +50,21 @@ class SettingCloud extends PureComponent {
     this.onValueChange = this.onValueChange.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_difference(nextState.values, this.state.values).length;
+  }
+
   onValueChange(code, value) {
+    const { radio } = this.props;
+
     let newValues = this.state.values.slice(0);
     if (value) {
-      newValues.push(code);
-    } else {
+      if (radio) {
+        newValues = [code];
+      } else {
+        newValues.push(code);
+      }
+    } else if (!radio) {
       newValues = _without(newValues, code);
     }
 
@@ -75,7 +87,7 @@ class SettingCloud extends PureComponent {
     const optionItems = this.props.options.map(option => (
       <SettingCloudItem
         key={ `settingclouditem__${this.props.setting}__${option.code}` }
-        value={ this.props.values.includes(option.code) }
+        value={ this.state.values.includes(option.code) }
         setting={ option.code }
         label={ option.name }
         callback={ this.onValueChange }
@@ -103,6 +115,8 @@ SettingCloud.propTypes = {
 
   options: PropTypes.array.isRequired,
   values: PropTypes.array.isRequired,
+
+  radio: PropTypes.bool,
 
   callback: PropTypes.func,
 };

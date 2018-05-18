@@ -51,6 +51,7 @@ export const filterTeamsBySettings = (teams, settings) => {
   const minHealth = settings.filters.minHealth;
   const minPoints = settings.filters.minPoints;
   const plotPoints = settings.filters.plotPoints;
+  const plotFactions = settings.filters.plotFactions;
   const affiliations = settings.filters.affiliations;
   const factions = settings.filters.factions;
   const damageTypes = settings.filters.damageTypes;
@@ -89,15 +90,21 @@ export const filterTeamsBySettings = (teams, settings) => {
       return false;
     }
 
-    if (team.p > teamsStats.maxPoints - plotPoints) {
-      return false;
-    }
-
     if (team.cC < minCharacterCount) {
       return false;
     }
 
     if (team.cC > maxCharacterCount) {
+      return false;
+    }
+
+    if (team.p > teamsStats.maxPoints - plotPoints) {
+      return false;
+    }
+
+    if (plotPoints > 0 &&
+        plotFactions[0] !== 'gray' &&
+        !team.f.includes(plotFactions[0])) {
       return false;
     }
 

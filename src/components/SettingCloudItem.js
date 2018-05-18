@@ -52,7 +52,7 @@ class SettingCloudItem extends PureComponent {
     }
 
     return {
-      value: nextProps,
+      value: nextProps.value,
     };
   }
 

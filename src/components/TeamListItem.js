@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import CharacterAvatar from '../components/CharacterAvatar';
 import SWDIcon from '../components/SWDIcon';
 
-import { characters } from '../lib/Destiny';
+import { characters, teamsStats } from '../lib/Destiny';
 
 import { colors } from '../styles';
 
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection: 'column',
     justifyContent: 'center',
+    marginBottom: 8,
   },
   characterWrapper: {
     alignItems: 'center',
@@ -85,7 +86,12 @@ const styles = StyleSheet.create({
     color: colors.gray,
     fontSize: 13,
     fontWeight: '500',
-    paddingRight: 8,
+    marginRight: 6,
+  },
+  teamStatLast: {
+    color: colors.gray,
+    fontSize: 13,
+    fontWeight: '500',
   },
   arrow: {
     color: colors.gray,
@@ -172,12 +178,7 @@ class TeamListItem extends Component {
       );
     });
 
-    let teamAffiliationLabel = 'Neutral';
-    if (teamObject.a.includes('villain')) {
-      teamAffiliationLabel = 'Villain';
-    } else if (teamObject.a.includes('hero')) {
-      teamAffiliationLabel = 'Hero';
-    }
+    const plotPoints = teamsStats.maxPoints - teamObject.p;
 
     return (
       <TouchableOpacity
@@ -196,8 +197,8 @@ class TeamListItem extends Component {
             <Text style={ styles.teamStat }>{ teamObject.h } Health</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ teamObject.p } Points</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamAffiliationLabel }</Text>
+            { plotPoints ? (<Text style={ styles.teamStat }>&middot;</Text>) : null }
+            { plotPoints ? (<Text style={ styles.teamStatLast }>{ `${plotPoints} Plot Points` }</Text>) : null }
           </View>
         </View>
         <View>

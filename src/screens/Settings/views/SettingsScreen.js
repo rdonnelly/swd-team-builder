@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   ScrollView,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SettingsView extends Component {
+class SettingsView extends PureComponent {
   static navigationOptions = {
     title: 'Settings',
     headerTintColor: colors.headerTint,
@@ -95,6 +95,17 @@ class SettingsView extends Component {
 
   render() {
     const { settings } = this.props;
+
+    const plotFactionsCloud = (
+      <SettingCloud
+        label={ 'Plot Faction' }
+        setting={ 'plotFactions' }
+        options={ factions }
+        values={ settings.filters.plotFactions }
+        radio={ true }
+        callback={ this.props.updateSetting }
+      />
+    );
 
     const affiliationsCloud = (
       <SettingCloud
@@ -194,6 +205,8 @@ class SettingsView extends Component {
               label={ 'Plot Points' }
               callback={ this.props.updateSetting }
             />
+
+            { plotFactionsCloud }
 
             { affiliationsCloud }
 

@@ -146,6 +146,10 @@ class TeamListScreen extends Component {
         renderItem={ this.renderItem }
         keyExtractor={ item => item.key }
         showsVerticalScrollIndicator={ false }
+        initialNumToRender={ 9 }
+        maxToRenderPerBatch={ 9 }
+        updateCellsBatchingPeriod={ 100 }
+        windowSize={ 35 }
       />
     ) : (
       <View style={{ width: '80%' }}>
