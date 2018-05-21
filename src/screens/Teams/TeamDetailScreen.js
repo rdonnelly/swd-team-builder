@@ -14,15 +14,15 @@ import Icon from 'react-native-vector-icons/Entypo';
 import SafariView from 'react-native-safari-view';
 import Swiper from 'react-native-swiper';
 
-import CharacterAvatar from '../../../components/CharacterAvatar';
-import SWDIcon from '../../../components/SWDIcon';
+import CharacterAvatar from '../../components/CharacterAvatar';
+import SWDIcon from '../../components/SWDIcon';
 
-import { getAvailableTeams } from '../../../selectors/teamSelectors';
+import { getAvailableTeams } from '../../selectors/teamSelectors';
 
-import { characters, teamsStats } from '../../../lib/Destiny';
-import { cardBack, cardImages } from '../../../lib/DestinyImages';
+import { characters, teamsStats } from '../../lib/Destiny';
+import { cardBack, cardImages } from '../../lib/DestinyImages';
 
-import { colors } from '../../../styles';
+import { colors } from '../../styles';
 
 
 const styles = StyleSheet.create({

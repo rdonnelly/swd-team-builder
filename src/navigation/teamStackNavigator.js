@@ -1,25 +1,25 @@
 import _get from 'lodash/get';
 import { createStackNavigator } from 'react-navigation';
 
-import CharacterListScreen from './views/CharacterListScreen';
-import CharacterDetailScreen from './views/CharacterDetailScreen';
+import TeamListScreen from '../screens/Teams/TeamListScreen';
+import TeamDetailScreen from '../screens/Teams/TeamDetailScreen';
 
 const routeConfiguration = {
-  CharacterListScreen: { screen: CharacterListScreen },
-  CharacterDetailScreen: { screen: CharacterDetailScreen },
+  TeamListScreen: { screen: TeamListScreen },
+  TeamDetailScreen: { screen: TeamDetailScreen },
 };
 
 const stackNavigatorConfiguration = {
-  initialRoute: 'CharacterListScreen',
+  initialRoute: 'TeamListScreen',
 };
 
-const characterStackNavigator = createStackNavigator(
+const teamStackNavigator = createStackNavigator(
   routeConfiguration,
   stackNavigatorConfiguration,
 );
 
-characterStackNavigator.navigationOptions = {
-  tabBarLabel: 'Characters',
+teamStackNavigator.navigationOptions = {
+  tabBarLabel: 'Teams',
   tabBarOnPress: ({ navigation }) => {
     if (navigation.isFocused()) {
       if (navigation.state.index === 0) {
@@ -32,10 +32,10 @@ characterStackNavigator.navigationOptions = {
       }
 
       if (navigation.state.index === 1) {
-        navigation.navigate('CharacterListScreen');
+        navigation.navigate('TeamListScreen');
       }
     }
   },
 };
 
-export default characterStackNavigator;
+export default teamStackNavigator;

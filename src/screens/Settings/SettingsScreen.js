@@ -11,11 +11,11 @@ import {
 import { connect } from 'react-redux';
 import SafariView from 'react-native-safari-view';
 
-import SettingCloud from '../../../components/SettingCloud';
-import SettingSlider from '../../../components/SettingSlider';
+import SettingCloud from '../../components/SettingCloud';
+import SettingSlider from '../../components/SettingSlider';
 
-import { updateSetting } from '../../../actions';
-import { getSettings } from '../../../selectors/teamSelectors';
+import { updateSetting } from '../../actions';
+import { getSettings } from '../../selectors/teamSelectors';
 
 import {
   plotsStats,
@@ -25,9 +25,9 @@ import {
   damageTypes,
   factions,
   sets,
-} from '../../../lib/Destiny';
+} from '../../lib/Destiny';
 
-import { colors } from '../../../styles';
+import { colors } from '../../styles';
 
 
 const styles = StyleSheet.create({

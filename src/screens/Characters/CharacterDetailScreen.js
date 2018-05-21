@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { validate as validateIcon, swdestiny as swdIcons } from '../../../lib/swd-icons';
-import SWDIcon from '../../../components/SWDIcon';
+import { validate as validateIcon, swdestiny as swdIcons } from '../../lib/swd-icons';
+import SWDIcon from '../../components/SWDIcon';
 
 import {
   addCharacter,
@@ -21,13 +21,13 @@ import {
   removeCharacter,
   includeCharacter,
   excludeCharacter,
-} from '../../../actions';
-import { getCharacters } from '../../../selectors/characterSelectors';
-import { getDeckCharacters } from '../../../selectors/deckSelectors';
+} from '../../actions';
+import { getCharacters } from '../../selectors/characterSelectors';
+import { getDeckCharacters } from '../../selectors/deckSelectors';
 
-import { cardBack, cardImages } from '../../../lib/DestinyImages';
+import { cardBack, cardImages } from '../../lib/DestinyImages';
 
-import { colors } from '../../../styles';
+import { colors } from '../../styles';
 
 
 const styles = StyleSheet.create({

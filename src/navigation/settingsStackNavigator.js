@@ -1,25 +1,23 @@
 import _get from 'lodash/get';
 import { createStackNavigator } from 'react-navigation';
 
-import TeamListScreen from './views/TeamListScreen';
-import TeamDetailScreen from './views/TeamDetailScreen';
+import SettingsScreen from '../screens/Settings/SettingsScreen';
 
 const routeConfiguration = {
-  TeamListScreen: { screen: TeamListScreen },
-  TeamDetailScreen: { screen: TeamDetailScreen },
+  SettingsScreen: { screen: SettingsScreen },
 };
 
 const stackNavigatorConfiguration = {
-  initialRoute: 'TeamListScreen',
+  initialRoute: 'SettingsScreen',
 };
 
-const teamStackNavigator = createStackNavigator(
+const settingsStackNavigator = createStackNavigator(
   routeConfiguration,
   stackNavigatorConfiguration,
 );
 
-teamStackNavigator.navigationOptions = {
-  tabBarLabel: 'Teams',
+settingsStackNavigator.navigationOptions = {
+  tabBarLabel: 'Settings',
   tabBarOnPress: ({ navigation }) => {
     if (navigation.isFocused()) {
       if (navigation.state.index === 0) {
@@ -32,10 +30,10 @@ teamStackNavigator.navigationOptions = {
       }
 
       if (navigation.state.index === 1) {
-        navigation.navigate('TeamListScreen');
+        navigation.navigate('SettingsScreen');
       }
     }
   },
 };
 
-export default teamStackNavigator;
+export default settingsStackNavigator;

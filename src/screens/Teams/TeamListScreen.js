@@ -10,12 +10,12 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import TeamListItem from '../../../components/TeamListItem';
+import TeamListItem from '../../components/TeamListItem';
 
-import { updateSort } from '../../../actions';
-import { getAvailableTeams } from '../../../selectors/teamSelectors';
+import { updateSort } from '../../actions';
+import { getAvailableTeams } from '../../selectors/teamSelectors';
 
-import { colors } from '../../../styles';
+import { colors } from '../../styles';
 
 
 const styles = StyleSheet.create({

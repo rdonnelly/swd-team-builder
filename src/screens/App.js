@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-import TabBarNavigation from '../../navigation/TabBarNavigation';
+import TabBarNavigator from '../navigation/tabBarNavigator';
+
 
 export default class App extends Component {
   render() {
     return (
-      <TabBarNavigation />
+      <TabBarNavigator />
     );
   }
 }

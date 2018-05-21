@@ -3,9 +3,9 @@ import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { createBottomTabNavigator } from 'react-navigation';
 
-import CharacterNavigation from '../screens/Characters/navigationConfiguration';
-import TeamNavigation from '../screens/Teams/navigationConfiguration';
-import SettingsNavigation from '../screens/Settings/navigationConfiguration';
+import characterStackNavigator from './characterStackNavigator';
+import teamStackNavigator from './teamStackNavigator';
+import settingsStackNavigator from './settingsStackNavigator';
 import BadgeTabIcon from '../components/BadgeTabIcon';
 
 import { colors } from '../styles';
@@ -16,9 +16,9 @@ const useHorizontalTabs = DeviceInfo.isTablet() && isIos && majorVersion >= 11;
 
 export default createBottomTabNavigator(
   {
-    Characters: { screen: CharacterNavigation },
-    Teams: { screen: TeamNavigation },
-    Settings: { screen: SettingsNavigation },
+    Characters: { screen: characterStackNavigator },
+    Teams: { screen: teamStackNavigator },
+    Settings: { screen: settingsStackNavigator },
   },
   {
     backBehavior: 'none',
