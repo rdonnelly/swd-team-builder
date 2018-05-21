@@ -84,6 +84,18 @@ class SettingsView extends PureComponent {
         StatusBar.setBarStyle('light-content');
       },
     );
+
+    this.scrollViewToTop = this.scrollViewToTop.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.navigation.setParams({
+      scrollToTop: this.scrollViewToTop,
+    });
+  }
+
+  scrollViewToTop() {
+    this.scrollView.scrollTo(0);
   }
 
   visitWebpage() {
@@ -149,7 +161,10 @@ class SettingsView extends PureComponent {
 
     return (
       <View style={ styles.container }>
-        <ScrollView style={ styles.scrollContainer }>
+        <ScrollView
+          ref={ (component) => { this.scrollView = component; } }
+          style={ styles.scrollContainer }
+        >
           <View style={ styles.scrollerInner }>
             <SettingSlider
               value={ settings.filters.minDice }
@@ -254,7 +269,7 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
 
 SettingsView.propTypes = {
+  navigation: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-
   updateSetting: PropTypes.func.isRequired,
 };

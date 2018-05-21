@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { TabNavigator, addNavigationHelpers } from 'react-navigation';
-import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { createBottomTabNavigator } from 'react-navigation';
 
-import CharacterNavigation from '../screens/Characters/views/CharacterNavigation';
-import TeamNavigation from '../screens/Teams/views/TeamNavigation';
-import SettingsNavigation from '../screens/Settings/views/SettingsNavigation';
+import CharacterNavigation from '../screens/Characters/navigationConfiguration';
+import TeamNavigation from '../screens/Teams/navigationConfiguration';
+import SettingsNavigation from '../screens/Settings/navigationConfiguration';
+import BadgeTabIcon from '../components/BadgeTabIcon';
 
 import { colors } from '../styles';
 
@@ -16,7 +14,7 @@ const majorVersion = parseInt(Platform.Version, 10);
 const isIos = Platform.OS === 'ios';
 const useHorizontalTabs = DeviceInfo.isTablet() && isIos && majorVersion >= 11;
 
-const TabBar = TabNavigator(
+export default createBottomTabNavigator(
   {
     Characters: { screen: CharacterNavigation },
     Teams: { screen: TeamNavigation },
@@ -24,6 +22,31 @@ const TabBar = TabNavigator(
   },
   {
     backBehavior: 'none',
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        let showBadge = false;
+        if (routeName === 'Characters') {
+          iconName = 'documents';
+        } else if (routeName === 'Teams') {
+          iconName = 'list';
+          showBadge = true;
+        } else if (routeName === 'Settings') {
+          iconName = 'cog';
+        }
+
+        return (
+          <BadgeTabIcon
+            iconName={ iconName }
+            size={ 24 }
+            color={ tintColor }
+            selected={ focused }
+            showBadge={ showBadge }
+          />
+        );
+      },
+    }),
     tabBarOptions: {
       activeTintColor: colors.tabActiveTint,
       inactiveTintColor: colors.tabInactiveTint,
@@ -33,39 +56,3 @@ const TabBar = TabNavigator(
     },
   },
 );
-
-class TabBarComponent extends Component {
-  render() {
-    const { dispatch, tabNavigation } = this.props;
-    const addListener = createReduxBoundAddListener('tabNavigation');
-
-    return (
-      <TabBar
-        navigation={
-          addNavigationHelpers({
-            dispatch,
-            state: tabNavigation,
-            addListener,
-          })
-        }
-      />
-    );
-  }
-}
-
-TabBarComponent.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  tabNavigation: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = state => ({ tabNavigation: state.tabNavigation });
-
-export const TabBarNavigation = connect(mapStateToProps)(TabBarComponent);
-
-export const tabBarReducer = (state, action) => {
-  if (action.type === 'JUMP_TO_TAB') {
-    return { ...state, index: 0 };
-  }
-
-  return TabBar.router.getStateForAction(action, state);
-};

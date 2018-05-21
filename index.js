@@ -3,7 +3,10 @@ import { Client } from 'bugsnag-react-native';
 
 import setup from './src/setup';
 
-// eslint-disable-next-line no-unused-vars
-const bugsnag = new Client();
+// eslint-disable-next-line no-undef
+if (!__DEV__) {
+  // eslint-disable-next-line no-unused-vars
+  const bugsnag = new Client();
+}
 
 AppRegistry.registerComponent('SWDTeamBuilder', setup);

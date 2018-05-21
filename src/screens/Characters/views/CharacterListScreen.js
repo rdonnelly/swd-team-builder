@@ -129,7 +129,14 @@ class CharacterListScreen extends PureComponent {
     this.onSwipeableOpen = this.onSwipeableOpen.bind(this);
     this.onSwipeableClose = this.onSwipeableClose.bind(this);
     this.navigateToCharacterDetails = this.navigateToCharacterDetails.bind(this);
+    this.scrollListToTop = this.scrollListToTop.bind(this);
     this.renderItem = this.renderItem.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.navigation.setParams({
+      scrollToTop: this.scrollListToTop,
+    });
   }
 
   closeOpenSwipeable() {
@@ -155,6 +162,10 @@ class CharacterListScreen extends PureComponent {
 
   navigateToCharacterDetails(characterId) {
     this.props.navigation.navigate('CharacterDetailScreen', { id: characterId });
+  }
+
+  scrollListToTop() {
+    this.listView.scrollToOffset(0);
   }
 
   renderItem({ item: characterObject }) {
@@ -187,6 +198,7 @@ class CharacterListScreen extends PureComponent {
     return (
       <View style={ styles.container }>
         <FlatList
+          ref={ (component) => { this.listView = component; } }
           style={ styles.list }
           data={ this.props.characters }
           extraData={ this.state }

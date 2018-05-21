@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   ActionSheetIOS,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class TeamListScreen extends Component {
+class TeamListScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
     const { state } = navigation;
     return {
@@ -108,23 +108,20 @@ class TeamListScreen extends Component {
   constructor(props) {
     super(props);
 
+    this.scrollListToTop = this.scrollListToTop.bind(this);
+    this.showSortActionSheet = this.showSortActionSheet.bind(this);
     this.renderItem = this.renderItem.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const currentTabIndex = nextProps.tabNavigation.index;
-    const currentTabRouteName = nextProps.tabNavigation.routes[currentTabIndex].routeName;
-    if (currentTabRouteName !== 'Teams') {
-      return false;
-    }
-
-    return true;
   }
 
   componentWillMount() {
     this.props.navigation.setParams({
-      showSortActionSheet: this.showSortActionSheet.bind(this),
+      scrollToTop: this.scrollListToTop,
+      showSortActionSheet: this.showSortActionSheet,
     });
+  }
+
+  scrollListToTop() {
+    this.listView.scrollToOffset(0);
   }
 
   renderItem({ item: teamObject }) {
@@ -141,8 +138,10 @@ class TeamListScreen extends Component {
   render() {
     const list = this.props.teams.length ? (
       <FlatList
+        ref={ (component) => { this.listView = component; } }
         style={ styles.list }
         data={ this.props.teams }
+        extraData={ this.state }
         renderItem={ this.renderItem }
         keyExtractor={ item => item.key }
         showsVerticalScrollIndicator={ false }
@@ -206,7 +205,6 @@ class TeamListScreen extends Component {
 
 const mapStateToProps = state => ({
   teams: getAvailableTeams(state),
-  tabNavigation: state.tabNavigation,
 });
 
 const mapDispatchToProps = { updateSort };

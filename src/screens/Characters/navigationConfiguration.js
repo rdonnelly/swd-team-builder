@@ -1,4 +1,6 @@
-import { StackNavigator } from 'react-navigation';
+import _get from 'lodash/get';
+import { createStackNavigator } from 'react-navigation';
+
 import CharacterListScreen from './views/CharacterListScreen';
 import CharacterDetailScreen from './views/CharacterDetailScreen';
 
@@ -11,4 +13,29 @@ const stackNavigatorConfiguration = {
   initialRoute: 'CharacterListScreen',
 };
 
-export const CharacterNavigator = StackNavigator(routeConfiguration, stackNavigatorConfiguration);
+const characterStackNavigator = createStackNavigator(
+  routeConfiguration,
+  stackNavigatorConfiguration,
+);
+
+characterStackNavigator.navigationOptions = {
+  tabBarLabel: 'Characters',
+  tabBarOnPress: ({ navigation }) => {
+    if (navigation.isFocused()) {
+      if (navigation.state.index === 0) {
+        const stackNavigation = _get(navigation, 'state.routes[0]');
+        if (stackNavigation &&
+            stackNavigation.params &&
+            stackNavigation.params.scrollToTop) {
+          stackNavigation.params.scrollToTop();
+        }
+      }
+
+      if (navigation.state.index === 1) {
+        navigation.navigate('CharacterListScreen');
+      }
+    }
+  },
+};
+
+export default characterStackNavigator;
