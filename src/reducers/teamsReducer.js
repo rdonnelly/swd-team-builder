@@ -47,7 +47,6 @@ const teamsReducer = (state = initialState, action) => {
       };
 
       filters[action.payload.key] = action.payload.value;
-      console.log(action.payload.key, action.payload.value);
 
       return {
         ...state,
