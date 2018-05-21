@@ -172,9 +172,9 @@ class TeamListScreen extends PureComponent {
 
   showSortActionSheet() {
     const options = [
-      'Sort By Dice',
-      'Sort By Health',
-      'Sort By Points',
+      'Sort by # of Dice',
+      'Sort by Health',
+      'Sort by Points',
       'Cancel',
     ];
 
