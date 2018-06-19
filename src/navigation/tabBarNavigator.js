@@ -54,6 +54,9 @@ export default createBottomTabNavigator(
       labelStyle: {
         fontSize: useHorizontalTabs ? 15 : 13,
       },
+      tabStyle: {
+        paddingTop: useHorizontalTabs ? 0 : 4,
+      },
     },
   },
 );
