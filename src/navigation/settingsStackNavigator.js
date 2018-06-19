@@ -18,7 +18,7 @@ const settingsStackNavigator = createStackNavigator(
 
 settingsStackNavigator.navigationOptions = {
   tabBarLabel: 'Settings',
-  tabBarOnPress: ({ navigation }) => {
+  tabBarOnPress: ({ navigation, defaultHandler }) => {
     if (navigation.isFocused()) {
       if (navigation.state.index === 0) {
         const stackNavigation = _get(navigation, 'state.routes[0]');
@@ -32,6 +32,8 @@ settingsStackNavigator.navigationOptions = {
       if (navigation.state.index === 1) {
         navigation.navigate('SettingsScreen');
       }
+    } else {
+      defaultHandler();
     }
   },
 };

@@ -20,7 +20,7 @@ const characterStackNavigator = createStackNavigator(
 
 characterStackNavigator.navigationOptions = {
   tabBarLabel: 'Characters',
-  tabBarOnPress: ({ navigation }) => {
+  tabBarOnPress: ({ navigation, defaultHandler }) => {
     if (navigation.isFocused()) {
       if (navigation.state.index === 0) {
         const stackNavigation = _get(navigation, 'state.routes[0]');
@@ -34,6 +34,8 @@ characterStackNavigator.navigationOptions = {
       if (navigation.state.index === 1) {
         navigation.navigate('CharacterListScreen');
       }
+    } else {
+      defaultHandler();
     }
   },
 };

@@ -20,7 +20,7 @@ const teamStackNavigator = createStackNavigator(
 
 teamStackNavigator.navigationOptions = {
   tabBarLabel: 'Teams',
-  tabBarOnPress: ({ navigation }) => {
+  tabBarOnPress: ({ navigation, defaultHandler }) => {
     if (navigation.isFocused()) {
       if (navigation.state.index === 0) {
         const stackNavigation = _get(navigation, 'state.routes[0]');
@@ -34,6 +34,8 @@ teamStackNavigator.navigationOptions = {
       if (navigation.state.index === 1) {
         navigation.navigate('TeamListScreen');
       }
+    } else {
+      defaultHandler();
     }
   },
 };
