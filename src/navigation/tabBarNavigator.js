@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react';
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
@@ -23,7 +24,7 @@ export default createBottomTabNavigator(
   {
     backBehavior: 'none',
     navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => {
+      tabBarIcon: ({ focused, tintColor }) => { // eslint-disable-line react/prop-types
         const { routeName } = navigation.state;
         let iconName;
         let showBadge = false;
