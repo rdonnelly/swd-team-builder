@@ -15,6 +15,11 @@ const teams = [].concat(
   require('../../data/teams_5.json'),
   require('../../data/teams_6.json'),
   require('../../data/teams_7.json'),
+  require('../../data/teams_8.json'),
+  require('../../data/teams_9.json'),
+  require('../../data/teams_10.json'),
+  require('../../data/teams_11.json'),
+  require('../../data/teams_12.json'),
 );
 
 const affiliations = [

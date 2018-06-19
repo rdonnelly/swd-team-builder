@@ -11,6 +11,7 @@ import dbSetEaW from 'swdestinydb-json-data/set/EaW.json';
 import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
 import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
+import dbSetWotF from 'swdestinydb-json-data/set/WotF.json';
 
 const plotsStats = {
   affiliations: [],
@@ -27,6 +28,7 @@ let plots =
     dbSetTPG,
     dbSetLEG,
     dbSetRIV,
+    dbSetWotF,
   ).filter(
     rawCard => rawCard.type_code === 'plot',
   ).map(

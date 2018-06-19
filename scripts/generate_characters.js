@@ -11,6 +11,7 @@ import dbSetEaW from 'swdestinydb-json-data/set/EaW.json';
 import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
 import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
+import dbSetWotF from 'swdestinydb-json-data/set/WotF.json';
 
 import formats from 'swdestinydb-json-data/formats.json';
 
@@ -36,6 +37,7 @@ let characters =
     dbSetTPG,
     dbSetLEG,
     dbSetRIV,
+    dbSetWotF,
   ).filter(
     rawCard => rawCard.type_code === 'character',
   ).map(
@@ -92,6 +94,7 @@ let characters =
       card.set = rawCard.set_code;
       card.sides = rawCard.sides;
       card.subtitle = rawCard.subtitle;
+      card.subtypes = rawCard.subtypes;
       card.type = rawCard.type_code;
 
       return card;

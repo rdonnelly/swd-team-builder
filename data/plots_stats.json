@@ -1,1 +1,1 @@
-{"affiliations":["neutral"],"factions":["gray"],"maxPoints":3,"minPoints":1}
+{"affiliations":["neutral","hero"],"factions":["gray","red","blue"],"maxPoints":4,"minPoints":1}
