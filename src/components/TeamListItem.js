@@ -198,7 +198,7 @@ class TeamListItem extends Component {
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ teamObject.p } Points</Text>
             { plotPoints ? (<Text style={ styles.teamStat }>&middot;</Text>) : null }
-            { plotPoints ? (<Text style={ styles.teamStatLast }>{ `${plotPoints} Plot Points` }</Text>) : null }
+            { plotPoints ? (<Text style={ styles.teamStatLast }>{ `${plotPoints} Plot Point${plotPoints > 1 ? 's' : ''}` }</Text>) : null }
           </View>
         </View>
         <View>
