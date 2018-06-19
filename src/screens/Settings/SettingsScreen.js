@@ -212,6 +212,14 @@ class SettingsView extends PureComponent {
               callback={ this.props.updateSetting }
             />
 
+            { affiliationsCloud }
+
+            { factionsCloud }
+
+            { damageTypesCloud }
+
+            { setsCloud }
+
             <SettingSlider
               value={ settings.filters.plotPoints }
               minValue={ 0 }
@@ -222,14 +230,6 @@ class SettingsView extends PureComponent {
             />
 
             { plotFactionsCloud }
-
-            { affiliationsCloud }
-
-            { factionsCloud }
-
-            { damageTypesCloud }
-
-            { setsCloud }
 
             <View style={ styles.information }>
               <Text style={ styles.disclaimerText }>
