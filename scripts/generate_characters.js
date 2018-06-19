@@ -47,6 +47,7 @@ let characters =
       card.affiliation = rawCard.affiliation_code;
 
       card.damageTypes = _.uniq(rawCard.sides.reduce((acc, val) => {
+        console.log('acc', acc);
         if (val.includes('ID')) {
           acc.push('ID');
         }
@@ -132,7 +133,7 @@ characters = characters
     set: card.set,
 
     affiliation: card.affiliation,
-    damageTypes: card.damageTypes.reduce((acc, val) => acc + val, ''),
+    damageTypes: card.damageTypes,
     faction: card.faction,
 
     health: card.health,
