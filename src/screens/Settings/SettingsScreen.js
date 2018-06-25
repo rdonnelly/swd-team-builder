@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Alert,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -118,19 +119,33 @@ class SettingsView extends PureComponent {
   }
 
   removeAllFilters() {
-    this.props.resetFilters();
-    this.affiliationsCloud.reset();
-    this.factionsCloud.reset();
-    this.damageTypesCloud.reset();
-    this.setsCloud.reset();
-    this.plotFactionCloud.reset();
+    Alert.alert(
+      'Reset Filters?',
+      'This will reset all filters. Are you sure you want to continue?',
+      [
+        { text: 'Cancel' },
+        {
+          text: 'Reset',
+          onPress: () => {
+            this.props.resetFilters();
 
-    this.minDiceSlider.reset();
-    this.minHealthSlider.reset();
-    this.minCharacterCountSlider.reset();
-    this.maxCharacterCountSlider.reset();
-    this.minPointsSlider.reset();
-    this.plotPointsSlider.reset();
+            this.affiliationsCloud.reset();
+            this.factionsCloud.reset();
+            this.damageTypesCloud.reset();
+            this.setsCloud.reset();
+            this.plotFactionCloud.reset();
+
+            this.minDiceSlider.reset();
+            this.minHealthSlider.reset();
+            this.minCharacterCountSlider.reset();
+            this.maxCharacterCountSlider.reset();
+            this.minPointsSlider.reset();
+            this.plotPointsSlider.reset();
+          },
+          style: 'destructive',
+        },
+      ],
+    );
   }
 
   renderReset() {
@@ -140,7 +155,7 @@ class SettingsView extends PureComponent {
           onPress={ this.removeAllFilters }
           style={ styles.resetButton }
         >
-          <Text style={ styles.resetButtonText }>Reset Settings</Text>
+          <Text style={ styles.resetButtonText }>Reset Filters</Text>
         </TouchableOpacity>
       </View>
     );
