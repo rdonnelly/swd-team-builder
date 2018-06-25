@@ -63,6 +63,10 @@ const resetDeck = () => ({
   type: 'RESET_DECK',
 });
 
+const resetSettingsFilters = () => ({
+  type: 'RESET_FILTERS',
+});
+
 
 // CHARACTER ACTIONS
 
@@ -216,6 +220,12 @@ export const reset = () =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(dispatch(resetDeck()))
+      .then(dispatch(resetCharactersHelper(dispatch, getState)));
+
+export const resetFilters = () =>
+  (dispatch, getState) =>
+    Promise.resolve()
+      .then(dispatch(resetSettingsFilters()))
       .then(dispatch(resetCharactersHelper(dispatch, getState)));
 
 export const updateSetting = (key, value) =>

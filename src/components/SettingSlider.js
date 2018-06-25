@@ -35,6 +35,7 @@ class SettingsSlider extends PureComponent {
   state = {
     timeoutId: null,
     value: this.props.value,
+    initValue: this.props.value,
   };
 
   constructor(props) {
@@ -64,6 +65,17 @@ class SettingsSlider extends PureComponent {
     this.setState({ timeoutId: null });
 
     this.props.callback(this.props.setting, value);
+  }
+
+  reset() {
+    if (this.state.timeoutId) {
+      clearTimeout(this.state.timeoutId);
+    }
+
+    this.setState({
+      timeoutId: null,
+      value: this.state.initValue,
+    });
   }
 
   render() {

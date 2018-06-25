@@ -14,7 +14,7 @@ import SafariView from 'react-native-safari-view';
 import SettingCloud from '../../components/SettingCloud';
 import SettingSlider from '../../components/SettingSlider';
 
-import { updateSetting } from '../../actions';
+import { resetFilters, updateSetting } from '../../actions';
 import { getSettings } from '../../selectors/teamSelectors';
 
 import {
@@ -46,6 +46,17 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     marginTop: 24,
     paddingTop: 24,
+  },
+  resetButton: {
+    backgroundColor: colors.brand,
+    borderRadius: 4,
+    padding: 12,
+  },
+  resetButtonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: '700',
+    textAlign: 'center',
   },
   disclaimerText: {
     color: colors.gray,
@@ -86,6 +97,7 @@ class SettingsView extends PureComponent {
     );
 
     this.scrollViewToTop = this.scrollViewToTop.bind(this);
+    this.removeAllFilters = this.removeAllFilters.bind(this);
   }
 
   componentWillMount() {
@@ -105,19 +117,37 @@ class SettingsView extends PureComponent {
     });
   }
 
+  removeAllFilters() {
+    this.props.resetFilters();
+    this.affiliationsCloud.reset();
+    this.factionsCloud.reset();
+    this.damageTypesCloud.reset();
+    this.setsCloud.reset();
+    this.plotFactionCloud.reset();
+
+    this.minDiceSlider.reset();
+    this.minHealthSlider.reset();
+    this.minCharacterCountSlider.reset();
+    this.maxCharacterCountSlider.reset();
+    this.minPointsSlider.reset();
+    this.plotPointsSlider.reset();
+  }
+
+  renderReset() {
+    return (
+      <View style={ styles.information }>
+        <TouchableOpacity
+          onPress={ this.removeAllFilters }
+          style={ styles.resetButton }
+        >
+          <Text style={ styles.resetButtonText }>Reset Settings</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   render() {
     const { settings } = this.props;
-
-    const plotFactionsCloud = (
-      <SettingCloud
-        label={ 'Plot Faction' }
-        setting={ 'plotFactions' }
-        options={ factions }
-        values={ settings.filters.plotFactions }
-        radio={ true }
-        callback={ this.props.updateSetting }
-      />
-    );
 
     const affiliationsCloud = (
       <SettingCloud
@@ -126,6 +156,7 @@ class SettingsView extends PureComponent {
         options={ affiliations }
         values={ settings.filters.affiliations }
         callback={ this.props.updateSetting }
+        ref={ (component) => { this.affiliationsCloud = component; } }
       />
     );
 
@@ -136,6 +167,7 @@ class SettingsView extends PureComponent {
         options={ factions }
         values={ settings.filters.factions }
         callback={ this.props.updateSetting }
+        ref={ (component) => { this.factionsCloud = component; } }
       />
     );
 
@@ -146,6 +178,7 @@ class SettingsView extends PureComponent {
         options={ damageTypes }
         values={ settings.filters.damageTypes }
         callback={ this.props.updateSetting }
+        ref={ (component) => { this.damageTypesCloud = component; } }
       />
     );
 
@@ -156,6 +189,19 @@ class SettingsView extends PureComponent {
         options={ sets }
         values={ settings.filters.sets }
         callback={ this.props.updateSetting }
+        ref={ (component) => { this.setsCloud = component; } }
+      />
+    );
+
+    const plotFactionCloud = (
+      <SettingCloud
+        label={ 'Plot Faction' }
+        setting={ 'plotFactions' }
+        options={ factions }
+        values={ settings.filters.plotFactions }
+        radio={ true }
+        callback={ this.props.updateSetting }
+        ref={ (component) => { this.plotFactionCloud = component; } }
       />
     );
 
@@ -173,6 +219,7 @@ class SettingsView extends PureComponent {
               setting={ 'minDice' }
               label={ 'Minimum Dice' }
               callback={ this.props.updateSetting }
+              ref={ (component) => { this.minDiceSlider = component; } }
             />
 
             <SettingSlider
@@ -182,6 +229,7 @@ class SettingsView extends PureComponent {
               setting={ 'minHealth' }
               label={ 'Minimum Health' }
               callback={ this.props.updateSetting }
+              ref={ (component) => { this.minHealthSlider = component; } }
             />
 
             <SettingSlider
@@ -191,6 +239,7 @@ class SettingsView extends PureComponent {
               setting={ 'minCharacterCount' }
               label={ 'Minimum Character Count' }
               callback={ this.props.updateSetting }
+              ref={ (component) => { this.minCharacterCountSlider = component; } }
             />
 
             <SettingSlider
@@ -201,6 +250,7 @@ class SettingsView extends PureComponent {
               label={ 'Maximum Character Count' }
               reverse={ true }
               callback={ this.props.updateSetting }
+              ref={ (component) => { this.maxCharacterCountSlider = component; } }
             />
 
             <SettingSlider
@@ -210,6 +260,7 @@ class SettingsView extends PureComponent {
               setting={ 'minPoints' }
               label={ 'Minimum Points' }
               callback={ this.props.updateSetting }
+              ref={ (component) => { this.minPointsSlider = component; } }
             />
 
             { affiliationsCloud }
@@ -227,9 +278,12 @@ class SettingsView extends PureComponent {
               setting={ 'plotPoints' }
               label={ 'Plot Points' }
               callback={ this.props.updateSetting }
+              ref={ (component) => { this.plotPointsSlider = component; } }
             />
 
-            { plotFactionsCloud }
+            { plotFactionCloud }
+
+            { this.renderReset() }
 
             <View style={ styles.information }>
               <Text style={ styles.disclaimerText }>
@@ -263,6 +317,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  resetFilters,
   updateSetting,
 };
 
@@ -271,5 +326,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
 SettingsView.propTypes = {
   navigation: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
+
+  resetFilters: PropTypes.func.isRequired,
   updateSetting: PropTypes.func.isRequired,
 };

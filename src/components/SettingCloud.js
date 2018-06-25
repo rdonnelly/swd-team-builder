@@ -35,23 +35,20 @@ const styles = StyleSheet.create({
 });
 
 class SettingCloud extends Component {
-  static defaultProps = {
-    radio: false,
-    value: true,
-  };
-
   state = {
     values: this.props.values,
+    initValues: this.props.values,
   };
 
   constructor(props) {
     super(props);
 
     this.onValueChange = this.onValueChange.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !_difference(nextState.values, this.state.values).length;
+    return _difference(nextState.values, this.state.values).length !== 0;
   }
 
   onValueChange(code, value) {
@@ -80,6 +77,17 @@ class SettingCloud extends Component {
     this.setState({
       timeoutId,
       values: newValues,
+    });
+  }
+
+  reset() {
+    if (this.state.timeoutId) {
+      clearTimeout(this.state.timeoutId);
+    }
+
+    this.setState({
+      timeoutId: null,
+      values: this.state.initValues,
     });
   }
 

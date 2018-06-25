@@ -78,6 +78,20 @@ const teamsReducer = (state = initialState, action) => {
       };
     }
 
+    case 'RESET_FILTERS': {
+      const filters = {
+        ...initialState.settings.filters,
+      };
+
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          filters,
+        },
+      };
+    }
+
     default:
       return state;
   }
