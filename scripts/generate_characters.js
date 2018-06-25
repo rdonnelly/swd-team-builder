@@ -47,7 +47,6 @@ let characters =
       card.affiliation = rawCard.affiliation_code;
 
       card.damageTypes = _.uniq(rawCard.sides.reduce((acc, val) => {
-        console.log('acc', acc);
         if (val.includes('ID')) {
           acc.push('ID');
         }
