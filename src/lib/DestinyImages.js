@@ -122,10 +122,13 @@ const cardImages = {
   '07001': require('../../images/characters/07001.jpg'),
   '07002': require('../../images/characters/07002.jpg'),
   '07003': require('../../images/characters/07003.jpg'),
+  '07004': require('../../images/characters/07004.jpg'),
   '07018': require('../../images/characters/07018.jpg'),
   '07019': require('../../images/characters/07019.jpg'),
   '07020': require('../../images/characters/07020.jpg'),
   '07021': require('../../images/characters/07021.jpg'),
+  '07035': require('../../images/characters/07035.jpg'),
+  '07036': require('../../images/characters/07036.jpg'),
   '07037': require('../../images/characters/07037.jpg'),
   '07038': require('../../images/characters/07038.jpg'),
   '07054': require('../../images/characters/07054.jpg'),
@@ -134,10 +137,12 @@ const cardImages = {
   '07057': require('../../images/characters/07057.jpg'),
   '07071': require('../../images/characters/07071.jpg'),
   '07072': require('../../images/characters/07072.jpg'),
+  '07073': require('../../images/characters/07073.jpg'),
   '07074': require('../../images/characters/07074.jpg'),
   '07088': require('../../images/characters/07088.jpg'),
   '07089': require('../../images/characters/07089.jpg'),
   '07090': require('../../images/characters/07090.jpg'),
+  '07091': require('../../images/characters/07091.jpg'),
 };
 
 export {
