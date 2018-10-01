@@ -165,7 +165,9 @@ class CharacterListScreen extends PureComponent {
   }
 
   scrollListToTop() {
-    this.listView.scrollToOffset(0);
+    if (this.listView) {
+      this.listView.scrollToOffset(0);
+    }
   }
 
   renderItem({ item: characterObject }) {
