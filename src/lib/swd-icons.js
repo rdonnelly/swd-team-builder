@@ -34,6 +34,8 @@ export const swdestiny = {
   LEGACIES: 'e913',
   RIV: 'e914',
   RIVALS: 'e914',
+  WotF: 'e915',
+  WAY_OF_THE_FORCE: 'e915',
 };
 
 export const validate = (font, key) => _has(font, key);
