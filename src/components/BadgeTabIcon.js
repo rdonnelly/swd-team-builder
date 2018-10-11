@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import DeviceInfo from 'react-native-device-info';
 
-import { getAvailableTeamsCount } from '../selectors/teamSelectors';
+import { getAvailableTeamsCount } from '../store/selectors/teamSelectors';
 
 import { colors } from '../styles';
 

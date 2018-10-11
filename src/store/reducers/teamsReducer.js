@@ -6,7 +6,7 @@ import {
   factions,
   damageTypes,
   sets,
-} from '../lib/Destiny';
+} from '../../lib/Destiny';
 
 
 const initialState = {

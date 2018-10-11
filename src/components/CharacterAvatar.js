@@ -132,12 +132,13 @@ class CharacterAvatar extends PureComponent {
         x{ count }
       </Text> : null;
 
-    const imageSrc = cardImages[cardId] || cardBackTexture;
+    const imageSrc = cardImages[cardId] || null;
 
     return (
       <View style={ containerStyles }>
         <Image
           source={ imageSrc }
+          defaultSource={ cardBackTexture }
           style={ imageStyles }
         />
         <View style={ styles.infoContainer }>

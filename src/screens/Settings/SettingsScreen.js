@@ -15,8 +15,8 @@ import SafariView from 'react-native-safari-view';
 import SettingCloud from '../../components/SettingCloud';
 import SettingSlider from '../../components/SettingSlider';
 
-import { resetFilters, updateSetting } from '../../actions';
-import { getSettings } from '../../selectors/teamSelectors';
+import { resetFilters, updateSetting } from '../../store/actions';
+import { getSettings } from '../../store/selectors/teamSelectors';
 
 import {
   plotsStats,

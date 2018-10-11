@@ -21,9 +21,9 @@ import {
   removeCharacter,
   includeCharacter,
   excludeCharacter,
-} from '../../actions';
-import { getCharacters } from '../../selectors/characterSelectors';
-import { getDeckCharacters } from '../../selectors/deckSelectors';
+} from '../../store/actions';
+import { getCharacters } from '../../store/selectors/characterSelectors';
+import { getDeckCharacters } from '../../store/selectors/deckSelectors';
 
 import { cardBack, cardImages } from '../../lib/DestinyImages';
 

@@ -1,6 +1,6 @@
 import _find from 'lodash/find';
 import _intersection from 'lodash/intersection';
-import { characters } from '../lib/Destiny';
+import { characters } from '../../lib/Destiny';
 
 const initialState = {
   characters: Object.values(characters),

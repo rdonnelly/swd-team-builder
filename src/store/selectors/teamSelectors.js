@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { getDeckCharacters, getDeckAffiliation, getExcludedCharacterIds } from './deckSelectors';
-import { filterTeamsByDeck, filterTeamsBySettings, sortTeams } from '../lib/teams';
+import { filterTeamsByDeck, filterTeamsBySettings, sortTeams } from '../../lib/teams';
 
 let initialSortRun = true;
 let initialFilteredByDeckRun = true;

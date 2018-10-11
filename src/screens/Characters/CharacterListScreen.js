@@ -10,8 +10,8 @@ import { connect } from 'react-redux';
 import CharacterListItem, { ITEM_HEIGHT as characterListItemHeight } from '../../components/CharacterListItem';
 import SelectedCharacters, { CONTAINER_PADDING as selectedCharactersContainerPadding, ITEM_HEIGHT as selectedCharactersItemHeight } from '../../components/SelectedCharacters';
 
-import { getCharactersSorted } from '../../selectors/characterSelectors';
-import { getDeckCharactersCount } from '../../selectors/deckSelectors';
+import { getCharactersSorted } from '../../store/selectors/characterSelectors';
+import { getDeckCharactersCount } from '../../store/selectors/deckSelectors';
 
 import { colors } from '../../styles';
 

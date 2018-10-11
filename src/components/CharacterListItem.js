@@ -19,7 +19,7 @@ import { colors } from '../styles';
 import {
   includeCharacter,
   excludeCharacter,
-} from '../actions';
+} from '../store/actions';
 import { characters } from '../lib/Destiny';
 
 export const ITEM_HEIGHT = 72;

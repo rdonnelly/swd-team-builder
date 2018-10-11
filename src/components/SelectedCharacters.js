@@ -12,8 +12,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import SWDIcon from './SWDIcon';
 
-import { reset } from '../actions';
-import { getDeckCharacters } from '../selectors/deckSelectors';
+import { reset } from '../store/actions';
+import { getDeckCharacters } from '../store/selectors/deckSelectors';
 
 import { characters } from '../lib/Destiny';
 
