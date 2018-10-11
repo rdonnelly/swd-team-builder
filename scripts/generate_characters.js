@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import * as _ from 'lodash';
 import checksum from 'json-checksum';
 import jsonfile from 'jsonfile';
@@ -14,6 +12,10 @@ import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
 import dbSetWotF from 'swdestinydb-json-data/set/WotF.json';
 
 import formats from 'swdestinydb-json-data/formats.json';
+
+const charactersStats = {
+  count: 0,
+};
 
 const affiliationOrder = {
   villain: 0,
@@ -149,10 +151,14 @@ characters.forEach((character) => {
   charactersObject[character.id] = character;
 });
 
+charactersStats.count = charactersObject.length || 0;
+
 
 console.log(`Output ${characters.length} characters...`); // eslint-disable-line no-console
 jsonfile.writeFile(path.join(__dirname, '../data/characters.json'), charactersObject);
+jsonfile.writeFile(path.join(__dirname, '../data/characters_stats.json'), charactersStats);
 
 jsonfile.writeFile(path.join(__dirname, '../data/characters_checksum.json'), {
   checksum: checksum(charactersObject),
+  stats_checksum: checksum(charactersStats),
 });
