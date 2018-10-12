@@ -15,6 +15,12 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     width: '100%',
   },
+  labelContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
   label: {
     color: colors.darkGray,
     fontSize: 20,
@@ -83,7 +89,7 @@ class SettingsSlider extends PureComponent {
 
     return (
       <View style={ styles.container }>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <View style={ styles.labelContainer }>
           <Text style={ styles.label }>
             { this.props.label }
           </Text>

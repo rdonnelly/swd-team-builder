@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import CharacterAvatar from '../components/CharacterAvatar';
-import SWDIcon from '../components/SWDIcon';
+import CharacterAvatar from './CharacterAvatar';
+import SWDIcon from './SWDIcon';
 
 import { characters, teamsStats } from '../lib/Destiny';
 
@@ -18,8 +18,6 @@ import { colors } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
-  },
-  row: {
     alignItems: 'center',
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: colors.lightGrayDark,
@@ -151,7 +149,6 @@ class TeamListItem extends Component {
       for (let i = 0; i < numDice; i += 1) {
         diceIcons.push(
           <SWDIcon
-            font={ 'swdestiny' }
             key={ `${teamObject.key}___${cardId}___${i}` }
             style={ diceStyles }
             type={ 'DIE' }
@@ -184,7 +181,7 @@ class TeamListItem extends Component {
       <TouchableOpacity
         activeOpacity={ 0.6 }
         onPress={ () => navigate('TeamDetailScreen', { key: teamObject.key }) }
-        style={ styles.row }
+        style={ styles.container }
         underlayColor={ colors.lightGray }
       >
         <View style={ styles.teamWrapper }>

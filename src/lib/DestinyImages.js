@@ -1,5 +1,4 @@
 /* eslint-disable global-require */
-
 const cardBack = require('../../images/back.png');
 const cardBackTexture = require('../../images/back-texture.jpg');
 

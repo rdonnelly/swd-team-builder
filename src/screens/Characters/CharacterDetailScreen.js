@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { validate as validateIcon, swdestiny as swdIcons } from '../../lib/swd-icons';
+import { validateIcon } from '../../lib/swd-icons';
 import SWDIcon from '../../components/SWDIcon';
 
 import {
@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.purple,
   },
   buttonIcon: {
-    color: 'white',
+    color: colors.white,
     fontSize: 16,
     textAlign: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: colors.white,
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
@@ -134,8 +134,8 @@ class CharacterDetailScreen extends Component {
     const characterIsIncompatible = characterObject.isIncompatible;
     const characterIsExcluded = characterObject.isExcluded;
 
-    const setIcon = validateIcon(swdIcons, characterObject.set) ? (
-      <SWDIcon type={ characterObject.set } font={ 'swdestiny' } style={ styles.buttonTextIcon } />
+    const setIcon = validateIcon(characterObject.set) ? (
+      <SWDIcon type={ characterObject.set } style={ styles.buttonTextIcon } />
     ) : null;
 
     let deckMessageText = '';
@@ -201,21 +201,21 @@ class CharacterDetailScreen extends Component {
     const addButton =
       (!characterIsInDeck || !characterObject.isUnique) &&
       !characterIsIncompatible && !characterIsExcluded ? (
-        <TouchableOpacity
-          onPress={ () => this.props.addCharacter(characterObject) }
-          style={ [styles.button, styles.buttonGreen] }
-        >
-          <Text style={ styles.buttonText }>
-            { !characterIsInDeck || characterObject.isUnique ?
-              'Add ' :
-              'Add Another ' }
-            <Text style={ styles.buttonTextHighlight }>
-              { characterObject.name }
-              &nbsp;{ setIcon }
+          <TouchableOpacity
+            onPress={ () => this.props.addCharacter(characterObject) }
+            style={ [styles.button, styles.buttonGreen] }
+          >
+            <Text style={ styles.buttonText }>
+              { !characterIsInDeck || characterObject.isUnique ?
+                'Add ' :
+                'Add Another ' }
+              <Text style={ styles.buttonTextHighlight }>
+                { characterObject.name }
+                &nbsp;{ setIcon }
+              </Text>
             </Text>
-          </Text>
-        </TouchableOpacity>
-      ) : null;
+          </TouchableOpacity>
+        ) : null;
 
     const removeButton = characterIsInDeck ?
       <TouchableOpacity
@@ -256,7 +256,7 @@ class CharacterDetailScreen extends Component {
           deckCharacterObject.numDice === 1 && styles.buttonDisabled,
         ] }
       >
-        <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />
+        <SWDIcon type={ 'DIE' } style={ styles.buttonIcon } />
       </TouchableOpacity> : null;
 
     const eliteButton =
@@ -272,10 +272,10 @@ class CharacterDetailScreen extends Component {
         ] }
       >
         <View>
-          <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />
+          <SWDIcon type={ 'DIE' } style={ styles.buttonIcon } />
         </View>
         <View style={{ marginLeft: 8 }}>
-          <SWDIcon type={ 'DIE' } font={ 'swdestiny' } style={ styles.buttonIcon } />
+          <SWDIcon type={ 'DIE' } style={ styles.buttonIcon } />
         </View>
       </TouchableOpacity> : null;
 

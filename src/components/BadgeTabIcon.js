@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     top: 0,
   },
   badgeText: {
-    color: 'white',
+    color: colors.white,
   },
 });
 

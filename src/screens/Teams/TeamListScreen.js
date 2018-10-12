@@ -28,62 +28,6 @@ const styles = StyleSheet.create({
   list: {
     width: '100%',
   },
-  row: {
-    alignItems: 'center',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.lightGrayDark,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 8,
-    paddingVertical: 12,
-  },
-  teamWrapper: {
-    flex: 1,
-  },
-  teamCharactersWrapper: {
-    alignItems: 'flex-start',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  characterName: {
-    color: colors.darkGray,
-    fontSize: 18,
-  },
-  blueCard: {
-    color: colors.cardBlue,
-  },
-  redCard: {
-    color: colors.cardRed,
-  },
-  yellowCard: {
-    color: colors.cardYellow,
-  },
-  diceWrapper: {
-    flexDirection: 'row',
-    marginLeft: 4,
-  },
-  dice: {
-    color: 'white',
-    fontSize: 12,
-    marginTop: 4,
-  },
-  teamInfoWrapper: {
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-  },
-  teamStat: {
-    color: colors.gray,
-    fontSize: 13,
-    fontWeight: '500',
-    paddingRight: 8,
-  },
-  arrow: {
-    color: colors.gray,
-    marginTop: 2,
-  },
 });
 
 class TeamListScreen extends PureComponent {
@@ -155,7 +99,9 @@ class TeamListScreen extends PureComponent {
     ) : (
       <View style={{ width: '80%' }}>
         <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: colors.gray, fontSize: 24, fontWeight: '700', textAlign: 'center' }}>No Teams Compatible</Text>
+          <Text style={{ color: colors.gray, fontSize: 24, fontWeight: '700', textAlign: 'center' }}>
+            No Teams Compatible
+          </Text>
         </View>
         <View style={{ alignItems: 'center' }}>
           <Text style={{ color: colors.gray, textAlign: 'center' }}>

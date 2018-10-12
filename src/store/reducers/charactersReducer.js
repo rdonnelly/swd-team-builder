@@ -15,45 +15,43 @@ const updateCharactersCompatibility =
     validSets,
     deckAffiliation,
     deckCharacters,
-  ) =>
-    charactersToUpdate.map((characterObject) => {
-      const characterAffiliation = characterObject.affiliation;
-      const characterDamageTypes = characterObject.damageTypes;
-      const characterFaction = characterObject.faction;
-      const characterId = characterObject.id;
-      const characterName = characterObject.name;
-      const characterIsUnique = characterObject.isUnique;
-      const characterSet = characterObject.set;
+  ) => charactersToUpdate.map((characterObject) => {
+    const characterAffiliation = characterObject.affiliation;
+    const characterDamageTypes = characterObject.damageTypes;
+    const characterFaction = characterObject.faction;
+    const characterId = characterObject.id;
+    const characterName = characterObject.name;
+    const characterIsUnique = characterObject.isUnique;
+    const characterSet = characterObject.set;
 
-      const hasValidAffiliation =
-        validAffiliations.indexOf(characterAffiliation) !== -1 &&
-        (characterAffiliation === 'neutral' ||
-        deckAffiliation === 'neutral' ||
-        characterAffiliation === deckAffiliation);
-      const hasValidFaction = validFactions.includes(characterFaction);
-      const hasValidSet = validSets.includes(characterSet);
-      const hasValidDamageTypes =
-        characterDamageTypes.length ===
-        _intersection(characterDamageTypes, validDamageTypes).length;
+    const hasValidAffiliation =
+      validAffiliations.indexOf(characterAffiliation) !== -1 &&
+      (characterAffiliation === 'neutral' ||
+      deckAffiliation === 'neutral' ||
+      characterAffiliation === deckAffiliation);
+    const hasValidFaction = validFactions.includes(characterFaction);
+    const hasValidSet = validSets.includes(characterSet);
+    const hasValidDamageTypes =
+      characterDamageTypes.length ===
+      _intersection(characterDamageTypes, validDamageTypes).length;
 
-      // if character shares a name, isn't the same card as the one in the deck,
-      // and is unique
-      const hasValidUniqueness = !characterIsUnique ||
-        !_find(deckCharacters,
-          deckCharacter =>
-            deckCharacter.id !== characterId && deckCharacter.name === characterName);
+    // if character shares a name, isn't the same card as the one in the deck,
+    // and is unique
+    const hasValidUniqueness = !characterIsUnique ||
+      !_find(deckCharacters,
+        deckCharacter => deckCharacter.id !== characterId && deckCharacter.name === characterName);
 
-      const isIncompatible =
-        !hasValidAffiliation ||
-        !hasValidDamageTypes ||
-        !hasValidFaction ||
-        !hasValidSet ||
-        !hasValidUniqueness;
+    const isIncompatible =
+      !hasValidAffiliation ||
+      !hasValidDamageTypes ||
+      !hasValidFaction ||
+      !hasValidSet ||
+      !hasValidUniqueness;
 
-      return Object.assign({}, characterObject, {
-        isIncompatible,
-      });
+    return Object.assign({}, characterObject, {
+      isIncompatible,
     });
+  });
 
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {

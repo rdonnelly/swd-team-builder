@@ -33,6 +33,8 @@ const darkGrayDark = 'rgba(44, 62, 80, 1.0)';
 const white = 'rgba(255, 255, 255, 1.0)';
 const whiteTranslucent = 'rgba(255, 255, 255, 0.5)';
 
+const transparent = 'transparent';
+
 export default {
   turquoise,
   turquoiseDark,
@@ -68,6 +70,8 @@ export default {
 
   white,
   whiteTranslucent,
+
+  transparent,
 
   brand: purple,
   brandDark: purpleDark,

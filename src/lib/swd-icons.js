@@ -1,6 +1,6 @@
 import _has from 'lodash/has';
 
-export const swdestiny = {
+export const iconCodes = {
   RESOURCE: 'e900',
   SPECIAL: 'e901',
   BLANK: 'e902',
@@ -38,4 +38,4 @@ export const swdestiny = {
   WAY_OF_THE_FORCE: 'e915',
 };
 
-export const validate = (font, key) => _has(font, key);
+export const validateIcon = key => _has(iconCodes, key);

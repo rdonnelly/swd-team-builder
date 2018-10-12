@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 
-import SWDIcon from '../components/SWDIcon';
+import SWDIcon from './SWDIcon';
 
 import { characters } from '../lib/Destiny';
 import { cardBackTexture, cardImages } from '../lib/DestinyImages';
@@ -50,20 +50,20 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   die: {
-    backgroundColor: 'transparent',
+    backgroundColor: colors.transparent,
     color: colors.white,
     fontSize: 14,
     marginRight: 4,
   },
   countContainer: {
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: colors.transparent,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   count: {
-    backgroundColor: 'transparent',
+    backgroundColor: colors.transparent,
     color: colors.white,
     fontSize: 15,
     fontWeight: '900',
@@ -119,7 +119,6 @@ class CharacterAvatar extends PureComponent {
         diceIcons.push(
           <SWDIcon
             key={ `avatar_die___${cardId}___${i}` }
-            font={ 'swdestiny' }
             style={ styles.die }
             type={ 'DIE' }
           />,

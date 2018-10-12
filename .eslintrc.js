@@ -23,5 +23,11 @@ module.exports = {
     'class-methods-use-this': ['off'],
     'import/prefer-default-export': 'off',
     'no-param-reassign': ['error', { 'props': false }],
+    'operator-linebreak': ['error', 'after'],
+  },
+  settings: {
+    react: {
+      version: '16.5.0',
+    },
   },
 };

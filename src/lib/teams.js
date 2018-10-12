@@ -5,7 +5,7 @@ import {
   factions as factionsList,
   damageTypes as damageTypesList,
   sets as setsList,
-} from '../lib/Destiny';
+} from './Destiny';
 
 export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, excludedCharacterIds) => {
   if (deckCharacters.length === 0 && excludedCharacterIds.length === 0) {
@@ -15,7 +15,7 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
   let outputTeams = teams;
 
   deckCharacters.forEach((deckCharacterObject) => {
-    const numDice = deckCharacterObject.numDice;
+    const { numDice } = deckCharacterObject;
     const characterKey = `${deckCharacterObject.id}_${numDice}_${deckCharacterObject.count}`;
     const regularCharacterKey = `${deckCharacterObject.id}_1_${deckCharacterObject.count}`;
     const eliteCharacterKey = `${deckCharacterObject.id}_2_${deckCharacterObject.count}`;
@@ -35,9 +35,7 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
   });
 
   excludedCharacterIds.forEach((excludedCharacterId) => {
-    outputTeams = outputTeams.filter(team =>
-      !team.cK.some(key => key.startsWith(`${excludedCharacterId}_`)),
-    );
+    outputTeams = outputTeams.filter(team => !team.cK.some(key => key.startsWith(`${excludedCharacterId}_`)));
   });
 
   return outputTeams;
@@ -45,17 +43,19 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
 
 export const filterTeamsBySettings = (teams, settings) => {
   let outputTeams = teams;
-  const maxCharacterCount = settings.filters.maxCharacterCount;
-  const minCharacterCount = settings.filters.minCharacterCount;
-  const minDice = settings.filters.minDice;
-  const minHealth = settings.filters.minHealth;
-  const minPoints = settings.filters.minPoints;
-  const plotPoints = settings.filters.plotPoints;
-  const plotFactions = settings.filters.plotFactions;
-  const affiliations = settings.filters.affiliations;
-  const factions = settings.filters.factions;
-  const damageTypes = settings.filters.damageTypes;
-  const sets = settings.filters.sets;
+  const {
+    maxCharacterCount,
+    minCharacterCount,
+    minDice,
+    minHealth,
+    minPoints,
+    plotPoints,
+    plotFactions,
+    affiliations,
+    factions,
+    damageTypes,
+    sets,
+  } = settings.filters;
 
   let skipAffiliations = false;
   if (affiliations.length >= affiliationsList.length) {

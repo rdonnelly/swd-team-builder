@@ -135,7 +135,7 @@ const deckReducer = (state = initialState, action) => {
             });
 
             if (characterObject.affiliation !== 'neutral') {
-              affiliation = characterObject.affiliation;
+              ({ affiliation } = characterObject);
             }
           }
         } else {
@@ -144,7 +144,7 @@ const deckReducer = (state = initialState, action) => {
           });
 
           if (characterObject.affiliation !== 'neutral') {
-            affiliation = characterObject.affiliation;
+            ({ affiliation } = characterObject);
           }
         }
 

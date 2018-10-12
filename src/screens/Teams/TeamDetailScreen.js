@@ -268,7 +268,6 @@ class TeamDetailScreen extends React.Component {
       for (let i = 0; i < numDice; i += 1) {
         diceIcons.push(
           <SWDIcon
-            font={ 'swdestiny' }
             key={ `die__${team.key}__${cardId}__${i}` }
             style={ diceStyles }
             type={ 'DIE' }
@@ -319,7 +318,7 @@ class TeamDetailScreen extends React.Component {
     return (
       <View style={{
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: colors.white,
         flex: 1,
         justifyContent: 'center',
       }}>

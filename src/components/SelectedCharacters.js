@@ -43,12 +43,6 @@ const styles = StyleSheet.create({
   characterViews: {
     flex: 1,
   },
-  characterViewTouchable: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
   deckCard: {
     color: colors.lightGrayDark,
     fontSize: 18,
@@ -64,7 +58,7 @@ const styles = StyleSheet.create({
     color: colors.cardYellow,
   },
   dice: {
-    color: 'white',
+    color: colors.white,
     fontSize: 14,
     marginLeft: 4,
   },
@@ -113,7 +107,6 @@ class SelectedCharacters extends PureComponent {
           <SWDIcon
             key={ `die__${card.id}__${i}` }
             type={ 'DIE' }
-            font={ 'swdestiny' }
             style={ diceStyles }
           />,
         );

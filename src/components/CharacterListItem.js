@@ -10,9 +10,9 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import Swipeable from 'react-native-swipeable';
 
-import CharacterAvatar from '../components/CharacterAvatar';
-import { validate as validateIcon, swdestiny as swdIcons } from '../lib/swd-icons';
-import SWDIcon from '../components/SWDIcon';
+import CharacterAvatar from './CharacterAvatar';
+import { validateIcon } from '../lib/swd-icons';
+import SWDIcon from './SWDIcon';
 
 import { colors } from '../styles';
 
@@ -81,15 +81,6 @@ const styles = StyleSheet.create({
   incompatibleCardInfoLogo: {
     color: colors.lightGrayDark,
   },
-  blueCard: {
-    borderColor: colors.cardBlue,
-  },
-  redCard: {
-    borderColor: colors.cardRed,
-  },
-  yellowCard: {
-    borderColor: colors.cardYellow,
-  },
   arrow: {
     color: colors.gray,
     marginTop: 2,
@@ -151,8 +142,8 @@ class CharacterListItem extends Component {
       rowStyles.push(styles.excludedRow);
     }
 
-    const setIcon = validateIcon(swdIcons, card.set) ? (
-      <SWDIcon type={ card.set } font={ 'swdestiny' } style={ cardInfoLogoStyle } />
+    const setIcon = validateIcon(card.set) ? (
+      <SWDIcon type={ card.set } style={ cardInfoLogoStyle } />
     ) : null;
 
     const subtitle = card.subtitle ? (
@@ -190,7 +181,7 @@ class CharacterListItem extends Component {
     );
 
     const uniqueIcon = card.isUnique ? (
-      <SWDIcon type={ 'UNIQUE' } font={ 'swdestiny' } style={ cardUniqueStyle } />
+      <SWDIcon type={ 'UNIQUE' } style={ cardUniqueStyle } />
     ) : null;
 
     const avatar = (
