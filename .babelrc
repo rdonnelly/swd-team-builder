@@ -1,6 +1,0 @@
-{
-  "presets": ["react-native"],
-  "ignore": [
-    "data/*.json"
-  ]
-}
