@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import _get from 'lodash/get';
 
-import { iconCodes as swdIconCodes } from '../lib/swd-icons';
+import { iconCodes as swdIconCodes } from '../lib/SWDIconCodes';
 
 const styles = StyleSheet.create({
   text: {
@@ -16,11 +17,16 @@ class SWDIcon extends PureComponent {
       type, style, addSpace,
     } = this.props;
 
-    const code = String.fromCharCode(parseInt(swdIconCodes[type], 16));
+    const code = _get(swdIconCodes, type.toUpperCase());
+    if (!code) {
+      return null;
+    }
+
+    const codeString = String.fromCharCode(parseInt(code, 16));
 
     return (
       <Text style={[style, styles.text]}>
-        { code }
+        { codeString }
         { addSpace ? ' ' : '' }
       </Text>
     );

@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import Swipeable from 'react-native-swipeable';
 
 import CharacterAvatar from './CharacterAvatar';
-import { validateIcon } from '../lib/swd-icons';
+import { validateCode } from '../lib/SWDIconCodes';
 import SWDIcon from './SWDIcon';
 
 import { colors } from '../styles';
@@ -142,7 +142,7 @@ class CharacterListItem extends Component {
       rowStyles.push(styles.excludedRow);
     }
 
-    const setIcon = validateIcon(card.set) ? (
+    const setIcon = validateCode(card.set) ? (
       <SWDIcon type={ card.set } style={ cardInfoLogoStyle } />
     ) : null;
 

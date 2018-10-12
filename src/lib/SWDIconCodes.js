@@ -7,6 +7,7 @@ export const iconCodes = {
   DISCARD: 'e903',
   DISRUPT: 'e904',
   FOCUS: 'e905',
+  INDIRECT: 'e911',
   MELEE: 'e906',
   RANGED: 'e907',
   SHIELD: 'e908',
@@ -25,17 +26,20 @@ export const iconCodes = {
   AW: 'e90d',
   AWAKENINGS: 'e90d',
   SoR: 'e90e',
+  SOR: 'e90e',
   SPIRIT_OF_REBELLION: 'e90e',
   TPG: 'e910',
   TWO_PLAYER_GAME: 'e910',
   EaW: 'e90f',
+  EAW: 'e90f',
   EMPIRE_AT_WAR: 'e90f',
   LEG: 'e913',
   LEGACIES: 'e913',
   RIV: 'e914',
   RIVALS: 'e914',
   WotF: 'e915',
+  WOTF: 'e915',
   WAY_OF_THE_FORCE: 'e915',
 };
 
-export const validateIcon = key => _has(iconCodes, key);
+export const validateCode = code => _has(iconCodes, code);

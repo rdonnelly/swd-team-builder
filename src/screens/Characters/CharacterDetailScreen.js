@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { validateIcon } from '../../lib/swd-icons';
+import { validateCode } from '../../lib/SWDIconCodes';
 import SWDIcon from '../../components/SWDIcon';
 
 import {
@@ -134,7 +134,7 @@ class CharacterDetailScreen extends Component {
     const characterIsIncompatible = characterObject.isIncompatible;
     const characterIsExcluded = characterObject.isExcluded;
 
-    const setIcon = validateIcon(characterObject.set) ? (
+    const setIcon = validateCode(characterObject.set) ? (
       <SWDIcon type={ characterObject.set } style={ styles.buttonTextIcon } />
     ) : null;
 
