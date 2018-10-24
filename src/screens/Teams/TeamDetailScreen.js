@@ -158,6 +158,10 @@ const styles = StyleSheet.create({
     height: 300,
     width: '100%',
   },
+  image: {
+    height: 280,
+    resizeMode: 'contain',
+  },
 });
 
 
@@ -304,7 +308,7 @@ class TeamDetailScreen extends React.Component {
         >
           <Image
             source={ cardImages[cardId] || cardBack }
-            style={{ height: 280, resizeMode: 'contain' }}
+            style={ styles.image }
           />
         </View>
       );

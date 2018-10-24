@@ -47,6 +47,9 @@ const styles = StyleSheet.create({
     height: 388,
     paddingVertical: 16,
   },
+  detailsImage: {
+    flex: 1,
+  },
   actionBar: {
     backgroundColor: colors.darkGray,
     paddingBottom: 8,
@@ -89,9 +92,19 @@ const styles = StyleSheet.create({
   buttonPurple: {
     backgroundColor: colors.purple,
   },
+  buttonLeft: {
+    marginRight: 4,
+  },
+  buttonMiddle: {
+    marginHorizontal: 4,
+  },
+  buttonRight: {
+    marginLeft: 4,
+  },
   buttonIcon: {
     color: colors.white,
     fontSize: 16,
+    marginHorizontal: 4,
     textAlign: 'center',
   },
   buttonText: {
@@ -236,7 +249,7 @@ class CharacterDetailScreen extends Component {
         style={ [
           styles.button,
           styles.buttonPurple,
-          { marginRight: 4 },
+          styles.buttonLeft,
           deckCharacterObject.numDice === 0 && styles.buttonDisabled,
         ] }
       >
@@ -250,7 +263,7 @@ class CharacterDetailScreen extends Component {
         style={ [
           styles.button,
           styles.buttonPurple,
-          { marginHorizontal: 4 },
+          styles.buttonMiddle,
           deckCharacterObject.numDice === 1 && styles.buttonDisabled,
         ] }
       >
@@ -265,14 +278,14 @@ class CharacterDetailScreen extends Component {
         style={ [
           styles.button,
           styles.buttonPurple,
-          { marginLeft: 4 },
+          styles.buttonRight,
           deckCharacterObject.numDice === 2 && styles.buttonDisabled,
         ] }
       >
         <View>
           <SWDIcon type={ 'DIE' } style={ styles.buttonIcon } />
         </View>
-        <View style={{ marginLeft: 8 }}>
+        <View>
           <SWDIcon type={ 'DIE' } style={ styles.buttonIcon } />
         </View>
       </TouchableOpacity> : null;
@@ -284,7 +297,7 @@ class CharacterDetailScreen extends Component {
         <ScrollView style={ styles.details }>
           <View style={ styles.detailsImageContainer }>
             <Image
-              style={{ flex: 1 }}
+              style={styles.detailsImage }
               resizeMode='contain'
               source={ imageSrc }
             />

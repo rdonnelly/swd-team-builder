@@ -63,6 +63,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  reset: {
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  resetButton: {
+    padding: 4,
+  },
 });
 
 
@@ -123,9 +130,9 @@ class SelectedCharacters extends PureComponent {
         <View style={ styles.characterViews }>
           { characterViews }
         </View>
-        <View style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
+        <View style={ styles.reset }>
           <TouchableOpacity
-            style={{ padding: 4 }}
+            style={ styles.resetButton }
             onPress={() => Alert.alert(
               'Clear Characters?',
               'This will reset your selections to allow you to choose different characters and look for different teams.',

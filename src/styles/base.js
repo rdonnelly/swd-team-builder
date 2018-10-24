@@ -4,10 +4,15 @@ import colors from './colors';
 
 export default StyleSheet.create({
   container: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     width: '100%',
+  },
+
+  row: {
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 
   // FORM ELEMENTS

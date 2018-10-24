@@ -26,6 +26,22 @@ const styles = StyleSheet.create({
   list: {
     width: '100%',
   },
+  messageContainer: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    width: '80%',
+  },
+  messageHeader: {
+    color: colors.gray,
+    fontSize: 24,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  messageText: {
+    color: colors.gray,
+    textAlign: 'center',
+  },
 });
 
 class TeamListScreen extends PureComponent {
@@ -108,7 +124,7 @@ class TeamListScreen extends PureComponent {
   }
 
   render() {
-    const list = this.props.teams.length ? (
+    const list = !this.props.teams.length ? (
       <FlatList
         ref={ (component) => { this.listView = component; } }
         style={ styles.list }
@@ -123,17 +139,13 @@ class TeamListScreen extends PureComponent {
         windowSize={ 35 }
       />
     ) : (
-      <View style={{ width: '80%' }}>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: colors.gray, fontSize: 24, fontWeight: '700', textAlign: 'center' }}>
-            No Teams Compatible
-          </Text>
-        </View>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: colors.gray, textAlign: 'center' }}>
-            Try changing your selected characters or adjusting your settings.
-          </Text>
-        </View>
+      <View style={ styles.messageContainer }>
+        <Text style={ styles.messageHeader }>
+          No Teams Compatible
+        </Text>
+        <Text style={ styles.messageText}>
+          Try changing your selected characters or adjusting your settings.
+        </Text>
       </View>
     );
 

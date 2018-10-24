@@ -14,7 +14,7 @@ import CharacterAvatar from './CharacterAvatar';
 import { validateCode } from '../lib/SWDIconCodes';
 import SWDIcon from './SWDIcon';
 
-import { colors } from '../styles';
+import { base as baseStyles, colors } from '../styles';
 
 import {
   includeCharacter,
@@ -52,6 +52,12 @@ const styles = StyleSheet.create({
   incompatibleCardAvatarWrapper: {
     opacity: 0.4,
   },
+  content: {
+    flex: 1,
+  },
+  cardNameWrapper: {
+    ...baseStyles.row,
+  },
   cardName: {
     color: colors.darkGray,
     fontSize: 20,
@@ -67,18 +73,22 @@ const styles = StyleSheet.create({
     color: colors.lightGrayDark,
   },
   cardInfo: {
-    color: colors.gray,
-    fontSize: 13,
-    fontWeight: '500',
-  },
-  incompatibleCardInfo: {
-    color: colors.lightGrayDark,
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   cardInfoLogo: {
     color: colors.gray,
     fontSize: 10,
   },
   incompatibleCardInfoLogo: {
+    color: colors.lightGrayDark,
+  },
+  cardInfoData: {
+    color: colors.gray,
+    fontSize: 13,
+    fontWeight: '500',
+  },
+  incompatibleCardInfoData: {
     color: colors.lightGrayDark,
   },
   arrow: {
@@ -124,7 +134,7 @@ class CharacterListItem extends Component {
     const cardAvatarStyles = [styles.cardAvatarWrapper];
     const cardNameStyle = [styles.cardName];
     const cardUniqueStyle = [styles.cardUnique];
-    const cardInfoStyle = [styles.cardInfo];
+    const cardInfoDataStyle = [styles.cardInfoData];
     const cardInfoLogoStyle = [styles.cardInfoLogo];
     const arrowStyle = [styles.arrow];
 
@@ -133,7 +143,7 @@ class CharacterListItem extends Component {
       cardAvatarStyles.push(styles.incompatibleCardAvatarWrapper);
       cardNameStyle.push(styles.incompatibleCardName);
       cardUniqueStyle.push(styles.incompatibleCardUnique);
-      cardInfoStyle.push(styles.incompatibleCardInfo);
+      cardInfoDataStyle.push(styles.incompatibleCardInfoData);
       cardInfoLogoStyle.push(styles.incompatibleCardInfoLogo);
       arrowStyle.push(styles.arrowIncompatible);
     }
@@ -147,7 +157,7 @@ class CharacterListItem extends Component {
     ) : null;
 
     const subtitle = card.subtitle ? (
-      <Text style={ cardInfoStyle }>{ card.subtitle }</Text>
+      <Text style={ cardInfoDataStyle }>{ card.subtitle }</Text>
     ) : null;
 
     const pointsArray = [card.pointsRegular];
@@ -155,25 +165,25 @@ class CharacterListItem extends Component {
       pointsArray.push(card.pointsElite);
     }
     const points = pointsArray ? (
-      <Text style={ cardInfoStyle }>{ pointsArray.join('/') }</Text>
+      <Text style={ cardInfoDataStyle }>{ pointsArray.join('/') }</Text>
     ) : null;
 
     const cardInfo = (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={ styles.cardInfo }>
         { setIcon &&
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={ styles.cardInfo }>
             { setIcon }
-            <Text style={ cardInfoStyle }>&nbsp;</Text>
+            <Text style={ cardInfoDataStyle }>&nbsp;</Text>
           </View>
         }
         { subtitle &&
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={ styles.cardInfo }>
             { subtitle }
-            <Text style={ cardInfoStyle }>&nbsp;&middot;&nbsp;</Text>
           </View>
         }
         { points &&
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={ styles.cardInfo }>
+            <Text style={ cardInfoDataStyle }>&nbsp;&middot;&nbsp;</Text>
             { points }
           </View>
         }
@@ -196,6 +206,7 @@ class CharacterListItem extends Component {
 
     const rightButtons = characterIsExcluded ? [
       <TouchableHighlight
+        key={ 'right-button-include'}
         activeOpacity={ 0.9 }
         style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
         underlayColor={ colors.orangeDark }
@@ -210,6 +221,7 @@ class CharacterListItem extends Component {
       </TouchableHighlight>,
     ] : [
       <TouchableHighlight
+        key={ 'right-button-exclude'}
         activeOpacity={ 0.9 }
         style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
         underlayColor={ colors.orangeDark }
@@ -240,8 +252,8 @@ class CharacterListItem extends Component {
             <View>
               { avatar }
             </View>
-            <View style={{ flex: 1 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={ styles.content }>
+              <View style={ styles.cardNameWrapper }>
                 <Text style={ cardNameStyle }>{ card.name }</Text>
                 <Text style={ cardNameStyle }>&nbsp;</Text>
                 <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
