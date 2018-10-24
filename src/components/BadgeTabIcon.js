@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     color: colors.white,
+    textAlign: 'center',
   },
 });
 
