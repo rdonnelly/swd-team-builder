@@ -36,8 +36,12 @@ const styles = StyleSheet.create({
     ...base.container,
     backgroundColor: colors.lightGray,
   },
+  scrollView: {
+    flex: 1,
+    width: '100%',
+  },
   scrollViewContent: {
-    paddingBottom: 64,
+    paddingBottom: 88,
     paddingHorizontal: 24,
     paddingTop: 24,
   },
@@ -222,6 +226,7 @@ class SettingsScreen extends PureComponent {
       <View style={ styles.container }>
         <ScrollView
           ref={ (component) => { this.scrollView = component; } }
+          style={ styles.scrollView }
           contentContainerStyle={ styles.scrollViewContent }
         >
           <SettingSlider

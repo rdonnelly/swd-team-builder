@@ -26,6 +26,7 @@ export default StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: '700',
+    lineHeight: 20,
     textAlign: 'center',
   },
   input: {
