@@ -254,9 +254,11 @@ class CharacterListItem extends Component {
             </View>
             <View style={ styles.content }>
               <View style={ styles.cardNameWrapper }>
-                <Text style={ cardNameStyle }>{ card.name }</Text>
-                <Text style={ cardNameStyle }>&nbsp;</Text>
-                <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
+                <Text numberOfLines={ 1 }>
+                  <Text style={ cardNameStyle }>{ card.name }</Text>
+                  <Text style={ cardNameStyle }>&nbsp;</Text>
+                  <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
+                </Text>
               </View>
               { cardInfo }
             </View>
