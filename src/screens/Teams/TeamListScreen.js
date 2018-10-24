@@ -124,7 +124,7 @@ class TeamListScreen extends PureComponent {
   }
 
   render() {
-    const list = !this.props.teams.length ? (
+    const list = this.props.teams.length ? (
       <FlatList
         ref={ (component) => { this.listView = component; } }
         style={ styles.list }
