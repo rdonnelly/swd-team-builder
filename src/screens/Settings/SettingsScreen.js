@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   linkText: {
-    color: colors.purple,
+    color: colors.brand,
     textAlign: 'center',
   },
 });
@@ -109,7 +109,7 @@ class SettingsScreen extends PureComponent {
 
   static visitWebpage() {
     SafariView.show({
-      tintColor: colors.purple,
+      tintColor: colors.brand,
       url: 'http://rdonnelly.com/swd-team-builder/',
     });
   }
