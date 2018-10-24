@@ -3,6 +3,7 @@ package com.swdteambuilder;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.swmansion.rnscreens.RNScreensPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.bugsnag.BugsnagReactNative;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNScreensPackage(),
             new RNDeviceInfo(),
             BugsnagReactNative.getPackage(),
             new VectorIconsPackage()
