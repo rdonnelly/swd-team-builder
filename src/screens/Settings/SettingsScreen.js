@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   scrollViewContent: {
-    paddingBottom: 88,
+    paddingBottom: 76,
     paddingHorizontal: 24,
     paddingTop: 24,
   },
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   information: {
     borderColor: colors.lightGrayDark,
     borderTopWidth: StyleSheet.hairlineWidth,
-    marginTop: 24,
+    marginBottom: 24,
     paddingTop: 24,
   },
   disclaimerText: {
