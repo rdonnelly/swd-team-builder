@@ -22,10 +22,14 @@ import { getAvailableTeams } from '../../store/selectors/teamSelectors';
 import { characters, teamsStats } from '../../lib/Destiny';
 import { cardBack, cardImages } from '../../lib/DestinyImages';
 
-import { colors } from '../../styles';
+import { base, colors } from '../../styles';
 
 
 const styles = StyleSheet.create({
+  container: {
+    ...base.container,
+    backgroundColor: colors.white,
+  },
   teamWrapper: {
     alignContent: 'center',
     backgroundColor: colors.lightGray,
@@ -169,8 +173,6 @@ class TeamDetailScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    this.searchSWDestinyDB = this.searchSWDestinyDB.bind(this);
-
     SafariView.addEventListener(
       'onShow',
       () => {
@@ -197,14 +199,14 @@ class TeamDetailScreen extends React.Component {
     return true;
   }
 
-  scrollSwiper(index) {
+  scrollSwiper = index => () => {
     const scrollBy = index - this.swiper.state.index;
-    if (scrollBy) {
+    if (this.swiper && scrollBy) {
       this.swiper.scrollBy(scrollBy);
     }
   }
 
-  searchSWDestinyDB() {
+  searchSWDestinyDB = () => {
     const teamKey = this.props.navigation.state.params.key;
     const { teams } = this.props;
     const team = teams.find(teamObj => teamObj.key === teamKey);
@@ -233,7 +235,7 @@ class TeamDetailScreen extends React.Component {
         <TouchableOpacity
           key={ `avatar__${team.key}__${cardId}` }
           style={ styles.characterAvatarWrapper }
-          onPress={ () => this.scrollSwiper.bind(this)(index) }
+          onPress={ this.scrollSwiper(index) }
         >
           <CharacterAvatar
             cardId={ cardId }
@@ -316,12 +318,7 @@ class TeamDetailScreen extends React.Component {
     }
 
     return (
-      <View style={{
-        alignItems: 'center',
-        backgroundColor: colors.white,
-        flex: 1,
-        justifyContent: 'center',
-      }}>
+      <View style={ styles.container }>
         <ScrollView style={ styles.teamWrapper }>
           <View style={ styles.characterAvatars }>
             { characterAvatars }

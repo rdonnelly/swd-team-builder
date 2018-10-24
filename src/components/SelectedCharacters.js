@@ -20,18 +20,14 @@ import { characters } from '../lib/Destiny';
 import { colors } from '../styles';
 
 
-export const CONTAINER_PADDING = 24;
 export const ITEM_HEIGHT = 36;
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: colors.darkGray,
-    borderRadius: 4,
     flexDirection: 'row',
-    paddingHorizontal: 16,
-    paddingVertical: CONTAINER_PADDING / 2,
-    width: '100%',
+    flex: 1,
+    paddingLeft: 4,
   },
   item: {
     alignItems: 'center',
@@ -71,14 +67,10 @@ const styles = StyleSheet.create({
 
 
 class SelectedCharacters extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.resetDeck = this.resetDeck.bind(this);
-  }
-
-  resetDeck() {
-    this.props.reset();
+  resetDeck = () => {
+    if (this.props.reset) {
+      this.props.reset();
+    }
   }
 
   render() {
@@ -139,7 +131,7 @@ class SelectedCharacters extends PureComponent {
               'This will reset your selections to allow you to choose different characters and look for different teams.',
               [
                 { text: 'Cancel' },
-                { text: 'Clear', onPress: () => this.props.reset(), style: 'destructive' },
+                { text: 'Clear', onPress: this.resetDeck, style: 'destructive' },
               ],
             )}
           >

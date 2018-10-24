@@ -8,31 +8,25 @@ import {
 import { connect } from 'react-redux';
 
 import CharacterListItem, { ITEM_HEIGHT as characterListItemHeight } from '../../components/CharacterListItem';
-import SelectedCharacters, { CONTAINER_PADDING as selectedCharactersContainerPadding, ITEM_HEIGHT as selectedCharactersItemHeight } from '../../components/SelectedCharacters';
+import SelectedCharacters, { ITEM_HEIGHT as selectedCharactersItemHeight } from '../../components/SelectedCharacters';
 
 import { getCharactersSorted } from '../../store/selectors/characterSelectors';
 import { getDeckCharactersCount } from '../../store/selectors/deckSelectors';
 
-import { colors } from '../../styles';
+import { base, colors } from '../../styles';
 
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'flex-start',
+    ...base.container,
     backgroundColor: colors.lightGray,
-    flex: 1,
-    justifyContent: 'center',
-    width: '100%',
   },
   list: {
     flex: 1,
     width: '100%',
   },
   selectedCharactersContainer: {
-    bottom: 6,
-    left: 6,
-    position: 'absolute',
-    right: 6,
+    ...base.floatingControls,
   },
 });
 
@@ -53,21 +47,22 @@ class CharacterListScreen extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.closeOpenSwipeable = this.closeOpenSwipeable.bind(this);
-    this.onSwipeableOpen = this.onSwipeableOpen.bind(this);
-    this.onSwipeableClose = this.onSwipeableClose.bind(this);
-    this.navigateToCharacterDetails = this.navigateToCharacterDetails.bind(this);
-    this.scrollListToTop = this.scrollListToTop.bind(this);
-    this.renderItem = this.renderItem.bind(this);
+    if (props.navigation) {
+      props.navigation.setParams({
+        resetScreen: this.resetScreen,
+      });
+    }
   }
 
-  componentWillMount() {
-    this.props.navigation.setParams({
-      scrollToTop: this.scrollListToTop,
-    });
+  static getItemLayout(data, index) {
+    return {
+      offset: characterListItemHeight * index,
+      length: characterListItemHeight,
+      index,
+    };
   }
 
-  closeOpenSwipeable() {
+  closeOpenSwipeable = () => {
     const { currentlyOpenSwipeable } = this.state;
 
     if (currentlyOpenSwipeable) {
@@ -75,7 +70,7 @@ class CharacterListScreen extends PureComponent {
     }
   }
 
-  onSwipeableOpen(event, gestureState, swipeable) {
+  onSwipeableOpen = (event, gestureState, swipeable) => {
     const { currentlyOpenSwipeable } = this.state;
     if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
       currentlyOpenSwipeable.recenter();
@@ -84,45 +79,35 @@ class CharacterListScreen extends PureComponent {
     this.setState({ currentlyOpenSwipeable: swipeable });
   }
 
-  onSwipeableClose() {
+  onSwipeableClose = () => {
     this.setState({ currentlyOpenSwipeable: null });
   }
 
-  navigateToCharacterDetails(characterId) {
+  navigateToCharacterDetails = (characterId) => {
     this.props.navigation.navigate('CharacterDetailScreen', { id: characterId });
   }
 
-  scrollListToTop() {
+  resetScreen = () => {
     if (this.listView) {
       this.listView.scrollToOffset(0);
     }
   }
 
-  renderItem({ item: characterObject }) {
-    return (
-      <CharacterListItem
-        characterId={ characterObject.id }
-        characterIsExcluded={ characterObject.isExcluded }
-        characterIsIncompatible={ characterObject.isIncompatible }
-        navigate={ this.navigateToCharacterDetails }
-        onOpen={ this.onSwipeableOpen }
-        onClose={ this.onSwipeableClose }
-      />
-    );
-  }
-
-  getItemLayout(data, index) {
-    return {
-      offset: characterListItemHeight * index,
-      length: characterListItemHeight,
-      index,
-    };
-  }
+  renderItem = ({ item: characterObject }) => (
+    <CharacterListItem
+      characterId={ characterObject.id }
+      characterIsExcluded={ characterObject.isExcluded }
+      characterIsIncompatible={ characterObject.isIncompatible }
+      navigate={ this.navigateToCharacterDetails }
+      onOpen={ this.onSwipeableOpen }
+      onClose={ this.onSwipeableClose }
+    />
+  );
 
   render() {
     const { navigate } = this.props.navigation;
 
-    const selectedCharactersHeight = selectedCharactersContainerPadding +
+    const selectedCharactersHeight = 12 +
       (Math.max(1, this.props.deckCharacterCount) * selectedCharactersItemHeight);
 
     return (
@@ -134,7 +119,7 @@ class CharacterListScreen extends PureComponent {
           extraData={ this.state }
           renderItem={ this.renderItem }
           keyExtractor={ item => item.id }
-          getItemLayout={ this.getItemLayout }
+          getItemLayout={ CharacterListScreen.getItemLayout }
           onScrollEndDrag={ this.closeOpenSwipeable }
           contentContainerStyle={{ paddingBottom: selectedCharactersHeight + 12 }}
           initialNumToRender={ 9 }

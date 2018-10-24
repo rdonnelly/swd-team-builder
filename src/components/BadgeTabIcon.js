@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
-import DeviceInfo from 'react-native-device-info';
 
 import { getAvailableTeamsCount } from '../store/selectors/teamSelectors';
 
@@ -17,31 +15,19 @@ import { colors } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
   },
   badgeContainer: {
-    alignItems: 'center',
-    flex: 1,
-    height: '100%',
-    justifyContent: 'center',
     position: 'absolute',
-    width: 64,
+    left: 24,
+    top: 4,
   },
   badge: {
-    alignItems: 'center',
     backgroundColor: colors.brand,
     borderRadius: 10,
-    flexGrow: 1,
-    height: 20,
-    justifyContent: 'center',
-    left: 24,
-    marginTop: 2,
     minWidth: 24,
-    paddingHorizontal: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
     position: 'absolute',
-    top: 0,
   },
   badgeText: {
     color: colors.white,
@@ -51,24 +37,30 @@ const styles = StyleSheet.create({
 
 class BadgeTabIcon extends PureComponent {
   render() {
-    const majorVersion = parseInt(Platform.Version, 10);
-    const isIos = Platform.OS === 'ios';
-    const useHorizontalTabs = DeviceInfo.isTablet() && isIos && majorVersion >= 11;
+    const iconStyles = {
+      marginTop: this.props.horizontal ? 0 : 5,
+    };
 
-    const badgeStyles = [
-      styles.badge,
+    const icon = (
+      <Icon
+        name={ this.props.iconName }
+        size={ this.props.size }
+        color={ this.props.color }
+        style={ iconStyles }
+      />
+    );
+
+    const badgeContainerStyles = [
+      styles.badgeContainer,
       {
-        left: useHorizontalTabs ? 100 : 48,
+        left: this.props.horizontal ? 72 : 24,
+        top: this.props.horizontal ? -6 : 4,
       },
     ];
 
-    const icon = (
-      <Icon name={ this.props.iconName } size={ this.props.size } color={ this.props.color } />
-    );
-
     const badge = this.props.showBadge ? (
-      <View style={ styles.badgeContainer }>
-        <View style={ badgeStyles }>
+      <View style={ badgeContainerStyles }>
+        <View style={ styles.badge }>
           <Text style={ styles.badgeText }>
             { this.props.teamsCount }
           </Text>
@@ -97,4 +89,5 @@ BadgeTabIcon.propTypes = {
   size: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
   showBadge: PropTypes.bool,
+  horizontal: PropTypes.bool,
 };

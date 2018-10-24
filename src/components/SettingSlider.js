@@ -44,14 +44,7 @@ class SettingsSlider extends PureComponent {
     initValue: this.props.value,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.onValueChange = this.onValueChange.bind(this);
-    this.onSlidingComplete = this.onSlidingComplete.bind(this);
-  }
-
-  onValueChange(value) {
+  handleValueChange = (value) => {
     if (this.state.timeoutId) {
       clearTimeout(this.state.timeoutId);
     }
@@ -63,7 +56,7 @@ class SettingsSlider extends PureComponent {
     this.setState({ timeoutId, value });
   }
 
-  onSlidingComplete(value) {
+  handleSlidingComplete = (value) => {
     if (this.state.timeoutId) {
       clearTimeout(this.state.timeoutId);
     }
@@ -71,17 +64,6 @@ class SettingsSlider extends PureComponent {
     this.setState({ timeoutId: null });
 
     this.props.callback(this.props.setting, value);
-  }
-
-  reset() {
-    if (this.state.timeoutId) {
-      clearTimeout(this.state.timeoutId);
-    }
-
-    this.setState({
-      timeoutId: null,
-      value: this.state.initValue,
-    });
   }
 
   render() {
@@ -104,8 +86,8 @@ class SettingsSlider extends PureComponent {
           minimumValue={ this.props.minValue }
           maximumValue={ this.props.maxValue }
           step={ 1 }
-          onValueChange={ this.onValueChange }
-          onSlidingComplete={ this.onSlidingComplete }
+          onValueChange={ this.handleValueChange }
+          onSlidingComplete={ this.handleSlidingComplete }
         />
       </View>
     );

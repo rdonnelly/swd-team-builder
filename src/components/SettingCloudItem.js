@@ -40,12 +40,6 @@ class SettingCloudItem extends PureComponent {
     value: this.props.value,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.onValueChange = this.onValueChange.bind(this);
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.value === prevState.value) {
       return null;
@@ -56,7 +50,7 @@ class SettingCloudItem extends PureComponent {
     };
   }
 
-  onValueChange() {
+  handlePress = () => {
     this.setState({ value: !this.state.value });
     this.props.callback(this.props.setting, !this.state.value);
   }
@@ -74,7 +68,7 @@ class SettingCloudItem extends PureComponent {
 
     return (
       <TouchableOpacity
-        onPress={ this.onValueChange }
+        onPress={ this.handlePress }
         style={ containerStyles }
       >
         <Text style={ textStyles }>

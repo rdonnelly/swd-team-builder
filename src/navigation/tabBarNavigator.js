@@ -1,7 +1,5 @@
 /* eslint-disable react/display-name */
 import React from 'react';
-import { Platform } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import { createBottomTabNavigator } from 'react-navigation';
 
 import characterStackNavigator from './characterStackNavigator';
@@ -11,9 +9,6 @@ import BadgeTabIcon from '../components/BadgeTabIcon';
 
 import { colors } from '../styles';
 
-const majorVersion = parseInt(Platform.Version, 10);
-const isIos = Platform.OS === 'ios';
-const useHorizontalTabs = DeviceInfo.isTablet() && isIos && majorVersion >= 11;
 
 export default createBottomTabNavigator(
   {
@@ -24,7 +19,8 @@ export default createBottomTabNavigator(
   {
     backBehavior: 'none',
     navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => { // eslint-disable-line react/prop-types
+      // eslint-disable-next-line react/prop-types
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
         let showBadge = false;
@@ -44,6 +40,7 @@ export default createBottomTabNavigator(
             color={ tintColor }
             selected={ focused }
             showBadge={ showBadge }
+            horizontal={ horizontal }
           />
         );
       },
@@ -52,10 +49,7 @@ export default createBottomTabNavigator(
       activeTintColor: colors.tabActiveTint,
       inactiveTintColor: colors.tabInactiveTint,
       labelStyle: {
-        fontSize: useHorizontalTabs ? 15 : 13,
-      },
-      tabStyle: {
-        paddingTop: useHorizontalTabs ? 0 : 4,
+        fontSize: 13,
       },
     },
   },

@@ -27,15 +27,13 @@ import { getDeckCharacters } from '../../store/selectors/deckSelectors';
 
 import { cardBack, cardImages } from '../../lib/DestinyImages';
 
-import { colors } from '../../styles';
+import { base, colors } from '../../styles';
 
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'flex-start',
-    flex: 1,
-    justifyContent: 'center',
-    width: '100%',
+    ...base.container,
+    backgroundColor: colors.lightGray,
   },
   details: {
     alignContent: 'center',

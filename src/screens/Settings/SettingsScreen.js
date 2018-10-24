@@ -28,36 +28,33 @@ import {
   sets,
 } from '../../lib/Destiny';
 
-import { colors } from '../../styles';
+import { base, colors } from '../../styles';
 
 
 const styles = StyleSheet.create({
   container: {
+    ...base.container,
     backgroundColor: colors.lightGray,
-    flex: 1,
-    width: '100%',
   },
-  scrollContainer: {},
-  scrollerInner: {
+  scrollViewContent: {
+    paddingBottom: 64,
     paddingHorizontal: 24,
-    paddingVertical: 24,
+    paddingTop: 24,
+  },
+  floatingControls: {
+    ...base.floatingControls,
+  },
+  floatingControlsButton: {
+    ...base.button,
+  },
+  floatingControlsButtonText: {
+    ...base.buttonText,
   },
   information: {
     borderColor: colors.lightGrayDark,
     borderTopWidth: StyleSheet.hairlineWidth,
     marginTop: 24,
     paddingTop: 24,
-  },
-  resetButton: {
-    backgroundColor: colors.brand,
-    borderRadius: 4,
-    padding: 12,
-  },
-  resetButtonText: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: '700',
-    textAlign: 'center',
   },
   disclaimerText: {
     color: colors.gray,
@@ -69,7 +66,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SettingsView extends PureComponent {
+class SettingsScreen extends PureComponent {
   static navigationOptions = {
     title: 'Settings',
     headerTintColor: colors.headerTint,
@@ -78,10 +75,12 @@ class SettingsView extends PureComponent {
     },
   }
 
+  state = {
+    updateTimeoutId: false,
+  };
+
   constructor(props) {
     super(props);
-
-    this.state = { updateTimeoutId: false };
 
     SafariView.addEventListener(
       'onShow',
@@ -97,28 +96,27 @@ class SettingsView extends PureComponent {
       },
     );
 
-    this.scrollViewToTop = this.scrollViewToTop.bind(this);
-    this.removeAllFilters = this.removeAllFilters.bind(this);
+    if (props.navigation) {
+      props.navigation.setParams({
+        resetScreen: this.resetScreen,
+      });
+    }
   }
 
-  componentWillMount() {
-    this.props.navigation.setParams({
-      scrollToTop: this.scrollViewToTop,
-    });
-  }
-
-  scrollViewToTop() {
-    this.scrollView.scrollTo(0);
-  }
-
-  visitWebpage() {
+  static visitWebpage() {
     SafariView.show({
       tintColor: colors.purple,
       url: 'http://rdonnelly.com/swd-team-builder/',
     });
   }
 
-  removeAllFilters() {
+  resetScreen = () => {
+    if (this.scrollView) {
+      this.scrollView.scrollTo({ y: 0 });
+    }
+  }
+
+  removeAllFilters = () => {
     Alert.alert(
       'Reset Filters?',
       'This will reset all filters. Are you sure you want to continue?',
@@ -150,12 +148,12 @@ class SettingsView extends PureComponent {
 
   renderReset() {
     return (
-      <View style={ styles.information }>
+      <View style={ styles.floatingControls }>
         <TouchableOpacity
           onPress={ this.removeAllFilters }
-          style={ styles.resetButton }
+          style={ styles.floatingControlsButton }
         >
-          <Text style={ styles.resetButtonText }>Reset Filters</Text>
+          <Text style={ styles.floatingControlsButtonText }>Reset Filters</Text>
         </TouchableOpacity>
       </View>
     );
@@ -224,103 +222,101 @@ class SettingsView extends PureComponent {
       <View style={ styles.container }>
         <ScrollView
           ref={ (component) => { this.scrollView = component; } }
-          style={ styles.scrollContainer }
+          contentContainerStyle={ styles.scrollViewContent }
         >
-          <View style={ styles.scrollerInner }>
-            <SettingSlider
-              value={ settings.filters.minDice }
-              minValue={ teamsStats.minDice }
-              maxValue={ teamsStats.maxDice }
-              setting={ 'minDice' }
-              label={ 'Minimum Dice' }
-              callback={ this.props.updateSetting }
-              ref={ (component) => { this.minDiceSlider = component; } }
-            />
+          <SettingSlider
+            value={ settings.filters.minDice }
+            minValue={ teamsStats.minDice }
+            maxValue={ teamsStats.maxDice }
+            setting={ 'minDice' }
+            label={ 'Minimum Dice' }
+            callback={ this.props.updateSetting }
+            ref={ (component) => { this.minDiceSlider = component; } }
+          />
 
-            <SettingSlider
-              value={ settings.filters.minHealth }
-              minValue={ teamsStats.minHealth }
-              maxValue={ teamsStats.maxHealth }
-              setting={ 'minHealth' }
-              label={ 'Minimum Health' }
-              callback={ this.props.updateSetting }
-              ref={ (component) => { this.minHealthSlider = component; } }
-            />
+          <SettingSlider
+            value={ settings.filters.minHealth }
+            minValue={ teamsStats.minHealth }
+            maxValue={ teamsStats.maxHealth }
+            setting={ 'minHealth' }
+            label={ 'Minimum Health' }
+            callback={ this.props.updateSetting }
+            ref={ (component) => { this.minHealthSlider = component; } }
+          />
 
-            <SettingSlider
-              value={ settings.filters.minCharacterCount }
-              minValue={ teamsStats.minCharacterCount }
-              maxValue={ teamsStats.maxCharacterCount }
-              setting={ 'minCharacterCount' }
-              label={ 'Minimum Character Count' }
-              callback={ this.props.updateSetting }
-              ref={ (component) => { this.minCharacterCountSlider = component; } }
-            />
+          <SettingSlider
+            value={ settings.filters.minCharacterCount }
+            minValue={ teamsStats.minCharacterCount }
+            maxValue={ teamsStats.maxCharacterCount }
+            setting={ 'minCharacterCount' }
+            label={ 'Minimum Character Count' }
+            callback={ this.props.updateSetting }
+            ref={ (component) => { this.minCharacterCountSlider = component; } }
+          />
 
-            <SettingSlider
-              value={ settings.filters.maxCharacterCount }
-              minValue={ teamsStats.minCharacterCount }
-              maxValue={ teamsStats.maxCharacterCount }
-              setting={ 'maxCharacterCount' }
-              label={ 'Maximum Character Count' }
-              reverse={ true }
-              callback={ this.props.updateSetting }
-              ref={ (component) => { this.maxCharacterCountSlider = component; } }
-            />
+          <SettingSlider
+            value={ settings.filters.maxCharacterCount }
+            minValue={ teamsStats.minCharacterCount }
+            maxValue={ teamsStats.maxCharacterCount }
+            setting={ 'maxCharacterCount' }
+            label={ 'Maximum Character Count' }
+            reverse={ true }
+            callback={ this.props.updateSetting }
+            ref={ (component) => { this.maxCharacterCountSlider = component; } }
+          />
 
-            <SettingSlider
-              value={ settings.filters.minPoints }
-              minValue={ teamsStats.minPoints }
-              maxValue={ teamsStats.maxPoints }
-              setting={ 'minPoints' }
-              label={ 'Minimum Points' }
-              callback={ this.props.updateSetting }
-              ref={ (component) => { this.minPointsSlider = component; } }
-            />
+          <SettingSlider
+            value={ settings.filters.minPoints }
+            minValue={ teamsStats.minPoints }
+            maxValue={ teamsStats.maxPoints }
+            setting={ 'minPoints' }
+            label={ 'Minimum Points' }
+            callback={ this.props.updateSetting }
+            ref={ (component) => { this.minPointsSlider = component; } }
+          />
 
-            { affiliationsCloud }
+          { affiliationsCloud }
 
-            { factionsCloud }
+          { factionsCloud }
 
-            { damageTypesCloud }
+          { damageTypesCloud }
 
-            { setsCloud }
+          { setsCloud }
 
-            <SettingSlider
-              value={ settings.filters.plotPoints }
-              minValue={ 0 }
-              maxValue={ plotsStats.maxPoints }
-              setting={ 'plotPoints' }
-              label={ 'Plot Points' }
-              callback={ this.props.updateSetting }
-              ref={ (component) => { this.plotPointsSlider = component; } }
-            />
+          <SettingSlider
+            value={ settings.filters.plotPoints }
+            minValue={ 0 }
+            maxValue={ plotsStats.maxPoints }
+            setting={ 'plotPoints' }
+            label={ 'Plot Points' }
+            callback={ this.props.updateSetting }
+            ref={ (component) => { this.plotPointsSlider = component; } }
+          />
 
-            { plotFactionCloud }
+          { plotFactionCloud }
 
-            { this.renderReset() }
+          <View style={ styles.information }>
+            <Text style={ styles.disclaimerText }>
+              The information presented in this app about Star Wars Destiny,
+              both literal and graphical, is copyrighted by Fantasy Flight
+              Games. This app is not produced by, endorsed by, supported by, or
+              affiliated with Fantasy Flight Games.
+            </Text>
+          </View>
 
-            <View style={ styles.information }>
-              <Text style={ styles.disclaimerText }>
-                The information presented in this app about Star Wars Destiny,
-                both literal and graphical, is copyrighted by Fantasy Flight
-                Games. This app is not produced by, endorsed by, supported by, or
-                affiliated with Fantasy Flight Games.
+          <View style={ styles.information }>
+            <TouchableOpacity onPress={ SettingsScreen.visitWebpage }>
+              <Text style={ styles.linkText }>
+                Designed and Developed by
               </Text>
-            </View>
-
-            <View style={ styles.information }>
-              <TouchableOpacity onPress={ this.visitWebpage }>
-                <Text style={ styles.linkText }>
-                  Designed and Developed by
-                </Text>
-                <Text style={ styles.linkText }>
-                  Ryan Donnelly
-                </Text>
-              </TouchableOpacity>
-            </View>
+              <Text style={ styles.linkText }>
+                Ryan Donnelly
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
+
+        { this.renderReset() }
       </View>
     );
   }
@@ -336,9 +332,9 @@ const mapDispatchToProps = {
   updateSetting,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
 
-SettingsView.propTypes = {
+SettingsScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
 

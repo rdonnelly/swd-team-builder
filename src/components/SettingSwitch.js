@@ -34,13 +34,7 @@ class SettingsSwitch extends PureComponent {
     value: this.props.value,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.onValueChange = this.onValueChange.bind(this);
-  }
-
-  onValueChange(value) {
+  handleValueChange = (value) => {
     if (this.state.timeoutId) {
       clearTimeout(this.state.timeoutId);
     }
@@ -62,7 +56,7 @@ class SettingsSwitch extends PureComponent {
         <Switch
           onTintColor={ colors.purple }
           value={ !!this.state.value }
-          onValueChange={ this.onValueChange }
+          onValueChange={ this.handleValueChange }
         />
       </View>
     );

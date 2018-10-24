@@ -15,15 +15,13 @@ import TeamListItem from '../../components/TeamListItem';
 import { updateSort } from '../../store/actions';
 import { getAvailableTeams } from '../../store/selectors/teamSelectors';
 
-import { colors } from '../../styles';
+import { base, colors } from '../../styles';
 
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    ...base.container,
     backgroundColor: colors.lightGray,
-    flex: 1,
-    justifyContent: 'center',
   },
   list: {
     width: '100%',
@@ -52,25 +50,53 @@ class TeamListScreen extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.scrollListToTop = this.scrollListToTop.bind(this);
-    this.showSortActionSheet = this.showSortActionSheet.bind(this);
-    this.renderItem = this.renderItem.bind(this);
+    if (props.navigation) {
+      props.navigation.setParams({
+        resetScreen: this.resetScreen,
+        showSortActionSheet: this.showSortActionSheet,
+      });
+    }
   }
 
-  componentWillMount() {
-    this.props.navigation.setParams({
-      scrollToTop: this.scrollListToTop,
-      showSortActionSheet: this.showSortActionSheet,
-    });
-  }
-
-  scrollListToTop() {
+  resetScreen = () => {
     if (this.listView) {
       this.listView.scrollToOffset(0);
     }
   }
 
-  renderItem({ item: teamObject }) {
+  showSortActionSheet = () => {
+    const options = [
+      'Sort by # of Dice',
+      'Sort by Health',
+      'Sort by Points',
+      'Cancel',
+    ];
+
+    ActionSheetIOS.showActionSheetWithOptions({
+      options,
+      title: 'Sort Teams',
+      message: 'Sort the list of teams by one of the following stats in descending order',
+      cancelButtonIndex: 3,
+      tintColor: colors.brand,
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0: // dice
+          this.props.updateSort('dice');
+          break;
+        case 1: // health
+          this.props.updateSort('health');
+          break;
+        case 2: // points
+          this.props.updateSort('points');
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  renderItem = ({ item: teamObject }) => {
     const { navigate } = this.props.navigation;
 
     return (
@@ -116,38 +142,6 @@ class TeamListScreen extends PureComponent {
         { list }
       </View>
     );
-  }
-
-  showSortActionSheet() {
-    const options = [
-      'Sort by # of Dice',
-      'Sort by Health',
-      'Sort by Points',
-      'Cancel',
-    ];
-
-    ActionSheetIOS.showActionSheetWithOptions({
-      options,
-      title: 'Sort Teams',
-      message: 'Sort the list of teams by one of the following stats in descending order',
-      cancelButtonIndex: 3,
-      tintColor: colors.brand,
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-        case 0: // dice
-          this.props.updateSort('dice');
-          break;
-        case 1: // health
-          this.props.updateSort('health');
-          break;
-        case 2: // points
-          this.props.updateSort('points');
-          break;
-        default:
-          break;
-      }
-    });
   }
 }
 

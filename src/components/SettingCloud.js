@@ -40,18 +40,11 @@ class SettingCloud extends Component {
     initValues: this.props.values,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.onValueChange = this.onValueChange.bind(this);
-    this.reset = this.reset.bind(this);
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     return _difference(nextState.values, this.state.values).length !== 0;
   }
 
-  onValueChange(code, value) {
+  handleValueChange = (code, value) => {
     const { radio } = this.props;
 
     let newValues = this.state.values.slice(0);
@@ -80,17 +73,6 @@ class SettingCloud extends Component {
     });
   }
 
-  reset() {
-    if (this.state.timeoutId) {
-      clearTimeout(this.state.timeoutId);
-    }
-
-    this.setState({
-      timeoutId: null,
-      values: this.state.initValues,
-    });
-  }
-
   render() {
     const optionItems = this.props.options.map(option => (
       <SettingCloudItem
@@ -98,7 +80,7 @@ class SettingCloud extends Component {
         value={ this.state.values.includes(option.code) }
         setting={ option.code }
         label={ option.name }
-        callback={ this.onValueChange }
+        callback={ this.handleValueChange }
       />
     ));
 

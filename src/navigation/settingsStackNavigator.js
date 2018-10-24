@@ -24,8 +24,8 @@ settingsStackNavigator.navigationOptions = {
         const stackNavigation = _get(navigation, 'state.routes[0]');
         if (stackNavigation &&
             stackNavigation.params &&
-            stackNavigation.params.scrollToTop) {
-          stackNavigation.params.scrollToTop();
+            stackNavigation.params.resetScreen) {
+          stackNavigation.params.resetScreen();
         }
       }
 
