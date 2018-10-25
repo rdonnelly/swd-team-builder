@@ -73,6 +73,17 @@ class SettingCloud extends Component {
     });
   }
 
+  reset = () => {
+    if (this.state.timeoutId) {
+      clearTimeout(this.state.timeoutId);
+    }
+
+    this.setState({
+      timeoutId: null,
+      values: this.state.initValues,
+    });
+  }
+
   render() {
     const optionItems = this.props.options.map(option => (
       <SettingCloudItem
