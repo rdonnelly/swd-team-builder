@@ -4,7 +4,10 @@ import { createStackNavigator } from 'react-navigation';
 import SettingsScreen from '../screens/Settings/SettingsScreen';
 
 const routeConfiguration = {
-  SettingsScreen: { screen: SettingsScreen },
+  SettingsScreen: {
+    screen: SettingsScreen,
+    path: 'index',
+  },
 };
 
 const stackNavigatorConfiguration = {

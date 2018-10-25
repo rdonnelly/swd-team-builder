@@ -5,8 +5,14 @@ import TeamListScreen from '../screens/Teams/TeamListScreen';
 import TeamDetailScreen from '../screens/Teams/TeamDetailScreen';
 
 const routeConfiguration = {
-  TeamListScreen: { screen: TeamListScreen },
-  TeamDetailScreen: { screen: TeamDetailScreen },
+  TeamListScreen: {
+    screen: TeamListScreen,
+    path: 'list',
+  },
+  TeamDetailScreen: {
+    screen: TeamDetailScreen,
+    path: 'details/:key',
+  },
 };
 
 const stackNavigatorConfiguration = {

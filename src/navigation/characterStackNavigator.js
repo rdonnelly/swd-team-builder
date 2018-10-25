@@ -5,8 +5,14 @@ import CharacterListScreen from '../screens/Characters/CharacterListScreen';
 import CharacterDetailScreen from '../screens/Characters/CharacterDetailScreen';
 
 const routeConfiguration = {
-  CharacterListScreen: { screen: CharacterListScreen },
-  CharacterDetailScreen: { screen: CharacterDetailScreen },
+  CharacterListScreen: {
+    screen: CharacterListScreen,
+    path: 'list',
+  },
+  CharacterDetailScreen: {
+    screen: CharacterDetailScreen,
+    path: 'details/:id',
+  },
 };
 
 const stackNavigatorConfiguration = {

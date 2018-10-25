@@ -10,47 +10,61 @@ import BadgeTabIcon from '../components/BadgeTabIcon';
 import { colors } from '../styles';
 
 
-export default createBottomTabNavigator(
-  {
-    Characters: { screen: characterStackNavigator },
-    Teams: { screen: teamStackNavigator },
-    Settings: { screen: settingsStackNavigator },
+const routeConfiguration = {
+  Characters: {
+    screen: characterStackNavigator,
+    path: 'characters',
   },
-  {
-    backBehavior: 'none',
-    navigationOptions: ({ navigation }) => ({
-      // eslint-disable-next-line react/prop-types
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        let showBadge = false;
-        if (routeName === 'Characters') {
-          iconName = 'documents';
-        } else if (routeName === 'Teams') {
-          iconName = 'list';
-          showBadge = true;
-        } else if (routeName === 'Settings') {
-          iconName = 'cog';
-        }
+  Teams: {
+    screen: teamStackNavigator,
+    path: 'teams',
+  },
+  Settings: {
+    screen: settingsStackNavigator,
+    path: 'settings',
+  },
+};
 
-        return (
-          <BadgeTabIcon
-            iconName={ iconName }
-            size={ 24 }
-            color={ tintColor }
-            selected={ focused }
-            showBadge={ showBadge }
-            horizontal={ horizontal }
-          />
-        );
-      },
-    }),
-    tabBarOptions: {
-      activeTintColor: colors.tabActiveTint,
-      inactiveTintColor: colors.tabInactiveTint,
-      labelStyle: {
-        fontSize: 13,
-      },
+const bottomTabNavigatorConfig = {
+  initialRoute: 'Characters',
+  backBehavior: 'none',
+  navigationOptions: ({ navigation }) => ({
+    // eslint-disable-next-line react/prop-types
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      const { routeName } = navigation.state;
+      let iconName;
+      let showBadge = false;
+      if (routeName === 'Characters') {
+        iconName = 'documents';
+      } else if (routeName === 'Teams') {
+        iconName = 'list';
+        showBadge = true;
+      } else if (routeName === 'Settings') {
+        iconName = 'cog';
+      }
+
+      return (
+        <BadgeTabIcon
+          iconName={ iconName }
+          size={ 24 }
+          color={ tintColor }
+          selected={ focused }
+          showBadge={ showBadge }
+          horizontal={ horizontal }
+        />
+      );
+    },
+  }),
+  tabBarOptions: {
+    activeTintColor: colors.tabActiveTint,
+    inactiveTintColor: colors.tabInactiveTint,
+    labelStyle: {
+      fontSize: 13,
     },
   },
+};
+
+export default createBottomTabNavigator(
+  routeConfiguration,
+  bottomTabNavigatorConfig,
 );
