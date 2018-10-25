@@ -41,7 +41,13 @@ class SettingCloud extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    return _difference(nextState.values, this.state.values).length !== 0;
+    if (_difference(nextState.values, this.state.values).length) {
+      return true;
+    }
+    if (_difference(this.state.values, nextState.values).length) {
+      return true;
+    }
+    return false;
   }
 
   handleValueChange = (code, value) => {
