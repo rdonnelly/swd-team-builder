@@ -113,12 +113,9 @@ class TeamListScreen extends PureComponent {
   }
 
   renderItem = ({ item: teamObject }) => {
-    const { navigate } = this.props.navigation;
-
     return (
       <TeamListItem
         teamObject={ teamObject }
-        navigate={ navigate }
       />
     );
   }

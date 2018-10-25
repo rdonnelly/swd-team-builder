@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import { withNavigation } from 'react-navigation';
 
 import CharacterAvatar from './CharacterAvatar';
 import SWDIcon from './SWDIcon';
@@ -106,10 +107,13 @@ class TeamListItem extends Component {
     return true;
   }
 
+  navigateToTeamDetails = teamKey => () => {
+    this.props.navigation.navigate('TeamDetailScreen', { key: teamKey });
+  }
+
   render() {
     const {
       teamObject,
-      navigate,
     } = this.props;
 
     const arrowStyle = [styles.arrow];
@@ -180,7 +184,7 @@ class TeamListItem extends Component {
     return (
       <TouchableOpacity
         activeOpacity={ 0.6 }
-        onPress={ () => navigate('TeamDetailScreen', { key: teamObject.key }) }
+        onPress={ this.navigateToTeamDetails(teamObject.key) }
         style={ styles.container }
         underlayColor={ colors.lightGray }
       >
@@ -206,9 +210,10 @@ class TeamListItem extends Component {
   }
 }
 
-export default TeamListItem;
 
 TeamListItem.propTypes = {
   teamObject: PropTypes.object.isRequired,
-  navigate: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
 };
+
+export default withNavigation(TeamListItem);

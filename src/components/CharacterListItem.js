@@ -9,6 +9,7 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import Swipeable from 'react-native-swipeable';
+import { withNavigation } from 'react-navigation';
 
 import CharacterAvatar from './CharacterAvatar';
 import { validateCode } from '../lib/SWDIconCodes';
@@ -118,6 +119,10 @@ class CharacterListItem extends Component {
     }
 
     return true;
+  }
+
+  navigateToCharacterDetails = characterId => () => {
+    this.props.navigation.navigate('CharacterDetailScreen', { id: characterId });
   }
 
   render() {
@@ -246,7 +251,7 @@ class CharacterListItem extends Component {
         <TouchableHighlight
           activeOpacity={ 0.4 }
           underlayColor={ colors.lightGray }
-          onPress={ () => this.props.navigate(characterId) }
+          onPress={ this.navigateToCharacterDetails(characterId) }
         >
           <View style={ rowStyles }>
             <View>
@@ -276,7 +281,7 @@ CharacterListItem.propTypes = {
   characterId: PropTypes.string.isRequired,
   characterIsExcluded: PropTypes.bool,
   characterIsIncompatible: PropTypes.bool,
-  navigate: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
 
   includeCharacter: PropTypes.func.isRequired,
   excludeCharacter: PropTypes.func.isRequired,
@@ -290,4 +295,7 @@ const mapDispatchToProps = {
   excludeCharacter,
 };
 
-export default connect(null, mapDispatchToProps)(CharacterListItem);
+export default withNavigation(connect(
+  null,
+  mapDispatchToProps,
+)(CharacterListItem));

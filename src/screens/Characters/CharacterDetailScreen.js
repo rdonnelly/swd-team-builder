@@ -137,7 +137,7 @@ class CharacterDetailScreen extends Component {
       deckCharacters,
     } = this.props;
 
-    const cardId = this.props.navigation.state.params.id;
+    const cardId = this.props.navigation.getParam('id');
     const characterObject = characters.find(character => character.id === cardId);
     const deckCharacterObject =
       deckCharacters.find(deckCharacter => deckCharacter.id === characterObject.id);

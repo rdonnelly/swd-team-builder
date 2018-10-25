@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { withNavigation } from 'react-navigation';
 
 import SWDIcon from './SWDIcon';
 
@@ -74,6 +75,10 @@ const styles = StyleSheet.create({
 
 
 class SelectedCharacters extends PureComponent {
+  navigateToCharacterDetails = characterId => () => {
+    this.props.navigation.navigate('CharacterDetailScreen', { id: characterId });
+  }
+
   resetDeck = () => {
     if (this.props.reset) {
       this.props.reset();
@@ -113,7 +118,7 @@ class SelectedCharacters extends PureComponent {
 
       return (
           <TouchableOpacity
-            onPress={ () => this.props.navigate('CharacterDetailScreen', { id: card.id }) }
+            onPress={ this.navigateToCharacterDetails(card.id) }
             key={ `character__${card.id}` }
             style={ styles.item }
           >
@@ -159,7 +164,7 @@ class SelectedCharacters extends PureComponent {
 SelectedCharacters.propTypes = {
   deckCharacterObjects: PropTypes.array.isRequired,
   reset: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -170,4 +175,7 @@ const mapDispatchToProps = {
   reset,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectedCharacters);
+export default withNavigation(connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SelectedCharacters));

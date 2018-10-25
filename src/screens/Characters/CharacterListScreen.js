@@ -83,10 +83,6 @@ class CharacterListScreen extends PureComponent {
     this.setState({ currentlyOpenSwipeable: null });
   }
 
-  navigateToCharacterDetails = (characterId) => {
-    this.props.navigation.navigate('CharacterDetailScreen', { id: characterId });
-  }
-
   resetScreen = () => {
     if (this.listView) {
       this.listView.scrollToOffset(0);
@@ -98,15 +94,12 @@ class CharacterListScreen extends PureComponent {
       characterId={ characterObject.id }
       characterIsExcluded={ characterObject.isExcluded }
       characterIsIncompatible={ characterObject.isIncompatible }
-      navigate={ this.navigateToCharacterDetails }
       onOpen={ this.onSwipeableOpen }
       onClose={ this.onSwipeableClose }
     />
   );
 
   render() {
-    const { navigate } = this.props.navigation;
-
     const selectedCharactersHeight = 12 +
       (Math.max(1, this.props.deckCharacterCount) * selectedCharactersItemHeight);
 
@@ -128,7 +121,7 @@ class CharacterListScreen extends PureComponent {
           windowSize={ 35 }
         />
         <View style={ styles.selectedCharactersContainer }>
-          <SelectedCharacters navigate={ navigate }></SelectedCharacters>
+          <SelectedCharacters></SelectedCharacters>
         </View>
       </View>
     );

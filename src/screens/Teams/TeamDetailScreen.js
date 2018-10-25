@@ -193,8 +193,8 @@ class TeamDetailScreen extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const currentTeamKey = this.props.navigation.state.params.key;
-    const nextTeamKey = nextProps.navigation.state.params.key;
+    const currentTeamKey = this.props.navigation.getParam('key');
+    const nextTeamKey = nextProps.navigation.getParam('key');
 
     if (currentTeamKey === nextTeamKey) {
       return false;
@@ -211,7 +211,7 @@ class TeamDetailScreen extends React.Component {
   }
 
   searchSWDestinyDB = () => {
-    const teamKey = this.props.navigation.state.params.key;
+    const teamKey = this.props.navigation.getParam('key');
     const { teams } = this.props;
     const team = teams.find(teamObj => teamObj.key === teamKey);
 
@@ -228,7 +228,7 @@ class TeamDetailScreen extends React.Component {
   }
 
   render() {
-    const teamKey = this.props.navigation.state.params.key;
+    const teamKey = this.props.navigation.getParam('key');
     const { teams } = this.props;
     const team = teams.find(teamObj => teamObj.key === teamKey);
     const maxPlotPoint = teamsStats.maxPoints - team.p;
