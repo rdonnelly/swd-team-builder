@@ -18,8 +18,11 @@ export default StyleSheet.create({
   // FORM ELEMENTS
 
   button: {
+    alignItems: 'center',
     backgroundColor: colors.brand,
     borderRadius: 8,
+    justifyContent: 'center',
+    minWidth: 48,
     padding: 16,
   },
   buttonText: {
