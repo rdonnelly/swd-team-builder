@@ -29,11 +29,12 @@ export default StyleSheet.create({
     lineHeight: 20,
     textAlign: 'center',
   },
+
   input: {
     backgroundColor: colors.white,
     borderRadius: 8,
     color: colors.darkGray,
-    fontSize: 16,
+    fontSize: 20,
     padding: 16,
   },
 
