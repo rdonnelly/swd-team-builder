@@ -24,6 +24,7 @@
     "react": "16.6.0-alpha.8af6728",
     "react-native": "0.57.3",
     "react-native-device-info": "0.24.x",
+    "react-native-haptic-feedback": "^1.4.0",
     "react-native-safari-view": "2.1.x",
     "react-native-screens": "^1.0.0-alpha.15",
     "react-native-swipeable": "0.6.x",

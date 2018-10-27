@@ -6,70 +6,53 @@ import {
   Text,
 } from 'react-native';
 
-import { colors } from '../styles';
+import { base as baseStyles, colors } from '../styles';
 
 
 const styles = StyleSheet.create({
-  container: {
+  button: {
+    ...baseStyles.button,
     backgroundColor: colors.whiteTranslucent,
-    borderRadius: 4,
     marginBottom: 8,
     marginRight: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 12,
+    paddingHorizontal: 12,
   },
-  containerOn: {
+  buttonOn: {
     backgroundColor: colors.white,
   },
   text: {
+    ...baseStyles.buttonText,
     color: colors.grayDark,
     fontSize: 15,
-    fontWeight: '700',
   },
   textOn: {
-    color: colors.purple,
+    color: colors.brand,
   },
 });
 
 class SettingCloudItem extends PureComponent {
-  static defaultProps = {
-    value: true,
-  };
-
-  state = {
-    value: this.props.value,
-  };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.value === prevState.value) {
-      return null;
-    }
-
-    return {
-      value: nextProps.value,
-    };
+  handlePress = () => {
+    this.props.handlePress(this.props.setting, !this.props.value);
   }
 
-  handlePress = () => {
-    this.setState({ value: !this.state.value });
-    this.props.callback(this.props.setting, !this.state.value);
+  handleLongPress = () => {
+    this.props.handleLongPress(this.props.setting);
   }
 
   render() {
-    const containerStyles = [styles.container];
-    if (this.state.value) {
-      containerStyles.push(styles.containerOn);
-    }
-
+    const buttonStyles = [styles.button];
     const textStyles = [styles.text];
-    if (this.state.value) {
+
+    if (this.props.value) {
+      buttonStyles.push(styles.buttonOn);
       textStyles.push(styles.textOn);
     }
 
     return (
       <TouchableOpacity
         onPress={ this.handlePress }
-        style={ containerStyles }
+        onLongPress={ this.handleLongPress }
+        style={ buttonStyles }
       >
         <Text style={ textStyles }>
           { this.props.label }
@@ -84,7 +67,8 @@ SettingCloudItem.propTypes = {
   setting: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 
-  callback: PropTypes.func,
+  handlePress: PropTypes.func.isRequired,
+  handleLongPress: PropTypes.func.isRequired,
 };
 
 export default SettingCloudItem;

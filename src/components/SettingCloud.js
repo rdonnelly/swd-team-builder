@@ -5,26 +5,54 @@ import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 import SettingCloudItem from './SettingCloudItem';
 
 import { colors } from '../styles';
 
 
+const INTERACTION_DELAY = 750;
+
 const styles = StyleSheet.create({
   container: {
     marginBottom: 24,
     width: '100%',
   },
-  labelWrapper: {
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     marginBottom: 8,
+  },
+  labelWrapper: {
+    marginRight: 8,
   },
   label: {
     color: colors.darkGray,
     fontSize: 20,
     fontWeight: '800',
+  },
+  controlsWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  control: {
+    backgroundColor: colors.lightGrayTranslucent,
+    borderRadius: 4,
+    paddingVertical: 4,
+    marginLeft: 8,
+    width: 48,
+  },
+  controlText: {
+    color: colors.darkGray,
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   optionsWrapper: {
     alignItems: 'flex-start',
@@ -35,10 +63,24 @@ const styles = StyleSheet.create({
 });
 
 class SettingCloud extends Component {
-  state = {
-    values: this.props.values,
-    initValues: this.props.values,
+  static defaultProps = {
+    radio: false,
+    values: null,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.timeoutId = null;
+
+    const initialValues = props.values !== null ?
+      props.values : this.props.options.map(option => option.code);
+
+    this.state = {
+      initialValues,
+      values: initialValues,
+    };
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (_difference(nextState.values, this.state.values).length) {
@@ -50,44 +92,60 @@ class SettingCloud extends Component {
     return false;
   }
 
-  handleValueChange = (code, value) => {
-    const { radio } = this.props;
-
-    let newValues = this.state.values.slice(0);
-    if (value) {
-      if (radio) {
-        newValues = [code];
-      } else {
-        newValues.push(code);
-      }
-    } else if (!radio) {
-      newValues = _without(newValues, code);
+  updateValues = (nextValues) => {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
 
-    if (this.state.timeoutId) {
-      clearTimeout(this.state.timeoutId);
-    }
-
-    const timeoutId = setTimeout(() => {
-      this.props.callback(this.props.setting, this.state.values);
-      this.setState({ timeoutId: null });
-    }, 750);
+    this.timeoutId = setTimeout(() => {
+      this.props.callback(this.props.setting, nextValues);
+    }, INTERACTION_DELAY);
 
     this.setState({
-      timeoutId,
-      values: newValues,
+      values: nextValues,
     });
   }
 
-  reset = () => {
-    if (this.state.timeoutId) {
-      clearTimeout(this.state.timeoutId);
+  handlePressItem = (code, value) => {
+    ReactNativeHapticFeedback.trigger('selection');
+
+    let nextValues = [...this.state.values];
+    if (value) {
+      if (this.props.radio) {
+        nextValues = [code];
+      } else {
+        nextValues.push(code);
+      }
+    } else if (!this.props.radio) {
+      nextValues = _without(nextValues, code);
     }
 
-    this.setState({
-      timeoutId: null,
-      values: this.state.initValues,
-    });
+    this.updateValues(nextValues);
+  }
+
+  handleLongPressItem = (code) => {
+    ReactNativeHapticFeedback.trigger('impactHeavy');
+
+    const nextValues = [code];
+    this.updateValues(nextValues);
+  }
+
+  selectAll = () => {
+    ReactNativeHapticFeedback.trigger('selection');
+
+    const nextValues = [...this.state.initialValues];
+    this.updateValues(nextValues);
+  }
+
+  selectNone = () => {
+    ReactNativeHapticFeedback.trigger('selection');
+
+    const nextValues = [];
+    this.updateValues(nextValues);
+  }
+
+  reset = () => {
+    this.selectAll();
   }
 
   render() {
@@ -97,16 +155,35 @@ class SettingCloud extends Component {
         value={ this.state.values.includes(option.code) }
         setting={ option.code }
         label={ option.name }
-        callback={ this.handleValueChange }
+        handlePress={ this.handlePressItem }
+        handleLongPress={ this.handleLongPressItem }
       />
     ));
 
     return (
       <View style={ styles.container }>
-        <View style={ styles.labelWrapper }>
-          <Text style={ styles.label }>
-            { this.props.label }
-          </Text>
+        <View style={ styles.header }>
+          <View style={ styles.labelWrapper }>
+            <Text style={ styles.label }>
+              { this.props.label }
+            </Text>
+          </View>
+          { !this.props.radio &&
+            <View style={ styles.controlsWrapper }>
+              <TouchableOpacity
+                onPress={ this.selectAll }
+                style={ styles.control }
+              >
+                <Text style={ styles.controlText }>All</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={ this.selectNone }
+                style={ styles.control }
+              >
+                <Text style={ styles.controlText }>None</Text>
+              </TouchableOpacity>
+            </View>
+          }
         </View>
         <View style={ styles.optionsWrapper }>
           { optionItems }
@@ -121,7 +198,7 @@ SettingCloud.propTypes = {
   setting: PropTypes.string.isRequired,
 
   options: PropTypes.array.isRequired,
-  values: PropTypes.array.isRequired,
+  values: PropTypes.array,
 
   radio: PropTypes.bool,
 
