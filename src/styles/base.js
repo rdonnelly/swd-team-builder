@@ -21,6 +21,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.brand,
     borderRadius: 8,
+    flexDirection: 'row',
     justifyContent: 'center',
     minWidth: 48,
     padding: 16,

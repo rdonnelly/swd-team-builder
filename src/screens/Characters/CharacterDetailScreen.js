@@ -27,12 +27,12 @@ import { getDeckCharacters } from '../../store/selectors/deckSelectors';
 
 import { cardBack, cardImages } from '../../lib/DestinyImages';
 
-import { base, colors } from '../../styles';
+import { base as baseStyles, colors } from '../../styles';
 
 
 const styles = StyleSheet.create({
   container: {
-    ...base.container,
+    ...baseStyles.container,
     backgroundColor: colors.lightGray,
   },
   details: {
@@ -71,13 +71,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   button: {
-    alignItems: 'center',
+    ...baseStyles.button,
     backgroundColor: colors.darkGrayDark,
-    borderRadius: 4,
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 8,
+    // padding: 8,
     marginBottom: 8,
   },
   buttonDisabled: {
