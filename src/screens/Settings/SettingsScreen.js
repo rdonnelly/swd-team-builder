@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { connect } from 'react-redux';
 import SafariView from 'react-native-safari-view';
 
@@ -28,12 +29,12 @@ import {
   sets,
 } from '../../lib/Destiny';
 
-import { base, colors } from '../../styles';
+import { base as baseStyles, colors } from '../../styles';
 
 
 const styles = StyleSheet.create({
   container: {
-    ...base.container,
+    ...baseStyles.container,
     backgroundColor: colors.lightGray,
   },
   scrollView: {
@@ -46,13 +47,13 @@ const styles = StyleSheet.create({
     paddingTop: 24,
   },
   floatingControls: {
-    ...base.floatingControls,
+    ...baseStyles.floatingControls,
   },
   floatingControlsButton: {
-    ...base.button,
+    ...baseStyles.button,
   },
   floatingControlsButtonText: {
-    ...base.buttonText,
+    ...baseStyles.buttonText,
   },
   information: {
     borderColor: colors.lightGrayDark,
@@ -129,6 +130,8 @@ class SettingsScreen extends PureComponent {
         {
           text: 'Reset',
           onPress: () => {
+            ReactNativeHapticFeedback.trigger('impactHeavy');
+
             this.props.resetFilters();
 
             this.affiliationsCloud.reset();

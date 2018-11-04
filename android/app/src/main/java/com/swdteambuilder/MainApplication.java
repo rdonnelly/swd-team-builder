@@ -3,6 +3,7 @@ package com.swdteambuilder;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.mkuczera.RNReactNativeHapticFeedbackPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNReactNativeHapticFeedbackPackage(),
             new VectorIconsPackage(),
             new RNScreensPackage(),
             new RNDeviceInfo(),
