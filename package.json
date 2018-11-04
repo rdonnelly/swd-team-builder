@@ -10,10 +10,10 @@
     "lint": "./node_modules/eslint/bin/eslint.js *.js ./src",
     "refresh": "rm -rf node_modules && yarn cache clean && yarn install",
     "test": "jest",
-    "characters": "./node_modules/.bin/babel-node ./scripts/generate_characters.js",
     "data": "yarn characters && yarn plots && yarn teams",
-    "plots": "./node_modules/.bin/babel-node ./scripts/generate_plots.js",
-    "teams": "./node_modules/.bin/babel-node ./scripts/generate_teams.js"
+    "characters": "./node_modules/.bin/babel-node --presets @babel/preset-env ./scripts/generate_characters.js",
+    "plots": "./node_modules/.bin/babel-node --presets @babel/preset-env ./scripts/generate_plots.js",
+    "teams": "./node_modules/.bin/babel-node --presets @babel/preset-env ./scripts/generate_teams.js"
   },
   "dependencies": {
     "bugsnag-react-native": "2.11.x",
@@ -39,6 +39,8 @@
     "swdestinydb-json-data": "https://github.com/rdonnelly/swdestinydb-json-data.git"
   },
   "devDependencies": {
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
     "babel-eslint": "10.0.x",
     "babel-jest": "23.6.0",
     "eslint": "5.8.x",
