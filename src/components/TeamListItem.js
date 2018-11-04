@@ -118,7 +118,7 @@ class TeamListItem extends Component {
 
     const arrowStyle = [styles.arrow];
 
-    const characterViews = teamObject.cK.map((characterKey) => {
+    const characterViews = teamObject.key.split('__').map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
       const card = characters[cardId];
 
@@ -179,7 +179,7 @@ class TeamListItem extends Component {
       );
     });
 
-    const plotPoints = teamsStats.maxPoints - teamObject.p;
+    const plotPoints = teamsStats.maxPoints - teamObject.points;
 
     return (
       <TouchableOpacity
@@ -193,13 +193,13 @@ class TeamListItem extends Component {
             { characterViews }
           </View>
           <View style={ styles.teamInfoWrapper }>
-            <Text style={ styles.teamStat }>{ teamObject.nD } Dice</Text>
+            <Text style={ styles.teamStat }>{ teamObject.diceCount } Dice</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.h } Health</Text>
+            <Text style={ styles.teamStat }>{ teamObject.health } Health</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.p } Points</Text>
-            { plotPoints ? (<Text style={ styles.teamStat }>&middot;</Text>) : null }
-            { plotPoints ? (<Text style={ styles.teamStatLast }>{ `${plotPoints} Plot Point${plotPoints > 1 ? 's' : ''}` }</Text>) : null }
+            <Text style={ styles.teamStat }>{ teamObject.points } Points</Text>
+            { /* plotPoints ? (<Text style={ styles.teamStat }>&middot;</Text>) : null */ }
+            { /* plotPoints ? (<Text style={ styles.teamStatLast }>{ `${plotPoints} Plot Point${plotPoints > 1 ? 's' : ''}` }</Text>) : null */ }
           </View>
         </View>
         <View>

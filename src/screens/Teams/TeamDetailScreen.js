@@ -216,7 +216,7 @@ class TeamDetailScreen extends React.Component {
     const team = teams.find(teamObj => teamObj.key === teamKey);
 
     const urlParams = [];
-    team.cK.forEach((characterKey) => {
+    team.key.split('__').forEach((characterKey) => {
       const cardId = characterKey.split('_').shift();
       urlParams.push(`cards[]=${cardId}`);
     });
@@ -233,7 +233,7 @@ class TeamDetailScreen extends React.Component {
     const team = teams.find(teamObj => teamObj.key === teamKey);
     const maxPlotPoint = teamsStats.maxPoints - team.p;
 
-    const characterAvatars = team.cK.map((characterKey, index) => {
+    const characterAvatars = team.key.split('__').map((characterKey, index) => {
       const [cardId] = characterKey.split('_');
       return (
         <TouchableOpacity
@@ -250,7 +250,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const characterNames = team.cK.map((characterKey) => {
+    const characterNames = team.key.split('__').map((characterKey) => {
       const [cardId, numDice, count] = characterKey.split('_');
       const card = characters[cardId];
       const characterNameStyles = [styles.characterName];
@@ -299,7 +299,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const imageViews = team.cK.map((characterKey) => {
+    const imageViews = team.key.split('__').map((characterKey) => {
       const [cardId] = characterKey.split('_');
       return (
         <View
@@ -315,9 +315,9 @@ class TeamDetailScreen extends React.Component {
     });
 
     let teamAffiliationLabel = 'Neutral';
-    if (team.a.includes('villain')) {
+    if (team.affiliations.includes('villain')) {
       teamAffiliationLabel = 'Villain';
-    } else if (team.a.includes('hero')) {
+    } else if (team.affiliations.includes('hero')) {
       teamAffiliationLabel = 'Hero';
     }
 

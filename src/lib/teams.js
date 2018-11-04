@@ -1,6 +1,5 @@
 import _intersection from 'lodash/intersection';
 import {
-  teamsStats,
   affiliations as affiliationsList,
   factions as factionsList,
   damageTypes as damageTypesList,
@@ -21,21 +20,21 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
     const eliteCharacterKey = `${deckCharacterObject.id}_2_${deckCharacterObject.count}`;
 
     outputTeams = outputTeams.filter((team) => {
-      if (deckAffiliation !== 'neutral' && !team.a.includes(deckAffiliation)) {
+      if (deckAffiliation !== 'neutral' && !team.affiliations.includes(deckAffiliation)) {
         return false;
       }
 
       if (numDice === 0) {
-        return team.cK.includes(regularCharacterKey) ||
-          team.cK.includes(eliteCharacterKey);
+        return team.key.includes(regularCharacterKey) ||
+          team.key.includes(eliteCharacterKey);
       }
 
-      return team.cK.includes(characterKey);
+      return team.key.includes(characterKey);
     });
   });
 
   excludedCharacterIds.forEach((excludedCharacterId) => {
-    outputTeams = outputTeams.filter(team => !team.cK.some(key => key.startsWith(`${excludedCharacterId}_`)));
+    outputTeams = outputTeams.filter(team => !team.key.includes(excludedCharacterId));
   });
 
   return outputTeams;
@@ -78,60 +77,60 @@ export const filterTeamsBySettings = (teams, settings) => {
   }
 
   outputTeams = outputTeams.filter((team) => {
-    if (team.nD < minDice) {
+    if (team.diceCount < minDice) {
       return false;
     }
 
-    if (team.h < minHealth) {
+    if (team.health < minHealth) {
       return false;
     }
 
-    if (team.p < minPoints) {
+    if (team.points < minPoints) {
       return false;
     }
 
-    if (team.cC < minCharacterCount) {
+    if (team.characterCount < minCharacterCount) {
       return false;
     }
 
-    if (team.cC > maxCharacterCount) {
+    if (team.characterCount > maxCharacterCount) {
       return false;
     }
 
-    if (team.p > teamsStats.maxPoints - plotPoints) {
+    if (team.points > 30 - plotPoints) {
       return false;
     }
 
     if (plotPoints > 0 &&
         plotFactions[0] !== 'gray' &&
-        !team.f.includes(plotFactions[0])) {
+        !team.factions.includes(plotFactions[0])) {
       return false;
     }
 
     if (!skipAffiliations) {
       if (affiliations.length === 0 ||
-          (_intersection(team.a, affiliations).length !== team.a.length)) {
+          (_intersection(team.affiliations, affiliations).length !== team.affiliations.length)) {
         return false;
       }
     }
 
     if (!skipDamageTypes) {
       if (damageTypes.length === 0 ||
-          (_intersection(team.dT, damageTypes).length !== team.dT.length)) {
+          (_intersection(team.damageTypes, damageTypes).length !== team.damageTypes.length)) {
         return false;
       }
     }
 
     if (!skipFactions) {
       if (factions.length === 0 ||
-          (_intersection(team.f, factions).length !== team.f.length)) {
+          (_intersection(team.factions, factions).length !== team.factions.length)) {
         return false;
       }
     }
 
     if (!skipSets) {
       if (sets.length === 0 ||
-          (_intersection(team.s, sets).length !== team.s.length)) {
+          (_intersection(team.sets, sets).length !== team.sets.length)) {
         return false;
       }
     }
@@ -147,10 +146,10 @@ export const sortTeams = (teams, sortOrder) => {
 
   sortedTeams.sort((a, b) => {
     const sortValues = {
-      dice: a.rD - b.rD,
-      health: a.rH - b.rH,
-      points: a.rP - b.rP,
-      characterCount: a.rC - b.rC,
+      dice: a.ranks.diceCount - b.ranks.diceCount,
+      health: a.ranks.health - b.ranks.health,
+      points: a.ranks.points - b.ranks.points,
+      characterCount: a.ranks.characterCount - b.ranks.characterCount,
     };
 
     let sortValue = 0;
