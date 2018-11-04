@@ -27,7 +27,7 @@ module.exports = {
   },
   settings: {
     react: {
-      version: '16.5.0',
+      version: '16.6.0',
     },
   },
 };
