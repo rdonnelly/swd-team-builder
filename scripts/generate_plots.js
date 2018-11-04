@@ -12,9 +12,11 @@ import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
 import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
 import dbSetWotF from 'swdestinydb-json-data/set/WotF.json';
+import dbSetAtG from 'swdestinydb-json-data/set/AtG.json';
 
 const plotsStats = {
   affiliations: [],
+  count: 0,
   factions: [],
   maxPoints: 0,
   minPoints: 1000,
@@ -29,6 +31,7 @@ let plots =
     dbSetLEG,
     dbSetRIV,
     dbSetWotF,
+    dbSetAtG,
   ).filter(
     rawCard => rawCard.type_code === 'plot',
   ).map(
@@ -38,15 +41,9 @@ let plots =
       card.affiliation = rawCard.affiliation_code;
       card.faction = rawCard.faction_code;
       card.id = rawCard.code;
-      card.isUnique = rawCard.is_unique;
-      card.limit = rawCard.deck_limit;
       card.name = rawCard.name;
-
       card.points = parseInt(rawCard.points, 10);
-
-      card.rarity = rawCard.rarity_code;
       card.set = rawCard.set_code;
-      card.type = rawCard.type_code;
 
       if (card.points < plotsStats.minPoints) {
         plotsStats.minPoints = card.points;
@@ -82,19 +79,12 @@ plots = plots
 
 plots = plots
   .map((card, index) => ({
-    id: card.id,
-    name: card.name,
-    set: card.set,
-
     affiliation: card.affiliation,
     faction: card.faction,
-
-    health: card.health,
-    limit: card.limit,
-
-    isUnique: card.isUnique,
+    id: card.id,
+    name: card.name,
     points: card.points,
-    rarity: card.rarity,
+    set: card.set,
 
     rank: index,
   }));
@@ -104,10 +94,11 @@ plots.forEach((plot) => {
   plotsObject[plot.id] = plot;
 });
 
+plotsStats.count = plots.length || 0;
+
 
 console.log(`Output ${plots.length} plots...`); // eslint-disable-line no-console
 jsonfile.writeFile(path.join(__dirname, '../data/plots.json'), plotsObject);
-
 jsonfile.writeFile(path.join(__dirname, '../data/plots_stats.json'), plotsStats);
 jsonfile.writeFile(path.join(__dirname, '../data/plots_checksum.json'), {
   checksum: checksum(plots),

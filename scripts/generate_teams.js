@@ -9,6 +9,7 @@ import sets from 'swdestinydb-json-data/sets.json';
 import characters from '../data/characters.json';
 import plots from '../data/plots.json';
 
+const MIN_CHARACTER_COUNT = 1;
 const MIN_DICE = 0;
 const MIN_POINTS = 0;
 const MAX_POINTS = 30;
@@ -16,6 +17,7 @@ const PAGE_SIZE = 5000;
 
 let teams = [];
 const teamsStats = {
+  count: 0,
   minDice: 1000,
   maxDice: 0,
   minHealth: 1000,
@@ -34,44 +36,54 @@ const factionRank = {
 };
 
 class Team {
-  constructor() {
-    this.key = '';
-    this.chars = [];
-    this.cK = [];
-    this.c = 0;
+  constructor(plot = null) {
+    this.key = null;
 
-    this.s = [];
+    this.characters = [];
+    this.characterCount = 0;
 
-    this.a = [];
-    this.dT = [];
-    this.f = [];
-    this.h = 0;
-    this.nD = 0;
-    this.p = 0;
+    this.affiliations = [];
+    this.damageTypes = [];
+    this.diceCount = 0;
+    this.factions = [];
+    this.health = 0;
+    this.points = 0;
+    this.sets = [];
+
+    this.ranks = {};
+
+    if (plot) {
+      this.plot = { ...plot };
+    }
   }
 
   getKey() {
-    return this.chars
-      .map(character => `${character.id}_${character.numDice}_${character.count}`)
+    return this.characters
+      .map(character => `${character.id}_${character.diceCount}_${character.count}`)
       .sort()
       .join('__');
   }
 
-  setCharacterKeys() {
-    this.chars.forEach(characterObject =>
-      this.cK.push(`${characterObject.id}_${characterObject.numDice}_${characterObject.count}`));
-  }
-
   setCharacterCount() {
-    this.cC = this.chars.reduce(
+    this.characterCount = this.characters.reduce(
       (count, characterObject) => count + characterObject.count,
       0,
     );
   }
 
-  hasCharacter(card) {
-    return this.chars
-      .some(characterCard => characterCard.name === card.name);
+  hasCharacterId(cardId) {
+    return this.characters
+      .some(characterCard => characterCard.id === cardId);
+  }
+
+  hasCharacterName(cardName) {
+    return this.characters
+      .some(characterCard => characterCard.name === cardName);
+  }
+
+  getCharacterCount(cardId) {
+    const characterObj = this.characters.find(characterCard => characterCard.id === cardId);
+    return characterObj ? characterObj.count : 0;
   }
 
   addCharacter(card, isElite) {
@@ -80,18 +92,22 @@ class Team {
       name: card.name,
       faction: card.faction,
       count: 1,
-      numDice: isElite ? 2 : 1,
+      diceCount: isElite ? 2 : 1,
+      pointsRegular: card.pointsRegular,
+      pointsElite: card.pointsElite,
     };
 
-    const existingCharacterObj = this.chars.find(character => character.id === card.id);
+    const existingCharacterObj = this.characters.find(
+      character => character.id === card.id,
+    );
 
     if (existingCharacterObj === undefined) {
-      this.chars.push(characterObj);
+      this.characters.push(characterObj);
     } else {
       existingCharacterObj.count += 1;
     }
 
-    this.chars = this.chars.sort((a, b) => {
+    this.characters = this.characters.sort((a, b) => {
       if (b.faction !== a.faction) {
         return factionRank[b.faction] < factionRank[a.faction] ? 1 : -1;
       }
@@ -107,69 +123,133 @@ class Team {
       return 0;
     });
 
-    this.s.push(card.set);
-    this.s = _.uniq(this.s);
+    this.sets.push(card.set);
+    this.sets = _.uniq(this.sets);
 
-    this.a = _.uniq([].concat(this.a, [card.affiliation]));
+    this.affiliations = _.uniq([].concat(this.affiliations, [card.affiliation]));
 
-    this.h += card.health;
+    this.health += card.health;
 
-    this.f = _.uniq([].concat(this.f, [card.faction]));
+    this.factions = _.uniq([].concat(this.factions, [card.faction]));
 
-    this.dT = _.uniq([].concat(this.dT, card.damageTypes));
+    this.damageTypes = _.uniq([].concat(this.damageTypes, card.damageTypes));
 
     if (isElite) {
-      this.nD += 2;
-      this.p += card.pointsElite;
+      this.diceCount += 2;
+      this.points += card.pointsElite;
     } else {
-      this.nD += 1;
-      this.p += card.pointsRegular;
+      this.diceCount += 1;
+      this.points += card.pointsRegular;
     }
 
     this.key = this.getKey();
+    this.setCharacterCount();
+
+    if (this.plot && this.plot.id === '08155' && // PLOT: No Allegiance
+        this.affiliations.length === 1 && this.affiliations.includes('neutral')) {
+      this.health += 1;
+    }
+
+    if (card.id === '05038' && // CHARACTER: Clone Trooper
+        this.hasCharacterId('08073')) { // CHARACTER: Clone Commander Cody
+      this.points -= 1;
+    }
+    if (card.id === '08073') { // CHARACTER: Clone Commander Cody
+      this.points -= this.getCharacterCount('05038'); // CHARACTER: Clone Trooper
+    }
   }
 }
 
-const collectPlotPointCosts = () =>
-  _.uniq(Object.values(plots).map(plot => plot.points));
+const checkTeamIsComplete = (team, eligibleCharacterCount) => {
+  const teamPlotPoints = team.plot ? team.plot.points : 0;
+  const teamMaxPoints = MAX_POINTS - teamPlotPoints;
 
-const getEligibleCharacters = (teamCharacters, pointsLeft, team) =>
-  teamCharacters
-    .filter(character => character.pointsRegular <= pointsLeft)
-    .filter(character => !character.isUnique || !team.hasCharacter(character));
-
-const checkTeam = (team, eligibleCharacters, pointsLeft) => {
-  if (eligibleCharacters.length > 0 ||
-      team.nD < MIN_DICE ||
-      team.p < MIN_POINTS) {
+  if (eligibleCharacterCount >= MIN_CHARACTER_COUNT) {
     return false;
   }
 
-  const eliteCheck = _.every(team.chars, (characterCard) => {
-    const card = characters[characterCard.id];
+  if (team.diceCount < MIN_DICE) {
+    return false;
+  }
 
-    if (characterCard.numDice === 1) {
-      if (typeof card.pointsElite !== 'undefined') {
-        const eliteDiff = card.pointsElite - card.pointsRegular;
-        if (eliteDiff <= pointsLeft) {
-          return false;
-        }
-      }
+  if (team.points < MIN_POINTS || team.points > teamMaxPoints) {
+    return false;
+  }
+
+
+  if (team.plot) {
+    if (team.plot.affiliation !== 'neutral' &&
+        !team.affiliations.includes(team.plot.affiliation)) {
+      return false;
     }
 
-    return true;
-  });
+    if (team.plot.faction !== 'gray' &&
+        !team.factions.includes(team.plot.faction)) {
+      return false;
+    }
 
-  return eliteCheck;
+    if (team.plot.id === '08115') { // Bitter Rivalry
+      if (team.points < teamMaxPoints) {
+        return false;
+      }
+    }
+    if (team.plot.id === '08155') { // No Allegiance, all neutral characters
+      if (team.affiliations.length !== 1 || !team.affiliations.includes('neutral')) {
+        return false;
+      }
+    }
+    if (team.plot.id === '08156') { // Solidarity, mono only
+      if (team.points < teamMaxPoints) {
+        return false;
+      }
+      if (team.factions.length !== 1) {
+        return false;
+      }
+    }
+  }
+
+  // check if an elite character fits
+  const canFitEliteVersionOfCharacter = team.characters.some((character) => {
+    if (character.diceCount === 2 || !character.pointsElite) {
+      return false;
+    }
+
+    return team.points - character.pointsRegular + character.pointsElite <= teamMaxPoints;
+  });
+  if (canFitEliteVersionOfCharacter) {
+    return false;
+  }
+
+  return true;
 };
 
-const buildTeams = (teamCharacters, pointsLeft, team) => {
-  const eligibleCharacters = getEligibleCharacters(teamCharacters, pointsLeft, team);
+const getEligibleCharacters = (potentialCharacters, team) => {
+  const teamPlotPoints = team.plot ? team.plot.points : 0;
+  const teamMaxPoints = MAX_POINTS - teamPlotPoints;
+  const teamPointsRemaining = teamMaxPoints - team.points;
+  return potentialCharacters
+    .filter((character) => {
+      let characterRegularPoints = character.pointsRegular;
+      if (character.id === '05038' && // CHARACTER: Clone Trooper
+          team.hasCharacterId('08073')) { // CHARACTER: Clone Commander Cody
+        characterRegularPoints -= 1;
+      }
+      if (character.id === '08073' && // CHARACTER: Clone Commander Cody
+          team.hasCharacterId('05038')) { // CHARACTER: Clone Trooper
+        characterRegularPoints -= team.getCharacterCount('05038'); // CHARACTER: Clone Trooper
+      }
 
-  if (checkTeam(team, eligibleCharacters, pointsLeft)) {
-    team.setCharacterCount();
-    team.setCharacterKeys();
-    delete team.chars;
+      return characterRegularPoints <= teamPointsRemaining;
+    })
+    .filter(character => !character.isUnique || !team.hasCharacterName(character.name));
+};
+
+const build = (potentialCharacters, team) => {
+  const eligibleCharacters = getEligibleCharacters(potentialCharacters, team);
+
+  if (checkTeamIsComplete(team, eligibleCharacters.length)) {
+    delete team.characters;
+    delete team.plot;
     teams.push(team);
     return;
   }
@@ -177,13 +257,15 @@ const buildTeams = (teamCharacters, pointsLeft, team) => {
   eligibleCharacters.forEach((character) => {
     const regularTeam = _.cloneDeep(team);
     regularTeam.addCharacter(character, false);
-    buildTeams(eligibleCharacters, pointsLeft - character.pointsRegular, regularTeam);
+    build(eligibleCharacters, regularTeam);
 
-    if (typeof character.pointsElite !== 'undefined' &&
-        character.pointsElite <= pointsLeft) {
+    const teamPlotPoints = team.plot ? team.plot.points : 0;
+    const teamMaxPoints = MAX_POINTS - teamPlotPoints;
+    const teamPointsRemaining = teamMaxPoints - team.points;
+    if (character.pointsElite && character.pointsElite <= teamPointsRemaining) {
       const eliteTeam = _.cloneDeep(team);
       eliteTeam.addCharacter(character, true);
-      buildTeams(eligibleCharacters, pointsLeft - character.pointsElite, eliteTeam);
+      build(eligibleCharacters, eliteTeam);
     }
   });
 };
@@ -204,122 +286,127 @@ const generateSetCombinations = (startSetCodes) => {
 
 const cleanUpTeams = (dirtyTeams) => {
   let cleanTeams = dirtyTeams;
-
-  cleanTeams = _.filter(cleanTeams, team => team.cC > 0);
-
-  cleanTeams = _.uniqBy(cleanTeams, team => JSON.stringify(team.key));
-
+  cleanTeams = cleanTeams.filter(team => team.characterCount > 0);
+  cleanTeams = _.uniqBy(cleanTeams, team => team.key);
   return cleanTeams;
 };
 
 const sortTeams = (dirtyTeams) => {
   let cleanTeams = dirtyTeams;
 
-  cleanTeams = _.sortBy(cleanTeams, ['nD', 'h', 'p', 'cC']).reverse().map((team, index) => {
-    team.rD = index;
+  cleanTeams = _.sortBy(cleanTeams, ['diceCount', 'health', 'points', 'characterCount']).reverse().map((team, index) => {
+    team.ranks.diceCount = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['h', 'nD', 'p', 'cC']).reverse().map((team, index) => {
-    team.rH = index;
+  cleanTeams = _.sortBy(cleanTeams, ['health', 'diceCount', 'points', 'characterCount']).reverse().map((team, index) => {
+    team.ranks.health = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['p', 'nD', 'h', 'cC']).reverse().map((team, index) => {
-    team.rP = index;
+  cleanTeams = _.sortBy(cleanTeams, ['points', 'diceCount', 'health', 'characterCount']).reverse().map((team, index) => {
+    team.ranks.points = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['cC', 'nD', 'h', 'p']).reverse().map((team, index) => {
-    team.rC = index;
+  cleanTeams = _.sortBy(cleanTeams, ['characterCount', 'diceCount', 'health', 'points']).reverse().map((team, index) => {
+    team.ranks.characterCount = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['rD', 'rH', 'rP', 'rC']);
+  cleanTeams = _.sortBy(cleanTeams, ['rankDiceCount', 'rankHealth', 'rankPoints', 'rankCharacterCount']);
 
   return cleanTeams;
 };
 
 const calculateStats = (statsTeams) => {
   statsTeams.forEach((team) => {
-    if (team.nD < teamsStats.minDice) {
-      teamsStats.minDice = team.nD;
+    if (team.diceCount < teamsStats.minDice) {
+      teamsStats.minDice = team.diceCount;
     }
-    if (team.nD > teamsStats.maxDice) {
-      teamsStats.maxDice = team.nD;
-    }
-
-    if (team.h < teamsStats.minHealth) {
-      teamsStats.minHealth = team.h;
-    }
-    if (team.h > teamsStats.maxHealth) {
-      teamsStats.maxHealth = team.h;
+    if (team.diceCount > teamsStats.maxDice) {
+      teamsStats.maxDice = team.diceCount;
     }
 
-    if (team.cC < teamsStats.minCharacterCount) {
-      teamsStats.minCharacterCount = team.cC;
+    if (team.health < teamsStats.minHealth) {
+      teamsStats.minHealth = team.health;
     }
-    if (team.cC > teamsStats.maxCharacterCount) {
-      teamsStats.maxCharacterCount = team.cC;
+    if (team.health > teamsStats.maxHealth) {
+      teamsStats.maxHealth = team.health;
     }
 
-    if (team.p < teamsStats.minPoints) {
-      teamsStats.minPoints = team.p;
+    if (team.characterCount < teamsStats.minCharacterCount) {
+      teamsStats.minCharacterCount = team.characterCount;
     }
-    if (team.p > teamsStats.maxPoints) {
-      teamsStats.maxPoints = team.p;
+    if (team.characterCount > teamsStats.maxCharacterCount) {
+      teamsStats.maxCharacterCount = team.characterCount;
+    }
+
+    if (team.points < teamsStats.minPoints) {
+      teamsStats.minPoints = team.points;
+    }
+    if (team.points > teamsStats.maxPoints) {
+      teamsStats.maxPoints = team.points;
     }
   });
 };
-
-const plotPointCosts = collectPlotPointCosts();
 
 const setCombinations =
   generateSetCombinations(_.map(sets, 'code'))
     .sort((a, b) => a.length - b.length);
 
-const heroes = Object.values(characters).filter(character => ['hero', 'neutral'].indexOf(character.affiliation) !== -1);
-const villains = Object.values(characters).filter(character => ['neutral', 'villain'].indexOf(character.affiliation) !== -1);
+const heroCharacters = Object.values(characters).filter(character => ['hero', 'neutral'].includes(character.affiliation));
+const villainCharacters = Object.values(characters).filter(character => ['neutral', 'villain'].includes(character.affiliation));
+const heroPlots = Object.values(plots).filter(plot => ['hero', 'neutral'].includes(plot.affiliation));
+const villainPlots = Object.values(plots).filter(plot => ['neutral', 'villain'].includes(plot.affiliation));
 
-setCombinations.forEach((setCombination) => {
-  plotPointCosts.forEach((plotPointCost) => {
-    buildTeams(
-      heroes.filter(character => setCombination.indexOf(character.set) !== -1),
-      MAX_POINTS - plotPointCost,
-      new Team(),
-    );
+setCombinations.forEach((setCombination, index) => {
+  console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${setCombination} (${index + 1}/${setCombinations.length})...`);
 
-    buildTeams(
-      villains.filter(character => setCombination.indexOf(character.set) !== -1),
-      MAX_POINTS - plotPointCost,
-      new Team(),
+  const setHeroPlots = heroPlots.filter(plot => setCombination.includes(plot.set));
+  setHeroPlots.forEach((plot) => {
+    build(
+      heroCharacters.filter(character => setCombination.includes(character.set)),
+      new Team(plot),
     );
 
     teams = cleanUpTeams(teams);
   });
 
-  buildTeams(
-    heroes.filter(character => setCombination.indexOf(character.set) !== -1),
-    MAX_POINTS,
+  const setVillainPlots = villainPlots.filter(plot => setCombination.includes(plot.set));
+  setVillainPlots.forEach((plot) => {
+    build(
+      villainCharacters.filter(character => setCombination.includes(character.set)),
+      new Team(plot),
+    );
+
+    teams = cleanUpTeams(teams);
+  });
+
+  build(
+    heroCharacters.filter(character => setCombination.includes(character.set)),
     new Team(),
   );
 
-  buildTeams(
-    villains.filter(character => setCombination.indexOf(character.set) !== -1),
-    MAX_POINTS,
+  build(
+    villainCharacters.filter(character => setCombination.includes(character.set)),
     new Team(),
   );
 
   teams = cleanUpTeams(teams);
+
+  console.log('\x1b[34m%s\x1b[0m', `\tTeam Count: ${teams.length}`);
 });
+
 
 teams = sortTeams(teams);
 calculateStats(teams);
 
 const numPages = Math.ceil(teams.length / PAGE_SIZE);
+teamsStats.count = teams.length || 0;
 teamsStats.numPages = numPages;
 
-console.log(`Generated ${teams.length} teams...`);
+console.log('\x1b[32m\x1b[1m%s\x1b[0m', `Generated ${teams.length} teams`); // eslint-disable-line no-console
 
 for (let i = 0; i < numPages; i += 1) {
   const startIndex = i * PAGE_SIZE;
@@ -327,7 +414,7 @@ for (let i = 0; i < numPages; i += 1) {
   const teamSlice = teams.slice(startIndex, endIndex);
 
   jsonfile.writeFile(path.join(__dirname, `../data/teams_${i}.json`), teamSlice);
-  console.log(`Output ${teamSlice.length} teams in page ${i}`); // eslint-disable-line no-console
+  console.log('\x1b[32m\x1b[1m%s\x1b[0m', `Output ${teamSlice.length} teams in page ${i}`); // eslint-disable-line no-console
 }
 
 jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);

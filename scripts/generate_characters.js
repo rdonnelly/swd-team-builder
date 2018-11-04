@@ -10,6 +10,7 @@ import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
 import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
 import dbSetWotF from 'swdestinydb-json-data/set/WotF.json';
+import dbSetAtG from 'swdestinydb-json-data/set/AtG.json';
 
 import formats from 'swdestinydb-json-data/formats.json';
 
@@ -40,6 +41,7 @@ let characters =
     dbSetLEG,
     dbSetRIV,
     dbSetWotF,
+    dbSetAtG,
   ).filter(
     rawCard => rawCard.type_code === 'character',
   ).map(
@@ -47,7 +49,18 @@ let characters =
       const card = {};
 
       card.affiliation = rawCard.affiliation_code;
+      card.damageTypes = [];
+      card.faction = rawCard.faction_code;
+      card.health = rawCard.health;
+      card.id = rawCard.code;
+      card.isUnique = rawCard.is_unique;
+      card.name = rawCard.name;
+      card.pointsElite = null;
+      card.pointsRegular = null;
+      card.set = rawCard.set_code;
+      card.subtitle = rawCard.subtitle;
 
+      // set damage types
       card.damageTypes = _.uniq(rawCard.sides.reduce((acc, val) => {
         if (val.includes('ID')) {
           acc.push('ID');
@@ -68,36 +81,17 @@ let characters =
         card.damageTypes = ['ND']; // no damage
       }
 
-      card.faction = rawCard.faction_code;
-      card.flavorText = rawCard.flavor;
-      card.health = rawCard.health;
-      card.id = rawCard.code;
-      card.illustrator = rawCard.illustrator;
-      card.isUnique = rawCard.is_unique;
-      card.limit = rawCard.deck_limit;
-      card.name = rawCard.name;
-
-      card.points = 0;
-      card.pointsRegular = 0;
-      card.pointsElite = 0;
-
+      // set card points
       let cardPoints = rawCard.points;
       if (rawCard.code in infiniteFormat.data.balance) {
         cardPoints = infiniteFormat.data.balance[rawCard.code];
       }
 
       if (cardPoints) {
-        card.points = cardPoints.split('/').map(v => parseInt(v, 10));
-        card.pointsRegular = card.points[0];
-        card.pointsElite = card.points[1];
+        const cardPointsSplit = cardPoints.split('/').map(v => parseInt(v, 10));
+        card.pointsRegular = cardPointsSplit[0]; // eslint-disable-line prefer-destructuring
+        card.pointsElite = cardPointsSplit[1]; // eslint-disable-line prefer-destructuring
       }
-
-      card.rarity = rawCard.rarity_code;
-      card.set = rawCard.set_code;
-      card.sides = rawCard.sides;
-      card.subtitle = rawCard.subtitle;
-      card.subtypes = rawCard.subtypes;
-      card.type = rawCard.type_code;
 
       return card;
     },
@@ -128,20 +122,17 @@ characters = characters
 
 characters = characters
   .map((card, index) => ({
-    id: card.id,
-    name: card.name,
-    subtitle: card.subtitle,
-    set: card.set,
-
     affiliation: card.affiliation,
     damageTypes: card.damageTypes,
     faction: card.faction,
-
     health: card.health,
-
+    id: card.id,
     isUnique: card.isUnique,
-    pointsRegular: card.pointsRegular,
+    name: card.name,
     pointsElite: card.pointsElite,
+    pointsRegular: card.pointsRegular,
+    set: card.set,
+    subtitle: card.subtitle,
 
     rank: index,
   }));
@@ -151,13 +142,12 @@ characters.forEach((character) => {
   charactersObject[character.id] = character;
 });
 
-charactersStats.count = charactersObject.length || 0;
+charactersStats.count = characters.length || 0;
 
 
 console.log(`Output ${characters.length} characters...`); // eslint-disable-line no-console
 jsonfile.writeFile(path.join(__dirname, '../data/characters.json'), charactersObject);
 jsonfile.writeFile(path.join(__dirname, '../data/characters_stats.json'), charactersStats);
-
 jsonfile.writeFile(path.join(__dirname, '../data/characters_checksum.json'), {
   checksum: checksum(charactersObject),
   stats_checksum: checksum(charactersStats),
