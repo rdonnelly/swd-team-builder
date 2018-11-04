@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     ...baseStyles.button,
     backgroundColor: colors.darkGrayDark,
     flex: 1,
-    // padding: 8,
     marginBottom: 8,
   },
   buttonDisabled: {
@@ -99,22 +98,19 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   buttonIcon: {
-    color: colors.white,
-    fontSize: 16,
+    ...baseStyles.buttonText,
+    fontSize: 18,
     marginHorizontal: 4,
-    textAlign: 'center',
   },
   buttonText: {
-    color: colors.white,
-    fontSize: 14,
-    fontWeight: '600',
-    textAlign: 'center',
+    ...baseStyles.buttonText,
   },
   buttonTextHighlight: {
     fontStyle: 'italic',
+    fontWeight: '700',
   },
   buttonTextIcon: {
-    fontSize: 11,
+    fontSize: 14,
   },
 });
 
