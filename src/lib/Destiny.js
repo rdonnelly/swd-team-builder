@@ -22,6 +22,22 @@ const teams = [].concat(
   require('../../data/teams_12.json'),
   require('../../data/teams_13.json'),
   require('../../data/teams_14.json'),
+  require('../../data/teams_15.json'),
+  require('../../data/teams_16.json'),
+  require('../../data/teams_17.json'),
+  require('../../data/teams_18.json'),
+  require('../../data/teams_19.json'),
+  require('../../data/teams_20.json'),
+  require('../../data/teams_21.json'),
+  require('../../data/teams_22.json'),
+  require('../../data/teams_23.json'),
+  require('../../data/teams_24.json'),
+  require('../../data/teams_25.json'),
+  require('../../data/teams_26.json'),
+  require('../../data/teams_27.json'),
+  require('../../data/teams_28.json'),
+  require('../../data/teams_29.json'),
+  require('../../data/teams_30.json'),
 );
 
 const affiliations = [
