@@ -147,25 +147,9 @@ export const filterTeamsBySettings = (teams, settings) => {
 export const sortTeams = (teams, sortOrder) => {
   const sortedTeams = teams.slice(0);
 
-  sortedTeams.sort((a, b) => {
-    const sortValues = {
-      dice: a.ranks.diceCount - b.ranks.diceCount,
-      health: a.ranks.health - b.ranks.health,
-      points: a.ranks.points - b.ranks.points,
-      characterCount: a.ranks.characterCount - b.ranks.characterCount,
-    };
-
-    let sortValue = 0;
-    sortOrder.every((sortKey) => {
-      if (sortValues[sortKey] !== 0) {
-        sortValue = sortValues[sortKey];
-        return false;
-      }
-
-      return true;
-    });
-
-    return sortValue;
+  sortedTeams.sort((teamA, teamB) => {
+    const sortKey = sortOrder[0];
+    return teamA.ranks[sortKey] - teamB.ranks[sortKey];
   });
 
   return sortedTeams;
