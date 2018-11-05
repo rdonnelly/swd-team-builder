@@ -69,3 +69,8 @@ export const getAvailableTeamsCount = createSelector(
   [getAvailableTeams],
   teams => teams.length,
 );
+
+export const getAvailableTeamsCountLabel = createSelector(
+  [getAvailableTeamsCount],
+  count => (count > 1000 ? '1000+' : `${count}`),
+);
