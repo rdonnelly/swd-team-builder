@@ -142,6 +142,21 @@ const cardImages = {
   '07089': require('../../images/characters/07089.jpg'),
   '07090': require('../../images/characters/07090.jpg'),
   '07091': require('../../images/characters/07091.jpg'),
+
+  '08001': require('../../images/characters/08001.jpg'),
+  '08002': require('../../images/characters/08002.jpg'),
+  '08018': require('../../images/characters/08018.jpg'),
+  '08019': require('../../images/characters/08019.jpg'),
+  '08035': require('../../images/characters/08035.jpg'),
+  '08036': require('../../images/characters/08036.jpg'),
+  '08037': require('../../images/characters/08037.jpg'),
+  '08057': require('../../images/characters/08057.jpg'),
+  '08072': require('../../images/characters/08072.jpg'),
+  '08073': require('../../images/characters/08073.jpg'),
+  '08089': require('../../images/characters/08089.jpg'),
+  '08091': require('../../images/characters/08091.jpg'),
+  '08134': require('../../images/characters/08134.jpg'),
+  '08135': require('../../images/characters/08135.jpg'),
 };
 
 export {
