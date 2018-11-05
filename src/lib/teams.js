@@ -1,4 +1,3 @@
-import _intersection from 'lodash/intersection';
 import {
   affiliations as affiliationsList,
   factions as factionsList,
@@ -109,28 +108,28 @@ export const filterTeamsBySettings = (teams, settings) => {
 
     if (!skipAffiliations) {
       if (affiliations.length === 0 ||
-          (_intersection(team.affiliations, affiliations).length !== team.affiliations.length)) {
+          !team.affiliations.every(val => affiliations.includes(val))) {
         return false;
       }
     }
 
     if (!skipDamageTypes) {
       if (damageTypes.length === 0 ||
-          (_intersection(team.damageTypes, damageTypes).length !== team.damageTypes.length)) {
+          !team.damageTypes.every(val => damageTypes.includes(val))) {
         return false;
       }
     }
 
     if (!skipFactions) {
       if (factions.length === 0 ||
-          (_intersection(team.factions, factions).length !== team.factions.length)) {
+          !team.factions.every(val => factions.includes(val))) {
         return false;
       }
     }
 
     if (!skipSets) {
       if (sets.length === 0 ||
-          (_intersection(team.sets, sets).length !== team.sets.length)) {
+          !team.sets.every(val => sets.includes(val))) {
         return false;
       }
     }
