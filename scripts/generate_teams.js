@@ -360,8 +360,7 @@ const villainPlots = Object.values(plots).filter(plot => ['neutral', 'villain'].
 setCombinations.forEach((setCombination, index) => {
   console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${setCombination} (${index + 1}/${setCombinations.length})...`);
 
-  const setHeroPlots = heroPlots.filter(plot => setCombination.includes(plot.set));
-  setHeroPlots.forEach((plot) => {
+  heroPlots.forEach((plot) => {
     build(
       heroCharacters.filter(character => setCombination.includes(character.set)),
       new Team(plot),
@@ -370,8 +369,7 @@ setCombinations.forEach((setCombination, index) => {
     teams = cleanUpTeams(teams);
   });
 
-  const setVillainPlots = villainPlots.filter(plot => setCombination.includes(plot.set));
-  setVillainPlots.forEach((plot) => {
+  villainPlots.forEach((plot) => {
     build(
       villainCharacters.filter(character => setCombination.includes(character.set)),
       new Team(plot),
