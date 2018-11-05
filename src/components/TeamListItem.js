@@ -12,7 +12,7 @@ import { withNavigation } from 'react-navigation';
 import CharacterAvatar from './CharacterAvatar';
 import SWDIcon from './SWDIcon';
 
-import { characters, teamsStats } from '../lib/Destiny';
+import { characters } from '../lib/Destiny';
 
 import { colors } from '../styles';
 
@@ -86,11 +86,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
     marginRight: 6,
-  },
-  teamStatLast: {
-    color: colors.gray,
-    fontSize: 13,
-    fontWeight: '500',
   },
   arrow: {
     color: colors.gray,
@@ -179,8 +174,6 @@ class TeamListItem extends Component {
       );
     });
 
-    const plotPoints = teamsStats.maxPoints - teamObject.points;
-
     return (
       <TouchableOpacity
         activeOpacity={ 0.6 }
@@ -198,8 +191,6 @@ class TeamListItem extends Component {
             <Text style={ styles.teamStat }>{ teamObject.health } Health</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ teamObject.points } Points</Text>
-            { /* plotPoints ? (<Text style={ styles.teamStat }>&middot;</Text>) : null */ }
-            { /* plotPoints ? (<Text style={ styles.teamStatLast }>{ `${plotPoints} Plot Point${plotPoints > 1 ? 's' : ''}` }</Text>) : null */ }
           </View>
         </View>
         <View>
