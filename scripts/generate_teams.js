@@ -291,32 +291,28 @@ const cleanUpTeams = (dirtyTeams) => {
   return cleanTeams;
 };
 
-const sortTeams = (dirtyTeams) => {
-  let cleanTeams = dirtyTeams;
-
-  cleanTeams = _.sortBy(cleanTeams, ['diceCount', 'health', 'points', 'characterCount']).reverse().map((team, index) => {
+const sortTeams = (teamsToSort) => {
+  _.sortBy(teamsToSort, ['diceCount', 'health', 'points', 'characterCount']).reverse().map((team, index) => {
     team.ranks.diceCount = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['health', 'diceCount', 'points', 'characterCount']).reverse().map((team, index) => {
+  _.sortBy(teamsToSort, ['health', 'diceCount', 'points', 'characterCount']).reverse().map((team, index) => {
     team.ranks.health = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['points', 'diceCount', 'health', 'characterCount']).reverse().map((team, index) => {
+  _.sortBy(teamsToSort, ['points', 'diceCount', 'health', 'characterCount']).reverse().map((team, index) => {
     team.ranks.points = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['characterCount', 'diceCount', 'health', 'points']).reverse().map((team, index) => {
+  _.sortBy(teamsToSort, ['characterCount', 'diceCount', 'health', 'points']).reverse().map((team, index) => {
     team.ranks.characterCount = index;
     return team;
   });
 
-  cleanTeams = _.sortBy(cleanTeams, ['rankDiceCount', 'rankHealth', 'rankPoints', 'rankCharacterCount']);
-
-  return cleanTeams;
+  teamsToSort.sort((teamA, teamB) => teamA.ranks.diceCount - teamB.ranks.diceCount);
 };
 
 const calculateStats = (statsTeams) => {
