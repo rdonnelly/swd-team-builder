@@ -349,6 +349,7 @@ const calculateStats = (statsTeams) => {
 
 const setCombinations =
   generateSetCombinations(_.map(sets, 'code'))
+    .filter(set => set.length < 5) // no team has a character from 5 different sets
     .sort((a, b) => a.length - b.length);
 
 const heroCharacters = Object.values(characters).filter(character => ['hero', 'neutral'].includes(character.affiliation));
