@@ -293,7 +293,7 @@ class SettingsScreen extends PureComponent {
 
           <SettingSlider
             value={ settings.filters.plotPoints }
-            minValue={ 0 }
+            minValue={ plotsStats.minPoints }
             maxValue={ plotsStats.maxPoints }
             setting={ 'plotPoints' }
             label={ 'Plot Points' }
