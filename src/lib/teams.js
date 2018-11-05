@@ -96,11 +96,15 @@ export const filterTeamsBySettings = (teams, settings) => {
       return false;
     }
 
-    if (team.points > 30 - plotPoints) {
+    if (plotPoints < 0 && team.points < 31) {
       return false;
     }
 
-    if (plotPoints > 0 &&
+    if (plotPoints > 0 && team.points > 30 - plotPoints) {
+      return false;
+    }
+
+    if (plotPoints !== 0 &&
         plotFactions[0] !== 'gray' &&
         !team.factions.includes(plotFactions[0])) {
       return false;
