@@ -5,7 +5,6 @@ import { filterTeamsByDeck, filterTeamsBySettings, sortTeams } from '../../lib/t
 
 let initialSortRun = true;
 let initialFilteredByDeckRun = true;
-let initialFilteredBySettingsRun = true;
 
 const getTeamsState = state => state.teams;
 
@@ -50,14 +49,7 @@ export const getFilteredTeamsByDeck = createSelector(
 
 export const getFilteredTeamsBySettings = createSelector(
   [getFilteredTeamsByDeck, getSettings],
-  (teams, deckCharacters, settings) => {
-    if (initialFilteredBySettingsRun) {
-      initialFilteredBySettingsRun = false;
-      return teams;
-    }
-
-    return filterTeamsBySettings(teams, deckCharacters, settings);
-  },
+  (teams, deckCharacters, settings) => filterTeamsBySettings(teams, deckCharacters, settings),
 );
 
 export const getAvailableTeams = createSelector(
@@ -72,5 +64,5 @@ export const getAvailableTeamsCount = createSelector(
 
 export const getAvailableTeamsCountLabel = createSelector(
   [getAvailableTeamsCount],
-  count => (count > 1000 ? '1000+' : `${count}`),
+  count => (count > 10000 ? '10000+' : `${count}`),
 );
