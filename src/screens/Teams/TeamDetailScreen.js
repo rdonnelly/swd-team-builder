@@ -331,11 +331,11 @@ class TeamDetailScreen extends React.Component {
             { characterNames }
           </View>
           <View style={ styles.teamStatWrapper }>
-            <Text style={ styles.teamStat }>{ team.nD } Dice</Text>
+            <Text style={ styles.teamStat }>{ team.diceCount } Dice</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.h } Health</Text>
+            <Text style={ styles.teamStat }>{ team.health } Health</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.p } Points</Text>
+            <Text style={ styles.teamStat }>{ team.points } Points</Text>
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ teamAffiliationLabel }</Text>
           </View>
