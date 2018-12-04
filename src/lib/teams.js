@@ -96,11 +96,14 @@ export const filterTeamsBySettings = (teams, settings) => {
       return false;
     }
 
+    // TODO check if plot makes sense for team
+    //    for now, we will just hide < 31-point teams
+    //    later, e.g. we should show 5 jawas that benefit from the +1 health plot
     if (plotPoints < 0 && team.points < 31) {
       return false;
     }
 
-    if (plotPoints > 0 && team.points > 30 - plotPoints) {
+    if (team.points > 30 - plotPoints) {
       return false;
     }
 
