@@ -394,7 +394,7 @@ setCombinations.forEach((setCombination, index) => {
 });
 
 
-teams = sortTeams(teams);
+sortTeams(teams);
 calculateStats(teams);
 
 const numPages = Math.ceil(teams.length / PAGE_SIZE);
