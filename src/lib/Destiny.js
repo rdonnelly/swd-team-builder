@@ -37,7 +37,6 @@ const teams = [].concat(
   require('../../data/teams_27.json'),
   require('../../data/teams_28.json'),
   require('../../data/teams_29.json'),
-  require('../../data/teams_30.json'),
 );
 
 const affiliations = [

@@ -348,7 +348,7 @@ const calculateStats = (statsTeams) => {
 };
 
 const setCombinations =
-  generateSetCombinations(_.map(sets, 'code'))
+  generateSetCombinations([...sets].filter(set => set.date_release !== null).map(set => set.code))
     .filter(set => set.length < 5) // no team has a character from 5 different sets
     .sort((a, b) => a.length - b.length);
 
