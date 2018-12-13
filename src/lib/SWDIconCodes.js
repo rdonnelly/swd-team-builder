@@ -17,11 +17,12 @@ export const iconCodes = {
   CHARACTER: 'e971',
   COLLECTORS: 'e90c',
   DIE: 'e90a',
+  DOWNGRADE: 'e95e',
   EVENT: 'e9b5',
   PLOT: 'e912',
   SUPPORT: 'e9b4',
   UNIQUE: 'e909',
-  UPGRADE: 'e92e',
+  UPGRADE: 'e916',
 
   AW: 'e90d',
   AWAKENINGS: 'e90d',
@@ -40,6 +41,9 @@ export const iconCodes = {
   WotF: 'e915',
   WOTF: 'e915',
   WAY_OF_THE_FORCE: 'e915',
+  AtG: 'e917',
+  ATG: 'e917',
+  ACROSS_THE_GALAXY: 'e917',
 };
 
 export const validateCode = code => _has(iconCodes, code);
