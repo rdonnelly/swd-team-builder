@@ -44,6 +44,8 @@ export const iconCodes = {
   AtG: 'e917',
   ATG: 'e917',
   ACROSS_THE_GALAXY: 'e917',
+  CONV: 'e918',
+  CONVERGENCE: 'e918',
 };
 
 export const validateCode = code => _has(iconCodes, code);
