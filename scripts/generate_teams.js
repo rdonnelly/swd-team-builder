@@ -30,9 +30,10 @@ const teamsStats = {
 };
 
 const factionRank = {
-  red: 0,
-  blue: 1,
+  blue: 0,
+  red: 1,
   yellow: 2,
+  gray: 3,
 };
 
 class Team {
@@ -59,7 +60,7 @@ class Team {
 
   getKey() {
     return this.characters
-      .map(character => `${character.id}_${character.diceCount}_${character.count}`)
+      .map((character) => `${character.id}_${character.diceCount}_${character.count}`)
       .sort()
       .join('__');
   }
@@ -73,16 +74,16 @@ class Team {
 
   hasCharacterId(cardId) {
     return this.characters
-      .some(characterCard => characterCard.id === cardId);
+      .some((characterCard) => characterCard.id === cardId);
   }
 
   hasCharacterName(cardName) {
     return this.characters
-      .some(characterCard => characterCard.name === cardName);
+      .some((characterCard) => characterCard.name === cardName);
   }
 
   getCharacterCount(cardId) {
-    const characterObj = this.characters.find(characterCard => characterCard.id === cardId);
+    const characterObj = this.characters.find((characterCard) => characterCard.id === cardId);
     return characterObj ? characterObj.count : 0;
   }
 
@@ -98,7 +99,7 @@ class Team {
     };
 
     const existingCharacterObj = this.characters.find(
-      character => character.id === card.id,
+      (character) => character.id === card.id,
     );
 
     if (existingCharacterObj === undefined) {
@@ -241,7 +242,7 @@ const getEligibleCharacters = (potentialCharacters, team) => {
 
       return characterRegularPoints <= teamPointsRemaining;
     })
-    .filter(character => !character.isUnique || !team.hasCharacterName(character.name));
+    .filter((character) => !character.isUnique || !team.hasCharacterName(character.name));
 };
 
 const build = (potentialCharacters, team) => {
@@ -286,8 +287,8 @@ const generateSetCombinations = (startSetCodes) => {
 
 const cleanUpTeams = (dirtyTeams) => {
   let cleanTeams = dirtyTeams;
-  cleanTeams = cleanTeams.filter(team => team.characterCount > 0);
-  cleanTeams = _.uniqBy(cleanTeams, team => team.key);
+  cleanTeams = cleanTeams.filter((team) => team.characterCount > 0);
+  cleanTeams = _.uniqBy(cleanTeams, (team) => team.key);
   return cleanTeams;
 };
 
@@ -347,22 +348,24 @@ const calculateStats = (statsTeams) => {
   });
 };
 
+// const eligibleSets = [...sets].filter((set) => set.date_release !== null).map((set) => set.code);
+const eligibleSets = [...sets].map((set) => set.code);
 const setCombinations =
-  generateSetCombinations([...sets].filter(set => set.date_release !== null).map(set => set.code))
-    .filter(set => set.length < 5) // no team has a character from 5 different sets
+  generateSetCombinations(eligibleSets)
+    .filter((set) => set.length < 5) // no team has a character from 5 different sets
     .sort((a, b) => a.length - b.length);
 
-const heroCharacters = Object.values(characters).filter(character => ['hero', 'neutral'].includes(character.affiliation));
-const villainCharacters = Object.values(characters).filter(character => ['neutral', 'villain'].includes(character.affiliation));
-const heroPlots = Object.values(plots).filter(plot => ['hero', 'neutral'].includes(plot.affiliation));
-const villainPlots = Object.values(plots).filter(plot => ['neutral', 'villain'].includes(plot.affiliation));
+const heroCharacters = Object.values(characters).filter((character) => ['hero', 'neutral'].includes(character.affiliation));
+const villainCharacters = Object.values(characters).filter((character) => ['neutral', 'villain'].includes(character.affiliation));
+const heroPlots = Object.values(plots).filter((plot) => ['hero', 'neutral'].includes(plot.affiliation));
+const villainPlots = Object.values(plots).filter((plot) => ['neutral', 'villain'].includes(plot.affiliation));
 
 setCombinations.forEach((setCombination, index) => {
   console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${setCombination} (${index + 1}/${setCombinations.length})...`);
 
   heroPlots.forEach((plot) => {
     build(
-      heroCharacters.filter(character => setCombination.includes(character.set)),
+      heroCharacters.filter((character) => setCombination.includes(character.set)),
       new Team(plot),
     );
 
@@ -371,7 +374,7 @@ setCombinations.forEach((setCombination, index) => {
 
   villainPlots.forEach((plot) => {
     build(
-      villainCharacters.filter(character => setCombination.includes(character.set)),
+      villainCharacters.filter((character) => setCombination.includes(character.set)),
       new Team(plot),
     );
 
@@ -379,12 +382,12 @@ setCombinations.forEach((setCombination, index) => {
   });
 
   build(
-    heroCharacters.filter(character => setCombination.includes(character.set)),
+    heroCharacters.filter((character) => setCombination.includes(character.set)),
     new Team(),
   );
 
   build(
-    villainCharacters.filter(character => setCombination.includes(character.set)),
+    villainCharacters.filter((character) => setCombination.includes(character.set)),
     new Team(),
   );
 

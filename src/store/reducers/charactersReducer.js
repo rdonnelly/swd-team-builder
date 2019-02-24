@@ -4,6 +4,7 @@ import { characters } from '../../lib/Destiny';
 
 const initialState = {
   characters: Object.values(characters),
+  query: '',
 };
 
 const updateCharactersCompatibility =
@@ -15,7 +16,7 @@ const updateCharactersCompatibility =
     validSets,
     deckAffiliation,
     deckCharacters,
-  ) => charactersToUpdate.map((characterObject) => {
+  ) => charactersToUpdate.filter((characterObject) => {
     const characterAffiliation = characterObject.affiliation;
     const characterDamageTypes = characterObject.damageTypes;
     const characterFaction = characterObject.faction;
@@ -41,16 +42,14 @@ const updateCharactersCompatibility =
       !_find(deckCharacters,
         deckCharacter => deckCharacter.id !== characterId && deckCharacter.name === characterName);
 
-    const isIncompatible =
-      !hasValidAffiliation ||
-      !hasValidDamageTypes ||
-      !hasValidFaction ||
-      !hasValidSet ||
-      !hasValidUniqueness;
+    const isCompatible =
+      hasValidAffiliation &&
+      hasValidDamageTypes &&
+      hasValidFaction &&
+      hasValidSet &&
+      hasValidUniqueness;
 
-    return Object.assign({}, characterObject, {
-      isIncompatible,
-    });
+    return isCompatible;
   });
 
 const charactersReducer = (state = initialState, action) => {
@@ -65,10 +64,11 @@ const charactersReducer = (state = initialState, action) => {
         deckCharacters,
       } = action.payload;
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         characters:
           updateCharactersCompatibility(
-            state.characters,
+            initialState.characters,
             validAffiliations,
             validDamageTypes,
             validFactions,
@@ -76,17 +76,18 @@ const charactersReducer = (state = initialState, action) => {
             deckAffiliation,
             deckCharacters,
           ),
-      });
+      };
     }
 
     case 'UPDATE_CHARACTER_INCLUSION': {
-      return Object.assign({}, state, {
+      const {
+        excludedCharacterIds,
+      } = action.payload;
+
+      return {
+        ...state,
         characters:
           state.characters.map((characterObject) => {
-            const {
-              excludedCharacterIds,
-            } = action.payload;
-
             const characterId = characterObject.id;
             const isExcluded = excludedCharacterIds.includes(characterId);
 
@@ -94,7 +95,7 @@ const charactersReducer = (state = initialState, action) => {
               isExcluded,
             });
           }),
-      });
+      };
     }
 
     case 'RESET_CHARACTERS': {
@@ -106,7 +107,8 @@ const charactersReducer = (state = initialState, action) => {
         deckAffiliation,
       } = action.payload;
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         characters:
           updateCharactersCompatibility(
             initialState.characters,
@@ -116,7 +118,17 @@ const charactersReducer = (state = initialState, action) => {
             validSets,
             deckAffiliation,
           ),
-      });
+      };
+    }
+
+    case 'UPDATE_CHARACTER_QUERY': {
+      const {
+        query,
+      } = action.payload;
+      return {
+        ...state,
+        query,
+      };
     }
 
     default:

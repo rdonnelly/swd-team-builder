@@ -113,6 +113,13 @@ const resetCharacters = (
   },
 });
 
+const updateCharacterQuery = query => ({
+  type: 'UPDATE_CHARACTER_QUERY',
+  payload: {
+    query,
+  },
+});
+
 
 // TEAMS ACTIONS
 
@@ -158,7 +165,7 @@ const updateCharactersHelper = (dispatch, getState) => dispatch(
 
 // ACTIONS
 
-export const addCharacter = characterObject => (dispatch, getState) => {
+const addCharacter = characterObject => (dispatch, getState) => {
   if (characterObject.isUnique && getState().deck.characters.some(
     deckCharacterObject => deckCharacterObject.id === characterObject.id,
   )) {
@@ -171,19 +178,19 @@ export const addCharacter = characterObject => (dispatch, getState) => {
     .then(updateCharactersHelper(dispatch, getState));
 };
 
-export const setCharacterAny = characterObject => (dispatch, getState) => Promise.resolve()
+const setCharacterAny = characterObject => (dispatch, getState) => Promise.resolve()
   .then(dispatch(setCharacterAnyInDeck(characterObject)))
   .then(updateCharactersHelper(dispatch, getState));
 
-export const setCharacterRegular = characterObject => (dispatch, getState) => Promise.resolve()
+const setCharacterRegular = characterObject => (dispatch, getState) => Promise.resolve()
   .then(dispatch(setCharacterRegularInDeck(characterObject)))
   .then(updateCharactersHelper(dispatch, getState));
 
-export const setCharacterElite = characterObject => (dispatch, getState) => Promise.resolve()
+const setCharacterElite = characterObject => (dispatch, getState) => Promise.resolve()
   .then(dispatch(setCharacterEliteInDeck(characterObject)))
   .then(updateCharactersHelper(dispatch, getState));
 
-export const removeCharacter = characterObject => (dispatch, getState) => {
+const removeCharacter = characterObject => (dispatch, getState) => {
   if (!getState().deck.characters.some(
     deckCharacterObject => deckCharacterObject.id === characterObject.id,
   )) {
@@ -196,25 +203,41 @@ export const removeCharacter = characterObject => (dispatch, getState) => {
     .then(updateCharactersHelper(dispatch, getState));
 };
 
-export const includeCharacter = characterId => (dispatch, getState) => Promise.resolve()
+const includeCharacter = characterId => (dispatch, getState) => Promise.resolve()
   .then(dispatch(includeCharacterInDeck(characterId)))
   .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
 
-export const excludeCharacter = characterId => (dispatch, getState) => Promise.resolve()
+const excludeCharacter = characterId => (dispatch, getState) => Promise.resolve()
   .then(dispatch(excludeCharacterInDeck(characterId)))
   .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
 
-export const reset = () => (dispatch, getState) => Promise.resolve()
+const reset = () => (dispatch, getState) => Promise.resolve()
   .then(dispatch(resetDeck()))
   .then(dispatch(resetCharactersHelper(dispatch, getState)));
 
-export const resetFilters = () => (dispatch, getState) => Promise.resolve()
+const resetFilters = () => (dispatch, getState) => Promise.resolve()
   .then(dispatch(resetSettingsFilters()))
   .then(dispatch(resetCharactersHelper(dispatch, getState)));
 
-export const updateSetting = (key, value) => (dispatch, getState) => Promise.resolve()
+const updateSetting = (key, value) => (dispatch, getState) => Promise.resolve()
   .then(dispatch(setSetting(key, value)))
   .then(updateCharactersHelper(dispatch, getState));
 
-export const updateSort = value => dispatch => Promise.resolve()
+const updateSort = value => dispatch => Promise.resolve()
   .then(dispatch(setSort(value)));
+
+export {
+  addCharacter,
+  setCharacterAny,
+  setCharacterRegular,
+  setCharacterElite,
+  removeCharacter,
+  includeCharacter,
+  excludeCharacter,
+  reset,
+  updateCharacterQuery,
+
+  updateSetting,
+  updateSort,
+  resetFilters,
+};

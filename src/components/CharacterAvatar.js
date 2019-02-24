@@ -17,79 +17,85 @@ import { colors } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  imageContainer: {
     borderColor: colors.gray,
     borderRadius: 4,
     borderWidth: 2,
-    height: 72,
     overflow: 'hidden',
-    width: 72,
   },
-  blueBorder: {
+  imageContainerBorderBlue: {
     borderColor: colors.cardBlue,
   },
-  redBorder: {
+  imageContainerBorderRed: {
     borderColor: colors.cardRed,
   },
-  yellowBorder: {
+  imageContainerBorderYellow: {
     borderColor: colors.cardYellow,
   },
   infoContainer: {
     alignItems: 'center',
-    bottom: 0,
+    height: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    padding: 4,
   },
   diceContainer: {
     alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    height: '100%',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    paddingHorizontal: 4,
   },
   die: {
     backgroundColor: colors.transparent,
     color: colors.white,
-    fontSize: 14,
-    marginRight: 4,
+    fontSize: 12,
+    marginVertical: 2,
   },
   countContainer: {
     alignItems: 'center',
-    backgroundColor: colors.transparent,
-    flex: 1,
-    flexDirection: 'row',
+    height: '100%',
+    flexDirection: 'column',
     justifyContent: 'flex-end',
+    paddingBottom: 2,
   },
   count: {
     backgroundColor: colors.transparent,
     color: colors.white,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '900',
   },
 });
 
 class CharacterAvatar extends PureComponent {
-  getContainerStyles() {
-    const containerStyles = {
-      height: this.props.size,
-      width: this.props.size,
+  getImageContainerStyles() {
+    const { size, numDice, count } = this.props;
+    const displaySize = (numDice || count) ? size : size;
+
+    const imageContainerStyles = {
+      height: displaySize,
+      width: displaySize,
     };
 
     if (this.props.round) {
-      containerStyles.borderRadius = this.props.size / 2;
+      imageContainerStyles.borderRadius = displaySize / 2;
     }
 
-    return containerStyles;
+    return imageContainerStyles;
   }
 
   getImageStyles() {
-    const height = (244 / 100) * this.props.size;
-    const width = (175 / 100) * this.props.size;
+    const { size, numDice, count } = this.props;
+    const displaySize = (numDice || count) ? size : size;
 
-    const left = (-38 / 100) * this.props.size;
-    const top = (-36 / 100) * this.props.size;
+    const height = (244 / 100) * displaySize;
+    const width = (175 / 100) * displaySize;
+
+    const left = (-38 / 100) * displaySize;
+    const top = (-36 / 100) * displaySize;
 
     return {
       height, width, left, top,
@@ -100,17 +106,28 @@ class CharacterAvatar extends PureComponent {
     const { cardId, numDice, count } = this.props;
     const card = characters[cardId];
 
-    const containerStyles = [styles.container, this.getContainerStyles()];
-    const imageStyles = [styles.image, this.getImageStyles()];
+    const imageSrc = cardImages[cardId] || null;
+
+    const containerStyles = [styles.container];
+    const imageContainerStyles = [styles.imageContainer, this.getImageContainerStyles()];
+    const imageStyles = [this.getImageStyles()];
+    const dieStyles = [styles.die];
+    const countStyles = [styles.count];
 
     if (card.faction === 'blue') {
-      containerStyles.push(styles.blueBorder);
+      imageContainerStyles.push(styles.imageContainerBorderBlue);
+      countStyles.push({ color: colors.blue });
+      dieStyles.push({ color: colors.blue });
     }
     if (card.faction === 'red') {
-      containerStyles.push(styles.redBorder);
+      imageContainerStyles.push(styles.imageContainerBorderRed);
+      countStyles.push({ color: colors.red });
+      dieStyles.push({ color: colors.red });
     }
     if (card.faction === 'yellow') {
-      containerStyles.push(styles.yellowBorder);
+      imageContainerStyles.push(styles.imageContainerBorderYellow);
+      countStyles.push({ color: colors.yellow });
+      dieStyles.push({ color: colors.yellow });
     }
 
     const diceIcons = [];
@@ -119,7 +136,7 @@ class CharacterAvatar extends PureComponent {
         diceIcons.push(
           <SWDIcon
             key={ `avatar_die___${cardId}___${i}` }
-            style={ styles.die }
+            style={ dieStyles }
             type={ 'DIE' }
           />,
         );
@@ -127,27 +144,35 @@ class CharacterAvatar extends PureComponent {
     }
 
     const countText = count > 1 ?
-      <Text style={ styles.count }>
-        x{ count }
+      <Text style={ countStyles }>
+        { count }
       </Text> : null;
 
-    const imageSrc = cardImages[cardId] || null;
-
-    return (
-      <View style={ containerStyles }>
-        <Image
-          source={ imageSrc }
-          defaultSource={ cardBackTexture }
-          style={ imageStyles }
-        />
-        <View style={ styles.infoContainer }>
+    const infoContainer = (diceIcons.length || countText) ? (
+      <View style={ styles.infoContainer }>
+        { diceIcons.length ? (
           <View style={ styles.diceContainer }>
             { diceIcons }
           </View>
+        ) : null}
+        { countText ? (
           <View style={ styles.countContainer }>
             { countText }
           </View>
+        ) : null}
+      </View>
+    ) : null;
+
+    return (
+      <View style={ containerStyles }>
+        <View style={ imageContainerStyles }>
+          <Image
+            source={ imageSrc }
+            defaultSource={ cardBackTexture }
+            style={ imageStyles }
+          />
         </View>
+        { infoContainer }
       </View>
     );
   }

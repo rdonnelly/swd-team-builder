@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Alert,
@@ -8,56 +8,32 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { withNavigation } from 'react-navigation';
 
-import SWDIcon from './SWDIcon';
+import CharacterAvatar from './CharacterAvatar';
 
 import { reset } from '../store/actions';
 import { getDeckCharacters } from '../store/selectors/deckSelectors';
 
-import { characters } from '../lib/Destiny';
-
 import { colors } from '../styles';
 
-
-export const ITEM_HEIGHT = 36;
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    paddingLeft: 4,
   },
-  item: {
+  characterViews: {
     alignItems: 'center',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    height: ITEM_HEIGHT,
+    overflow: 'hidden',
   },
-  characterViews: {
-    flex: 1,
-  },
-  deckCard: {
-    color: colors.lightGrayDark,
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  blueCard: {
-    color: colors.cardBlue,
-  },
-  redCard: {
-    color: colors.cardRed,
-  },
-  yellowCard: {
-    color: colors.cardYellow,
-  },
-  dice: {
-    color: colors.white,
-    fontSize: 14,
-    marginLeft: 4,
+  characterView: {
+    marginRight: 8,
   },
   deckInfo: {
     color: colors.lightGray,
@@ -69,12 +45,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   resetButton: {
-    padding: 4,
+    paddingLeft: 16,
+    paddingRight: 4,
+    paddingVertical: 12,
   },
 });
 
 
-class SelectedCharacters extends PureComponent {
+class SelectedCharacters extends Component {
   navigateToCharacterDetails = characterId => () => {
     this.props.navigation.navigate('CharacterDetailScreen', { id: characterId });
   }
@@ -85,52 +63,34 @@ class SelectedCharacters extends PureComponent {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (this.props.deckCharacters !== nextProps.deckCharacters) {
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
-    const { deckCharacterObjects } = this.props;
+    const { deckCharacters } = this.props;
 
-    const characterViews = deckCharacterObjects.map((characterObject) => {
-      const card = characters[characterObject.id];
+    const characterViews = deckCharacters.map(characterObject => (
+      <TouchableOpacity
+        key={ `selected_character__${characterObject.id}` }
+        onPress={ this.navigateToCharacterDetails(characterObject.id) }
+        style={ styles.characterView }
+      >
+        <CharacterAvatar
+          cardId={ characterObject.id }
+          round={ true }
+          size={ 42 }
+          numDice={ characterObject.numDice }
+          count={ characterObject.count }
+        />
+      </TouchableOpacity>
+    ));
 
-      const characterStyles = [styles.deckCard];
-      const diceStyles = [styles.dice];
-
-      if (card.faction === 'blue') {
-        characterStyles.push(styles.blueCard);
-        diceStyles.push(styles.blueCard);
-      } else if (card.faction === 'red') {
-        characterStyles.push(styles.redCard);
-        diceStyles.push(styles.redCard);
-      } else if (card.faction === 'yellow') {
-        characterStyles.push(styles.yellowCard);
-        diceStyles.push(styles.yellowCard);
-      }
-
-      const diceIcons = [];
-      for (let i = 0; i < characterObject.numDice; i += 1) {
-        diceIcons.push(
-          <SWDIcon
-            key={ `die__${card.id}__${i}` }
-            type={ 'DIE' }
-            style={ diceStyles }
-          />,
-        );
-      }
-
-      return (
-          <TouchableOpacity
-            onPress={ this.navigateToCharacterDetails(card.id) }
-            key={ `character__${card.id}` }
-            style={ styles.item }
-          >
-            <Text style={ characterStyles }>
-              { card.name + (characterObject.count > 1 ? ` x${characterObject.count}` : '') }
-            </Text>
-            { diceIcons }
-          </TouchableOpacity>
-      );
-    });
-
-    return deckCharacterObjects.length ? (
+    return deckCharacters.length ? (
       <View style={ styles.container }>
         <View style={ styles.characterViews }>
           { characterViews }
@@ -147,7 +107,7 @@ class SelectedCharacters extends PureComponent {
               ],
             )}
           >
-            <Icon name={ 'trash-o' } size={ 24 } color={ colors.lightGray } />
+            <FontAwesome5Icon name={ 'trash-alt' } size={ 24 } color={ colors.lightGray } />
           </TouchableOpacity>
         </View>
       </View>
@@ -162,13 +122,14 @@ class SelectedCharacters extends PureComponent {
 }
 
 SelectedCharacters.propTypes = {
-  deckCharacterObjects: PropTypes.array.isRequired,
-  reset: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
+
+  deckCharacters: PropTypes.array.isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  deckCharacterObjects: getDeckCharacters(state),
+  deckCharacters: getDeckCharacters(state),
 });
 
 const mapDispatchToProps = {

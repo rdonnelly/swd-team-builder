@@ -11,6 +11,8 @@ import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
 import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
 import dbSetWotF from 'swdestinydb-json-data/set/WotF.json';
 import dbSetAtG from 'swdestinydb-json-data/set/AtG.json';
+import dbSetConv from 'swdestinydb-json-data/set/CONV.json';
+import dbSetAoN from 'swdestinydb-json-data/set/AoN.json';
 
 import formats from 'swdestinydb-json-data/formats.json';
 
@@ -25,12 +27,13 @@ const affiliationOrder = {
 };
 
 const factionOrder = {
-  red: 0,
-  blue: 1,
+  blue: 0,
+  red: 1,
   yellow: 2,
+  gray: 3,
 };
 
-const infiniteFormat = formats.filter(format => format.code === 'INF').pop();
+const infiniteFormat = formats.filter((format) => format.code === 'INF').pop();
 
 let characters =
   [].concat(
@@ -42,8 +45,10 @@ let characters =
     dbSetRIV,
     dbSetWotF,
     dbSetAtG,
+    dbSetConv,
+    dbSetAoN,
   ).filter(
-    rawCard => rawCard.type_code === 'character',
+    (rawCard) => rawCard.type_code === 'character',
   ).map(
     (rawCard) => {
       const card = {};
@@ -88,7 +93,7 @@ let characters =
       }
 
       if (cardPoints) {
-        const cardPointsSplit = cardPoints.split('/').map(v => parseInt(v, 10));
+        const cardPointsSplit = cardPoints.split('/').map((v) => parseInt(v, 10));
         card.pointsRegular = cardPointsSplit[0]; // eslint-disable-line prefer-destructuring
         card.pointsElite = cardPointsSplit[1]; // eslint-disable-line prefer-destructuring
       }

@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   actionBar: {
-    backgroundColor: colors.darkGray,
+    backgroundColor: colors.darkGrayTranslucent95,
     paddingBottom: 8,
     paddingHorizontal: 8,
     paddingTop: 16,
@@ -117,11 +117,16 @@ const styles = StyleSheet.create({
 
 class CharacterDetailScreen extends Component {
   static navigationOptions = {
-    title: 'Character Details',
-    headerTintColor: colors.headerTint,
-    headerStyle: {
-      backgroundColor: colors.headerBackground,
-    },
+    headerTitle: 'Character',
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (this.props.characters !== nextProps.characters ||
+        this.props.deckCharacters !== nextProps.deckCharacters) {
+      return true;
+    }
+
+    return false;
   }
 
   render() {
@@ -324,6 +329,7 @@ class CharacterDetailScreen extends Component {
 
 CharacterDetailScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
+
   characters: PropTypes.array.isRequired,
   deckCharacters: PropTypes.array.isRequired,
 

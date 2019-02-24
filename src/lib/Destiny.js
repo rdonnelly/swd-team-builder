@@ -3,6 +3,7 @@ import sets from 'swdestinydb-json-data/sets.json';
 import characters from '../../data/characters.json';
 import plots from '../../data/plots.json';
 
+import charactersStats from '../../data/characters_stats.json';
 import plotsStats from '../../data/plots_stats.json';
 import teamsStats from '../../data/teams_stats.json';
 
@@ -61,6 +62,7 @@ const factions = [
 
 export {
   characters,
+  charactersStats,
 
   plots,
   plotsStats,
