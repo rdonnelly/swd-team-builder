@@ -1,13 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   ActionSheetIOS,
-  Button,
   FlatList,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
 
 import TeamListItem from '../../components/TeamListItem';
@@ -19,11 +20,19 @@ import { base, colors } from '../../styles';
 
 
 const styles = StyleSheet.create({
+  headerIconContainer: {
+    ...base.headerIconContainer,
+  },
+  headerIcon: {
+    ...base.headerIcon,
+  },
   container: {
     ...base.container,
     backgroundColor: colors.lightGray,
   },
   list: {
+    backgroundColor: colors.lightGrayTranslucent,
+    flex: 1,
     width: '100%',
   },
   messageContainer: {
@@ -44,22 +53,23 @@ const styles = StyleSheet.create({
   },
 });
 
-class TeamListScreen extends PureComponent {
+class TeamListScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { state } = navigation;
     return {
-      title: 'Teams',
+      headerTitle: 'Teams',
       headerRight: (
-        <Button
-          title={ 'Sort' }
-          color={ colors.white }
+        <TouchableOpacity
           onPress={ () => { state.params.showSortActionSheet(); } }
-        />
+          style={ styles.headerIconContainer }
+        >
+          <FontAwesome5Icon
+            name={ 'sort-amount-down' }
+            size={ 18 }
+            style={ styles.headerIcon }
+          />
+        </TouchableOpacity>
       ),
-      headerTintColor: colors.headerTint,
-      headerStyle: {
-        backgroundColor: colors.headerBackground,
-      },
     };
   };
 
@@ -72,6 +82,14 @@ class TeamListScreen extends PureComponent {
         showSortActionSheet: this.showSortActionSheet,
       });
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (this.props.teams !== nextProps.teams) {
+      return true;
+    }
+
+    return false;
   }
 
   resetScreen = () => {
@@ -112,13 +130,11 @@ class TeamListScreen extends PureComponent {
     });
   }
 
-  renderItem = ({ item: teamObject }) => {
-    return (
-      <TeamListItem
-        teamObject={ teamObject }
-      />
-    );
-  }
+  renderItem = ({ item: teamObject }) => (
+    <TeamListItem
+      teamObject={ teamObject }
+    />
+  )
 
   render() {
     const list = this.props.teams.length ? (
@@ -158,12 +174,16 @@ const mapStateToProps = state => ({
   teams: getAvailableTeams(state),
 });
 
-const mapDispatchToProps = { updateSort };
+const mapDispatchToProps = {
+  updateSort,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeamListScreen);
 
 TeamListScreen.propTypes = {
-  teams: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired,
+
+  teams: PropTypes.array.isRequired,
+
   updateSort: PropTypes.func.isRequired,
 };

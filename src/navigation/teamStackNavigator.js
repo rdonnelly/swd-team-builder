@@ -1,8 +1,9 @@
-import _get from 'lodash/get';
 import { createStackNavigator } from 'react-navigation';
 
 import TeamListScreen from '../screens/Teams/TeamListScreen';
 import TeamDetailScreen from '../screens/Teams/TeamDetailScreen';
+
+import { colors } from '../styles';
 
 const routeConfiguration = {
   TeamListScreen: {
@@ -16,34 +17,18 @@ const routeConfiguration = {
 };
 
 const stackNavigatorConfiguration = {
-  initialRoute: 'TeamListScreen',
+  initialRouteName: 'TeamListScreen',
+  defaultNavigationOptions: {
+    headerTintColor: colors.headerTint,
+    headerStyle: {
+      backgroundColor: colors.headerBackground,
+    },
+  },
 };
 
-const teamStackNavigator = createStackNavigator(
+const TeamStackNavigator = createStackNavigator(
   routeConfiguration,
   stackNavigatorConfiguration,
 );
 
-teamStackNavigator.navigationOptions = {
-  tabBarLabel: 'Teams',
-  tabBarOnPress: ({ navigation, defaultHandler }) => {
-    if (navigation.isFocused()) {
-      if (navigation.state.index === 0) {
-        const stackNavigation = _get(navigation, 'state.routes[0]');
-        if (stackNavigation &&
-            stackNavigation.params &&
-            stackNavigation.params.resetScreen) {
-          stackNavigation.params.resetScreen();
-        }
-      }
-
-      if (navigation.state.index === 1) {
-        navigation.navigate('TeamListScreen');
-      }
-    } else {
-      defaultHandler();
-    }
-  },
-};
-
-export default teamStackNavigator;
+export default TeamStackNavigator;

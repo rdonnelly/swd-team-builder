@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/Entypo';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Swipeable from 'react-native-swipeable';
 import { withNavigation } from 'react-navigation';
 
@@ -28,15 +28,17 @@ export const ITEM_HEIGHT = 72;
 const styles = StyleSheet.create({
   row: {
     alignItems: 'center',
-    borderLeftWidth: 4,
-    borderLeftColor: colors.lightGray,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    backgroundColor: colors.lightGray,
     borderBottomColor: colors.lightGrayDark,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderLeftColor: colors.lightGray,
+    borderLeftWidth: 4,
     flexDirection: 'row',
     flexWrap: 'wrap',
     height: ITEM_HEIGHT,
     justifyContent: 'space-between',
-    paddingHorizontal: 8,
+    paddingLeft: 8,
+    paddingRight: 16,
     paddingVertical: 12,
   },
   excludedRow: {
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
   arrow: {
     color: colors.gray,
     marginTop: 2,
+    textAlign: 'right',
   },
   arrowIncompatible: {
     color: colors.lightGrayDark,
@@ -211,7 +214,7 @@ class CharacterListItem extends Component {
 
     const rightButtons = characterIsExcluded ? [
       <TouchableHighlight
-        key={ 'right-button-include'}
+        key={ 'right-button-include' }
         activeOpacity={ 0.9 }
         style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
         underlayColor={ colors.orangeDark }
@@ -226,7 +229,7 @@ class CharacterListItem extends Component {
       </TouchableHighlight>,
     ] : [
       <TouchableHighlight
-        key={ 'right-button-exclude'}
+        key={ 'right-button-exclude' }
         activeOpacity={ 0.9 }
         style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
         underlayColor={ colors.orangeDark }
@@ -268,7 +271,7 @@ class CharacterListItem extends Component {
               { cardInfo }
             </View>
             <View>
-              <Icon name={ 'chevron-right' } size={ 20 } style={ arrowStyle } />
+              <FontAwesome5Icon name={ 'chevron-right' } size={ 16 } style={ arrowStyle } />
             </View>
           </View>
         </TouchableHighlight>

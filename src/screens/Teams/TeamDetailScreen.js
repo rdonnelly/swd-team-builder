@@ -167,11 +167,7 @@ const styles = StyleSheet.create({
 
 class TeamDetailScreen extends React.Component {
   static navigationOptions = {
-    title: 'Team Details',
-    headerTintColor: colors.headerTint,
-    headerStyle: {
-      backgroundColor: colors.headerBackground,
-    },
+    headerTitle: 'Team',
   }
 
   constructor(props) {
@@ -196,11 +192,11 @@ class TeamDetailScreen extends React.Component {
     const currentTeamKey = this.props.navigation.getParam('key');
     const nextTeamKey = nextProps.navigation.getParam('key');
 
-    if (currentTeamKey === nextTeamKey) {
-      return false;
+    if (currentTeamKey !== nextTeamKey) {
+      return true;
     }
 
-    return true;
+    return false;
   }
 
   scrollSwiper = index => () => {
@@ -212,11 +208,9 @@ class TeamDetailScreen extends React.Component {
 
   searchSWDestinyDB = () => {
     const teamKey = this.props.navigation.getParam('key');
-    const { teams } = this.props;
-    const team = teams.find(teamObj => teamObj.key === teamKey);
 
     const urlParams = [];
-    team.key.split('__').forEach((characterKey) => {
+    teamKey.split('__').forEach((characterKey) => {
       const cardId = characterKey.split('_').shift();
       urlParams.push(`cards[]=${cardId}`);
     });
@@ -231,7 +225,8 @@ class TeamDetailScreen extends React.Component {
     const teamKey = this.props.navigation.getParam('key');
     const { teams } = this.props;
     const team = teams.find(teamObj => teamObj.key === teamKey);
-    const maxPlotPoint = teamsStats.maxPoints - team.p;
+    // const maxPlotPoint = teamsStats.maxPoints - team.points;
+    const maxPlotPoint = false;
 
     const characterAvatars = team.key.split('__').map((characterKey, index) => {
       const [cardId] = characterKey.split('_');
@@ -344,8 +339,8 @@ class TeamDetailScreen extends React.Component {
               <Text style={ styles.plotStatusText }>
                 Team Supports Plot of Cost { maxPlotPoint } or Less
               </Text>
-            </View>) : null
-          }
+            </View>
+          ) : null }
           <View style={ styles.teamSearch }>
             <TouchableOpacity
               onPress={ this.searchSWDestinyDB }
@@ -378,6 +373,7 @@ class TeamDetailScreen extends React.Component {
 
 TeamDetailScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
+
   teams: PropTypes.array.isRequired,
 };
 

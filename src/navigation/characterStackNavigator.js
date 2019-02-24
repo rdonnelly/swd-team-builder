@@ -1,8 +1,12 @@
-import _get from 'lodash/get';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+import { KeyboardAvoidingView } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 import CharacterListScreen from '../screens/Characters/CharacterListScreen';
 import CharacterDetailScreen from '../screens/Characters/CharacterDetailScreen';
+
+import { colors } from '../styles';
 
 const routeConfiguration = {
   CharacterListScreen: {
@@ -16,34 +20,39 @@ const routeConfiguration = {
 };
 
 const stackNavigatorConfiguration = {
-  initialRoute: 'CharacterListScreen',
+  initialRouteName: 'CharacterListScreen',
+  defaultNavigationOptions: {
+    headerTintColor: colors.headerTint,
+    headerStyle: {
+      backgroundColor: colors.headerBackground,
+    },
+  },
 };
 
-const characterStackNavigator = createStackNavigator(
+const CharacterStackNavigator = createStackNavigator(
   routeConfiguration,
   stackNavigatorConfiguration,
 );
 
-characterStackNavigator.navigationOptions = {
-  tabBarLabel: 'Characters',
-  tabBarOnPress: ({ navigation, defaultHandler }) => {
-    if (navigation.isFocused()) {
-      if (navigation.state.index === 0) {
-        const stackNavigation = _get(navigation, 'state.routes[0]');
-        if (stackNavigation &&
-            stackNavigation.params &&
-            stackNavigation.params.resetScreen) {
-          stackNavigation.params.resetScreen();
-        }
-      }
+class KeyboardAvoidingCharacterStackNavigator extends PureComponent {
+  static router = CharacterStackNavigator.router;
 
-      if (navigation.state.index === 1) {
-        navigation.navigate('CharacterListScreen');
-      }
-    } else {
-      defaultHandler();
-    }
-  },
+  render() {
+    const { navigation } = this.props;
+    const keyboardAvoidingViewStyle = { flex: 1 };
+    return (
+      <KeyboardAvoidingView
+        behavior={ 'padding' }
+        style={ keyboardAvoidingViewStyle }
+      >
+        <CharacterStackNavigator navigation={navigation} />
+      </KeyboardAvoidingView>
+    );
+  }
+}
+
+KeyboardAvoidingCharacterStackNavigator.propTypes = {
+  navigation: PropTypes.object.isRequired,
 };
 
-export default characterStackNavigator;
+export default KeyboardAvoidingCharacterStackNavigator;

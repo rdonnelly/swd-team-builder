@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Alert,
@@ -71,18 +71,10 @@ const styles = StyleSheet.create({
   },
 });
 
-class SettingsScreen extends PureComponent {
+class SettingsScreen extends Component {
   static navigationOptions = {
-    title: 'Settings',
-    headerTintColor: colors.headerTint,
-    headerStyle: {
-      backgroundColor: colors.headerBackground,
-    },
+    headerTitle: 'Settings',
   }
-
-  state = {
-    updateTimeoutId: false,
-  };
 
   constructor(props) {
     super(props);
@@ -106,6 +98,14 @@ class SettingsScreen extends PureComponent {
         resetScreen: this.resetScreen,
       });
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (this.props.settings !== nextProps.settings) {
+      return true;
+    }
+
+    return false;
   }
 
   static visitWebpage() {
@@ -330,6 +330,14 @@ class SettingsScreen extends PureComponent {
   }
 }
 
+SettingsScreen.propTypes = {
+  navigation: PropTypes.object.isRequired,
+
+  settings: PropTypes.object.isRequired,
+
+  resetFilters: PropTypes.func.isRequired,
+  updateSetting: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   settings: getSettings(state),
@@ -341,11 +349,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
-
-SettingsScreen.propTypes = {
-  navigation: PropTypes.object.isRequired,
-  settings: PropTypes.object.isRequired,
-
-  resetFilters: PropTypes.func.isRequired,
-  updateSetting: PropTypes.func.isRequired,
-};

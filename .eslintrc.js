@@ -19,11 +19,12 @@ module.exports = {
     'plugin:react/recommended',
   ],
   rules: {
-    'arrow-body-style' : 'warn',
+    'arrow-parens': ['error', 'always'],
     'class-methods-use-this': ['off'],
     'import/prefer-default-export': 'off',
     'no-param-reassign': ['error', { 'props': false }],
     'operator-linebreak': ['error', 'after'],
+    'react-native/sort-styles': 'off',
   },
   settings: {
     react: {

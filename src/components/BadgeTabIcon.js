@@ -78,7 +78,7 @@ class BadgeTabIcon extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   teamsCountLabel: getAvailableTeamsCountLabel(state),
 });
 

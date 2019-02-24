@@ -1,10 +1,10 @@
-/* eslint-disable react/display-name */
+import _get from 'lodash/get';
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
 
-import characterStackNavigator from './characterStackNavigator';
-import teamStackNavigator from './teamStackNavigator';
-import settingsStackNavigator from './settingsStackNavigator';
+import CharacterStackNavigator from './CharacterStackNavigator';
+import TeamStackNavigator from './TeamStackNavigator';
+import SettingsStackNavigator from './SettingsStackNavigator';
 import BadgeTabIcon from '../components/BadgeTabIcon';
 
 import { colors } from '../styles';
@@ -12,24 +12,24 @@ import { colors } from '../styles';
 
 const routeConfiguration = {
   Characters: {
-    screen: characterStackNavigator,
+    screen: CharacterStackNavigator,
     path: 'characters',
   },
   Teams: {
-    screen: teamStackNavigator,
+    screen: TeamStackNavigator,
     path: 'teams',
   },
   Settings: {
-    screen: settingsStackNavigator,
+    screen: SettingsStackNavigator,
     path: 'settings',
   },
 };
 
-const bottomTabNavigatorConfig = {
-  initialRoute: 'Characters',
+const tabNavigatorConfig = {
+  initialRouteName: 'Characters',
   backBehavior: 'none',
-  navigationOptions: ({ navigation }) => ({
-    // eslint-disable-next-line react/prop-types
+  defaultNavigationOptions: ({ navigation }) => ({
+    // eslint-disable-next-line react/prop-types, react/display-name
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;
       let iconName;
@@ -54,6 +54,18 @@ const bottomTabNavigatorConfig = {
         />
       );
     },
+    tabBarOnPress: ({ navigation: tabNavigation, defaultHandler }) => {
+      if (tabNavigation.isFocused() && tabNavigation.state.index === 0) {
+        const stackNavigation = _get(tabNavigation, 'state.routes[0]');
+        if (stackNavigation &&
+            stackNavigation.params &&
+            stackNavigation.params.resetScreen) {
+          stackNavigation.params.resetScreen();
+        }
+      } else {
+        defaultHandler();
+      }
+    },
   }),
   tabBarOptions: {
     activeTintColor: colors.tabActiveTint,
@@ -64,7 +76,9 @@ const bottomTabNavigatorConfig = {
   },
 };
 
-export default createBottomTabNavigator(
+const TabNavigator = createBottomTabNavigator(
   routeConfiguration,
-  bottomTabNavigatorConfig,
+  tabNavigatorConfig,
 );
+
+export default TabNavigator;

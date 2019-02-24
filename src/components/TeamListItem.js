@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { withNavigation } from 'react-navigation';
 
 import CharacterAvatar from './CharacterAvatar';
@@ -20,6 +20,7 @@ import { colors } from '../styles';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    backgroundColor: colors.lightGray,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: colors.lightGrayDark,
     flexDirection: 'row',
@@ -194,7 +195,7 @@ class TeamListItem extends Component {
           </View>
         </View>
         <View>
-          <Icon name={ 'chevron-right' } size={ 20 } style={ arrowStyle } />
+          <FontAwesome5Icon name={ 'chevron-right' } size={ 16 } style={ arrowStyle } />
         </View>
       </TouchableOpacity>
     );
