@@ -64,6 +64,7 @@ let characters =
       card.pointsRegular = null;
       card.set = rawCard.set_code;
       card.subtitle = rawCard.subtitle;
+      card.subtypes = rawCard.subtypes;
 
       // set damage types
       card.damageTypes = _.uniq(rawCard.sides.reduce((acc, val) => {
@@ -138,6 +139,8 @@ characters = characters
     pointsRegular: card.pointsRegular,
     set: card.set,
     subtitle: card.subtitle,
+    subtypes: card.subtypes,
+    types: card.type,
 
     rank: index,
   }));

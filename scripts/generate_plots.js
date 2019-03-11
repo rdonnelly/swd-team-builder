@@ -16,6 +16,19 @@ import dbSetAtG from 'swdestinydb-json-data/set/AtG.json';
 import dbSetConv from 'swdestinydb-json-data/set/CONV.json';
 import dbSetAoN from 'swdestinydb-json-data/set/AoN.json';
 
+const affiliationOrder = {
+  villain: 0,
+  hero: 1,
+  neutral: 2,
+};
+
+const factionOrder = {
+  blue: 0,
+  red: 1,
+  yellow: 2,
+  gray: 3,
+};
+
 const plotsStats = {
   affiliations: [],
   count: 0,
@@ -68,6 +81,14 @@ let plots =
 
 plots = plots
   .sort((a, b) => {
+    if (a.affiliation !== b.affiliation) {
+      return affiliationOrder[a.affiliation] - affiliationOrder[b.affiliation];
+    }
+
+    if (a.faction !== b.faction) {
+      return factionOrder[a.faction] - factionOrder[b.faction];
+    }
+
     if (a.points !== b.points) {
       return a.points - b.points;
     }
@@ -89,6 +110,16 @@ plots = plots
     name: card.name,
     points: card.points,
     set: card.set,
+
+    hasRestriction: [
+      '08054', // PLOT: Retribution, 08054
+      '08155', // PLOT: No Allegiance, 08155
+      '08156', // PLOT: Solidarity, 08156
+      '10016', // PLOT: Allies of Necessity, 10016
+    ].includes(card.id),
+    hasModification: [
+      '08155', // PLOT: No Allegiance, 08155
+    ].includes(card.id),
 
     rank: index,
   }));
