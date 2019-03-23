@@ -1,5 +1,4 @@
 import {
-  teams,
   teamsStats,
 
   affiliations,
@@ -10,7 +9,6 @@ import {
 
 
 const initialState = {
-  teams,
   settings: {
     filters: {
       minCharacterCount: Math.max(teamsStats.minCharacterCount, 1),
@@ -28,10 +26,10 @@ const initialState = {
       plotPoints: 0,
       plotFactions: ['gray'],
 
-      affiliations: affiliations.map(affiliation => affiliation.code),
-      damageTypes: damageTypes.map(damageType => damageType.code),
-      factions: factions.map(faction => faction.code),
-      sets: sets.map(set => set.code),
+      affiliations: affiliations.map((affiliation) => affiliation.code),
+      damageTypes: damageTypes.map((damageType) => damageType.code),
+      factions: factions.map((faction) => faction.code),
+      sets: sets.map((set) => set.code),
     },
     sortOrder: [
       'dice', 'health', 'points', 'characterCount',
