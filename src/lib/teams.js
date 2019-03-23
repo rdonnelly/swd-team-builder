@@ -13,8 +13,8 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
   let outputTeams = teams;
 
   deckCharacters.forEach((deckCharacterObject) => {
-    const { numDice } = deckCharacterObject;
-    const characterKey = `${deckCharacterObject.id}_${numDice}_${deckCharacterObject.count}`;
+    const { diceCount } = deckCharacterObject;
+    const characterKey = `${deckCharacterObject.id}_${diceCount}_${deckCharacterObject.count}`;
     const regularCharacterKey = `${deckCharacterObject.id}_1_${deckCharacterObject.count}`;
     const eliteCharacterKey = `${deckCharacterObject.id}_2_${deckCharacterObject.count}`;
 
@@ -23,7 +23,7 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
         return false;
       }
 
-      if (numDice === 0) {
+      if (diceCount === 0) {
         return team.key.includes(regularCharacterKey) ||
           team.key.includes(eliteCharacterKey);
       }
@@ -33,7 +33,7 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
   });
 
   excludedCharacterIds.forEach((excludedCharacterId) => {
-    outputTeams = outputTeams.filter(team => !team.key.includes(excludedCharacterId));
+    outputTeams = outputTeams.filter((team) => !team.key.includes(excludedCharacterId));
   });
 
   return outputTeams;
@@ -115,28 +115,28 @@ export const filterTeamsBySettings = (teams, settings) => {
 
     if (!skipAffiliations) {
       if (affiliations.length === 0 ||
-          !team.affiliations.every(val => affiliations.includes(val))) {
+          !team.affiliations.every((val) => affiliations.includes(val))) {
         return false;
       }
     }
 
     if (!skipDamageTypes) {
       if (damageTypes.length === 0 ||
-          !team.damageTypes.every(val => damageTypes.includes(val))) {
+          !team.damageTypes.every((val) => damageTypes.includes(val))) {
         return false;
       }
     }
 
     if (!skipFactions) {
       if (factions.length === 0 ||
-          !team.factions.every(val => factions.includes(val))) {
+          !team.factions.every((val) => factions.includes(val))) {
         return false;
       }
     }
 
     if (!skipSets) {
       if (sets.length === 0 ||
-          !team.sets.every(val => sets.includes(val))) {
+          !team.sets.every((val) => sets.includes(val))) {
         return false;
       }
     }

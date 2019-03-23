@@ -223,7 +223,7 @@ const updateSetting = (key, value) => (dispatch, getState) => Promise.resolve()
   .then(dispatch(setSetting(key, value)))
   .then(updateCharactersHelper(dispatch, getState));
 
-const updateSort = value => dispatch => Promise.resolve()
+const updateSort = (value) => (dispatch) => Promise.resolve()
   .then(dispatch(setSort(value)));
 
 export {

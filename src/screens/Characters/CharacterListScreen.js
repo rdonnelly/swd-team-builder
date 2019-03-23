@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-// import DeviceInfo from 'react-native-device-info';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
 
@@ -318,15 +317,13 @@ class CharacterListScreen extends Component {
           data={ this.props.characters }
           extraData={ this.state }
           renderItem={ this.renderItem }
-          keyExtractor={ item => item.id }
+          keyExtractor={ (item) => item.id }
           getItemLayout={ CharacterListScreen.getItemLayout }
           onScrollEndDrag={ this.closeOpenSwipeable }
           contentContainerStyle={ listContentStyles }
           ListFooterComponent={ this.renderFooter }
-          initialNumToRender={ 9 }
-          // maxToRenderPerBatch={ 9 }
-          // updateCellsBatchingPeriod={ 100 }
-          // windowSize={ 35 }
+          updateCellsBatchingPeriod={ 100 }
+          windowSize={ 42 }
         />
         <ScrollView
           horizontal={ true }
@@ -376,7 +373,7 @@ CharacterListScreen.propTypes = {
   updateCharacterQuery: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   characters: getCharactersSortedAndQueried(state),
   characterQuery: getQuery(state),
   characterCountTotal: getCharacterCountTotal(state),

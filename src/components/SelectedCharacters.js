@@ -84,7 +84,7 @@ class SelectedCharacters extends Component {
           cardId={ characterObject.id }
           round={ true }
           size={ 42 }
-          numDice={ characterObject.numDice }
+          numDice={ characterObject.diceCount }
           count={ characterObject.count }
         />
       </TouchableOpacity>

@@ -116,10 +116,6 @@ const styles = StyleSheet.create({
 
 
 class CharacterDetailScreen extends Component {
-  static navigationOptions = {
-    headerTitle: 'Character',
-  }
-
   shouldComponentUpdate(nextProps) {
     if (this.props.characters !== nextProps.characters ||
         this.props.deckCharacters !== nextProps.deckCharacters) {
@@ -242,13 +238,13 @@ class CharacterDetailScreen extends Component {
 
     const anyButton = characterIsInDeck && characterObject.isUnique ?
       <TouchableOpacity
-        disabled={ deckCharacterObject.numDice === 0 }
+        disabled={ deckCharacterObject.diceCount === 0 }
         onPress={ () => this.props.setCharacterAny(characterObject) }
         style={ [
           styles.button,
           styles.buttonPurple,
           styles.buttonLeft,
-          deckCharacterObject.numDice === 0 && styles.buttonDisabled,
+          deckCharacterObject.diceCount === 0 && styles.buttonDisabled,
         ] }
       >
         <Text style={ styles.buttonText }>{ 'Any' }</Text>
@@ -256,13 +252,13 @@ class CharacterDetailScreen extends Component {
 
     const regularButton = characterIsInDeck && characterObject.isUnique ?
       <TouchableOpacity
-        disabled={ deckCharacterObject.numDice === 1 }
+        disabled={ deckCharacterObject.diceCount === 1 }
         onPress={ () => this.props.setCharacterRegular(characterObject) }
         style={ [
           styles.button,
           styles.buttonPurple,
           styles.buttonMiddle,
-          deckCharacterObject.numDice === 1 && styles.buttonDisabled,
+          deckCharacterObject.diceCount === 1 && styles.buttonDisabled,
         ] }
       >
         <SWDIcon type={ 'DIE' } style={ styles.buttonIcon } />
@@ -271,13 +267,13 @@ class CharacterDetailScreen extends Component {
     const eliteButton =
       characterIsInDeck && characterObject.isUnique && characterObject.pointsElite ?
       <TouchableOpacity
-        disabled={ deckCharacterObject.numDice === 2 }
+        disabled={ deckCharacterObject.diceCount === 2 }
         onPress={ () => this.props.setCharacterElite(characterObject) }
         style={ [
           styles.button,
           styles.buttonPurple,
           styles.buttonRight,
-          deckCharacterObject.numDice === 2 && styles.buttonDisabled,
+          deckCharacterObject.diceCount === 2 && styles.buttonDisabled,
         ] }
       >
         <View>

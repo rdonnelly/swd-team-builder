@@ -72,10 +72,6 @@ const styles = StyleSheet.create({
 });
 
 class SettingsScreen extends Component {
-  static navigationOptions = {
-    headerTitle: 'Settings',
-  }
-
   constructor(props) {
     super(props);
 
@@ -339,7 +335,7 @@ SettingsScreen.propTypes = {
   updateSetting: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   settings: getSettings(state),
 });
 

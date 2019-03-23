@@ -5,27 +5,17 @@ import {
   FlatList,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { connect } from 'react-redux';
 
 import TeamListItem from '../../components/TeamListItem';
 
-import { updateSort } from '../../store/actions';
-import { getAvailableTeams } from '../../store/selectors/teamSelectors';
+import withData from '../../components/withData';
 
 import { base, colors } from '../../styles';
 
 
 const styles = StyleSheet.create({
-  headerIconContainer: {
-    ...base.headerIconContainer,
-  },
-  headerIcon: {
-    ...base.headerIcon,
-  },
   container: {
     ...base.container,
     backgroundColor: colors.lightGray,
@@ -53,26 +43,8 @@ const styles = StyleSheet.create({
   },
 });
 
-class TeamListScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { state } = navigation;
-    return {
-      headerTitle: 'Teams',
-      headerRight: (
-        <TouchableOpacity
-          onPress={ () => { state.params.showSortActionSheet(); } }
-          style={ styles.headerIconContainer }
-        >
-          <FontAwesome5Icon
-            name={ 'sort-amount-down' }
-            size={ 18 }
-            style={ styles.headerIcon }
-          />
-        </TouchableOpacity>
-      ),
-    };
-  };
 
+class TeamListScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -85,7 +57,7 @@ class TeamListScreen extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.teams !== nextProps.teams) {
+    if (this.props.data !== nextProps.data) {
       return true;
     }
 
@@ -99,6 +71,8 @@ class TeamListScreen extends Component {
   }
 
   showSortActionSheet = () => {
+    const { updateSortPriority } = this.props;
+
     const options = [
       'Sort by # of Dice',
       'Sort by Health',
@@ -106,84 +80,97 @@ class TeamListScreen extends Component {
       'Cancel',
     ];
 
-    ActionSheetIOS.showActionSheetWithOptions({
-      options,
-      title: 'Sort Teams',
-      message: 'Sort the list of teams by one of the following stats in descending order',
-      cancelButtonIndex: 3,
-      tintColor: colors.brand,
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-        case 0: // dice
-          this.props.updateSort('dice');
-          break;
-        case 1: // health
-          this.props.updateSort('health');
-          break;
-        case 2: // points
-          this.props.updateSort('points');
-          break;
-        default:
-          break;
-      }
-    });
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options,
+        title: 'Sort Teams',
+        message: 'Sort the list of teams by one of the following stats in descending order',
+        cancelButtonIndex: 3,
+        tintColor: colors.brand,
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+          case 0: // dice
+            updateSortPriority('diceCount');
+            break;
+          case 1: // health
+            updateSortPriority('health');
+            break;
+          case 2: // points
+            updateSortPriority('points');
+            break;
+          default:
+            break;
+        }
+      },
+    );
   }
 
-  renderItem = ({ item: teamObject }) => (
-    <TeamListItem
-      teamObject={ teamObject }
-    />
-  )
+  renderItem({ item: teamObject }) {
+    return <TeamListItem teamObject={ teamObject } />;
+  }
 
   render() {
-    const list = this.props.teams.length ? (
-      <FlatList
-        ref={ (component) => { this.listView = component; } }
-        style={ styles.list }
-        data={ this.props.teams }
-        extraData={ this.state }
-        renderItem={ this.renderItem }
-        keyExtractor={ item => item.key }
-        showsVerticalScrollIndicator={ false }
-        initialNumToRender={ 9 }
-        maxToRenderPerBatch={ 9 }
-        updateCellsBatchingPeriod={ 100 }
-        windowSize={ 35 }
-      />
-    ) : (
-      <View style={ styles.messageContainer }>
-        <Text style={ styles.messageHeader }>
-          No Teams Compatible
-        </Text>
-        <Text style={ styles.messageText}>
-          Try changing your selected characters or adjusting your settings.
-        </Text>
-      </View>
-    );
+    const { data: teams, dataIsLoading } = this.props;
+    const hasTeams = teams && teams.length;
+    let content = null;
+
+    if (dataIsLoading) {
+      content = (
+        <View style={ styles.messageContainer }>
+          <Text style={ styles.messageHeader }>
+            Loading...
+          </Text>
+        </View>
+      );
+    } else if (!hasTeams) {
+      content = (
+        <View style={ styles.messageContainer }>
+          <Text style={ styles.messageHeader }>
+            No Teams Compatible
+          </Text>
+          <Text style={ styles.messageText}>
+            Try changing your selected characters or adjusting your settings.
+          </Text>
+        </View>
+      );
+    } else {
+      content = (
+        <FlatList
+          ref={ (component) => { this.listView = component; } }
+          style={ styles.list }
+          data={ teams }
+          renderItem={ this.renderItem }
+          keyExtractor={ (item) => item.key }
+          showsVerticalScrollIndicator={ false }
+          initialNumToRender={ 9 }
+          maxToRenderPerBatch={ 9 }
+          updateCellsBatchingPeriod={ 100 }
+          windowSize={ 35 }
+        />
+      );
+    }
 
     return (
       <View style={ styles.container }>
-        { list }
+        { content }
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  teams: getAvailableTeams(state),
-});
-
-const mapDispatchToProps = {
-  updateSort,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TeamListScreen);
+export default withData()(
+  TeamListScreen,
+  (dataSource) => dataSource.getTeams(),
+  {
+    updateSortPriority: (dataSource, priority) => dataSource.updateSortPriority(priority),
+  },
+);
 
 TeamListScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
 
-  teams: PropTypes.array.isRequired,
-
-  updateSort: PropTypes.func.isRequired,
+  data: PropTypes.array,
+  dataIsLoading: PropTypes.bool.isRequired,
+  updateSortPriority: PropTypes.func.isRequired,
 };

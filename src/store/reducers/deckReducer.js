@@ -11,7 +11,7 @@ const deckReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_CHARACTER_TO_DECK': {
       const existingCardIndex = state.characters
-        .findIndex(characterObject => characterObject.id === action.payload.characterId);
+        .findIndex((characterObject) => characterObject.id === action.payload.characterId);
 
       if (existingCardIndex !== -1) {
         return {
@@ -33,7 +33,7 @@ const deckReducer = (state = initialState, action) => {
         id: action.payload.characterId,
         name: action.payload.characterName,
         affiliation: action.payload.characterAffiliation,
-        numDice: 0,
+        diceCount: 0,
         count: 1,
       };
 
@@ -49,7 +49,7 @@ const deckReducer = (state = initialState, action) => {
 
     case 'SET_CHARACTER_ANY_IN_DECK': {
       const existingCardIndex = state.characters
-        .findIndex(characterObject => characterObject.id === action.payload.characterId);
+        .findIndex((characterObject) => characterObject.id === action.payload.characterId);
 
       if (existingCardIndex === -1) {
         return state;
@@ -64,7 +64,7 @@ const deckReducer = (state = initialState, action) => {
 
           return {
             ...characterObject,
-            numDice: 0,
+            diceCount: 0,
           };
         }),
       };
@@ -72,7 +72,7 @@ const deckReducer = (state = initialState, action) => {
 
     case 'SET_CHARACTER_REGULAR_IN_DECK': {
       const existingCardIndex = state.characters
-        .findIndex(characterObject => characterObject.id === action.payload.characterId);
+        .findIndex((characterObject) => characterObject.id === action.payload.characterId);
 
       if (existingCardIndex === -1) {
         return state;
@@ -87,7 +87,7 @@ const deckReducer = (state = initialState, action) => {
 
           return {
             ...characterObject,
-            numDice: 1,
+            diceCount: 1,
           };
         }),
       };
@@ -95,7 +95,7 @@ const deckReducer = (state = initialState, action) => {
 
     case 'SET_CHARACTER_ELITE_IN_DECK': {
       const existingCardIndex = state.characters
-        .findIndex(characterObject => characterObject.id === action.payload.characterId);
+        .findIndex((characterObject) => characterObject.id === action.payload.characterId);
 
       if (existingCardIndex === -1) {
         return state;
@@ -110,7 +110,7 @@ const deckReducer = (state = initialState, action) => {
 
           return {
             ...characterObject,
-            numDice: 2,
+            diceCount: 2,
           };
         }),
       };
@@ -118,7 +118,7 @@ const deckReducer = (state = initialState, action) => {
 
     case 'REMOVE_CHARACTER_FROM_DECK': {
       const existingCardIndex = state.characters
-        .findIndex(characterObject => characterObject.id === action.payload.characterId);
+        .findIndex((characterObject) => characterObject.id === action.payload.characterId);
 
       if (existingCardIndex === -1) {
         return state;
@@ -160,7 +160,7 @@ const deckReducer = (state = initialState, action) => {
 
     case 'INCLUDE_CHARACTER': {
       const existingIndex = state.excludedCharacterIds
-        .findIndex(excludedCharacterId => excludedCharacterId === action.payload.characterId);
+        .findIndex((excludedCharacterId) => excludedCharacterId === action.payload.characterId);
 
       if (existingIndex !== -1) {
         return {
@@ -174,7 +174,7 @@ const deckReducer = (state = initialState, action) => {
 
     case 'EXCLUDE_CHARACTER': {
       const existingIndex = state.excludedCharacterIds
-        .findIndex(excludedCharacterId => excludedCharacterId === action.payload.characterId);
+        .findIndex((excludedCharacterId) => excludedCharacterId === action.payload.characterId);
 
       if (existingIndex === -1) {
         return {

@@ -6,21 +6,26 @@ import { filterTeamsByDeck, filterTeamsBySettings, sortTeams } from '../../lib/t
 let initialSortRun = true;
 let initialFilteredByDeckRun = true;
 
-const getTeamsState = state => state.teams;
+const getTeamsState = (state) => state.teams;
 
 export const getTeams = createSelector(
   [getTeamsState],
-  teamsState => teamsState.teams,
+  (teamsState) => teamsState.teams,
 );
 
 export const getSettings = createSelector(
   [getTeamsState],
-  teamsState => teamsState.settings,
+  (teamsState) => teamsState.settings,
+);
+
+export const getFilters = createSelector(
+  [getSettings],
+  (settings) => settings.filters,
 );
 
 export const getSortOrder = createSelector(
   [getSettings],
-  settings => settings.sortOrder,
+  (settings) => settings.sortOrder,
 );
 
 export const getTeamsSorted = createSelector(
@@ -54,15 +59,15 @@ export const getFilteredTeamsBySettings = createSelector(
 
 export const getAvailableTeams = createSelector(
   [getFilteredTeamsBySettings],
-  teams => teams,
+  (teams) => teams,
 );
 
 export const getAvailableTeamsCount = createSelector(
   [getAvailableTeams],
-  teams => teams.length,
+  (teams) => teams.length,
 );
 
 export const getAvailableTeamsCountLabel = createSelector(
   [getAvailableTeamsCount],
-  count => (count > 10000 ? '10000+' : `${count}`),
+  (count) => (count > 10000 ? '10000+' : `${count}`),
 );

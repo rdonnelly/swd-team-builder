@@ -1,17 +1,52 @@
+
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import CharacterListScreen from '../screens/Characters/CharacterListScreen';
 import CharacterDetailScreen from '../screens/Characters/CharacterDetailScreen';
 
-import { colors } from '../styles';
+import { base, colors } from '../styles';
+
+
+const styles = StyleSheet.create({
+  headerIconContainer: {
+    ...base.headerIconContainer,
+  },
+  headerIcon: {
+    ...base.headerIcon,
+  },
+});
+
 
 const routeConfiguration = {
   CharacterListScreen: {
     screen: CharacterListScreen,
     path: 'list',
+    navigationOptions: ({ navigation }) => {
+      const { state } = navigation;
+      return {
+        headerTitle: 'Characters',
+        headerRight: (
+          <TouchableOpacity
+            onPress={ () => { state.params.showSearchInput(); } }
+            style={ styles.headerIconContainer }
+          >
+            <FontAwesome5Icon
+              name={ 'search' }
+              size={ 18 }
+              style={ styles.headerIcon }
+            />
+          </TouchableOpacity>
+        ),
+      };
+    },
   },
   CharacterDetailScreen: {
     screen: CharacterDetailScreen,

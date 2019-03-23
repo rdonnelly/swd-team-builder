@@ -5,10 +5,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { getAvailableTeamsCountLabel } from '../store/selectors/teamSelectors';
+import withData from './withData';
 
 import { colors } from '../styles';
 
@@ -38,6 +37,9 @@ const styles = StyleSheet.create({
 
 class BadgeTabIcon extends PureComponent {
   render() {
+    const { data: count } = this.props;
+    const countLabel = count <= 500 ? count : '500+';
+
     const iconStyles = {
       marginTop: this.props.horizontal ? 0 : 5,
     };
@@ -63,7 +65,7 @@ class BadgeTabIcon extends PureComponent {
       <View style={ badgeContainerStyles }>
         <View style={ styles.badge }>
           <Text style={ styles.badgeText }>
-            { this.props.teamsCountLabel }
+            { countLabel }
           </Text>
         </View>
       </View>
@@ -78,17 +80,16 @@ class BadgeTabIcon extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  teamsCountLabel: getAvailableTeamsCountLabel(state),
-});
-
-export default connect(mapStateToProps)(BadgeTabIcon);
-
 BadgeTabIcon.propTypes = {
-  teamsCountLabel: PropTypes.string.isRequired,
+  data: PropTypes.number,
   iconName: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
   showBadge: PropTypes.bool,
   horizontal: PropTypes.bool,
 };
+
+export default withData()(
+  BadgeTabIcon,
+  (dataSource) => dataSource.getTeamsCount(),
+);

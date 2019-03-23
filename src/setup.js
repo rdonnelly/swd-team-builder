@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
+// import SQLite from 'react-native-sqlite-storage';
 
 import App from './screens/App';
-import configureStore from './store/configureStore';
+import store from './store/store';
+import connectDatabase from './components/connectDatabase';
 
-
-const store = configureStore();
 
 export default function setup() {
   class AppContainer extends Component {
@@ -25,5 +25,5 @@ export default function setup() {
     }
   }
 
-  return AppContainer;
+  return connectDatabase(AppContainer);
 }

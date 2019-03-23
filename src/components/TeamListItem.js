@@ -103,7 +103,7 @@ class TeamListItem extends Component {
     return true;
   }
 
-  navigateToTeamDetails = teamKey => () => {
+  navigateToTeamDetails = (teamKey) => () => {
     this.props.navigation.navigate('TeamDetailScreen', { key: teamKey });
   }
 
@@ -115,7 +115,7 @@ class TeamListItem extends Component {
     const arrowStyle = [styles.arrow];
 
     const characterViews = teamObject.key.split('__').map((characterKey) => {
-      const [cardId, numDice, count] = characterKey.split('_');
+      const [cardId, diceCount, count] = characterKey.split('_');
       const card = characters[cardId];
 
       const characterNameStyles = [styles.characterName];
@@ -146,7 +146,7 @@ class TeamListItem extends Component {
       );
 
       const diceIcons = [];
-      for (let i = 0; i < numDice; i += 1) {
+      for (let i = 0; i < diceCount; i += 1) {
         diceIcons.push(
           <SWDIcon
             key={ `${teamObject.key}___${cardId}___${i}` }

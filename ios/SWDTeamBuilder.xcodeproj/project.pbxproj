@@ -46,6 +46,7 @@
 		5995DC31CFCC45DEA7BCD404 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B990605657204DCEAD554E75 /* MaterialCommunityIcons.ttf */; };
 		61167BA0CAD94F59860FA040 /* swdestiny.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B495006B2CD64C3D8FAB2582 /* swdestiny.ttf */; };
 		6470A4C0E91C4D21AA790025 /* libSafariViewManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E2B141AF5F430A991B74A8 /* libSafariViewManager.a */; };
+		73D317DF009D4021A8F3FEEE /* libSQLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56924528E6C44F13BED5F41F /* libSQLite.a */; };
 		7ED82649792B4618B09FDB91 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC17F32CE2440389632E981 /* FontAwesome.ttf */; };
 		825460D9190542D488A50A3B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B5EF6FF5588A4A1AAC23B829 /* MaterialIcons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -53,6 +54,7 @@
 		8A3915439C3A413BB88A4769 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69E1B519A0CC4387B3A215BA /* Entypo.ttf */; };
 		8B02C3553A1C4BD9A0878161 /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8372987A4C24495A164E750 /* libRNDeviceInfo-tvOS.a */; };
 		9377B8C128C04EE5A29851D0 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45760BBB9FEB41CEAAE9C081 /* Foundation.ttf */; };
+		954876662237594A006C3DDE /* www in Resources */ = {isa = PBXBuildFile; fileRef = 954876652237594A006C3DDE /* www */; };
 		95E979621EFEB5CA00913BAE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95E979611EFEB5CA00913BAE /* LaunchScreen.storyboard */; };
 		9A9BDA30FB7442318EE641F2 /* libRNScreens.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 439117A950D4449792C33514 /* libRNScreens.a */; };
 		A73B325702B24371B650AE8B /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB936EE0EDA34F4C8E5C7F3D /* libRNDeviceInfo.a */; };
@@ -339,6 +341,13 @@
 			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
 			remoteInfo = "React-tvOS";
 		};
+		95487663223757BE006C3DDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43B68AE3D7134BAE865755FD /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E23D7B471ACEFE2A00C59171;
+			remoteInfo = SQLite;
+		};
 		956B7DAB2170588A00E3674B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6B2C9ECA1E0D4D22BA961337 /* RNVectorIcons.xcodeproj */;
@@ -430,9 +439,11 @@
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		40F5955432794195ACDFC328 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		439117A950D4449792C33514 /* libRNScreens.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNScreens.a; sourceTree = "<group>"; };
+		43B68AE3D7134BAE865755FD /* SQLite.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "../node_modules/react-native-sqlite-storage/src/ios/SQLite.xcodeproj"; sourceTree = "<group>"; };
 		45760BBB9FEB41CEAAE9C081 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		4940F582768D4D17BF6BF6E9 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		4A83F5EB300847A0B5F5EC01 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		56924528E6C44F13BED5F41F /* libSQLite.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSQLite.a; sourceTree = "<group>"; };
 		575A8C98B4B5436387672CAE /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		69E1B519A0CC4387B3A215BA /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -444,6 +455,7 @@
 		805C535DFE3E431BB2A1FC58 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		84B499E0056D4439A41E2F9C /* SafariViewManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SafariViewManager.xcodeproj; path = "../node_modules/react-native-safari-view/SafariViewManager.xcodeproj"; sourceTree = "<group>"; };
+		954876652237594A006C3DDE /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = SWDTeamBuilder/www; sourceTree = "<group>"; };
 		95E979611EFEB5CA00913BAE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SWDTeamBuilder/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9884002FA4C549A1876F2EF6 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		9ACC5CCB25924D0C83364CEB /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
@@ -498,6 +510,7 @@
 				9A9BDA30FB7442318EE641F2 /* libRNScreens.a in Frameworks */,
 				CBC23B3F21AA4397A295A578 /* libRNReactNativeHapticFeedback.a in Frameworks */,
 				28B722CB559948D79B278774 /* libRNGestureHandler.a in Frameworks */,
+				73D317DF009D4021A8F3FEEE /* libSQLite.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,6 +623,7 @@
 		13B07FAE1A68108700A75B9A /* SWDTeamBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				954876652237594A006C3DDE /* www */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -714,6 +728,7 @@
 				E8CAF1B1919B44D28066FA80 /* RNScreens.xcodeproj */,
 				20E3FB5E342545388254486C /* RNReactNativeHapticFeedback.xcodeproj */,
 				B38EA7BC7EB64A509ADBB3CB /* RNGestureHandler.xcodeproj */,
+				43B68AE3D7134BAE865755FD /* SQLite.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -759,6 +774,14 @@
 			isa = PBXGroup;
 			children = (
 				953C100021907CF200D38CB2 /* libRNReactNativeHapticFeedback.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		95487660223757BD006C3DDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				95487664223757BE006C3DDE /* libSQLite.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -817,6 +840,7 @@
 				439117A950D4449792C33514 /* libRNScreens.a */,
 				72E3DBEA1D774AF3A4D7A68D /* libRNReactNativeHapticFeedback.a */,
 				805C535DFE3E431BB2A1FC58 /* libRNGestureHandler.a */,
+				56924528E6C44F13BED5F41F /* libSQLite.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1029,6 +1053,10 @@
 				{
 					ProductGroup = 956CA40F1EFD62E10019002D /* Products */;
 					ProjectRef = 84B499E0056D4439A41E2F9C /* SafariViewManager.xcodeproj */;
+				},
+				{
+					ProductGroup = 95487660223757BD006C3DDE /* Products */;
+					ProjectRef = 43B68AE3D7134BAE865755FD /* SQLite.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1301,6 +1329,13 @@
 			remoteRef = 953DCE3320AE8DB000E43523 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		95487664223757BE006C3DDE /* libSQLite.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSQLite.a;
+			remoteRef = 95487663223757BE006C3DDE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		956B7DAC2170588A00E3674B /* libRNVectorIcons-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1396,6 +1431,7 @@
 				2AF66EF771894329AB46AB4A /* FontAwesome5_Brands.ttf in Resources */,
 				B7333971368A48F48F6205FB /* FontAwesome5_Regular.ttf in Resources */,
 				502CA8C4D50C4D04824E306B /* FontAwesome5_Solid.ttf in Resources */,
+				954876662237594A006C3DDE /* www in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1518,12 +1554,14 @@
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 				);
 				INFOPLIST_FILE = SWDTeamBuilderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1557,12 +1595,14 @@
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 				);
 				INFOPLIST_FILE = SWDTeamBuilderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1599,6 +1639,7 @@
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 				);
 				INFOPLIST_FILE = SWDTeamBuilder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1636,6 +1677,7 @@
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 				);
 				INFOPLIST_FILE = SWDTeamBuilder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1676,11 +1718,13 @@
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 				);
 				INFOPLIST_FILE = "SWDTeamBuilder-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1721,11 +1765,13 @@
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 				);
 				INFOPLIST_FILE = "SWDTeamBuilder-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1761,11 +1807,13 @@
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 				);
 				INFOPLIST_FILE = "SWDTeamBuilder-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1801,11 +1849,13 @@
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 				);
 				INFOPLIST_FILE = "SWDTeamBuilder-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

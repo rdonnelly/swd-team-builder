@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import SafariView from 'react-native-safari-view';
 import Swiper from 'react-native-swiper';
@@ -17,9 +16,9 @@ import Swiper from 'react-native-swiper';
 import CharacterAvatar from '../../components/CharacterAvatar';
 import SWDIcon from '../../components/SWDIcon';
 
-import { getAvailableTeams } from '../../store/selectors/teamSelectors';
+import withData from '../../components/withData';
 
-import { characters, teamsStats } from '../../lib/Destiny';
+import { characters } from '../../lib/Destiny';
 import { cardBack, cardImages } from '../../lib/DestinyImages';
 
 import { base, colors } from '../../styles';
@@ -166,10 +165,6 @@ const styles = StyleSheet.create({
 
 
 class TeamDetailScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Team',
-  }
-
   constructor(props) {
     super(props);
 
@@ -196,10 +191,14 @@ class TeamDetailScreen extends React.Component {
       return true;
     }
 
+    if (this.props.data !== nextProps.data) {
+      return true;
+    }
+
     return false;
   }
 
-  scrollSwiper = index => () => {
+  scrollSwiper = (index) => () => {
     const scrollBy = index - this.swiper.state.index;
     if (this.swiper && scrollBy) {
       this.swiper.scrollBy(scrollBy);
@@ -223,16 +222,20 @@ class TeamDetailScreen extends React.Component {
 
   render() {
     const teamKey = this.props.navigation.getParam('key');
-    const { teams } = this.props;
-    const team = teams.find(teamObj => teamObj.key === teamKey);
+    const { data: team } = this.props;
+
+    if (!team) {
+      return null;
+    }
+
     // const maxPlotPoint = teamsStats.maxPoints - team.points;
     const maxPlotPoint = false;
 
-    const characterAvatars = team.key.split('__').map((characterKey, index) => {
+    const characterAvatars = teamKey.split('__').map((characterKey, index) => {
       const [cardId] = characterKey.split('_');
       return (
         <TouchableOpacity
-          key={ `avatar__${team.key}__${cardId}` }
+          key={ `avatar__${teamKey}__${cardId}` }
           style={ styles.characterAvatarWrapper }
           onPress={ this.scrollSwiper(index) }
         >
@@ -245,8 +248,8 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const characterNames = team.key.split('__').map((characterKey) => {
-      const [cardId, numDice, count] = characterKey.split('_');
+    const characterNames = teamKey.split('__').map((characterKey) => {
+      const [cardId, diceCount, count] = characterKey.split('_');
       const card = characters[cardId];
       const characterNameStyles = [styles.characterName];
       const diceStyles = [styles.dice];
@@ -266,10 +269,10 @@ class TeamDetailScreen extends React.Component {
       }
 
       const diceIcons = [];
-      for (let i = 0; i < numDice; i += 1) {
+      for (let i = 0; i < diceCount; i += 1) {
         diceIcons.push(
           <SWDIcon
-            key={ `die__${team.key}__${cardId}__${i}` }
+            key={ `die__${teamKey}__${cardId}__${i}` }
             style={ diceStyles }
             type={ 'DIE' }
           />,
@@ -278,7 +281,7 @@ class TeamDetailScreen extends React.Component {
 
       return (
         <View
-          key={ `name__${team.key}__${cardId}` }
+          key={ `name__${teamKey}__${cardId}` }
           style={ styles.characterWrapper }
         >
           <Text style={ characterNameStyles }>
@@ -294,11 +297,11 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const imageViews = team.key.split('__').map((characterKey) => {
+    const imageViews = teamKey.split('__').map((characterKey) => {
       const [cardId] = characterKey.split('_');
       return (
         <View
-          key={ `image__${team.key}__${cardId}` }
+          key={ `image__${teamKey}__${cardId}` }
           style={ styles.imageWrapper }
         >
           <Image
@@ -310,10 +313,10 @@ class TeamDetailScreen extends React.Component {
     });
 
     let teamAffiliationLabel = 'Neutral';
-    if (team.affiliations.includes('villain')) {
-      teamAffiliationLabel = 'Villain';
-    } else if (team.affiliations.includes('hero')) {
+    if (team.affiliationHero) {
       teamAffiliationLabel = 'Hero';
+    } else if (team.affiliationVillain) {
+      teamAffiliationLabel = 'Villain';
     }
 
     return (
@@ -374,11 +377,10 @@ class TeamDetailScreen extends React.Component {
 TeamDetailScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
 
-  teams: PropTypes.array.isRequired,
+  data: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  teams: getAvailableTeams(state),
-});
-
-export default connect(mapStateToProps)(TeamDetailScreen);
+export default withData()(
+  TeamDetailScreen,
+  (dataSource, props) => dataSource.getTeam(props.navigation.getParam('key')),
+);

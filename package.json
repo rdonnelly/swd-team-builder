@@ -28,6 +28,7 @@
     "react-native-haptic-feedback": "1.5.x",
     "react-native-safari-view": "2.1.x",
     "react-native-screens": "^1.0.0-alpha.22",
+    "react-native-sqlite-storage": "^3.3.10",
     "react-native-swipeable": "0.6.x",
     "react-native-swiper": "1.5.x",
     "react-native-vector-icons": "6.1.x",
@@ -37,6 +38,8 @@
     "redux-logger": "3.0.x",
     "redux-thunk": "2.3.x",
     "reselect": "4.0.x",
+    "sqlite": "^3.0.2",
+    "squel": "^5.12.2",
     "swdestinydb-json-data": "https://github.com/rdonnelly/swdestinydb-json-data.git"
   },
   "devDependencies": {

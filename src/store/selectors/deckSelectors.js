@@ -1,23 +1,23 @@
 import { createSelector } from 'reselect';
 
-const getDeck = state => state.deck;
+const getDeck = (state) => state.deck;
 
 export const getDeckAffiliation = createSelector(
   [getDeck],
-  deck => deck.affiliation,
+  (deck) => deck.affiliation,
 );
 
 export const getDeckCharacters = createSelector(
   [getDeck],
-  deck => deck.characters,
+  (deck) => deck.characters,
 );
 
 export const getDeckCharactersCount = createSelector(
   [getDeckCharacters],
-  characters => characters.length,
+  (characters) => characters.length,
 );
 
 export const getExcludedCharacterIds = createSelector(
   [getDeck],
-  deck => deck.excludedCharacterIds,
+  (deck) => deck.excludedCharacterIds,
 );

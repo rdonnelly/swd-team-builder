@@ -8,6 +8,9 @@ const routeConfiguration = {
   SettingsScreen: {
     screen: SettingsScreen,
     path: 'index',
+    navigationOptions: {
+      headerTitle: 'Settings',
+    },
   },
 };
 
