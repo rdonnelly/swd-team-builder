@@ -47,6 +47,7 @@ class Team {
 
     this.characters = [];
     this.characterCount = 0;
+    this.characterPoints = 0;
 
     this.plot = null;
     this.plotPoints = null;
@@ -120,6 +121,7 @@ class Team {
     this.characterCount = this.characters.reduce(
       (count, characterObject) => count + characterObject.count, 0,
     );
+    this.characterPoints += card.points;
 
     this.key = this.getKey();
 
@@ -148,7 +150,7 @@ class Team {
 
     this.affiliations = _.uniq([...this.affiliations, plot.affiliation]);
     this.factions = _.uniq([...this.factions, plot.faction]);
-    this.sets = _.uniq([...this.sets, plot.set]);
+    this.sets = _.uniq([...this.sets, plot.sets]);
     this.points += plot.points;
     this.plotPoints = plot.points;
   }
@@ -178,13 +180,8 @@ class Team {
   }
 
   isLegal() {
-    // team must have above min dice
-    if (this.diceCount < MIN_DICE) {
-      return false;
-    }
-
     // team must be above min points and below max points
-    if (this.points < MIN_POINTS || this.points > MAX_POINTS) {
+    if (this.points > MAX_POINTS) {
       return false;
     }
 
@@ -197,13 +194,6 @@ class Team {
     // CHECK PLOT
 
     if (this.plot) {
-      if (this.plot.id === '08054') { // PLOT: Retribution, 08054
-        // must include20-point character
-        if (this.characters.every((character) => character.points < 20)) {
-          return false;
-        }
-      }
-
       if (this.plot.id === '08155') { // PLOT: No Allegiance, 08155
         // must be neutral
         if (this.affiliations.length > 1 ||
@@ -214,16 +204,7 @@ class Team {
 
       if (this.plot.id === '08156') { // PLOT: Solidarity, 08156
         // must be one faction/color and must use all points
-        if (this.factions.length !== 1 ||
-            this.points < MAX_POINTS) {
-          return false;
-        }
-      }
-
-      if (this.plot.id === '10016') { // PLOT: Allies of Necessity, 10016
-        // two characters must share a faction/color and must use all points
-        if (this.factions.length >= this.characterCount ||
-            this.points < MAX_POINTS) {
+        if (this.factions.length > 1) {
           return false;
         }
       }
@@ -248,6 +229,66 @@ class Team {
     // team must be legal
     if (!this.isLegal()) {
       return false;
+    }
+
+    // team must have above min dice
+    if (this.diceCount < MIN_DICE) {
+      return false;
+    }
+
+    // team must be above min points and below max points
+    if (this.points < MIN_POINTS || this.points > MAX_POINTS) {
+      return false;
+    }
+
+    // CHECK PLOT
+
+    // TODO need to check that other -1 plots are not being used when you don't need them
+    // e.g. Bitter Rivalry, 08115
+
+    if (this.plot) {
+      if (this.plot.id === '08054') { // PLOT: Retribution, 08054
+        // must include 20-point character
+        if (this.characters.every((character) => character.points < 20)) {
+          return false;
+        }
+      }
+
+      if (this.plot.id === '08155') { // PLOT: No Allegiance, 08155
+        // must be neutral
+        if (this.affiliations.length > 1 ||
+            !this.affiliations.includes('neutral')) {
+          return false;
+        }
+      }
+
+      if (this.plot.id === '08156') { // PLOT: Solidarity, 08156
+        // must be one faction/color and must use all points
+        if (this.factions.length !== 1 ||
+            this.characterPoints <= MAX_POINTS) {
+          return false;
+        }
+      }
+
+      if (this.plot.id === '10016') { // PLOT: Allies of Necessity, 10016
+        // two characters must share a faction/color and must use all points
+        if (this.factions.length >= this.characterCount ||
+            this.characterPoints <= MAX_POINTS) {
+          return false;
+        }
+      }
+
+      // plot must be neutral and/or share affiliation with character
+      if (this.plot.affiliation !== 'neutral' &&
+          !this.affiliations.includes(this.plot.affiliation)) {
+        return false;
+      }
+
+      // plot must be gray and/or share faction/color with character
+      if (this.plot.faction !== 'gray' &&
+          !this.factions.includes(this.plot.faction)) {
+        return false;
+      }
     }
 
     // team must not fit elite version of one of its characters
@@ -414,6 +455,7 @@ const generateTeams = (team, eligibleCharacters) => {
 const numSetCombinations = setCombinations.length;
 // setCombinations.slice(0, 1).forEach((setCombination, index) => {
 [eligibleSets].forEach((setCombination, index) => {
+// [['AoN']].forEach((setCombination, index) => {
   console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${setCombination.join(',')} (${index + 1}/${numSetCombinations})`);
   const numTeams = teams.length;
 
@@ -532,11 +574,11 @@ teams.forEach((team) => {
     teamsStats.maxCharacterCount = team.characterCount;
   }
 
-  if (team.points < teamsStats.minPoints) {
-    teamsStats.minPoints = team.points;
+  if (team.characterPoints < teamsStats.minPoints) {
+    teamsStats.minPoints = team.characterPoints;
   }
-  if (team.points > teamsStats.maxPoints) {
-    teamsStats.maxPoints = team.points;
+  if (team.characterPoints > teamsStats.maxPoints) {
+    teamsStats.maxPoints = team.characterPoints;
   }
 });
 
@@ -574,7 +616,7 @@ teams.forEach((team) => {
       rankDiceCount INTEGER,
       rankHealth INTEGER,
       rankPoints INTEGER
-    )
+    );
   `);
 
   for (let i = 0, l = teams.length; i < l; i += 1) {
@@ -596,7 +638,7 @@ teams.forEach((team) => {
         teams[i].characterCount,
         teams[i].diceCount,
         teams[i].health,
-        teams[i].points,
+        teams[i].characterPoints,
         teams[i].sets.join('_').toLowerCase(),
 
         teams[i].affiliations.includes('hero'),

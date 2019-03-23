@@ -209,14 +209,12 @@ class Database {
         plotFactionsExpression.and('factionYellow = 1');
       }
       query.where(plotFactionsExpression);
+    }
 
-      // plot points
-      if (filters.plotPoints < 0) {
-        query.where('points BETWEEN ? AND ?', 31, 30 - filters.plotPoints);
-      }
-      if (filters.plotPoints > 0) {
-        query.where('points <= ?', 30 - filters.plotPoints);
-      }
+    // plot points
+    query.where('points <= ?', 30 - filters.plotPoints);
+    if (filters.plotPoints < 0) {
+      query.where('points > ?', 30);
     }
 
     return query;
