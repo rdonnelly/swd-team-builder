@@ -80,25 +80,32 @@ class Team {
   }
 
   addCharacter(card) {
-    const existingCharacterObj = this.characters.find(
+    const existingCharacterObjById = this.characters.find(
       (character) => character.id === card.id,
     );
+    const existingCharacterObjByName = this.characters.find(
+      (character) => character.name === card.name,
+    );
 
-    if (existingCharacterObj === undefined) {
-      this.characters.push({
-        id: card.id,
-        name: card.name,
-        subtypes: card.subtypes,
-        count: 1,
-        isElite: card.isElite,
-        pointsToElite: card.pointsToElite,
-      });
+    if (existingCharacterObjById === undefined) {
+      if (existingCharacterObjByName === undefined) {
+        this.characters.push({
+          id: card.id,
+          name: card.name,
+          subtypes: card.subtypes,
+          count: 1,
+          isElite: card.isElite,
+          pointsToElite: card.pointsToElite,
+        });
+      } else {
+        return false;
+      }
     } else {
       if (card.isUnique) {
         return false;
       }
 
-      existingCharacterObj.count += 1;
+      existingCharacterObjById.count += 1;
     }
 
     this.affiliations = _.uniq([...this.affiliations, card.affiliation]);
@@ -405,7 +412,7 @@ const generateTeams = (team, eligibleCharacters) => {
 
 
 const numSetCombinations = setCombinations.length;
-// setCombinations.forEach((setCombination, index) => {
+// setCombinations.slice(0, 1).forEach((setCombination, index) => {
 [eligibleSets].forEach((setCombination, index) => {
   console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${setCombination.join(',')} (${index + 1}/${numSetCombinations})`);
   const numTeams = teams.length;
@@ -535,7 +542,6 @@ teams.forEach((team) => {
 
 
 (async function save() {
-  console.log('woo');
   const db = await sqlite.open('./swd-teams.db');
 
   await db.run('DROP TABLE IF EXISTS teams');
@@ -545,7 +551,6 @@ teams.forEach((team) => {
       key TEXT PRIMARY KEY,
 
       characterCount INTEGER,
-      damageTypes TEXT,
       diceCount INTEGER,
       health INTEGER,
       points INTEGER,
@@ -560,6 +565,11 @@ teams.forEach((team) => {
       factionRed INTEGER,
       factionYellow INTEGER,
 
+      damageIndirect INTEGER,
+      damageMelee INTEGER,
+      damageNone INTEGER,
+      damageRanged INTEGER,
+
       rankCharacterCount INTEGER,
       rankDiceCount INTEGER,
       rankHealth INTEGER,
@@ -573,8 +583,9 @@ teams.forEach((team) => {
       `
         INSERT INTO teams VALUES (
           ?,
-          ?, ?, ?, ?, ?, ?,
+          ?, ?, ?, ?, ?,
           ?, ?, ?,
+          ?, ?, ?, ?,
           ?, ?, ?, ?,
           ?, ?, ?, ?
         )
@@ -583,7 +594,6 @@ teams.forEach((team) => {
         teams[i].key,
 
         teams[i].characterCount,
-        teams[i].damageTypes.join('_').toLowerCase(),
         teams[i].diceCount,
         teams[i].health,
         teams[i].points,
@@ -598,6 +608,11 @@ teams.forEach((team) => {
         teams[i].factions.includes('red'),
         teams[i].factions.includes('yellow'),
 
+        teams[i].damageTypes.includes('ID'),
+        teams[i].damageTypes.includes('MD'),
+        teams[i].damageTypes.includes('ND'),
+        teams[i].damageTypes.includes('RD'),
+
         teams[i].ranks.characterCount,
         teams[i].ranks.diceCount,
         teams[i].ranks.health,
@@ -610,12 +625,12 @@ teams.forEach((team) => {
 }());
 
 
-// const numPages = Math.ceil(teams.length / PAGE_SIZE);
-// teamsStats.count = teams.length || 0;
-// teamsStats.numPages = numPages;
-//
-// console.log('\x1b[32m\x1b[1m%s\x1b[0m', `Generated ${teams.length} teams`);
-//
+const numPages = Math.ceil(teams.length / PAGE_SIZE);
+teamsStats.count = teams.length || 0;
+teamsStats.numPages = numPages;
+
+console.log('\x1b[32m\x1b[1m%s\x1b[0m', `Generated ${teams.length} teams`);
+
 // for (let i = 0; i < numPages; i += 1) {
 //   const startIndex = i * PAGE_SIZE;
 //   const endIndex = ((i + 1) * PAGE_SIZE);
@@ -624,8 +639,8 @@ teams.forEach((team) => {
 //   jsonfile.writeFile(path.join(__dirname, `../data/teams_${i}.json`), teamSlice);
 //   console.log('\x1b[32m\x1b[1m%s\x1b[0m', `Output ${teamSlice.length} teams in page ${i}`);
 // }
-//
-// jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
-// jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
-//   stats_checksum: checksum(teamsStats),
-// });
+
+jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
+jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
+  stats_checksum: checksum(teamsStats),
+});
