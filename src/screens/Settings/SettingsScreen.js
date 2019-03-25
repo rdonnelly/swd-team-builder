@@ -144,7 +144,6 @@ class SettingsScreen extends Component {
             this.minHealthSlider.reset();
             this.minCharacterCountSlider.reset();
             this.maxCharacterCountSlider.reset();
-            this.minPointsSlider.reset();
             this.plotPointsSlider.reset();
           },
           style: 'destructive',
@@ -271,16 +270,6 @@ class SettingsScreen extends Component {
             reverse={ true }
             callback={ this.props.updateSetting }
             ref={ (component) => { this.maxCharacterCountSlider = component; } }
-          />
-
-          <SettingSlider
-            value={ settings.filters.minPoints }
-            minValue={ teamsStats.minPoints }
-            maxValue={ teamsStats.maxPoints }
-            setting={ 'minPoints' }
-            label={ 'Minimum Points' }
-            callback={ this.props.updateSetting }
-            ref={ (component) => { this.minPointsSlider = component; } }
           />
 
           { affiliationsCloud }
