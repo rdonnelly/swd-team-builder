@@ -20,6 +20,7 @@ import { resetFilters, updateSetting } from '../../store/actions';
 import { getSettings } from '../../store/selectors/teamSelectors';
 
 import {
+  charactersStats,
   plotsStats,
   teamsStats,
 
@@ -64,6 +65,9 @@ const styles = StyleSheet.create({
   disclaimerText: {
     color: colors.gray,
     textAlign: 'center',
+  },
+  disclaimerTextBold: {
+    fontWeight: '600',
   },
   linkText: {
     color: colors.brand,
@@ -298,6 +302,15 @@ class SettingsScreen extends Component {
           />
 
           { plotFactionCloud }
+
+          <View style={ styles.information }>
+            <Text style={ styles.disclaimerText }>
+              Generated
+              <Text style={ styles.disclaimerTextBold }> {teamsStats.count}</Text> Teams using
+              <Text style={ styles.disclaimerTextBold }> {charactersStats.count}</Text> Characters and
+              <Text style={ styles.disclaimerTextBold }> {plotsStats.count}</Text> Plots.
+            </Text>
+          </View>
 
           <View style={ styles.information }>
             <Text style={ styles.disclaimerText }>
