@@ -18,8 +18,8 @@ const AFFILIATION_RANK = {
   neutral: 2,
 };
 
-const MIN_DICE = 0;
-const MIN_POINTS = 0;
+const MIN_DICE = 2;
+const MIN_POINTS = 20;
 const MAX_POINTS = 30;
 const PAGE_SIZE = 5000;
 
@@ -127,18 +127,22 @@ class Team {
     this.key = this.getKey();
 
     if (card.id === '05038') { // CHARACTER: Clone Trooper, 05038
+      this.characterPoints -= this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
       this.points -= this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
     }
 
     if (card.id === '08073') { // CHARACTER: Clone Commander Cody, 08073
+      this.characterPoints -= this.hasCharacter({ id: '05038' }); // CHARACTER: Clone Trooper, 05038
       this.points -= this.hasCharacter({ id: '05038' }); // CHARACTER: Clone Trooper, 05038
     }
 
     if (card.id === '09021') { // CHARACTER: General Grievous, 09021
+      this.characterPoints -= this.hasCharacter({ subtype: 'droid' });
       this.points -= this.hasCharacter({ subtype: 'droid' });
     }
 
     if (card.subtypes && card.subtypes.includes('droid')) {
+      this.characterPoints -= this.hasCharacter({ id: '09021' }); // CHARACTER: General Grievous, 09021
       this.points -= this.hasCharacter({ id: '09021' }); // CHARACTER: General Grievous, 09021
     }
 
@@ -452,6 +456,7 @@ const generateTeams = (team, eligibleCharacters) => {
     }
   });
 
+
   if (teamIsComplete && team.isComplete()) {
     delete team.characters;
     delete team.plot;
@@ -461,9 +466,7 @@ const generateTeams = (team, eligibleCharacters) => {
 
 
 const numSetCombinations = setCombinations.length;
-// setCombinations.slice(0, 1).forEach((setCombination, index) => {
-[eligibleSets].forEach((setCombination, index) => {
-// [['RIV', 'AtG']].forEach((setCombination, index) => {
+setCombinations.forEach((setCombination, index) => {
   console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${setCombination.join(',')} (${index + 1}/${numSetCombinations})`);
   const numTeams = teams.length;
 
@@ -491,9 +494,6 @@ const numSetCombinations = setCombinations.length;
     process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
   });
   console.log('\n');
-
-  console.log('\x1b[34m%s\x1b[0m', '    Cleaning up...');
-  teams = _.uniqBy(teams, 'key');
 
   // HERO
 
@@ -626,19 +626,22 @@ teams.forEach((team) => {
     );
   `);
 
+  const insertStmt = await db.prepare(`
+    INSERT INTO teams VALUES (
+      ?,
+      ?, ?, ?, ?, ?, ?,
+      ?, ?, ?,
+      ?, ?, ?, ?,
+      ?, ?, ?, ?,
+      ?, ?, ?, ?
+    )
+  `);
+
+  const queryPromises = [];
+
   for (let i = 0, l = teams.length; i < l; i += 1) {
     // eslint-disable-next-line no-await-in-loop
-    await db.run(
-      `
-        INSERT INTO teams VALUES (
-          ?,
-          ?, ?, ?, ?, ?, ?,
-          ?, ?, ?,
-          ?, ?, ?, ?,
-          ?, ?, ?, ?,
-          ?, ?, ?, ?
-        )
-      `,
+    queryPromises.push(insertStmt.run(
       [
         teams[i].key,
 
@@ -668,10 +671,14 @@ teams.forEach((team) => {
         teams[i].ranks.health,
         teams[i].ranks.points,
       ],
-    );
+    ));
   }
 
-  db.close();
+  await Promise.all(queryPromises);
+
+  await insertStmt.finalize();
+
+  await db.close();
 }());
 
 
