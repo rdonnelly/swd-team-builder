@@ -26,21 +26,22 @@ const updateCharactersCompatibility =
     const characterSet = characterObject.set;
 
     const hasValidAffiliation =
-      validAffiliations.indexOf(characterAffiliation) !== -1 &&
+      validAffiliations[characterAffiliation] &&
+      // validAffiliations.indexOf(characterAffiliation) !== -1 &&
       (characterAffiliation === 'neutral' ||
       deckAffiliation === 'neutral' ||
       characterAffiliation === deckAffiliation);
-    const hasValidFaction = validFactions.includes(characterFaction);
-    const hasValidSet = validSets.includes(characterSet);
+    const hasValidFaction = validFactions[characterFaction];
+    const hasValidSet = validSets[characterSet];
     const hasValidDamageTypes =
-      characterDamageTypes.length ===
-      _intersection(characterDamageTypes, validDamageTypes).length;
+      characterDamageTypes.every((characterDamageType) => validDamageTypes[characterDamageType]);
 
     // if character shares a name, isn't the same card as the one in the deck,
     // and is unique
     const hasValidUniqueness = !characterIsUnique ||
       !_find(deckCharacters,
-        deckCharacter => deckCharacter.id !== characterId && deckCharacter.name === characterName);
+        (deckCharacter) => deckCharacter.id !== characterId &&
+          deckCharacter.name === characterName);
 
     const isCompatible =
       hasValidAffiliation &&

@@ -24,16 +24,30 @@ const initialState = {
       maxPoints: teamsStats.maxPoints,
 
       plotPoints: 0,
-      plotFactions: ['gray'],
+      plotFactions: {
+        blue: false,
+        gray: true,
+        red: false,
+        yellow: false,
+      },
 
-      affiliations: affiliations.map((affiliation) => affiliation.code),
-      damageTypes: damageTypes.map((damageType) => damageType.code),
-      factions: factions.map((faction) => faction.code),
-      sets: sets.map((set) => set.code),
+      affiliations: affiliations.reduce((affiliationMap, affiliation) => ({
+        ...affiliationMap,
+        [affiliation.code]: true,
+      }), {}),
+      damageTypes: damageTypes.reduce((damageTypeMap, damageType) => ({
+        ...damageTypeMap,
+        [damageType.code]: true,
+      }), {}),
+      factions: factions.reduce((factionMap, faction) => ({
+        ...factionMap,
+        [faction.code]: true,
+      }), {}),
+      sets: sets.reduce((setMap, set) => ({
+        ...setMap,
+        [set.code]: true,
+      }), {}),
     },
-    sortOrder: [
-      'dice', 'health', 'points', 'characterCount',
-    ],
   },
 };
 
@@ -51,27 +65,6 @@ const teamsReducer = (state = initialState, action) => {
         settings: {
           ...state.settings,
           filters,
-        },
-      };
-    }
-
-    case 'SET_SORT': {
-      const priority = action.payload.sortPriority;
-      const sortOrder = initialState.settings.sortOrder.slice(0);
-
-      sortOrder.sort((a, b) => {
-        if (a === priority) return -1;
-        if (b === priority) return 1;
-        if (a < b) return -1;
-        if (a > b) return 1;
-        return 0;
-      });
-
-      return {
-        ...state,
-        settings: {
-          ...state.settings,
-          sortOrder,
         },
       };
     }

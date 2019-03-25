@@ -26,6 +26,9 @@ class Database {
     this.listeners = [];
 
     store.subscribe(this.storeChange);
+
+    SQLite.DEBUG(false);
+    SQLite.enablePromise(true);
   }
 
   getDatabase() {
@@ -38,9 +41,6 @@ class Database {
 
   // Open the connection to the database
   open() {
-    SQLite.DEBUG(false);
-    SQLite.enablePromise(true);
-
     return SQLite.openDatabase({
       createFromLocation: this.databaseLocation,
       name: this.databaseName,
@@ -144,53 +144,55 @@ class Database {
 
     // affiliations
     const affiliationsExpression = squel.expr();
-    if (filters.affiliations.includes('villain')) {
-      affiliationsExpression.or('affiliationVillain = 1');
+    if (!filters.affiliations.villain) {
+      affiliationsExpression.or('affiliationVillain = 0');
     }
-    if (filters.affiliations.includes('hero')) {
-      affiliationsExpression.or('affiliationHero = 1');
+    if (!filters.affiliations.hero) {
+      affiliationsExpression.or('affiliationHero = 0');
     }
-    if (filters.affiliations.includes('neutral')) {
-      affiliationsExpression.or('affiliationNeutral = 1');
+    if (!filters.affiliations.neutral) {
+      affiliationsExpression.or('affiliationNeutral = 0');
     }
     query.where(affiliationsExpression);
 
     // damageTypes
     const damageTypesExpression = squel.expr();
-    if (!filters.damageTypes.includes('ID')) {
+    if (!filters.damageTypes.ID) {
       damageTypesExpression.and('damageIndirect = 0');
     }
-    if (!filters.damageTypes.includes('MD')) {
+    if (!filters.damageTypes.MD) {
       damageTypesExpression.and('damageMelee = 0');
     }
-    if (!filters.damageTypes.includes('ND')) {
+    if (!filters.damageTypes.ND) {
       damageTypesExpression.and('damageNone = 0');
     }
-    if (!filters.damageTypes.includes('RD')) {
+    if (!filters.damageTypes.RD) {
       damageTypesExpression.and('damageRanged = 0');
     }
     query.where(damageTypesExpression);
 
     // factions
     const factionsExpression = squel.expr();
-    if (!filters.factions.includes('blue')) {
+    if (!filters.factions.blue) {
       factionsExpression.and('factionBlue = 0');
     }
-    if (!filters.factions.includes('gray')) {
+    if (!filters.factions.gray) {
       factionsExpression.and('factionGray = 0');
     }
-    if (!filters.factions.includes('red')) {
+    if (!filters.factions.red) {
       factionsExpression.and('factionRed = 0');
     }
-    if (!filters.factions.includes('yellow')) {
+    if (!filters.factions.yellow) {
       factionsExpression.and('factionYellow = 0');
     }
     query.where(factionsExpression);
 
     // sets
     const setsExpression = squel.expr();
-    filters.sets.forEach((set) => {
-      setsExpression.or(`sets LIKE "%${set}%"`);
+    Object.keys(filters.sets).forEach((code) => {
+      if (!filters.sets[code]) {
+        setsExpression.and(`sets NOT LIKE "%${code}%"`);
+      }
     });
     query.where(setsExpression);
 
@@ -199,13 +201,13 @@ class Database {
     if (filters.plotPoints) {
       // plot faction
       const plotFactionsExpression = squel.expr();
-      if (filters.plotFactions.includes('blue')) {
+      if (filters.plotFactions.blue) {
         plotFactionsExpression.and('factionBlue = 1');
       }
-      if (filters.plotFactions.includes('red')) {
+      if (filters.plotFactions.red) {
         plotFactionsExpression.and('factionRed = 1');
       }
-      if (filters.plotFactions.includes('yellow')) {
+      if (filters.plotFactions.yellow) {
         plotFactionsExpression.and('factionYellow = 1');
       }
       query.where(plotFactionsExpression);
@@ -221,7 +223,6 @@ class Database {
   }
 
   getTeam(key) {
-    console.log('[db] Fetching team from the db...', key);
     return this.getDatabase()
       .then((db) => db.executeSql(`
         SELECT
@@ -261,8 +262,6 @@ class Database {
       query.order(column, false);
     });
 
-    console.log(query.toString());
-
     return this.getDatabase()
       .then((db) => db.executeSql(query.toString()))
       .then(([results]) => {
@@ -291,7 +290,6 @@ class Database {
   }
 
   getTeamsCount() {
-    console.log('[db] Fetching team count from the db...');
 
     const query = this.getTeamsBaseQuery()
       .field('COUNT(*)', 'count');

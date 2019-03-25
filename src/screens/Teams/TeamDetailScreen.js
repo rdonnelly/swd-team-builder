@@ -209,7 +209,7 @@ class TeamDetailScreen extends React.Component {
     const teamKey = this.props.navigation.getParam('key');
 
     const urlParams = [];
-    teamKey.split('__').forEach((characterKey) => {
+    teamKey.split('___').shift().split('__').forEach((characterKey) => {
       const cardId = characterKey.split('_').shift();
       urlParams.push(`cards[]=${cardId}`);
     });
@@ -231,7 +231,7 @@ class TeamDetailScreen extends React.Component {
     // const maxPlotPoint = teamsStats.maxPoints - team.points;
     const maxPlotPoint = false;
 
-    const characterAvatars = teamKey.split('__').map((characterKey, index) => {
+    const characterAvatars = teamKey.split('___').shift().split('__').map((characterKey, index) => {
       const [cardId] = characterKey.split('_');
       return (
         <TouchableOpacity
@@ -248,7 +248,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const characterNames = teamKey.split('__').map((characterKey) => {
+    const characterNames = teamKey.split('___').shift().split('__').map((characterKey) => {
       const [cardId, diceCount, count] = characterKey.split('_');
       const card = characters[cardId];
       const characterNameStyles = [styles.characterName];
@@ -297,7 +297,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const imageViews = teamKey.split('__').map((characterKey) => {
+    const imageViews = teamKey.split('___').shift().split('__').map((characterKey) => {
       const [cardId] = characterKey.split('_');
       return (
         <View

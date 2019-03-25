@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
 
 class SettingCloudItem extends PureComponent {
   handlePress = () => {
-    this.props.handlePress(this.props.setting, !this.props.value);
+    this.props.handlePress(this.props.code);
   }
 
   handleLongPress = () => {
-    this.props.handleLongPress(this.props.setting);
+    this.props.handleLongPress(this.props.code);
   }
 
   render() {
@@ -63,8 +63,8 @@ class SettingCloudItem extends PureComponent {
 }
 
 SettingCloudItem.propTypes = {
+  code: PropTypes.string.isRequired,
   value: PropTypes.bool.isRequired,
-  setting: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 
   handlePress: PropTypes.func.isRequired,
