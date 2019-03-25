@@ -24,9 +24,13 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<string>90</string>
 =======
 	<string>82</string>
+>>>>>>> update data
+=======
+	<string>83</string>
 >>>>>>> update data
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
@@ -48,7 +52,11 @@
 <<<<<<< HEAD
 =======
 	<key>NSLocationWhenInUseUsageDescription</key>
+<<<<<<< HEAD
 	<string/>
+>>>>>>> update data
+=======
+	<string></string>
 >>>>>>> update data
 	<key>UIAppFonts</key>
 	<array>
