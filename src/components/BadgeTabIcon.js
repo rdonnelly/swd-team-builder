@@ -38,7 +38,11 @@ const styles = StyleSheet.create({
 class BadgeTabIcon extends PureComponent {
   render() {
     const { data: count } = this.props;
-    const countLabel = count <= 500 ? count : '500+';
+
+    let countLabel = '...';
+    if (count != null) {
+      countLabel = count <= 500 ? count : '500+';
+    }
 
     const iconStyles = {
       marginTop: this.props.horizontal ? 0 : 5,
