@@ -128,7 +128,6 @@ class Database {
 
     // filters
     const filters = getFilters(store.getState());
-    console.log('FILTERS', filters);
 
     // character
     query.where('characterCount BETWEEN ? AND ?', filters.minCharacterCount, filters.maxCharacterCount);
@@ -218,10 +217,6 @@ class Database {
       query.where('points > ? OR plotPoints = ?', 30, filters.plotPoints);
     }
 
-    console.log(filters.plotPoints);
-
-    console.log(query.toString());
-
     return query;
   }
 
@@ -252,8 +247,6 @@ class Database {
   }
 
   getTeams() {
-    console.log('[db] Fetching teams from the db...');
-
     const query = this.getTeamsBaseQuery()
       .field('key')
       .field('diceCount')
@@ -273,22 +266,6 @@ class Database {
         }
 
         return results.rows.raw();
-
-        // return results.rows.map((row) => {
-        //   return {
-        //     row
-        //   }
-        // });
-
-        // const count = results.rows.length;
-        // const lists = [];
-        // for (let i = 0; i < count; i += 1) {
-        //   const row = results.rows.item(i);
-        //   const { title, id } = row;
-        //   console.log(`[db] List title: ${title}, id: ${id}`);
-        //   lists.push({ id, title });
-        // }
-        // return lists;
       });
   }
 

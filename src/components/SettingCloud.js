@@ -82,7 +82,6 @@ class SettingCloud extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.values === nextState.values) {
-      console.log('>>> SKIP RENDER WOO');
       return false;
     }
 
