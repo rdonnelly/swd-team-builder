@@ -18,7 +18,7 @@ import SWDIcon from '../../components/SWDIcon';
 
 import withData from '../../components/withData';
 
-import { characters } from '../../lib/Destiny';
+import { characters, plots } from '../../lib/Destiny';
 import { cardBack, cardImages } from '../../lib/DestinyImages';
 
 import { base, colors } from '../../styles';
@@ -110,13 +110,17 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 16,
     marginHorizontal: 16,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
   plotStatusText: {
     color: colors.darkGray,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  plotStatusTextCard: {
+    fontStyle: 'italic',
   },
   teamSearch: {
     flex: 1,
@@ -207,12 +211,18 @@ class TeamDetailScreen extends React.Component {
 
   searchSWDestinyDB = () => {
     const teamKey = this.props.navigation.getParam('key');
+    const [charactersKey, plotId] = teamKey.split('___');
 
     const urlParams = [];
-    teamKey.split('___').shift().split('__').forEach((characterKey) => {
+
+    charactersKey.split('__').forEach((characterKey) => {
       const cardId = characterKey.split('_').shift();
       urlParams.push(`cards[]=${cardId}`);
     });
+
+    if (plotId) {
+      urlParams.push(`cards[]=${plotId}`);
+    }
 
     SafariView.show({
       tintColor: colors.purple,
@@ -222,6 +232,7 @@ class TeamDetailScreen extends React.Component {
 
   render() {
     const teamKey = this.props.navigation.getParam('key');
+    const [charactersKey, plotId] = teamKey.split('___');
     const { data: team } = this.props;
 
     if (!team) {
@@ -229,9 +240,21 @@ class TeamDetailScreen extends React.Component {
     }
 
     // const maxPlotPoint = teamsStats.maxPoints - team.points;
-    const maxPlotPoint = false;
+    let plotStatusText = null;
+    if (plotId) {
+      const plot = plots[plotId];
+      plotStatusText = (
+        <Text>
+          Team Requires Plot: <Text style={ styles.plotStatusTextCard }>{ plot.name }</Text>
+        </Text>
+      );
+    } else if (team.points > 30) {
+      plotStatusText = `Team Requires Plot of ${30 - team.points} Points or Less`;
+    } else if (team.points < 30) {
+      plotStatusText = `Team Supports Plot of ${30 - team.points} Points or Less`;
+    }
 
-    const characterAvatars = teamKey.split('___').shift().split('__').map((characterKey, index) => {
+    const characterAvatars = charactersKey.split('__').map((characterKey, index) => {
       const [cardId] = characterKey.split('_');
       return (
         <TouchableOpacity
@@ -248,7 +271,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const characterNames = teamKey.split('___').shift().split('__').map((characterKey) => {
+    const characterNames = charactersKey.split('__').map((characterKey) => {
       const [cardId, diceCount, count] = characterKey.split('_');
       const card = characters[cardId];
       const characterNameStyles = [styles.characterName];
@@ -297,7 +320,7 @@ class TeamDetailScreen extends React.Component {
       );
     });
 
-    const imageViews = teamKey.split('___').shift().split('__').map((characterKey) => {
+    const imageViews = charactersKey.split('__').map((characterKey) => {
       const [cardId] = characterKey.split('_');
       return (
         <View
@@ -337,10 +360,10 @@ class TeamDetailScreen extends React.Component {
             <Text style={ styles.teamStat }>&middot;</Text>
             <Text style={ styles.teamStat }>{ teamAffiliationLabel }</Text>
           </View>
-          { maxPlotPoint ? (
+          { plotStatusText ? (
             <View style={ styles.plotStatus }>
               <Text style={ styles.plotStatusText }>
-                Team Supports Plot of Cost { maxPlotPoint } or Less
+                { plotStatusText }
               </Text>
             </View>
           ) : null }
