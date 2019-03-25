@@ -23,7 +23,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
+<<<<<<< HEAD
 	<string>90</string>
+=======
+	<string>82</string>
+>>>>>>> update data
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -41,6 +45,11 @@
 			</dict>
 		</dict>
 	</dict>
+<<<<<<< HEAD
+=======
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string/>
+>>>>>>> update data
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
