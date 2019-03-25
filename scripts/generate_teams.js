@@ -50,6 +50,7 @@ class Team {
     this.characterPoints = 0;
 
     this.plot = null;
+    this.plotId = null;
     this.plotPoints = null;
 
     this.affiliations = [];
@@ -141,6 +142,11 @@ class Team {
       this.points -= this.hasCharacter({ id: '09021' }); // CHARACTER: General Grievous, 09021
     }
 
+    if (this.plot && this.plot.id === '08155' && // PLOT: No Allegiance, 08155
+        card.affiliation === 'neutral') {
+      this.health += 1;
+    }
+
     return true;
   }
 
@@ -148,11 +154,13 @@ class Team {
     this.plot = { ...plot };
     this.key = this.getKey();
 
+    this.plotId = plot.id;
+    this.plotPoints = plot.points;
+
     this.affiliations = _.uniq([...this.affiliations, plot.affiliation]);
     this.factions = _.uniq([...this.factions, plot.faction]);
     this.sets = _.uniq([...this.sets, plot.sets]);
     this.points += plot.points;
-    this.plotPoints = plot.points;
   }
 
   hasCharacter({ id, name, subtype }) {
@@ -455,7 +463,7 @@ const generateTeams = (team, eligibleCharacters) => {
 const numSetCombinations = setCombinations.length;
 // setCombinations.slice(0, 1).forEach((setCombination, index) => {
 [eligibleSets].forEach((setCombination, index) => {
-// [['AoN']].forEach((setCombination, index) => {
+// [['RIV', 'AtG']].forEach((setCombination, index) => {
   console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${setCombination.join(',')} (${index + 1}/${numSetCombinations})`);
   const numTeams = teams.length;
 
@@ -544,8 +552,6 @@ _.sortBy(teams, ['diceCount', 'health', 'points', 'characterCount']).reverse().m
   return team;
 });
 
-teams.sort((teamA, teamB) => teamA.ranks.diceCount - teamB.ranks.diceCount);
-
 
 // CALCULATE STATS
 
@@ -595,6 +601,7 @@ teams.forEach((team) => {
       characterCount INTEGER,
       diceCount INTEGER,
       health INTEGER,
+      plotPoints INTEGER,
       points INTEGER,
       sets TEXT,
 
@@ -625,7 +632,7 @@ teams.forEach((team) => {
       `
         INSERT INTO teams VALUES (
           ?,
-          ?, ?, ?, ?, ?,
+          ?, ?, ?, ?, ?, ?,
           ?, ?, ?,
           ?, ?, ?, ?,
           ?, ?, ?, ?,
@@ -638,6 +645,7 @@ teams.forEach((team) => {
         teams[i].characterCount,
         teams[i].diceCount,
         teams[i].health,
+        teams[i].plotId ? teams[i].plotPoints : null,
         teams[i].characterPoints,
         teams[i].sets.join('_').toLowerCase(),
 

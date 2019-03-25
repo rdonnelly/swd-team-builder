@@ -196,7 +196,6 @@ class Database {
     });
     query.where(setsExpression);
 
-
     // plot
     if (filters.plotPoints) {
       // plot faction
@@ -214,10 +213,14 @@ class Database {
     }
 
     // plot points
-    query.where('points <= ?', 30 - filters.plotPoints);
+    query.where('points <= ? AND (plotPoints IS NULL OR plotPoints = ?)', 30 - filters.plotPoints, filters.plotPoints);
     if (filters.plotPoints < 0) {
-      query.where('points > ?', 30);
+      query.where('points > ? OR plotPoints = ?', 30, filters.plotPoints);
     }
+
+    console.log(filters.plotPoints);
+
+    console.log(query.toString());
 
     return query;
   }
@@ -290,7 +293,6 @@ class Database {
   }
 
   getTeamsCount() {
-
     const query = this.getTeamsBaseQuery()
       .field('COUNT(*)', 'count');
 
