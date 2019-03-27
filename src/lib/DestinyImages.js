@@ -1,4 +1,4 @@
-/* eslint-disable global-require */
+/* eslint-disable global-require,quote-props */
 const cardBack = require('../../images/back.png');
 const cardBackTexture = require('../../images/back-texture.jpg');
 
@@ -170,18 +170,31 @@ const cardImages = {
 
   '09001': require('../../images/characters/09001.jpg'),
   '09002': require('../../images/characters/09002.jpg'),
+  '09003': require('../../images/characters/09003.jpg'),
+  '09004': require('../../images/characters/09004.jpg'),
   '09018': require('../../images/characters/09018.jpg'),
   '09019': require('../../images/characters/09019.jpg'),
   '09020': require('../../images/characters/09020.jpg'),
   '09021': require('../../images/characters/09021.jpg'),
+  '09022': require('../../images/characters/09022.jpg'),
   '09035': require('../../images/characters/09035.jpg'),
   '09036': require('../../images/characters/09036.jpg'),
+  '09037': require('../../images/characters/09037.jpg'),
+  '09038': require('../../images/characters/09038.jpg'),
+  '09054': require('../../images/characters/09054.jpg'),
+  '09055': require('../../images/characters/09055.jpg'),
   '09056': require('../../images/characters/09056.jpg'),
   '09057': require('../../images/characters/09057.jpg'),
   '09072': require('../../images/characters/09072.jpg'),
+  '09073': require('../../images/characters/09073.jpg'),
+  '09074': require('../../images/characters/09074.jpg'),
+  '09075': require('../../images/characters/09075.jpg'),
+  '09088': require('../../images/characters/09088.jpg'),
   '09089': require('../../images/characters/09089.jpg'),
+  '09090': require('../../images/characters/09090.jpg'),
   '09091': require('../../images/characters/09091.jpg'),
   '09141': require('../../images/characters/09141.jpg'),
+  '09142': require('../../images/characters/09142.jpg'),
 
   '10001': require('../../images/characters/10001.jpg'),
   '10006': require('../../images/characters/10006.jpg'),
