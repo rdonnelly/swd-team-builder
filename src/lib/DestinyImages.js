@@ -185,6 +185,7 @@ const cardImages = {
   '09055': require('../../images/characters/09055.jpg'),
   '09056': require('../../images/characters/09056.jpg'),
   '09057': require('../../images/characters/09057.jpg'),
+  '09058': require('../../images/characters/09058.jpg'),
   '09072': require('../../images/characters/09072.jpg'),
   '09073': require('../../images/characters/09073.jpg'),
   '09074': require('../../images/characters/09074.jpg'),
