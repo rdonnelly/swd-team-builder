@@ -1,6 +1,6 @@
 // DECK ACTIONS
 
-const addCharacterToDeck = characterObject => ({
+const addCharacterToDeck = (characterObject) => ({
   type: 'ADD_CHARACTER_TO_DECK',
   payload: {
     characterAffiliation: characterObject.affiliation,
@@ -9,7 +9,7 @@ const addCharacterToDeck = characterObject => ({
   },
 });
 
-const removeCharacterFromDeck = characterObject => ({
+const removeCharacterFromDeck = (characterObject) => ({
   type: 'REMOVE_CHARACTER_FROM_DECK',
   payload: {
     characterAffiliation: characterObject.affiliation,
@@ -18,7 +18,7 @@ const removeCharacterFromDeck = characterObject => ({
   },
 });
 
-const setCharacterAnyInDeck = characterObject => ({
+const setCharacterAnyInDeck = (characterObject) => ({
   type: 'SET_CHARACTER_ANY_IN_DECK',
   payload: {
     characterAffiliation: characterObject.affiliation,
@@ -27,7 +27,7 @@ const setCharacterAnyInDeck = characterObject => ({
   },
 });
 
-const setCharacterRegularInDeck = characterObject => ({
+const setCharacterRegularInDeck = (characterObject) => ({
   type: 'SET_CHARACTER_REGULAR_IN_DECK',
   payload: {
     characterAffiliation: characterObject.affiliation,
@@ -36,7 +36,7 @@ const setCharacterRegularInDeck = characterObject => ({
   },
 });
 
-const setCharacterEliteInDeck = characterObject => ({
+const setCharacterEliteInDeck = (characterObject) => ({
   type: 'SET_CHARACTER_ELITE_IN_DECK',
   payload: {
     characterAffiliation: characterObject.affiliation,
@@ -45,14 +45,14 @@ const setCharacterEliteInDeck = characterObject => ({
   },
 });
 
-const includeCharacterInDeck = characterId => ({
+const includeCharacterInDeck = (characterId) => ({
   type: 'INCLUDE_CHARACTER',
   payload: {
     characterId,
   },
 });
 
-const excludeCharacterInDeck = characterId => ({
+const excludeCharacterInDeck = (characterId) => ({
   type: 'EXCLUDE_CHARACTER',
   payload: {
     characterId,
@@ -89,7 +89,7 @@ const updateCharacters = (
   },
 });
 
-const updateCharacterInclusion = excludedCharacterIds => ({
+const updateCharacterInclusion = (excludedCharacterIds) => ({
   type: 'UPDATE_CHARACTER_INCLUSION',
   payload: {
     excludedCharacterIds,
@@ -113,7 +113,7 @@ const resetCharacters = (
   },
 });
 
-const updateCharacterQuery = query => ({
+const updateCharacterQuery = (query) => ({
   type: 'UPDATE_CHARACTER_QUERY',
   payload: {
     query,
@@ -131,7 +131,7 @@ const setSetting = (key, value) => ({
   },
 });
 
-const setSort = sortPriority => ({
+const setSort = (sortPriority) => ({
   type: 'SET_SORT',
   payload: {
     sortPriority,
@@ -165,9 +165,9 @@ const updateCharactersHelper = (dispatch, getState) => dispatch(
 
 // ACTIONS
 
-const addCharacter = characterObject => (dispatch, getState) => {
+const addCharacter = (characterObject) => (dispatch, getState) => {
   if (characterObject.isUnique && getState().deck.characters.some(
-    deckCharacterObject => deckCharacterObject.id === characterObject.id,
+    (deckCharacterObject) => deckCharacterObject.id === characterObject.id,
   )) {
     return Promise.resolve()
       .then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));
@@ -178,21 +178,21 @@ const addCharacter = characterObject => (dispatch, getState) => {
     .then(updateCharactersHelper(dispatch, getState));
 };
 
-const setCharacterAny = characterObject => (dispatch, getState) => Promise.resolve()
+const setCharacterAny = (characterObject) => (dispatch, getState) => Promise.resolve()
   .then(dispatch(setCharacterAnyInDeck(characterObject)))
   .then(updateCharactersHelper(dispatch, getState));
 
-const setCharacterRegular = characterObject => (dispatch, getState) => Promise.resolve()
+const setCharacterRegular = (characterObject) => (dispatch, getState) => Promise.resolve()
   .then(dispatch(setCharacterRegularInDeck(characterObject)))
   .then(updateCharactersHelper(dispatch, getState));
 
-const setCharacterElite = characterObject => (dispatch, getState) => Promise.resolve()
+const setCharacterElite = (characterObject) => (dispatch, getState) => Promise.resolve()
   .then(dispatch(setCharacterEliteInDeck(characterObject)))
   .then(updateCharactersHelper(dispatch, getState));
 
-const removeCharacter = characterObject => (dispatch, getState) => {
+const removeCharacter = (characterObject) => (dispatch, getState) => {
   if (!getState().deck.characters.some(
-    deckCharacterObject => deckCharacterObject.id === characterObject.id,
+    (deckCharacterObject) => deckCharacterObject.id === characterObject.id,
   )) {
     return Promise.resolve()
       .then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
@@ -203,11 +203,11 @@ const removeCharacter = characterObject => (dispatch, getState) => {
     .then(updateCharactersHelper(dispatch, getState));
 };
 
-const includeCharacter = characterId => (dispatch, getState) => Promise.resolve()
+const includeCharacter = (characterId) => (dispatch, getState) => Promise.resolve()
   .then(dispatch(includeCharacterInDeck(characterId)))
   .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
 
-const excludeCharacter = characterId => (dispatch, getState) => Promise.resolve()
+const excludeCharacter = (characterId) => (dispatch, getState) => Promise.resolve()
   .then(dispatch(excludeCharacterInDeck(characterId)))
   .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
 

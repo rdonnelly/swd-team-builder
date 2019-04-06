@@ -1,5 +1,4 @@
 import _find from 'lodash/find';
-import _intersection from 'lodash/intersection';
 import { characters } from '../../lib/Destiny';
 
 const initialState = {
@@ -27,7 +26,6 @@ const updateCharactersCompatibility =
 
     const hasValidAffiliation =
       validAffiliations[characterAffiliation] &&
-      // validAffiliations.indexOf(characterAffiliation) !== -1 &&
       (characterAffiliation === 'neutral' ||
       deckAffiliation === 'neutral' ||
       characterAffiliation === deckAffiliation);
@@ -92,9 +90,10 @@ const charactersReducer = (state = initialState, action) => {
             const characterId = characterObject.id;
             const isExcluded = excludedCharacterIds.includes(characterId);
 
-            return Object.assign({}, characterObject, {
+            return {
+              ...characterObject,
               isExcluded,
-            });
+            };
           }),
       };
     }
