@@ -124,7 +124,7 @@ class CharacterListItem extends Component {
     return true;
   }
 
-  navigateToCharacterDetails = characterId => () => {
+  navigateToCharacterDetails = (characterId) => () => {
     this.props.navigation.navigate('CharacterDetailScreen', { id: characterId });
   }
 
@@ -136,6 +136,7 @@ class CharacterListItem extends Component {
       onOpen,
       onClose,
     } = this.props;
+
     const card = characters[characterId];
 
     const rowStyles = [styles.row];
