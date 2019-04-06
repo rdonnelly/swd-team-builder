@@ -83,6 +83,22 @@ let characters =
         return acc.sort();
       }, []));
 
+      if (card.id === '05050') { // CHARACTER: Zeb Orrelios, 05050
+        card.damageTypes.push('RD');
+      }
+
+      if (card.id === '07056') { // CHARACTER: Luke Skywalker, 07056
+        card.damageTypes.push('MD');
+      }
+
+      if (card.id === '09018') { // CHARACTER: Captain Phasma, 09018
+        card.damageTypes.push('MD');
+      }
+
+      if (card.id === '09075') { // CHARACTER: Padmé Amidala, 09075
+        card.damageTypes.push('ID');
+      }
+
       if (card.damageTypes.length === 0) {
         card.damageTypes = ['ND']; // no damage
       }
@@ -95,8 +111,7 @@ let characters =
 
       if (cardPoints) {
         const cardPointsSplit = cardPoints.split('/').map((v) => parseInt(v, 10));
-        card.pointsRegular = cardPointsSplit[0]; // eslint-disable-line prefer-destructuring
-        card.pointsElite = cardPointsSplit[1]; // eslint-disable-line prefer-destructuring
+        [card.pointsRegular, card.pointsElite] = cardPointsSplit;
       }
 
       return card;
