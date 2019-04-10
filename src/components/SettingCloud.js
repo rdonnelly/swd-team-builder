@@ -72,10 +72,13 @@ class SettingCloud extends Component {
     this.timeoutId = null;
 
     const initialValues = props.values !== null ?
-      props.values : this.props.options.map((option) => option.code);
+      props.values :
+      this.props.options.reduce((values, option) => ({
+        [option.code]: true,
+        ...values,
+      }), {});
 
     this.state = {
-      initialValues,
       values: { ...initialValues },
     };
   }

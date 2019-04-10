@@ -64,8 +64,8 @@ class SettingCloudItem extends PureComponent {
 
 SettingCloudItem.propTypes = {
   code: PropTypes.string.isRequired,
-  value: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
+  value: PropTypes.bool.isRequired,
 
   handlePress: PropTypes.func.isRequired,
   handleLongPress: PropTypes.func.isRequired,
