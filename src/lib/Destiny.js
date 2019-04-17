@@ -27,6 +27,12 @@ const factions = [
   { code: 'gray', name: 'Gray' },
 ];
 
+const formats = [
+  { code: 'INF', name: 'Infinite' },
+  { code: 'STD', name: 'Standard' },
+  { code: 'TRI', name: 'Trilogy' },
+];
+
 export {
   characters,
   charactersStats,
@@ -39,5 +45,6 @@ export {
   affiliations,
   damageTypes,
   factions,
+  formats,
   sets,
 };

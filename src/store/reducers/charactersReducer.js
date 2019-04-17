@@ -12,6 +12,7 @@ const updateCharactersCompatibility =
     validAffiliations,
     validDamageTypes,
     validFactions,
+    validFormats,
     validSets,
     deckAffiliation,
     deckCharacters,
@@ -19,6 +20,7 @@ const updateCharactersCompatibility =
     const characterAffiliation = characterObject.affiliation;
     const characterDamageTypes = characterObject.damageTypes;
     const characterFaction = characterObject.faction;
+    const characterFormats = characterObject.formats;
     const characterId = characterObject.id;
     const characterName = characterObject.name;
     const characterIsUnique = characterObject.isUnique;
@@ -33,6 +35,8 @@ const updateCharactersCompatibility =
     const hasValidSet = validSets[characterSet];
     const hasValidDamageTypes =
       characterDamageTypes.every((characterDamageType) => validDamageTypes[characterDamageType]);
+    const hasValidFormats =
+      characterFormats.some((characterFormat) => validFormats[characterFormat]);
 
     // if character shares a name, isn't the same card as the one in the deck,
     // and is unique
@@ -45,6 +49,7 @@ const updateCharactersCompatibility =
       hasValidAffiliation &&
       hasValidDamageTypes &&
       hasValidFaction &&
+      hasValidFormats &&
       hasValidSet &&
       hasValidUniqueness;
 
@@ -58,6 +63,7 @@ const charactersReducer = (state = initialState, action) => {
         validAffiliations,
         validDamageTypes,
         validFactions,
+        validFormats,
         validSets,
         deckAffiliation,
         deckCharacters,
@@ -71,6 +77,7 @@ const charactersReducer = (state = initialState, action) => {
             validAffiliations,
             validDamageTypes,
             validFactions,
+            validFormats,
             validSets,
             deckAffiliation,
             deckCharacters,
@@ -103,6 +110,7 @@ const charactersReducer = (state = initialState, action) => {
         validAffiliations,
         validDamageTypes,
         validFactions,
+        validFormats,
         validSets,
         deckAffiliation,
       } = action.payload;
@@ -115,6 +123,7 @@ const charactersReducer = (state = initialState, action) => {
             validAffiliations,
             validDamageTypes,
             validFactions,
+            validFormats,
             validSets,
             deckAffiliation,
           ),

@@ -8,7 +8,8 @@ import jsonfile from 'jsonfile';
 import path from 'path';
 import sqlite from 'sqlite';
 
-import sets from 'swdestinydb-json-data/sets.json';
+import formats from 'swdestinydb-json-data/formats.json';
+
 import characters from '../data/characters.json';
 import plots from '../data/plots.json';
 
@@ -21,7 +22,8 @@ const AFFILIATION_RANK = {
 const MIN_DICE = 2;
 const MIN_POINTS = 20;
 const MAX_POINTS = 30;
-const PAGE_SIZE = 5000;
+
+let db;
 
 let teams = [];
 const teamsStats = {
@@ -42,7 +44,7 @@ const teamsStats = {
 
 
 class Team {
-  constructor(plot = null) {
+  constructor({ format = null, plot = null }) {
     this.key = null;
 
     this.characters = [];
@@ -57,6 +59,7 @@ class Team {
     this.damageTypes = [];
     this.diceCount = 0;
     this.factions = [];
+    this.format = format;
     this.health = 0;
     this.points = 0;
     this.sets = [];
@@ -78,7 +81,7 @@ class Team {
       return `${characterKey}___${this.plot.id}`;
     }
 
-    return `${characterKey}`;
+    return `${this.format}____${characterKey}`;
   }
 
   addCharacter(card) {
@@ -126,6 +129,8 @@ class Team {
 
     this.key = this.getKey();
 
+    // TODO modifications below should not be able to find self
+
     if (card.id === '05038') { // CHARACTER: Clone Trooper, 05038
       this.characterPoints -= this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
       this.points -= this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
@@ -168,27 +173,30 @@ class Team {
   }
 
   hasCharacter({ id, name, subtype }) {
-    let character;
+    let teamCharacters = [];
+    let count = 0;
 
     if (id) {
-      character = this.characters.find((charObj) => charObj.id === id);
+      teamCharacters = this.characters.filter((charObj) => charObj.id === id);
     }
 
     if (name) {
-      character = this.characters.find((charObj) => charObj.name === name);
+      teamCharacters = this.characters.filter((charObj) => charObj.name === name);
     }
 
     if (subtype) {
-      character = this.characters.find(
-        (charObj) => charObj.subtypes && charObj.subtypes.include(subtype),
+      teamCharacters = this.characters.filter(
+        (charObj) => charObj.subtypes && charObj.subtypes.includes(subtype),
       );
     }
 
-    if (character) {
-      return character.count;
-    }
+    teamCharacters.forEach((character) => {
+      if (character.count) {
+        count += character.count;
+      }
+    });
 
-    return false;
+    return count;
   }
 
   isLegal() {
@@ -330,6 +338,7 @@ Object.values(plots).forEach((plot) => {
     plotVariants.push({
       affiliation: plot.affiliation,
       faction: plot.faction,
+      formats: plot.formats,
       hasModification: plot.hasModification,
       hasRestriction: plot.hasRestriction,
       id: plot.id,
@@ -347,6 +356,7 @@ Object.values(plots).forEach((plot) => {
       plotVariants.push({
         affiliation: plot.affiliation,
         faction: plot.faction,
+        formats: plot.formats,
         hasModification: plot.hasModification,
         hasRestriction: plot.hasRestriction,
         id: null,
@@ -372,11 +382,13 @@ Object.values(characters).forEach((character) => {
     affiliation: character.affiliation,
     damageTypes: character.damageTypes,
     faction: character.faction,
+    formats: character.formats,
     health: character.health,
     id: character.id,
     isUnique: character.isUnique,
     name: character.name,
     set: character.set,
+    subtypes: character.subtypes,
   };
 
   if (character.pointsRegular) {
@@ -415,31 +427,6 @@ const characterVariantsHero = characterVariants.filter((character) => ['hero', '
 const characterVariantsVillain = characterVariants.filter((character) => ['villain', 'neutral'].includes(character.affiliation));
 
 
-// PREPARE SETS
-
-
-const eligibleSets = [...sets].map((set) => set.code);
-
-const generateSetCombinations = (startSetCodes) => {
-  const result = [];
-  const fn = (setCombinations, setCodes) => {
-    if (setCombinations.length < 5) { // no combination can have more than 5 sets
-      for (let i = 0; i < setCodes.length; i += 1) {
-        result.push(setCombinations.concat([setCodes[i]]));
-        fn(setCombinations.concat([setCodes[i]]), setCodes.slice(i + 1));
-      }
-    }
-  };
-
-  fn([], startSetCodes);
-
-  return result;
-};
-
-const setCombinations =
-  generateSetCombinations(eligibleSets)
-    .sort((a, b) => a.length - b.length);
-
 const generateTeams = (team, eligibleCharacters) => {
   let teamIsComplete = true;
 
@@ -464,133 +451,8 @@ const generateTeams = (team, eligibleCharacters) => {
   }
 };
 
-
-const numSetCombinations = setCombinations.length;
-setCombinations.forEach((setCombination, index) => {
-  console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${setCombination.join(',')} (${index + 1}/${numSetCombinations})`);
-  const numTeams = teams.length;
-
-  // VILLAIN
-
-  const eligibleCharacterVariantsVillain = characterVariantsVillain.filter(
-    (characterVariant) => setCombination.includes(characterVariant.set),
-  );
-
-  const eligiblePlotVariantsVillain = plotVariantsVillain.filter(
-    (plotVariant) => plotVariant.sets.some(
-      (plotSet) => setCombination.some(
-        (set) => set === plotSet,
-      ),
-    ),
-  );
-
-  console.log('\x1b[34m%s\x1b[0m', `    Villain Character Variants: ${eligibleCharacterVariantsVillain.length}`);
-  console.log('\x1b[34m%s\x1b[0m', `    Villain Plot Variants: ${eligiblePlotVariantsVillain.length}`);
-
-  generateTeams(new Team(), eligibleCharacterVariantsVillain);
-  process.stdout.write(`    ${'.'}\r`);
-  eligiblePlotVariantsVillain.forEach((plot, i) => {
-    generateTeams(new Team(plot), eligibleCharacterVariantsVillain);
-    process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
-  });
-  console.log('\n');
-
-  // HERO
-
-  const eligibleCharacterVariantsHero = characterVariantsHero.filter(
-    (characterVariant) => setCombination.includes(characterVariant.set),
-  );
-
-  const eligiblePlotVariantsHero = plotVariantsHero.filter(
-    (plotVariant) => plotVariant.sets.some(
-      (plotSet) => setCombination.some(
-        (set) => set === plotSet,
-      ),
-    ),
-  );
-
-  console.log('\x1b[34m%s\x1b[0m', `    Hero Character Variants: ${eligibleCharacterVariantsHero.length}`);
-  console.log('\x1b[34m%s\x1b[0m', `    Hero Plot Variants: ${eligiblePlotVariantsHero.length}`);
-
-  generateTeams(new Team(), eligibleCharacterVariantsHero);
-  process.stdout.write(`    ${'.'}\r`);
-  eligiblePlotVariantsHero.forEach((plot, i) => {
-    generateTeams(new Team(plot), eligibleCharacterVariantsHero);
-    process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
-  });
-  console.log('\n');
-
-  console.log('\x1b[34m%s\x1b[0m', '    Cleaning up...');
-  teams = _.uniqBy(teams, 'key');
-
-  console.log('\x1b[34m\x1b[1m%s\x1b[0m', `    Generated ${teams.length - numTeams} Teams (${teams.length} Total)`);
-});
-
-
-// SORT TEAMS
-
-
-console.log('\x1b[34m%s\x1b[0m', `Sorting ${teams.length} teams...`);
-
-_.sortBy(teams, ['characterCount', 'diceCount', 'health', 'points']).reverse().map((team, index) => {
-  team.ranks.characterCount = index;
-  return team;
-});
-
-_.sortBy(teams, ['points', 'diceCount', 'health', 'characterCount']).reverse().map((team, index) => {
-  team.ranks.points = index;
-  return team;
-});
-
-_.sortBy(teams, ['health', 'diceCount', 'points', 'characterCount']).reverse().map((team, index) => {
-  team.ranks.health = index;
-  return team;
-});
-
-_.sortBy(teams, ['diceCount', 'health', 'points', 'characterCount']).reverse().map((team, index) => {
-  team.ranks.diceCount = index;
-  return team;
-});
-
-
-// CALCULATE STATS
-
-
-console.log('\x1b[34m%s\x1b[0m', 'Calculating stats...');
-
-teams.forEach((team) => {
-  if (team.diceCount < teamsStats.minDice) {
-    teamsStats.minDice = team.diceCount;
-  }
-  if (team.diceCount > teamsStats.maxDice) {
-    teamsStats.maxDice = team.diceCount;
-  }
-
-  if (team.health < teamsStats.minHealth) {
-    teamsStats.minHealth = team.health;
-  }
-  if (team.health > teamsStats.maxHealth) {
-    teamsStats.maxHealth = team.health;
-  }
-
-  if (team.characterCount < teamsStats.minCharacterCount) {
-    teamsStats.minCharacterCount = team.characterCount;
-  }
-  if (team.characterCount > teamsStats.maxCharacterCount) {
-    teamsStats.maxCharacterCount = team.characterCount;
-  }
-
-  if (team.characterPoints < teamsStats.minPoints) {
-    teamsStats.minPoints = team.characterPoints;
-  }
-  if (team.characterPoints > teamsStats.maxPoints) {
-    teamsStats.maxPoints = team.characterPoints;
-  }
-});
-
-
-(async function save() {
-  const db = await sqlite.open('./swd-teams.db');
+async function open() {
+  db = await sqlite.open('./swd-teams.db');
 
   await db.run('DROP TABLE IF EXISTS teams');
 
@@ -619,13 +481,23 @@ teams.forEach((team) => {
       damageNone INTEGER,
       damageRanged INTEGER,
 
+      formatInf INTEGER,
+      formatStd INTEGER,
+      formatTri INTEGER,
+
       rankCharacterCount INTEGER,
       rankDiceCount INTEGER,
       rankHealth INTEGER,
       rankPoints INTEGER
     );
   `);
+}
 
+async function close() {
+  await db.close();
+}
+
+async function save() {
   const insertStmt = await db.prepare(`
     INSERT INTO teams VALUES (
       ?,
@@ -633,6 +505,7 @@ teams.forEach((team) => {
       ?, ?, ?,
       ?, ?, ?, ?,
       ?, ?, ?, ?,
+      ?, ?, ?,
       ?, ?, ?, ?
     )
   `);
@@ -640,64 +513,172 @@ teams.forEach((team) => {
   const queryPromises = [];
 
   for (let i = 0, l = teams.length; i < l; i += 1) {
-    // eslint-disable-next-line no-await-in-loop
-    queryPromises.push(insertStmt.run(
-      [
-        teams[i].key,
+    queryPromises.push(insertStmt.run([
+      teams[i].key,
 
-        teams[i].characterCount,
-        teams[i].diceCount,
-        teams[i].health,
-        teams[i].plotId ? teams[i].plotPoints : null,
-        teams[i].characterPoints,
-        teams[i].sets.join('_').toLowerCase(),
+      teams[i].characterCount,
+      teams[i].diceCount,
+      teams[i].health,
+      teams[i].plotId ? teams[i].plotPoints : null,
+      teams[i].characterPoints,
+      teams[i].sets.join('_').toLowerCase(),
 
-        teams[i].affiliations.includes('hero'),
-        teams[i].affiliations.includes('neutral'),
-        teams[i].affiliations.includes('villain'),
+      teams[i].affiliations.includes('hero'),
+      teams[i].affiliations.includes('neutral'),
+      teams[i].affiliations.includes('villain'),
 
-        teams[i].factions.includes('blue'),
-        teams[i].factions.includes('gray'),
-        teams[i].factions.includes('red'),
-        teams[i].factions.includes('yellow'),
+      teams[i].factions.includes('blue'),
+      teams[i].factions.includes('gray'),
+      teams[i].factions.includes('red'),
+      teams[i].factions.includes('yellow'),
 
-        teams[i].damageTypes.includes('ID'),
-        teams[i].damageTypes.includes('MD'),
-        teams[i].damageTypes.includes('ND'),
-        teams[i].damageTypes.includes('RD'),
+      teams[i].damageTypes.includes('ID'),
+      teams[i].damageTypes.includes('MD'),
+      teams[i].damageTypes.includes('ND'),
+      teams[i].damageTypes.includes('RD'),
 
-        teams[i].ranks.characterCount,
-        teams[i].ranks.diceCount,
-        teams[i].ranks.health,
-        teams[i].ranks.points,
-      ],
-    ));
+      teams[i].format === 'INF',
+      teams[i].format === 'STD',
+      teams[i].format === 'TRI',
+
+      teams[i].ranks.characterCount,
+      teams[i].ranks.diceCount,
+      teams[i].ranks.health,
+      teams[i].ranks.points,
+    ]));
   }
 
   await Promise.all(queryPromises);
 
   await insertStmt.finalize();
+}
 
-  await db.close();
+
+(async function run() {
+  await open();
+
+  const numFormats = formats.length;
+  formats.forEach(async (format, index) => {
+    console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${format.name} (${index + 1}/${numFormats})`);
+    const numTeams = teams.length;
+
+    // VILLAIN
+
+    const eligibleCharacterVariantsVillain = characterVariantsVillain.filter(
+      (characterVariant) => characterVariant.formats.includes(format.code),
+    );
+
+    const eligiblePlotVariantsVillain = plotVariantsVillain.filter(
+      (plotVariant) => plotVariant.formats.includes(format.code),
+    );
+
+    console.log('\x1b[34m%s\x1b[0m', `    Villain Character Variants: ${eligibleCharacterVariantsVillain.length}`);
+    console.log('\x1b[34m%s\x1b[0m', `    Villain Plot Variants: ${eligiblePlotVariantsVillain.length}`);
+
+    generateTeams(new Team({ format: format.code }), eligibleCharacterVariantsVillain);
+    process.stdout.write(`    ${'.'}\r`);
+    eligiblePlotVariantsVillain.forEach((plot, i) => {
+      generateTeams(new Team({ format: format.code, plot }), eligibleCharacterVariantsVillain);
+      process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
+    });
+    console.log('\n');
+
+    teams = _.uniqBy(teams, 'key');
+
+    // HERO
+
+    const eligibleCharacterVariantsHero = characterVariantsHero.filter(
+      (characterVariant) => characterVariant.formats.includes(format.code),
+    );
+
+    const eligiblePlotVariantsHero = plotVariantsHero.filter(
+      (plotVariant) => plotVariant.formats.includes(format.code),
+    );
+
+    console.log('\x1b[34m%s\x1b[0m', `    Hero Character Variants: ${eligibleCharacterVariantsHero.length}`);
+    console.log('\x1b[34m%s\x1b[0m', `    Hero Plot Variants: ${eligiblePlotVariantsHero.length}`);
+
+    generateTeams(new Team({ format: format.code }), eligibleCharacterVariantsHero);
+    process.stdout.write(`    ${'.'}\r`);
+    eligiblePlotVariantsHero.forEach((plot, i) => {
+      generateTeams(new Team({ format: format.code, plot }), eligibleCharacterVariantsHero);
+      process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
+    });
+    console.log('\n');
+
+    teams = _.uniqBy(teams, 'key');
+
+    console.log('\x1b[34m\x1b[1m%s\x1b[0m', `    Generated ${teams.length - numTeams} Teams (${teams.length} Total)`);
+  });
+
+  // SORT TEAMS
+
+  console.log('\x1b[34m%s\x1b[0m', `Sorting ${teams.length} teams...`);
+
+  _.sortBy(teams, ['characterCount', 'diceCount', 'health', 'points']).reverse().map((team, i) => {
+    team.ranks.characterCount = i;
+    return team;
+  });
+
+  _.sortBy(teams, ['points', 'diceCount', 'health', 'characterCount']).reverse().map((team, i) => {
+    team.ranks.points = i;
+    return team;
+  });
+
+  _.sortBy(teams, ['health', 'diceCount', 'points', 'characterCount']).reverse().map((team, i) => {
+    team.ranks.health = i;
+    return team;
+  });
+
+  _.sortBy(teams, ['diceCount', 'health', 'points', 'characterCount']).reverse().map((team, i) => {
+    team.ranks.diceCount = i;
+    return team;
+  });
+
+  // CALCULATE STATS
+
+  console.log('\x1b[34m%s\x1b[0m', 'Calculating stats...');
+
+  teams.forEach((team) => {
+    if (team.diceCount < teamsStats.minDice) {
+      teamsStats.minDice = team.diceCount;
+    }
+    if (team.diceCount > teamsStats.maxDice) {
+      teamsStats.maxDice = team.diceCount;
+    }
+
+    if (team.health < teamsStats.minHealth) {
+      teamsStats.minHealth = team.health;
+    }
+    if (team.health > teamsStats.maxHealth) {
+      teamsStats.maxHealth = team.health;
+    }
+
+    if (team.characterCount < teamsStats.minCharacterCount) {
+      teamsStats.minCharacterCount = team.characterCount;
+    }
+    if (team.characterCount > teamsStats.maxCharacterCount) {
+      teamsStats.maxCharacterCount = team.characterCount;
+    }
+
+    if (team.characterPoints < teamsStats.minPoints) {
+      teamsStats.minPoints = team.characterPoints;
+    }
+    if (team.characterPoints > teamsStats.maxPoints) {
+      teamsStats.maxPoints = team.characterPoints;
+    }
+  });
+
+  teamsStats.count = teams.length || 0;
+
+  console.log('\x1b[32m\x1b[1m%s\x1b[0m', `Generated ${teams.length} teams`);
+
+  jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
+  jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
+    stats_checksum: checksum(teamsStats),
+  });
+
+  save();
+
+  await close();
 }());
-
-
-const numPages = Math.ceil(teams.length / PAGE_SIZE);
-teamsStats.count = teams.length || 0;
-teamsStats.numPages = numPages;
-
-console.log('\x1b[32m\x1b[1m%s\x1b[0m', `Generated ${teams.length} teams`);
-
-// for (let i = 0; i < numPages; i += 1) {
-//   const startIndex = i * PAGE_SIZE;
-//   const endIndex = ((i + 1) * PAGE_SIZE);
-//   const teamSlice = teams.slice(startIndex, endIndex);
-//
-//   jsonfile.writeFile(path.join(__dirname, `../data/teams_${i}.json`), teamSlice);
-//   console.log('\x1b[32m\x1b[1m%s\x1b[0m', `Output ${teamSlice.length} teams in page ${i}`);
-// }
-
-jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
-jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
-  stats_checksum: checksum(teamsStats),
-});

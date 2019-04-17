@@ -2,8 +2,8 @@ import {
   teamsStats,
 
   affiliations,
-  factions,
   damageTypes,
+  factions,
   sets,
 } from '../../lib/Destiny';
 
@@ -43,6 +43,11 @@ const initialState = {
         ...factionMap,
         [faction.code]: true,
       }), {}),
+      formats: {
+        INF: true,
+        STD: false,
+        TRI: false,
+      },
       sets: sets.reduce((setMap, set) => ({
         ...setMap,
         [set.code]: true,

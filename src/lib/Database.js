@@ -47,7 +47,6 @@ class Database {
       readOnly: this.databaseReadOnly,
     })
       .then((db) => {
-        console.log('[db] Database open!');
         this.database = db;
         return db;
       });
@@ -60,7 +59,6 @@ class Database {
     }
 
     return this.database.close().then(() => {
-      console.log('[db] Database closed.');
       this.database = null;
     });
   }
@@ -186,14 +184,19 @@ class Database {
     }
     query.where(factionsExpression);
 
-    // sets
-    const setsExpression = squel.expr();
-    Object.keys(filters.sets).forEach((code) => {
-      if (!filters.sets[code]) {
-        setsExpression.and(`sets NOT LIKE "%${code}%"`);
-      }
-    });
-    query.where(setsExpression);
+    // formats
+    const formatsExpression = squel.expr();
+    if (!filters.formats.INF) {
+      formatsExpression.and('formatInf = 0');
+    }
+    if (!filters.formats.STD) {
+      formatsExpression.and('formatStd = 0');
+    }
+    if (!filters.formats.TRI) {
+      formatsExpression.and('formatTri = 0');
+    }
+    query.where(formatsExpression);
+
 
     // plot
     if (filters.plotPoints) {

@@ -16,6 +16,8 @@ import dbSetAtG from 'swdestinydb-json-data/set/AtG.json';
 import dbSetConv from 'swdestinydb-json-data/set/CONV.json';
 import dbSetAoN from 'swdestinydb-json-data/set/AoN.json';
 
+import formats from 'swdestinydb-json-data/formats.json';
+
 const affiliationOrder = {
   villain: 0,
   hero: 1,
@@ -57,6 +59,7 @@ let plots =
 
       card.affiliation = rawCard.affiliation_code;
       card.faction = rawCard.faction_code;
+      card.formats = [];
       card.id = rawCard.code;
       card.name = rawCard.name;
       card.points = parseInt(rawCard.points, 10);
@@ -74,6 +77,12 @@ let plots =
 
       plotsStats.factions.push(card.faction);
       plotsStats.factions = _.uniq(plotsStats.factions);
+
+      formats.forEach((format) => {
+        if (format.data.sets.includes(rawCard.set_code)) {
+          card.formats.push(format.code);
+        }
+      });
 
       return card;
     },
@@ -106,6 +115,7 @@ plots = plots
   .map((card, index) => ({
     affiliation: card.affiliation,
     faction: card.faction,
+    formats: card.formats,
     id: card.id,
     name: card.name,
     points: card.points,

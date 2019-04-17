@@ -73,6 +73,7 @@ const resetSettingsFilters = () => ({
 const updateCharacters = (
   validAffiliations,
   validFactions,
+  validFormats,
   validDamageTypes,
   validSets,
   deckAffiliation,
@@ -82,6 +83,7 @@ const updateCharacters = (
   payload: {
     validAffiliations,
     validFactions,
+    validFormats,
     validDamageTypes,
     validSets,
     deckAffiliation,
@@ -99,6 +101,7 @@ const updateCharacterInclusion = (excludedCharacterIds) => ({
 const resetCharacters = (
   validAffiliations,
   validFactions,
+  validFormats,
   validDamageTypes,
   validSets,
   deckAffiliation,
@@ -107,6 +110,7 @@ const resetCharacters = (
   payload: {
     validAffiliations,
     validFactions,
+    validFormats,
     validDamageTypes,
     validSets,
     deckAffiliation,
@@ -145,6 +149,7 @@ const resetCharactersHelper = (dispatch, getState) => dispatch(
   resetCharacters(
     getState().teams.settings.filters.affiliations,
     getState().teams.settings.filters.factions,
+    getState().teams.settings.filters.formats,
     getState().teams.settings.filters.damageTypes,
     getState().teams.settings.filters.sets,
     getState().deck.affiliation,
@@ -155,6 +160,7 @@ const updateCharactersHelper = (dispatch, getState) => dispatch(
   updateCharacters(
     getState().teams.settings.filters.affiliations,
     getState().teams.settings.filters.factions,
+    getState().teams.settings.filters.formats,
     getState().teams.settings.filters.damageTypes,
     getState().teams.settings.filters.sets,
     getState().deck.affiliation,

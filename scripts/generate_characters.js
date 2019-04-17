@@ -56,6 +56,7 @@ let characters =
       card.affiliation = rawCard.affiliation_code;
       card.damageTypes = [];
       card.faction = rawCard.faction_code;
+      card.formats = [];
       card.health = rawCard.health;
       card.id = rawCard.code;
       card.isUnique = rawCard.is_unique;
@@ -103,6 +104,12 @@ let characters =
         card.damageTypes = ['ND']; // no damage
       }
 
+      formats.forEach((format) => {
+        if (format.data.sets.includes(rawCard.set_code)) {
+          card.formats.push(format.code);
+        }
+      });
+
       // set card points
       let cardPoints = rawCard.points;
       if (rawCard.code in infiniteFormat.data.balance) {
@@ -138,6 +145,10 @@ characters = characters
       return nameA < nameB ? -1 : 1;
     }
 
+    if (a.id !== b.id) {
+      return a.id ? -1 : 1;
+    }
+
     return 0;
   });
 
@@ -146,6 +157,7 @@ characters = characters
     affiliation: card.affiliation,
     damageTypes: card.damageTypes,
     faction: card.faction,
+    formats: card.formats,
     health: card.health,
     id: card.id,
     isUnique: card.isUnique,
