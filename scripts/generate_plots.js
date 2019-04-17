@@ -19,6 +19,8 @@ import dbSetSoH from 'swdestinydb-json-data/set/SoH.json';
 
 import formats from 'swdestinydb-json-data/formats.json';
 
+import formats from 'swdestinydb-json-data/formats.json';
+
 const affiliationOrder = {
   villain: 0,
   hero: 1,
