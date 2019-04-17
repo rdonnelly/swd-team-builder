@@ -28,14 +28,15 @@ function withData() {
         this.refreshData();
       }
 
-      refreshData = async () => {
+      refreshData = () => {
         this.setState({
           dataIsLoading: true,
-        });
-        const data = await selectData(database, this.props);
-        this.setState({
-          data,
-          dataIsLoading: false,
+        }, async () => {
+          const data = await selectData(database, this.props);
+          this.setState({
+            data,
+            dataIsLoading: false,
+          });
         });
       }
 

@@ -27,7 +27,7 @@ import {
   affiliations,
   damageTypes,
   factions,
-  sets,
+  formats,
 } from '../../lib/Destiny';
 
 import { base as baseStyles, colors } from '../../styles';
@@ -135,9 +135,9 @@ class SettingsScreen extends Component {
             this.props.resetFilters();
 
             this.affiliationsCloud.reset();
-            this.factionsCloud.reset();
             this.damageTypesCloud.reset();
-            this.setsCloud.reset();
+            this.factionsCloud.reset();
+            this.formatsCloud.reset();
             this.plotFactionCloud.reset();
 
             this.minDiceSlider.reset();
@@ -167,6 +167,18 @@ class SettingsScreen extends Component {
 
   render() {
     const { settings } = this.props;
+
+    const formatsCloud = (
+      <SettingCloud
+        label={ 'Format' }
+        setting={ 'formats' }
+        options={ formats }
+        radio={ true }
+        values={ settings.filters.formats }
+        callback={ this.props.updateSetting }
+        ref={ (component) => { this.formatsCloud = component; } }
+      />
+    );
 
     const affiliationsCloud = (
       <SettingCloud
@@ -201,17 +213,6 @@ class SettingsScreen extends Component {
       />
     );
 
-    const setsCloud = (
-      <SettingCloud
-        label={ 'Sets' }
-        setting={ 'sets' }
-        options={ sets }
-        values={ settings.filters.sets }
-        callback={ this.props.updateSetting }
-        ref={ (component) => { this.setsCloud = component; } }
-      />
-    );
-
     const plotFactionCloud = (
       <SettingCloud
         label={ 'Plot Faction' }
@@ -231,6 +232,8 @@ class SettingsScreen extends Component {
           style={ styles.scrollView }
           contentContainerStyle={ styles.scrollViewContent }
         >
+          { formatsCloud }
+
           <SettingSlider
             value={ settings.filters.minDice }
             minValue={ teamsStats.minDice }
@@ -278,7 +281,6 @@ class SettingsScreen extends Component {
 
           { damageTypesCloud }
 
-          { setsCloud }
 
           <SettingSlider
             value={ settings.filters.plotPoints }

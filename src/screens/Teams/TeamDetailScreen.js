@@ -211,7 +211,7 @@ class TeamDetailScreen extends React.Component {
 
   searchSWDestinyDB = () => {
     const teamKey = this.props.navigation.getParam('key');
-    const [charactersKey, plotId] = teamKey.split('___');
+    const [charactersKey, plotId] = teamKey.split('____').pop().split('___');
 
     const urlParams = [];
 
@@ -232,7 +232,7 @@ class TeamDetailScreen extends React.Component {
 
   render() {
     const teamKey = this.props.navigation.getParam('key');
-    const [charactersKey, plotId] = teamKey.split('___');
+    const [charactersKey, plotId] = teamKey.split('____').pop().split('___');
     const { data: team } = this.props;
 
     if (!team) {

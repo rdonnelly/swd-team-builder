@@ -114,7 +114,7 @@ class TeamListItem extends Component {
 
     const arrowStyle = [styles.arrow];
 
-    const characterViews = teamObject.key.split('___').shift().split('__').map((characterKey) => {
+    const characterViews = teamObject.key.split('____').pop().split('___').shift().split('__').map((characterKey) => {
       const [cardId, diceCount, count] = characterKey.split('_');
       const card = characters[cardId];
 

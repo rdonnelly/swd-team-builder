@@ -79,6 +79,7 @@ class SettingCloud extends Component {
       }), {});
 
     this.state = {
+      initialValues,
       values: { ...initialValues },
     };
   }
@@ -181,20 +182,10 @@ class SettingCloud extends Component {
   }
 
   reset = () => {
-    this.setState((state) => {
-      const newValues = {
-        ...state.values,
-      };
-
-      Object.keys(newValues).forEach((key) => {
-        newValues[key] = true;
-      });
-
-      return {
-        ...state,
-        values: newValues,
-      };
-    });
+    this.setState((state) => ({
+      ...state,
+      values: { ...this.state.initialValues },
+    }));
   }
 
   render() {
