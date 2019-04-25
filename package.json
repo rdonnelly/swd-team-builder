@@ -21,8 +21,8 @@
     "jsonfile": "5.0.x",
     "lodash": "4.17.x",
     "prop-types": "15.6.x",
-    "react": "16.6.3",
-    "react-native": "0.58.6",
+    "react": "16.8.3",
+    "react-native": "0.59.5",
     "react-native-device-info": "0.24.x",
     "react-native-gesture-handler": "^1.0.12",
     "react-native-haptic-feedback": "1.5.x",
@@ -43,18 +43,20 @@
     "swdestinydb-json-data": "https://github.com/rdonnelly/swdestinydb-json-data.git"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.3",
     "@babel/node": "^7.2.x",
     "@babel/preset-env": "^7.2.x",
+    "@babel/runtime": "^7.4.3",
     "babel-eslint": "10.0.x",
-    "babel-jest": "23.6.0",
+    "babel-jest": "^24.7.1",
     "eslint": "5.12.x",
     "eslint-config-airbnb-base": "13.1.x",
     "eslint-plugin-import": "2.14.x",
     "eslint-plugin-react": "7.12.x",
     "eslint-plugin-react-native": "3.6.x",
-    "jest": "23.6.0",
-    "metro-react-native-babel-preset": "0.51.1",
-    "react-test-renderer": "16.6.3"
+    "jest": "^24.7.1",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "react-test-renderer": "16.8.3"
   },
   "jest": {
     "preset": "react-native"
