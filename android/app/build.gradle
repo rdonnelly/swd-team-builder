@@ -139,6 +139,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-inappbrowser-reborn')
+    implementation project(':@react-native-community_slider')
     compile project(':react-native-gesture-handler')
     compile project(':react-native-haptic-feedback')
     compile project(':react-native-vector-icons')

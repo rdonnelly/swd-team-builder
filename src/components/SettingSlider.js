@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Slider,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import Slider from '@react-native-community/slider';
 
 import { colors } from '../styles';
 
