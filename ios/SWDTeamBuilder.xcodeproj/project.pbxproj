@@ -65,6 +65,8 @@
 		EF1A3691F14D4A469328CDF3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C92F752AF64E70BFCBF7DC /* libz.tbd */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
+		A82A5F9E96074C8EBC7ED4D1 /* libRNCSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAEF1EF8C64B403E830D574C /* libRNCSlider.a */; };
+		C8931DCB8D8E46ECAED0B618 /* libRNInAppBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FCFBBB73F349F4B5BBFF88 /* libRNInAppBrowser.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -469,6 +471,10 @@
 		FFEF90D920D547649BB2E618 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		FC6637A73EE34F4AA7ADB4B3 /* RNCSlider.xcodeproj */ = {isa = PBXFileReference; name = "RNCSlider.xcodeproj"; path = "../node_modules/@react-native-community/slider/ios/RNCSlider.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		AAEF1EF8C64B403E830D574C /* libRNCSlider.a */ = {isa = PBXFileReference; name = "libRNCSlider.a"; path = "libRNCSlider.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		3B3355F44ACF425586F9E731 /* RNInAppBrowser.xcodeproj */ = {isa = PBXFileReference; name = "RNInAppBrowser.xcodeproj"; path = "../node_modules/react-native-inappbrowser-reborn/ios/RNInAppBrowser.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		92FCFBBB73F349F4B5BBFF88 /* libRNInAppBrowser.a */ = {isa = PBXFileReference; name = "libRNInAppBrowser.a"; path = "libRNInAppBrowser.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -505,6 +511,8 @@
 				CBC23B3F21AA4397A295A578 /* libRNReactNativeHapticFeedback.a in Frameworks */,
 				28B722CB559948D79B278774 /* libRNGestureHandler.a in Frameworks */,
 				73D317DF009D4021A8F3FEEE /* libSQLite.a in Frameworks */,
+				A82A5F9E96074C8EBC7ED4D1 /* libRNCSlider.a in Frameworks */,
+				C8931DCB8D8E46ECAED0B618 /* libRNInAppBrowser.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -717,6 +725,8 @@
 				20E3FB5E342545388254486C /* RNReactNativeHapticFeedback.xcodeproj */,
 				B38EA7BC7EB64A509ADBB3CB /* RNGestureHandler.xcodeproj */,
 				43B68AE3D7134BAE865755FD /* SQLite.xcodeproj */,
+				FC6637A73EE34F4AA7ADB4B3 /* RNCSlider.xcodeproj */,
+				3B3355F44ACF425586F9E731 /* RNInAppBrowser.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1533,12 +1543,16 @@
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
+					"$(SRCROOT)/../node_modules/react-native-inappbrowser-reborn/ios/**",
 				);
 				INFOPLIST_FILE = SWDTeamBuilderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1574,12 +1588,16 @@
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
+					"$(SRCROOT)/../node_modules/react-native-inappbrowser-reborn/ios/**",
 				);
 				INFOPLIST_FILE = SWDTeamBuilderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1618,6 +1636,8 @@
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
+					"$(SRCROOT)/../node_modules/react-native-inappbrowser-reborn/ios/**",
 				);
 				INFOPLIST_FILE = SWDTeamBuilder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1656,6 +1676,8 @@
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
+					"$(SRCROOT)/../node_modules/react-native-inappbrowser-reborn/ios/**",
 				);
 				INFOPLIST_FILE = SWDTeamBuilder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1697,11 +1719,15 @@
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
+					"$(SRCROOT)/../node_modules/react-native-inappbrowser-reborn/ios/**",
 				);
 				INFOPLIST_FILE = "SWDTeamBuilder-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1744,11 +1770,15 @@
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
+					"$(SRCROOT)/../node_modules/react-native-inappbrowser-reborn/ios/**",
 				);
 				INFOPLIST_FILE = "SWDTeamBuilder-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1786,11 +1816,15 @@
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
+					"$(SRCROOT)/../node_modules/react-native-inappbrowser-reborn/ios/**",
 				);
 				INFOPLIST_FILE = "SWDTeamBuilder-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1828,11 +1862,15 @@
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
+					"$(SRCROOT)/../node_modules/react-native-inappbrowser-reborn/ios/**",
 				);
 				INFOPLIST_FILE = "SWDTeamBuilder-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

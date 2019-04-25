@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  Alert,
+  Linking,
   Image,
   ScrollView,
   StatusBar,
@@ -9,9 +11,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
-import SafariView from 'react-native-safari-view';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Swiper from 'react-native-swiper';
+import Icon from 'react-native-vector-icons/Entypo';
 
 import CharacterAvatar from '../../components/CharacterAvatar';
 import SWDIcon from '../../components/SWDIcon';
@@ -169,24 +171,6 @@ const styles = StyleSheet.create({
 
 
 class TeamDetailScreen extends React.Component {
-  constructor(props) {
-    super(props);
-
-    SafariView.addEventListener(
-      'onShow',
-      () => {
-        StatusBar.setBarStyle('dark-content');
-      },
-    );
-
-    SafariView.addEventListener(
-      'onDismiss',
-      () => {
-        StatusBar.setBarStyle('light-content');
-      },
-    );
-  }
-
   shouldComponentUpdate(nextProps) {
     const currentTeamKey = this.props.navigation.getParam('key');
     const nextTeamKey = nextProps.navigation.getParam('key');
@@ -209,7 +193,7 @@ class TeamDetailScreen extends React.Component {
     }
   }
 
-  searchSWDestinyDB = () => {
+  searchSWDestinyDB = async () => {
     const teamKey = this.props.navigation.getParam('key');
     const [charactersKey, plotId] = teamKey.split('____').pop().split('___');
 
@@ -224,10 +208,28 @@ class TeamDetailScreen extends React.Component {
       urlParams.push(`cards[]=${plotId}`);
     }
 
-    SafariView.show({
-      tintColor: colors.purple,
-      url: `http://swdestinydb.com/decklists/find?${urlParams.join('&')}`,
-    });
+    try {
+      const url = `http://swdestinydb.com/decklists/find?${urlParams.join('&')}`;
+      if (await InAppBrowser.isAvailable()) {
+        StatusBar.setBarStyle('dark-content');
+        await InAppBrowser.open(url, {
+          // iOS Properties
+          dismissButtonStyle: 'done',
+          preferredBarTintColor: colors.headerTint,
+          preferredControlTintColor: colors.headerBackground,
+          readerMode: false,
+          // Android Properties
+          showTitle: true,
+          toolbarColor: colors.headerTint,
+          secondaryToolbarColor: colors.headerBackground,
+        });
+        StatusBar.setBarStyle('light-content');
+      } else {
+        Linking.openURL(url);
+      }
+    } catch (error) {
+      Alert.alert('Could Not Open Browser');
+    }
   }
 
   render() {

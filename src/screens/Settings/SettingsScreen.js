@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Alert,
+  Linking,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -10,8 +11,8 @@ import {
   View,
 } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 import { connect } from 'react-redux';
-import SafariView from 'react-native-safari-view';
 
 import SettingCloud from '../../components/SettingCloud';
 import SettingSlider from '../../components/SettingSlider';
@@ -79,20 +80,6 @@ class SettingsScreen extends Component {
   constructor(props) {
     super(props);
 
-    SafariView.addEventListener(
-      'onShow',
-      () => {
-        StatusBar.setBarStyle('dark-content');
-      },
-    );
-
-    SafariView.addEventListener(
-      'onDismiss',
-      () => {
-        StatusBar.setBarStyle('light-content');
-      },
-    );
-
     if (props.navigation) {
       props.navigation.setParams({
         resetScreen: this.resetScreen,
@@ -108,11 +95,29 @@ class SettingsScreen extends Component {
     return false;
   }
 
-  static visitWebpage() {
-    SafariView.show({
-      tintColor: colors.brand,
-      url: 'http://rdonnelly.com/swd-team-builder/',
-    });
+  static async visitWebpage() {
+    try {
+      const url = 'http://rdonnelly.com/swd-team-builder/';
+      if (await InAppBrowser.isAvailable()) {
+        StatusBar.setBarStyle('dark-content');
+        await InAppBrowser.open(url, {
+          // iOS Properties
+          dismissButtonStyle: 'done',
+          preferredBarTintColor: colors.headerTint,
+          preferredControlTintColor: colors.headerBackground,
+          readerMode: false,
+          // Android Properties
+          showTitle: true,
+          toolbarColor: colors.headerTint,
+          secondaryToolbarColor: colors.headerBackground,
+        });
+        StatusBar.setBarStyle('light-content');
+      } else {
+        Linking.openURL(url);
+      }
+    } catch (error) {
+      Alert.alert('Could Not Open Browser');
+    }
   }
 
   resetScreen = () => {

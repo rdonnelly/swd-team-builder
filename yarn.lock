@@ -913,24 +913,25 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
-"@react-navigation/core@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.0.2.tgz#8631801533a27d034a3b8421dfd0510a9f27dcf3"
-  dependencies:
-    create-react-context "0.2.2"
-    hoist-non-react-statics "^3.0.1"
-    path-to-regexp "^1.7.0"
-    query-string "^6.2.0"
-    react-is "^16.5.2"
-    react-lifecycles-compat "^3.0.4"
+"@react-native-community/slider@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-1.0.4.tgz#3ef928c87c686d673ae829e492c7aad4d061d666"
 
-"@react-navigation/native@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-3.0.3.tgz#6b1a6e15cde719e6c932bd78b23fa1417f6c0cab"
+"@react-navigation/core@~3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.4.0.tgz#776845f9d4f8b2b9cb99c5d2d4433ebcef290d92"
+  dependencies:
+    hoist-non-react-statics "^3.3.0"
+    path-to-regexp "^1.7.0"
+    query-string "^6.4.2"
+    react-is "^16.8.6"
+
+"@react-navigation/native@~3.4.0":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-3.4.1.tgz#e1fbf334ac834a9f10dd7d9c3af3e36939486089"
   dependencies:
     hoist-non-react-statics "^3.0.1"
-    react-native-gesture-handler "^1.0.0"
-    react-native-safe-area-view "^0.11.0"
+    react-native-safe-area-view "^0.13.0"
     react-native-screens "^1.0.0 || ^1.0.0-alpha"
 
 "@types/babel__core@^7.1.0":
@@ -1016,7 +1017,7 @@ acorn@^6.0.1, acorn@^6.0.7:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.1.1.tgz#7d25ae05bb8ad1f9b699108e1094ecd7884adc1f"
 
-ajv@^6.5.3, ajv@^6.5.5, ajv@^6.9.1:
+ajv@^6.5.5, ajv@^6.9.1:
   version "6.10.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.10.0.tgz#90d0d54439da587cd7e843bfb7045f50bd22bdf1"
   dependencies:
@@ -1433,9 +1434,9 @@ buffer-from@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
 
-bugsnag-react-native@2.13.x:
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.13.1.tgz#63d1233e5dfb073774ecc25d6021b2a8db1dd002"
+bugsnag-react-native@2.17.x:
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.17.1.tgz#eb0c1bb18eaa7a7d3934bbd9f5839f6d4732c9ed"
   dependencies:
     iserror "^0.0.2"
     promise "^7"
@@ -1540,10 +1541,6 @@ chownr@^1.1.1:
 ci-info@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-2.0.0.tgz#67a9e964be31a51e15e5010d58e6f12834002f46"
-
-circular-json@^0.3.1:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
 
 class-utils@^0.3.5:
   version "0.3.6"
@@ -1739,13 +1736,6 @@ create-react-class@^15.6.3:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-create-react-context@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/create-react-context/-/create-react-context-0.2.2.tgz#9836542f9aaa22868cd7d4a6f82667df38019dca"
-  dependencies:
-    fbjs "^0.8.0"
-    gud "^1.0.0"
-
 cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -1896,6 +1886,12 @@ doctrine@^2.1.0:
   dependencies:
     esutils "^2.0.2"
 
+doctrine@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-3.0.0.tgz#addebead72a6574db783639dc87a121773973961"
+  dependencies:
+    esutils "^2.0.2"
+
 dom-walk@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/dom-walk/-/dom-walk-0.1.1.tgz#672226dc74c8f799ad35307df936aba11acd6018"
@@ -2004,42 +2000,43 @@ eslint-config-airbnb-base@13.1.x:
     object.assign "^4.1.0"
     object.entries "^1.0.4"
 
-eslint-import-resolver-node@^0.3.1:
+eslint-import-resolver-node@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.2.tgz#58f15fb839b8d0576ca980413476aab2472db66a"
   dependencies:
     debug "^2.6.9"
     resolve "^1.5.0"
 
-eslint-module-utils@^2.2.0:
+eslint-module-utils@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.4.0.tgz#8b93499e9b00eab80ccb6614e69f03678e84e09a"
   dependencies:
     debug "^2.6.8"
     pkg-dir "^2.0.0"
 
-eslint-plugin-import@2.14.x:
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.14.0.tgz#6b17626d2e3e6ad52cfce8807a845d15e22111a8"
+eslint-plugin-import@2.17.x:
+  version "2.17.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.17.2.tgz#d227d5c6dc67eca71eb590d2bb62fb38d86e9fcb"
   dependencies:
+    array-includes "^3.0.3"
     contains-path "^0.1.0"
-    debug "^2.6.8"
+    debug "^2.6.9"
     doctrine "1.5.0"
-    eslint-import-resolver-node "^0.3.1"
-    eslint-module-utils "^2.2.0"
-    has "^1.0.1"
-    lodash "^4.17.4"
-    minimatch "^3.0.3"
+    eslint-import-resolver-node "^0.3.2"
+    eslint-module-utils "^2.4.0"
+    has "^1.0.3"
+    lodash "^4.17.11"
+    minimatch "^3.0.4"
     read-pkg-up "^2.0.0"
-    resolve "^1.6.0"
+    resolve "^1.10.0"
 
 eslint-plugin-react-native-globals@^0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-native-globals/-/eslint-plugin-react-native-globals-0.1.2.tgz#ee1348bc2ceb912303ce6bdbd22e2f045ea86ea2"
 
-eslint-plugin-react-native@3.6.x:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react-native/-/eslint-plugin-react-native-3.6.0.tgz#7cad3b7c6159df6d26fe3252c6c5417a17f27b4b"
+eslint-plugin-react-native@3.7.x:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-native/-/eslint-plugin-react-native-3.7.0.tgz#7e2cc1f3cf24919c4c0ea7fac13301e7444e105f"
   dependencies:
     eslint-plugin-react-native-globals "^0.1.1"
 
@@ -2066,7 +2063,7 @@ eslint-scope@3.7.1:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-scope@^4.0.0:
+eslint-scope@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-4.0.3.tgz#ca03833310f6889a3264781aa82e63eb9cfe7848"
   dependencies:
@@ -2081,49 +2078,48 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@5.12.x:
-  version "5.12.1"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-5.12.1.tgz#5ca9931fb9029d04e7be92b03ce3b58edfac7e3b"
+eslint@5.16.x:
+  version "5.16.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-5.16.0.tgz#a1e3ac1aae4a3fbd8296fcf8f7ab7314cbb6abea"
   dependencies:
     "@babel/code-frame" "^7.0.0"
-    ajv "^6.5.3"
+    ajv "^6.9.1"
     chalk "^2.1.0"
     cross-spawn "^6.0.5"
     debug "^4.0.1"
-    doctrine "^2.1.0"
-    eslint-scope "^4.0.0"
+    doctrine "^3.0.0"
+    eslint-scope "^4.0.3"
     eslint-utils "^1.3.1"
     eslint-visitor-keys "^1.0.0"
-    espree "^5.0.0"
+    espree "^5.0.1"
     esquery "^1.0.1"
     esutils "^2.0.2"
-    file-entry-cache "^2.0.0"
+    file-entry-cache "^5.0.1"
     functional-red-black-tree "^1.0.1"
     glob "^7.1.2"
     globals "^11.7.0"
     ignore "^4.0.6"
     import-fresh "^3.0.0"
     imurmurhash "^0.1.4"
-    inquirer "^6.1.0"
-    js-yaml "^3.12.0"
+    inquirer "^6.2.2"
+    js-yaml "^3.13.0"
     json-stable-stringify-without-jsonify "^1.0.1"
     levn "^0.3.0"
-    lodash "^4.17.5"
+    lodash "^4.17.11"
     minimatch "^3.0.4"
     mkdirp "^0.5.1"
     natural-compare "^1.4.0"
     optionator "^0.8.2"
     path-is-inside "^1.0.2"
-    pluralize "^7.0.0"
     progress "^2.0.0"
     regexpp "^2.0.1"
     semver "^5.5.1"
     strip-ansi "^4.0.0"
     strip-json-comments "^2.0.1"
-    table "^5.0.2"
+    table "^5.2.3"
     text-table "^0.2.0"
 
-espree@^5.0.0:
+espree@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/espree/-/espree-5.0.1.tgz#5d6526fa4fc7f0788a5cf75b15f30323e2f81f7a"
   dependencies:
@@ -2356,7 +2352,7 @@ fbjs-scripts@^1.0.0:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.0, fbjs@^0.8.9:
+fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -2387,12 +2383,11 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
-file-entry-cache@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/file-entry-cache/-/file-entry-cache-2.0.0.tgz#c392990c3e684783d838b8c84a45d8a048458361"
+file-entry-cache@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/file-entry-cache/-/file-entry-cache-5.0.1.tgz#ca0f6efa6dd3d561333fb14515065c2fafdf439c"
   dependencies:
-    flat-cache "^1.2.1"
-    object-assign "^4.0.1"
+    flat-cache "^2.0.1"
 
 filename-regex@^2.0.0:
   version "2.0.1"
@@ -2456,14 +2451,17 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
-flat-cache@^1.2.1:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-1.3.4.tgz#2c2ef77525cc2929007dfffa1dd314aa9c9dee6f"
+flat-cache@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"
   dependencies:
-    circular-json "^0.3.1"
-    graceful-fs "^4.1.2"
-    rimraf "~2.6.2"
-    write "^0.2.1"
+    flatted "^2.0.0"
+    rimraf "2.6.3"
+    write "1.0.3"
+
+flatted@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.0.tgz#55122b6536ea496b4b44893ee2608141d10d9916"
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -2565,6 +2563,10 @@ get-caller-file@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.3.tgz#f978fa4c90d1dfe7ff2d6beda2a515e713bdcf4a"
 
+get-caller-file@^2.0.1:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"
+
 get-stream@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
@@ -2627,10 +2629,6 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.3
 growly@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
-
-gud@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/gud/-/gud-1.0.0.tgz#a489581b17e6a70beca9abe3ae57de7a499852c0"
 
 handlebars@^4.1.0:
   version "4.1.2"
@@ -2708,7 +2706,7 @@ hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
 
-hoist-non-react-statics@^3.0.1, hoist-non-react-statics@^3.1.0:
+hoist-non-react-statics@^3.0.1, hoist-non-react-statics@^3.1.0, hoist-non-react-statics@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.0.tgz#b09178f0122184fb95acf525daaecb4d8f45958b"
   dependencies:
@@ -2826,7 +2824,7 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-inquirer@^6.1.0:
+inquirer@^6.2.2:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.3.1.tgz#7a413b5e7950811013a3db491c61d1f3b776e8e7"
   dependencies:
@@ -3485,7 +3483,7 @@ js-levenshtein@^1.1.3:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
 
-js-yaml@^3.12.0, js-yaml@^3.13.0:
+js-yaml@^3.13.0:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   dependencies:
@@ -3723,7 +3721,7 @@ lodash.throttle@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
 
-lodash@4.17.x, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
+lodash@4.17.x, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
@@ -4557,7 +4555,7 @@ os-locale@^2.0.0:
     lcid "^1.0.0"
     mem "^1.1.0"
 
-os-locale@^3.0.0:
+os-locale@^3.0.0, os-locale@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/os-locale/-/os-locale-3.1.0.tgz#a802a6ee17f24c10483ab9935719cef4ed16bf1a"
   dependencies:
@@ -4781,10 +4779,6 @@ plugin-error@^0.1.2:
     arr-union "^2.0.1"
     extend-shallow "^1.1.2"
 
-pluralize@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
-
 pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
@@ -4846,14 +4840,7 @@ prompts@^2.0.1:
     kleur "^3.0.2"
     sisteransi "^1.0.0"
 
-prop-types@15.6.x:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
-  dependencies:
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
-
-prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@15.7.x, prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   dependencies:
@@ -4888,7 +4875,7 @@ qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
 
-query-string@^6.2.0:
+query-string@^6.4.2:
   version "6.4.2"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.4.2.tgz#8be1dbd105306aebf86022144f575a29d516b713"
   dependencies:
@@ -4932,7 +4919,7 @@ react-devtools-core@^3.6.0:
     shell-quote "^1.6.1"
     ws "^3.3.1"
 
-react-is@^16.5.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.3, react-is@^16.8.4:
+react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.3, react-is@^16.8.4, react-is@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
 
@@ -4940,11 +4927,11 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
-react-native-device-info@0.24.x:
-  version "0.24.3"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.24.3.tgz#f15eff8d09fe418eaf5e7c89ddaabbc5ed718fd7"
+react-native-device-info@1.5.x:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-1.5.1.tgz#46810a42724089c7d4a0900974a1562bce057e73"
 
-react-native-gesture-handler@^1.0.0, react-native-gesture-handler@^1.0.12:
+react-native-gesture-handler@^1.0.12:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.1.0.tgz#2a7d545ad2e0ca23adce22b2af441ad360ecccee"
   dependencies:
@@ -4952,17 +4939,19 @@ react-native-gesture-handler@^1.0.0, react-native-gesture-handler@^1.0.12:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
-react-native-haptic-feedback@1.5.x:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-haptic-feedback/-/react-native-haptic-feedback-1.5.0.tgz#79d427f4d8c8ba3871b26f459f60ec7a7b38ce4d"
+react-native-haptic-feedback@1.7.x:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/react-native-haptic-feedback/-/react-native-haptic-feedback-1.7.1.tgz#29000ef867fdd80a5eb20293d6274cd10f1cf577"
 
-react-native-safari-view@2.1.x:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-safari-view/-/react-native-safari-view-2.1.0.tgz#1e0cd12c62bce79bc1759c7e281646b08b61c959"
+react-native-inappbrowser-reborn@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-inappbrowser-reborn/-/react-native-inappbrowser-reborn-2.0.1.tgz#0aaa164b71f52546c8a3dd4a944c57b177578574"
+  dependencies:
+    invariant "^2.2.4"
 
-react-native-safe-area-view@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.11.0.tgz#4f3dda43c2bace37965e7c6aef5fc83d4f19d174"
+react-native-safe-area-view@^0.13.0:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.13.1.tgz#834bbb6d22f76a7ff07de56725ee5667ba1386b0"
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
@@ -4988,19 +4977,19 @@ react-native-swiper@1.5.x:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-tab-view@^1.0.0, react-native-tab-view@^1.2.0:
+react-native-tab-view@^1.2.0, react-native-tab-view@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.3.4.tgz#63fc3eb09652651d0ea0e016cff0f3a5e535f4de"
   dependencies:
     prop-types "^15.6.1"
 
-react-native-vector-icons@6.1.x:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-6.1.0.tgz#770a3f8ced692d75deb3afbb9829195ceed1eedd"
+react-native-vector-icons@6.4.x:
+  version "6.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-6.4.2.tgz#ee0b097e783387544ed160a3192a437c097e551d"
   dependencies:
     lodash "^4.0.0"
     prop-types "^15.6.2"
-    yargs "^8.0.2"
+    yargs "^13.2.2"
 
 react-native@0.59.5:
   version "0.59.5"
@@ -5057,34 +5046,34 @@ react-native@0.59.5:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
-react-navigation-drawer@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-navigation-drawer/-/react-navigation-drawer-1.0.5.tgz#d8cc71bd1779186261f3c3754b11f29aa98bd4f5"
+react-navigation-drawer@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-navigation-drawer/-/react-navigation-drawer-1.2.1.tgz#7bd5efeee7d2f611d3ebb0933e0c8e8eb7cafe52"
   dependencies:
     react-native-tab-view "^1.2.0"
 
-react-navigation-stack@1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-navigation-stack/-/react-navigation-stack-1.0.6.tgz#5c2b6617dccc1de6001b387cd967baa6b205132d"
+react-navigation-stack@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-navigation-stack/-/react-navigation-stack-1.3.0.tgz#34bbddb068c094c9ab843e36059b9fd92b728250"
 
-react-navigation-tabs@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-1.0.2.tgz#cc6c61db0c61054388ef6f726a8ffc183d6095b5"
+react-navigation-tabs@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-1.1.2.tgz#10b7501522d99960340a0d23a471d571b70aeb82"
   dependencies:
     hoist-non-react-statics "^2.5.0"
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
-    react-native-tab-view "^1.0.0"
+    react-native-tab-view "^1.3.4"
 
-react-navigation@3.0.x:
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-3.0.9.tgz#1c82f8ec2f87e2728816e79fb43d7b11ed265415"
+react-navigation@3.9.x:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-3.9.0.tgz#f36877226a6a5ded5c8f99d14dfaf5a073469826"
   dependencies:
-    "@react-navigation/core" "3.0.2"
-    "@react-navigation/native" "3.0.3"
-    react-navigation-drawer "1.0.5"
-    react-navigation-stack "1.0.6"
-    react-navigation-tabs "1.0.2"
+    "@react-navigation/core" "~3.4.0"
+    "@react-navigation/native" "~3.4.0"
+    react-navigation-drawer "1.2.1"
+    react-navigation-stack "1.3.0"
+    react-navigation-tabs "1.1.2"
 
 react-proxy@^1.1.7:
   version "1.1.8"
@@ -5350,7 +5339,7 @@ resolve@1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-resolve@^1.10.0, resolve@^1.3.2, resolve@^1.5.0, resolve@^1.6.0, resolve@^1.8.1, resolve@^1.9.0:
+resolve@^1.10.0, resolve@^1.3.2, resolve@^1.5.0, resolve@^1.8.1, resolve@^1.9.0:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.10.1.tgz#664842ac960795bbe758221cdccda61fb64b5f18"
   dependencies:
@@ -5367,7 +5356,7 @@ ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
 
-rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@~2.6.2:
+rimraf@2.6.3, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   dependencies:
@@ -5702,7 +5691,7 @@ sqlite3@^4.0.0:
     node-pre-gyp "^0.11.0"
     request "^2.87.0"
 
-sqlite@^3.0.2:
+sqlite@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/sqlite/-/sqlite-3.0.3.tgz#3f519cfc599ffa3270d76f3567bf2abb2ac18742"
   dependencies:
@@ -5869,7 +5858,7 @@ symbol-tree@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
 
-table@^5.0.2:
+table@^5.2.3:
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/table/-/table-5.2.3.tgz#cde0cc6eb06751c009efab27e8c820ca5b67b7f2"
   dependencies:
@@ -6248,9 +6237,9 @@ write-file-atomic@^1.2.0:
     imurmurhash "^0.1.4"
     slide "^1.1.5"
 
-write@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/write/-/write-0.2.1.tgz#5fc03828e264cea3fe91455476f7a3c566cb0757"
+write@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/write/-/write-1.0.3.tgz#0800e14523b923a387e415123c865616aae0f5c3"
   dependencies:
     mkdirp "^0.5.1"
 
@@ -6326,7 +6315,7 @@ y18n@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-3.2.1.tgz#6d15fba884c08679c0d77e88e7759e811e07fa41"
 
-"y18n@^3.2.1 || ^4.0.0":
+"y18n@^3.2.1 || ^4.0.0", y18n@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
 
@@ -6341,6 +6330,13 @@ yallist@^3.0.0, yallist@^3.0.2:
 yargs-parser@^11.1.1:
   version "11.1.1"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-11.1.1.tgz#879a0865973bca9f6bab5cbdf3b1c67ec7d3bcf4"
+  dependencies:
+    camelcase "^5.0.0"
+    decamelize "^1.2.0"
+
+yargs-parser@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-13.0.0.tgz#3fc44f3e76a8bdb1cc3602e860108602e5ccde8b"
   dependencies:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
@@ -6368,23 +6364,21 @@ yargs@^12.0.2:
     y18n "^3.2.1 || ^4.0.0"
     yargs-parser "^11.1.1"
 
-yargs@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-8.0.2.tgz#6299a9055b1cefc969ff7e79c1d918dceb22c360"
+yargs@^13.2.2:
+  version "13.2.2"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-13.2.2.tgz#0c101f580ae95cea7f39d927e7770e3fdc97f993"
   dependencies:
-    camelcase "^4.1.0"
-    cliui "^3.2.0"
-    decamelize "^1.1.1"
-    get-caller-file "^1.0.1"
-    os-locale "^2.0.0"
-    read-pkg-up "^2.0.0"
+    cliui "^4.0.0"
+    find-up "^3.0.0"
+    get-caller-file "^2.0.1"
+    os-locale "^3.1.0"
     require-directory "^2.1.1"
-    require-main-filename "^1.0.1"
+    require-main-filename "^2.0.0"
     set-blocking "^2.0.0"
-    string-width "^2.0.0"
+    string-width "^3.0.0"
     which-module "^2.0.0"
-    y18n "^3.2.1"
-    yargs-parser "^7.0.0"
+    y18n "^4.0.0"
+    yargs-parser "^13.0.0"
 
 yargs@^9.0.0:
   version "9.0.1"
