@@ -22,7 +22,7 @@
     "lodash": "4.17.x",
     "prop-types": "15.6.x",
     "react": "16.6.3",
-    "react-native": "0.58.0",
+    "react-native": "0.58.6",
     "react-native-device-info": "0.24.x",
     "react-native-gesture-handler": "^1.0.12",
     "react-native-haptic-feedback": "1.5.x",
