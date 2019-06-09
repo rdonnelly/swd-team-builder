@@ -209,7 +209,7 @@ class TeamDetailScreen extends React.Component {
     }
 
     try {
-      const url = `http://swdestinydb.com/decklists/find?${urlParams.join('&')}`;
+      const url = `https://swdestinydb.com/decklists/find?${urlParams.join('&')}`;
       if (await InAppBrowser.isAvailable()) {
         StatusBar.setBarStyle('dark-content');
         await InAppBrowser.open(url, {

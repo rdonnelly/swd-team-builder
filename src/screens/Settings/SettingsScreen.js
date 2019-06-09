@@ -97,7 +97,7 @@ class SettingsScreen extends Component {
 
   static async visitWebpage() {
     try {
-      const url = 'http://rdonnelly.com/swd-team-builder/';
+      const url = 'https://rdonnelly.com/swd-team-builder/';
       if (await InAppBrowser.isAvailable()) {
         StatusBar.setBarStyle('dark-content');
         await InAppBrowser.open(url, {
