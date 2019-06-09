@@ -577,7 +577,7 @@ async function save() {
 (async function run() {
   await open();
 
-  const elibibleFormats = formats;
+  const elibibleFormats = formats.filter((format) => format.code !== 'INF');
   const numFormats = elibibleFormats.length;
   elibibleFormats.forEach(async (format, index) => {
     console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${format.name} (${index + 1}/${numFormats})`);
