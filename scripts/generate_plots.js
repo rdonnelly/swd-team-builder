@@ -15,6 +15,7 @@ import dbSetWotF from 'swdestinydb-json-data/set/WotF.json';
 import dbSetAtG from 'swdestinydb-json-data/set/AtG.json';
 import dbSetConv from 'swdestinydb-json-data/set/CONV.json';
 import dbSetAoN from 'swdestinydb-json-data/set/AoN.json';
+import dbSetSoH from 'swdestinydb-json-data/set/SoH.json';
 
 import formats from 'swdestinydb-json-data/formats.json';
 
@@ -51,6 +52,7 @@ let plots =
     dbSetAtG,
     dbSetConv,
     dbSetAoN,
+    dbSetSoH,
   ).filter(
     (rawCard) => rawCard.type_code === 'plot',
   ).map(
@@ -126,9 +128,12 @@ plots = plots
       '08155', // PLOT: No Allegiance, 08155
       '08156', // PLOT: Solidarity, 08156
       '10016', // PLOT: Allies of Necessity, 10016
+      '11119', // PLOT: Temporary Truce, 11119
     ].includes(card.id),
     hasModification: [
       '08155', // PLOT: No Allegiance, 08155
+      '08156', // PLOT: Solidarity, 08156
+      '11119', // PLOT: Temporary Truce, 11119
     ].includes(card.id),
 
     rank: index,
