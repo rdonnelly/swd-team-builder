@@ -13,6 +13,7 @@ import dbSetWotF from 'swdestinydb-json-data/set/WotF.json';
 import dbSetAtG from 'swdestinydb-json-data/set/AtG.json';
 import dbSetConv from 'swdestinydb-json-data/set/CONV.json';
 import dbSetAoN from 'swdestinydb-json-data/set/AoN.json';
+import dbSetSoH from 'swdestinydb-json-data/set/SoH.json';
 
 import formats from 'swdestinydb-json-data/formats.json';
 
@@ -47,6 +48,7 @@ let characters =
     dbSetAtG,
     dbSetConv,
     dbSetAoN,
+    dbSetSoH,
   ).filter(
     (rawCard) => rawCard.type_code === 'character',
   ).map(
@@ -57,6 +59,7 @@ let characters =
       card.damageTypes = [];
       card.faction = rawCard.faction_code;
       card.formats = [];
+      card.hasDie = rawCard.has_die;
       card.health = rawCard.health;
       card.id = rawCard.code;
       card.isUnique = rawCard.is_unique;
@@ -68,21 +71,24 @@ let characters =
       card.subtypes = rawCard.subtypes;
 
       // set damage types
-      card.damageTypes = _.uniq(rawCard.sides.reduce((acc, val) => {
-        if (val.includes('ID')) {
-          acc.push('ID');
-        }
+      card.damageTypes = [];
+      if (rawCard.sides) {
+        card.damageTypes = _.uniq(rawCard.sides.reduce((acc, val) => {
+          if (val.includes('ID')) {
+            acc.push('ID');
+          }
 
-        if (val.includes('MD')) {
-          acc.push('MD');
-        }
+          if (val.includes('MD')) {
+            acc.push('MD');
+          }
 
-        if (val.includes('RD')) {
-          acc.push('RD');
-        }
+          if (val.includes('RD')) {
+            acc.push('RD');
+          }
 
-        return acc.sort();
-      }, []));
+          return acc.sort();
+        }, []));
+      }
 
       if (card.id === '05050') { // CHARACTER: Zeb Orrelios, 05050
         card.damageTypes.push('RD');
@@ -158,6 +164,7 @@ characters = characters
     damageTypes: card.damageTypes,
     faction: card.faction,
     formats: card.formats,
+    hasDie: card.hasDie,
     health: card.health,
     id: card.id,
     isUnique: card.isUnique,

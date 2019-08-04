@@ -19,7 +19,7 @@ const AFFILIATION_RANK = {
   neutral: 2,
 };
 
-const MIN_DICE = 2;
+const MIN_DICE = 0;
 const MIN_POINTS = 20;
 const MAX_POINTS = 30;
 
@@ -118,7 +118,7 @@ class Team {
     this.factions = _.uniq([...this.factions, card.faction]);
     this.sets = _.uniq([...this.sets, card.set]);
 
-    this.diceCount += card.isElite ? 2 : 1;
+    this.diceCount += card.hasDie ? (card.isElite ? 2 : 1) : 0;
     this.health += card.health;
     this.points += card.points;
 
@@ -132,23 +132,27 @@ class Team {
     // TODO modifications below should not be able to find self
 
     if (card.id === '05038') { // CHARACTER: Clone Trooper, 05038
-      this.characterPoints -= this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
-      this.points -= this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
+      const hasCharacterResult = this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
+      this.characterPoints -= hasCharacterResult;
+      this.points -= hasCharacterResult;
     }
 
     if (card.id === '08073') { // CHARACTER: Clone Commander Cody, 08073
-      this.characterPoints -= this.hasCharacter({ id: '05038' }); // CHARACTER: Clone Trooper, 05038
-      this.points -= this.hasCharacter({ id: '05038' }); // CHARACTER: Clone Trooper, 05038
+      const hasCharacterResult = this.hasCharacter({ id: '05038' }); // CHARACTER: Clone Trooper, 05038
+      this.characterPoints -= hasCharacterResult;
+      this.points -= hasCharacterResult;
     }
 
     if (card.id === '09021') { // CHARACTER: General Grievous, 09021
-      this.characterPoints -= this.hasCharacter({ subtype: 'droid' });
-      this.points -= this.hasCharacter({ subtype: 'droid' });
+      const hasCharacterResult = this.hasCharacter({ subtype: 'droid' });
+      this.characterPoints -= hasCharacterResult;
+      this.points -= hasCharacterResult;
     }
 
     if (card.subtypes && card.subtypes.includes('droid')) {
-      this.characterPoints -= this.hasCharacter({ id: '09021' }); // CHARACTER: General Grievous, 09021
-      this.points -= this.hasCharacter({ id: '09021' }); // CHARACTER: General Grievous, 09021
+      const hasCharacterResult = this.hasCharacter({ id: '09021' }); // CHARACTER: General Grievous, 09021
+      this.characterPoints -= hasCharacterResult;
+      this.points -= hasCharacterResult;
     }
 
     if (this.plot && this.plot.id === '08155' && // PLOT: No Allegiance, 08155
@@ -205,9 +209,21 @@ class Team {
       return false;
     }
 
-    // team must not have Anakin Skywalker (06001) and Darth Vader
+    // team can not have Anakin Skywalker (06001) and Darth Vader
     if (this.hasCharacter({ id: '06001' }) && // CHARACTER: Anakin Skywalker, 06001
         this.hasCharacter({ name: 'Darth Vader' })) {
+      return false;
+    }
+
+    // team can not have Youngling (11059) without a Jedi
+    if (this.hasCharacter({ id: '11059' }) &&
+        !this.hasCharacter({ subtype: 'jedi' })) {
+      return false;
+    }
+
+    // team can not have Ewok Warrior (11095) without a unique Ewok
+    if (this.hasCharacter({ id: '11095' }) &&
+        !this.hasCharacter({ id: '11093' }) && !this.hasCharacter({ id: '11097' })) {
       return false;
     }
 
@@ -334,6 +350,9 @@ class Team {
 const plotVariants = [];
 
 Object.values(plots).forEach((plot) => {
+  if (plot.id === '11119') {
+    return;
+  }
   if (plot.hasRestriction || plot.hasModification) {
     plotVariants.push({
       affiliation: plot.affiliation,
@@ -383,6 +402,7 @@ Object.values(characters).forEach((character) => {
     damageTypes: character.damageTypes,
     faction: character.faction,
     formats: character.formats,
+    hasDie: character.hasDie,
     health: character.health,
     id: character.id,
     isUnique: character.isUnique,
@@ -425,7 +445,7 @@ characterVariants.sort((a, b) => {
 
 const characterVariantsHero = characterVariants.filter((character) => ['hero', 'neutral'].includes(character.affiliation));
 const characterVariantsVillain = characterVariants.filter((character) => ['villain', 'neutral'].includes(character.affiliation));
-
+const characterVariantsReylo = characterVariants.filter((character) => ['Kylo Ren', 'Rey'].includes(character.name));
 
 const generateTeams = (team, eligibleCharacters) => {
   let teamIsComplete = true;
@@ -605,6 +625,20 @@ async function save() {
       generateTeams(new Team({ format: format.code, plot }), eligibleCharacterVariantsHero);
       process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
     });
+    console.log('\n');
+
+    teams = _.uniqBy(teams, 'key');
+
+    // REYLO
+
+    const eligibleCharacterVariantsReylo = characterVariantsReylo.filter(
+      (characterVariant) => characterVariant.formats.includes(format.code),
+    );
+
+    console.log('\x1b[34m%s\x1b[0m', `    Reylo Character Variants: ${eligibleCharacterVariantsReylo.length}`);
+
+    generateTeams(new Team({ format: format.code }), eligibleCharacterVariantsReylo);
+    process.stdout.write(`    ${'.'}\r`);
     console.log('\n');
 
     teams = _.uniqBy(teams, 'key');
