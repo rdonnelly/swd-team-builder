@@ -125,6 +125,7 @@ const charactersReducer = (state = initialState, action) => {
         validFormats,
         validSets,
         deckAffiliation,
+        deckCharacters,
       } = action.payload;
 
       return {
@@ -138,6 +139,7 @@ const charactersReducer = (state = initialState, action) => {
             validFormats,
             validSets,
             deckAffiliation,
+            deckCharacters,
           ),
       };
     }

@@ -105,6 +105,7 @@ const resetCharacters = (
   validDamageTypes,
   validSets,
   deckAffiliation,
+  deckCharacters,
 ) => ({
   type: 'RESET_CHARACTERS',
   payload: {
@@ -114,6 +115,7 @@ const resetCharacters = (
     validDamageTypes,
     validSets,
     deckAffiliation,
+    deckCharacters,
   },
 });
 
@@ -153,6 +155,7 @@ const resetCharactersHelper = (dispatch, getState) => dispatch(
     getState().teams.settings.filters.damageTypes,
     getState().teams.settings.filters.sets,
     getState().deck.affiliation,
+    getState().deck.characters,
   ),
 );
 
