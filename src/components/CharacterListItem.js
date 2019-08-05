@@ -12,7 +12,7 @@ import Swipeable from 'react-native-swipeable';
 import { withNavigation } from 'react-navigation';
 
 import CharacterAvatar from './CharacterAvatar';
-import { validateCode } from '../lib/SWDIconCodes';
+import { validateSetCode } from '../lib/SWDIconCodes';
 import SWDIcon from './SWDIcon';
 
 import { base as baseStyles, colors } from '../styles';
@@ -161,7 +161,7 @@ class CharacterListItem extends Component {
       rowStyles.push(styles.excludedRow);
     }
 
-    const setIcon = validateCode(card.set) ? (
+    const setIcon = validateSetCode(card.set) ? (
       <SWDIcon type={ card.set } style={ cardInfoLogoStyle } />
     ) : null;
 

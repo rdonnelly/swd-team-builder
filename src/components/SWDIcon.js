@@ -3,7 +3,12 @@ import { StyleSheet, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import _get from 'lodash/get';
 
-import { iconCodes as swdIconCodes } from '../lib/SWDIconCodes';
+import {
+  setCodes as setIconCodes,
+  typeCodes as typeIconCodes,
+  validateSetCode,
+  validateTypeCode,
+} from '../lib/SWDIconCodes';
 
 const styles = StyleSheet.create({
   text: {
@@ -17,7 +22,19 @@ class SWDIcon extends PureComponent {
       type, style, addSpace,
     } = this.props;
 
-    const code = _get(swdIconCodes, type.toUpperCase());
+    const fontStyle = {};
+
+    const testType = type.toUpperCase();
+    let code = null;
+    if (validateSetCode(testType)) {
+      code = _get(setIconCodes, type.toUpperCase());
+      fontStyle.fontFamily = 'swdsets';
+    }
+    if (validateTypeCode(testType)) {
+      code = _get(typeIconCodes, type.toUpperCase());
+      fontStyle.fontFamily = 'swdtypes';
+    }
+
     if (!code) {
       return null;
     }
@@ -25,7 +42,7 @@ class SWDIcon extends PureComponent {
     const codeString = String.fromCharCode(parseInt(code, 16));
 
     return (
-      <Text style={[style, styles.text]}>
+      <Text style={[style, styles.text, fontStyle]}>
         { codeString }
         { addSpace ? ' ' : '' }
       </Text>
