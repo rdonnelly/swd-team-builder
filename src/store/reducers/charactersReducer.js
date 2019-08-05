@@ -17,8 +17,8 @@ const updateCharactersCompatibility =
     deckAffiliation,
     deckCharacters,
   ) => {
-    const deckHasKylo = _find(deckCharacters, (deckCharacter) => ['11002'].includes(deckCharacter.id));
-    const deckHasRey = _find(deckCharacters, (deckCharacter) => ['11057'].includes(deckCharacter.id));
+    const deckHasOnlyKylo = deckCharacters.every((deckCharacter) => deckCharacter.name === 'Kylo Ren');
+    const deckHasOnlyRey = deckCharacters.every((deckCharacter) => deckCharacter.name === 'Rey');
     return charactersToUpdate.filter((characterObject) => {
       const characterAffiliation = characterObject.affiliation;
       const characterDamageTypes = characterObject.damageTypes;
@@ -35,10 +35,10 @@ const updateCharactersCompatibility =
         deckAffiliation === 'neutral' ||
         characterAffiliation === deckAffiliation);
 
-      if (deckHasKylo && characterObject.name === 'Rey') {
+      if (deckHasOnlyKylo && characterObject.name === 'Rey') {
         hasValidAffiliation = true;
       }
-      if (deckHasRey && characterObject.name === 'Kylo Ren') {
+      if (deckHasOnlyRey && characterObject.name === 'Kylo Ren') {
         hasValidAffiliation = true;
       }
 
