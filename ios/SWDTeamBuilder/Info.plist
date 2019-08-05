@@ -19,27 +19,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-<<<<<<< HEAD
-	<string>1.6.4</string>
+	<string>1.7.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-<<<<<<< HEAD
-<<<<<<< HEAD
-	<string>90</string>
-=======
-	<string>82</string>
->>>>>>> update data
-=======
-	<string>83</string>
->>>>>>> update data
-=======
-	<string>1.6.2</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>88</string>
->>>>>>> update for formats
+	<string>91</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -57,15 +41,8 @@
 			</dict>
 		</dict>
 	</dict>
-<<<<<<< HEAD
-=======
 	<key>NSLocationWhenInUseUsageDescription</key>
-<<<<<<< HEAD
 	<string/>
->>>>>>> update data
-=======
-	<string></string>
->>>>>>> update data
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
