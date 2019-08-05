@@ -17,8 +17,9 @@ const updateCharactersCompatibility =
     deckAffiliation,
     deckCharacters,
   ) => {
-    const deckHasOnlyKylo = deckCharacters.every((deckCharacter) => deckCharacter.name === 'Kylo Ren');
-    const deckHasOnlyRey = deckCharacters.every((deckCharacter) => deckCharacter.name === 'Rey');
+    const deckNotEmpty = !!deckCharacters.length;
+    const deckHasOnlyKylo = deckNotEmpty && deckCharacters.every((deckCharacter) => deckCharacter.name === 'Kylo Ren');
+    const deckHasOnlyRey = deckNotEmpty && deckCharacters.every((deckCharacter) => deckCharacter.name === 'Rey');
     return charactersToUpdate.filter((characterObject) => {
       const characterAffiliation = characterObject.affiliation;
       const characterDamageTypes = characterObject.damageTypes;
