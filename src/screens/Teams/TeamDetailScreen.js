@@ -338,10 +338,11 @@ class TeamDetailScreen extends React.Component {
     });
 
     let teamAffiliationLabel = 'Neutral';
-    if (team.affiliationHero) {
-      teamAffiliationLabel = 'Hero';
-    } else if (team.affiliationVillain) {
+    if (team.affiliationVillain && !team.affiliationHero) {
       teamAffiliationLabel = 'Villain';
+    }
+    if (team.affiliationHero && !team.affiliationVillain) {
+      teamAffiliationLabel = 'Hero';
     }
 
     return (
