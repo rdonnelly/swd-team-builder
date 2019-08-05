@@ -16,45 +16,57 @@ const updateCharactersCompatibility =
     validSets,
     deckAffiliation,
     deckCharacters,
-  ) => charactersToUpdate.filter((characterObject) => {
-    const characterAffiliation = characterObject.affiliation;
-    const characterDamageTypes = characterObject.damageTypes;
-    const characterFaction = characterObject.faction;
-    const characterFormats = characterObject.formats;
-    const characterId = characterObject.id;
-    const characterName = characterObject.name;
-    const characterIsUnique = characterObject.isUnique;
-    const characterSet = characterObject.set;
+  ) => {
+    const deckHasKylo = _find(deckCharacters, (deckCharacter) => ['11002'].includes(deckCharacter.id));
+    const deckHasRey = _find(deckCharacters, (deckCharacter) => ['11057'].includes(deckCharacter.id));
+    return charactersToUpdate.filter((characterObject) => {
+      const characterAffiliation = characterObject.affiliation;
+      const characterDamageTypes = characterObject.damageTypes;
+      const characterFaction = characterObject.faction;
+      const characterFormats = characterObject.formats;
+      const characterId = characterObject.id;
+      const characterName = characterObject.name;
+      const characterIsUnique = characterObject.isUnique;
+      const characterSet = characterObject.set;
 
-    const hasValidAffiliation =
-      validAffiliations[characterAffiliation] &&
-      (characterAffiliation === 'neutral' ||
-      deckAffiliation === 'neutral' ||
-      characterAffiliation === deckAffiliation);
-    const hasValidFaction = validFactions[characterFaction];
-    const hasValidSet = validSets[characterSet];
-    const hasValidDamageTypes =
-      characterDamageTypes.every((characterDamageType) => validDamageTypes[characterDamageType]);
-    const hasValidFormats =
-      characterFormats.some((characterFormat) => validFormats[characterFormat]);
+      let hasValidAffiliation =
+        validAffiliations[characterAffiliation] &&
+        (characterAffiliation === 'neutral' ||
+        deckAffiliation === 'neutral' ||
+        characterAffiliation === deckAffiliation);
 
-    // if character shares a name, isn't the same card as the one in the deck,
-    // and is unique
-    const hasValidUniqueness = !characterIsUnique ||
-      !_find(deckCharacters,
-        (deckCharacter) => deckCharacter.id !== characterId &&
-          deckCharacter.name === characterName);
+      if (deckHasKylo && characterObject.name === 'Rey') {
+        hasValidAffiliation = true;
+      }
+      if (deckHasRey && characterObject.name === 'Kylo Ren') {
+        hasValidAffiliation = true;
+      }
 
-    const isCompatible =
-      hasValidAffiliation &&
-      hasValidDamageTypes &&
-      hasValidFaction &&
-      hasValidFormats &&
-      hasValidSet &&
-      hasValidUniqueness;
+      const hasValidFaction = validFactions[characterFaction];
+      const hasValidSet = validSets[characterSet];
+      const hasValidDamageTypes =
+        characterDamageTypes.every((characterDamageType) => validDamageTypes[characterDamageType]);
+      const hasValidFormats =
+        characterFormats.some((characterFormat) => validFormats[characterFormat]);
 
-    return isCompatible;
-  });
+      // if character shares a name, isn't the same card as the one in the deck,
+      // and is unique
+      const hasValidUniqueness = !characterIsUnique ||
+        !_find(deckCharacters,
+          (deckCharacter) => deckCharacter.id !== characterId &&
+            deckCharacter.name === characterName);
+
+      const isCompatible =
+        hasValidAffiliation &&
+        hasValidDamageTypes &&
+        hasValidFaction &&
+        hasValidFormats &&
+        hasValidSet &&
+        hasValidUniqueness;
+
+      return isCompatible;
+    });
+  };
 
 const charactersReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -93,7 +105,7 @@ const charactersReducer = (state = initialState, action) => {
       return {
         ...state,
         characters:
-          state.characters.map((characterObject) => {
+          initialState.characters.map((characterObject) => {
             const characterId = characterObject.id;
             const isExcluded = excludedCharacterIds.includes(characterId);
 
