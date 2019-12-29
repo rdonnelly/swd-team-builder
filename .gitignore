@@ -66,5 +66,6 @@ haul-debug.log
 /ios/Pods/
 
 # Teams Database
+data
 swd-teams.db
 ios/SWDTeamBuilder/www/swd-teams.db
