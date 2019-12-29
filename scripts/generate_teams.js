@@ -219,7 +219,6 @@ class Team {
 
     // check restricted list, no more than 1
     if (this.restrictedFormats.length > 1) {
-      console.log('RESTRICTED!', this.getKey(), '\n');
       return false;
     }
 
