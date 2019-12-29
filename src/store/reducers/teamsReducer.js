@@ -44,8 +44,8 @@ const initialState = {
         [faction.code]: true,
       }), {}),
       formats: {
-        INF: true,
-        STD: false,
+        // INF: true,
+        STD: true,
         TRI: false,
       },
       sets: sets.reduce((setMap, set) => ({

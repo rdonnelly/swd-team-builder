@@ -62,6 +62,7 @@ class Team {
     this.format = format;
     this.health = 0;
     this.points = 0;
+    this.restrictedFormats = [];
     this.sets = [];
 
     this.ranks = {};
@@ -102,14 +103,21 @@ class Team {
           isElite: card.isElite,
           pointsToElite: card.pointsToElite,
         });
+
+        if (card.restrictedFormats.indexOf(this.format) !== -1) {
+          this.restrictedFormats.push(this.format);
+        }
       } else {
+        // no characters with same name (but different id) on team
         return false;
       }
     } else {
+      // do not add another copy of a unique character
       if (card.isUnique) {
         return false;
       }
 
+      // increase count of character
       existingCharacterObjById.count += 1;
     }
 
@@ -206,6 +214,12 @@ class Team {
   isLegal() {
     // team must be above min points and below max points
     if (this.points > MAX_POINTS) {
+      return false;
+    }
+
+    // check restricted list, no more than 1
+    if (this.restrictedFormats.length > 1) {
+      console.log('RESTRICTED!', this.getKey(), '\n');
       return false;
     }
 
@@ -353,7 +367,10 @@ Object.values(plots).forEach((plot) => {
   if (plot.id === '11119') {
     return;
   }
-  if (plot.hasRestriction || plot.hasModification) {
+
+  if (plot.hasRestriction ||
+      plot.hasModification ||
+      plot.restrictedFormats.length !== 0) {
     plotVariants.push({
       affiliation: plot.affiliation,
       faction: plot.faction,
@@ -362,6 +379,7 @@ Object.values(plots).forEach((plot) => {
       hasRestriction: plot.hasRestriction,
       id: plot.id,
       points: plot.points,
+      restrictedFormats: plot.restrictedFormats,
       sets: [plot.set],
     });
   } else {
@@ -380,6 +398,7 @@ Object.values(plots).forEach((plot) => {
         hasRestriction: plot.hasRestriction,
         id: null,
         points: plot.points,
+        restrictedFormats: [],
         sets: [plot.set],
       });
     } else if (!matchingPlot.sets.includes(plot.set)) {
@@ -407,6 +426,7 @@ Object.values(characters).forEach((character) => {
     id: character.id,
     isUnique: character.isUnique,
     name: character.name,
+    restrictedFormats: character.restrictedFormats,
     set: character.set,
     subtypes: character.subtypes,
   };
@@ -577,7 +597,7 @@ async function save() {
 (async function run() {
   await open();
 
-  const elibibleFormats = formats;
+  const elibibleFormats = formats.filter((format) => format.code !== 'INF');
   const numFormats = elibibleFormats.length;
   elibibleFormats.forEach(async (format, index) => {
     console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${format.name} (${index + 1}/${numFormats})`);

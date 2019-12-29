@@ -28,7 +28,7 @@ const factions = [
 ];
 
 const formats = [
-  { code: 'INF', name: 'Infinite' },
+  // { code: 'INF', name: 'Infinite' },
   { code: 'STD', name: 'Standard' },
   { code: 'TRI', name: 'Trilogy' },
 ];

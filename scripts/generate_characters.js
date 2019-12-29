@@ -3,9 +3,9 @@ import checksum from 'json-checksum';
 import jsonfile from 'jsonfile';
 import path from 'path';
 
-import dbSetAw from 'swdestinydb-json-data/set/AW.json';
-import dbSetSoR from 'swdestinydb-json-data/set/SoR.json';
-import dbSetEaW from 'swdestinydb-json-data/set/EaW.json';
+// import dbSetAw from 'swdestinydb-json-data/set/AW.json';
+// import dbSetSoR from 'swdestinydb-json-data/set/SoR.json';
+// import dbSetEaW from 'swdestinydb-json-data/set/EaW.json';
 import dbSetTPG from 'swdestinydb-json-data/set/TPG.json';
 import dbSetLEG from 'swdestinydb-json-data/set/LEG.json';
 import dbSetRIV from 'swdestinydb-json-data/set/RIV.json';
@@ -38,9 +38,9 @@ const infiniteFormat = formats.filter((format) => format.code === 'INF').pop();
 
 let characters =
   [].concat(
-    dbSetAw,
-    dbSetSoR,
-    dbSetEaW,
+    // dbSetAw,
+    // dbSetSoR,
+    // dbSetEaW,
     dbSetTPG,
     dbSetLEG,
     dbSetRIV,
@@ -66,6 +66,7 @@ let characters =
       card.name = rawCard.name;
       card.pointsElite = null;
       card.pointsRegular = null;
+      card.restrictedFormats = [];
       card.set = rawCard.set_code;
       card.subtitle = rawCard.subtitle;
       card.subtypes = rawCard.subtypes;
@@ -113,6 +114,14 @@ let characters =
       formats.forEach((format) => {
         if (format.data.sets.includes(rawCard.set_code)) {
           card.formats.push(format.code);
+        }
+
+        if (format && format.data && format.data.restricted) {
+          format.data.restricted.forEach((restrictedId) => {
+            if (restrictedId === rawCard.code) {
+              card.restrictedFormats.push(format.code);
+            }
+          });
         }
       });
 
@@ -171,6 +180,7 @@ characters = characters
     name: card.name,
     pointsElite: card.pointsElite,
     pointsRegular: card.pointsRegular,
+    restrictedFormats: card.restrictedFormats,
     set: card.set,
     subtitle: card.subtitle,
     subtypes: card.subtypes,

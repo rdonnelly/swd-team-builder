@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
@@ -42,6 +43,7 @@
 		4A113DF591BB4015A1BF5766 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4940F582768D4D17BF6BF6E9 /* Feather.ttf */; };
 		502CA8C4D50C4D04824E306B /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BDD1DE93C76D4BEE9F9B4838 /* FontAwesome5_Solid.ttf */; };
 		5995DC31CFCC45DEA7BCD404 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B990605657204DCEAD554E75 /* MaterialCommunityIcons.ttf */; };
+		62F72A5550BB4C73A650B8C3 /* swdtypes.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76BD201DE7FE486F90048B86 /* swdtypes.ttf */; };
 		73D317DF009D4021A8F3FEEE /* libSQLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56924528E6C44F13BED5F41F /* libSQLite.a */; };
 		7ED82649792B4618B09FDB91 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC17F32CE2440389632E981 /* FontAwesome.ttf */; };
 		825460D9190542D488A50A3B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B5EF6FF5588A4A1AAC23B829 /* MaterialIcons.ttf */; };
@@ -52,6 +54,7 @@
 		9377B8C128C04EE5A29851D0 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45760BBB9FEB41CEAAE9C081 /* Foundation.ttf */; };
 		954876662237594A006C3DDE /* www in Resources */ = {isa = PBXBuildFile; fileRef = 954876652237594A006C3DDE /* www */; };
 		95E979621EFEB5CA00913BAE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95E979611EFEB5CA00913BAE /* LaunchScreen.storyboard */; };
+		95EFC41F79654AD68877D0D4 /* swdsets.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB5001421EE34C1D90201E87 /* swdsets.ttf */; };
 		9A9BDA30FB7442318EE641F2 /* libRNScreens.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 439117A950D4449792C33514 /* libRNScreens.a */; };
 		A73B325702B24371B650AE8B /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB936EE0EDA34F4C8E5C7F3D /* libRNDeviceInfo.a */; };
 		A82A5F9E96074C8EBC7ED4D1 /* libRNCSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAEF1EF8C64B403E830D574C /* libRNCSlider.a */; };
@@ -65,8 +68,6 @@
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 		EEDCABF530544260B8E861B1 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9ACC5CCB25924D0C83364CEB /* EvilIcons.ttf */; };
 		EF1A3691F14D4A469328CDF3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C92F752AF64E70BFCBF7DC /* libz.tbd */; };
-		95EFC41F79654AD68877D0D4 /* swdsets.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB5001421EE34C1D90201E87 /* swdsets.ttf */; };
-		62F72A5550BB4C73A650B8C3 /* swdtypes.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76BD201DE7FE486F90048B86 /* swdtypes.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -459,6 +460,7 @@
 		6AC17F32CE2440389632E981 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		6B2C9ECA1E0D4D22BA961337 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		72E3DBEA1D774AF3A4D7A68D /* libRNReactNativeHapticFeedback.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeHapticFeedback.a; sourceTree = "<group>"; };
+		76BD201DE7FE486F90048B86 /* swdtypes.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = swdtypes.ttf; path = ../assets/fonts/swdtypes.ttf; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7B41E8F1E602438F8CD5C0D8 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		805C535DFE3E431BB2A1FC58 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
@@ -485,10 +487,9 @@
 		E8CAF1B1919B44D28066FA80 /* RNScreens.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNScreens.xcodeproj; path = "../node_modules/react-native-screens/ios/RNScreens.xcodeproj"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		FB5001421EE34C1D90201E87 /* swdsets.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = swdsets.ttf; path = ../assets/fonts/swdsets.ttf; sourceTree = "<group>"; };
 		FC6637A73EE34F4AA7ADB4B3 /* RNCSlider.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCSlider.xcodeproj; path = "../node_modules/@react-native-community/slider/ios/RNCSlider.xcodeproj"; sourceTree = "<group>"; };
 		FFEF90D920D547649BB2E618 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		FB5001421EE34C1D90201E87 /* swdsets.ttf */ = {isa = PBXFileReference; name = "swdsets.ttf"; path = "../assets/fonts/swdsets.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		76BD201DE7FE486F90048B86 /* swdtypes.ttf */ = {isa = PBXFileReference; name = "swdtypes.ttf"; path = "../assets/fonts/swdtypes.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1665,7 +1666,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 97;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = EZ4AQB6GC7;
 				HEADER_SEARCH_PATHS = (
@@ -1685,6 +1686,7 @@
 				INFOPLIST_FILE = SWDTeamBuilder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.7.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1706,7 +1708,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 97;
 				DEVELOPMENT_TEAM = EZ4AQB6GC7;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1725,6 +1727,7 @@
 				INFOPLIST_FILE = SWDTeamBuilder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.7.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
