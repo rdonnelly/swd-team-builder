@@ -7,7 +7,6 @@
     "ios": "react-native run-ios --simulator='iPhone 11 Pro'",
     "ipad": "react-native run-ios --simulator='iPad Pro (10.5-inch)'",
     "se": "react-native run-ios --simulator='iPhone SE'",
-    "xs": "react-native run-ios",
     "start": "react-native start",
     "lint": "./node_modules/eslint/bin/eslint.js *.js ./src",
     "refresh": "rm -rf node_modules && yarn cache clean && yarn install",
@@ -18,23 +17,23 @@
     "teams": "./node_modules/.bin/babel-node --presets @babel/preset-env --max-old-space-size=8192 ./scripts/generate_teams.js"
   },
   "dependencies": {
-    "@react-native-community/slider": "^1.0.4",
-    "bugsnag-react-native": "2.17.x",
+    "@react-native-community/slider": "^2.0.8",
+    "bugsnag-react-native": "^2.23.3",
     "json-checksum": "0.1.x",
     "jsonfile": "5.0.x",
-    "lodash": "4.17.x",
+    "lodash": "^4.17.15",
     "prop-types": "15.7.x",
-    "react": "16.8.3",
-    "react-native": "0.59.5",
-    "react-native-device-info": "1.5.x",
-    "react-native-gesture-handler": "^1.0.12",
-    "react-native-haptic-feedback": "1.7.x",
-    "react-native-inappbrowser-reborn": "^2.0.1",
-    "react-native-screens": "^1.0.0-alpha.22",
-    "react-native-sqlite-storage": "^3.3.10",
+    "react": "16.9.0",
+    "react-native": "0.61.5",
+    "react-native-device-info": "^5.4.0",
+    "react-native-gesture-handler": "^1.5.2",
+    "react-native-haptic-feedback": "^1.8.2",
+    "react-native-inappbrowser-reborn": "^3.3.3",
+    "react-native-screens": "^2.0.0-alpha.22",
+    "react-native-sqlite-storage": "^4.1.0",
     "react-native-swipeable": "0.6.x",
     "react-native-swiper": "1.5.x",
-    "react-native-vector-icons": "6.4.x",
+    "react-native-vector-icons": "^6.6.0",
     "react-navigation": "3.9.x",
     "react-redux": "5.1.x",
     "redux": "4.0.x",
@@ -42,31 +41,26 @@
     "redux-thunk": "2.3.x",
     "reselect": "4.0.x",
     "sqlite": "^3.0.3",
-    "squel": "^5.12.2",
+    "squel": "^5.13.0",
     "swdestinydb-json-data": "https://github.com/rdonnelly/swdestinydb-json-data.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
+    "@babel/core": "^7.6.2",
     "@babel/node": "^7.2.x",
     "@babel/preset-env": "^7.2.x",
-    "@babel/runtime": "^7.4.3",
+    "@babel/runtime": "^7.6.2",
     "babel-eslint": "10.0.x",
-    "babel-jest": "^24.7.1",
-    "eslint": "5.16.x",
+    "babel-jest": "^24.9.0",
+    "eslint": "6.5.x",
     "eslint-config-airbnb-base": "13.1.x",
     "eslint-plugin-import": "2.17.x",
     "eslint-plugin-react": "7.12.x",
     "eslint-plugin-react-native": "3.7.x",
-    "jest": "^24.7.1",
-    "metro-react-native-babel-preset": "^0.53.1",
-    "react-test-renderer": "16.8.3"
+    "jest": "^24.9.0",
+    "metro-react-native-babel-preset": "^0.56.0",
+    "react-test-renderer": "16.9.0"
   },
   "jest": {
     "preset": "react-native"
-  },
-  "rnpm": {
-    "assets": [
-      "./assets/fonts"
-    ]
   }
 }
