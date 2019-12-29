@@ -64,3 +64,7 @@ haul-debug.log
 
 # CocoaPods
 /ios/Pods/
+
+# Teams Database
+swd-teams.db
+ios/SWDTeamBuilder/www/swd-teams.db
