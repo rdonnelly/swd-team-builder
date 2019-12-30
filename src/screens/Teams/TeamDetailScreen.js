@@ -25,7 +25,6 @@ import { cardBack, cardImages } from '../../lib/DestinyImages';
 
 import { base, colors } from '../../styles';
 
-
 const styles = StyleSheet.create({
   container: {
     ...base.container,
@@ -169,7 +168,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 class TeamDetailScreen extends React.Component {
   shouldComponentUpdate(nextProps) {
     const currentTeamKey = this.props.navigation.getParam('key');
@@ -191,11 +189,14 @@ class TeamDetailScreen extends React.Component {
     if (this.swiper && scrollBy) {
       this.swiper.scrollBy(scrollBy);
     }
-  }
+  };
 
   searchSWDestinyDB = async () => {
     const teamKey = this.props.navigation.getParam('key');
-    const [charactersKey, plotId] = teamKey.split('____').pop().split('___');
+    const [charactersKey, plotId] = teamKey
+      .split('____')
+      .pop()
+      .split('___');
 
     const urlParams = [];
 
@@ -209,7 +210,9 @@ class TeamDetailScreen extends React.Component {
     }
 
     try {
-      const url = `https://swdestinydb.com/decklists/find?${urlParams.join('&')}`;
+      const url = `https://swdestinydb.com/decklists/find?${urlParams.join(
+        '&',
+      )}`;
       if (await InAppBrowser.isAvailable()) {
         StatusBar.setBarStyle('dark-content');
         await InAppBrowser.open(url, {
@@ -230,11 +233,14 @@ class TeamDetailScreen extends React.Component {
     } catch (error) {
       Alert.alert('Could Not Open Browser');
     }
-  }
+  };
 
   render() {
     const teamKey = this.props.navigation.getParam('key');
-    const [charactersKey, plotId] = teamKey.split('____').pop().split('___');
+    const [charactersKey, plotId] = teamKey
+      .split('____')
+      .pop()
+      .split('___');
     const { data: team } = this.props;
 
     if (!team) {
@@ -247,31 +253,32 @@ class TeamDetailScreen extends React.Component {
       const plot = plots[plotId];
       plotStatusText = (
         <Text>
-          Team Requires Plot: <Text style={ styles.plotStatusTextCard }>{ plot.name }</Text>
+          Team Requires Plot:{' '}
+          <Text style={styles.plotStatusTextCard}>{plot.name}</Text>
         </Text>
       );
     } else if (team.points > 30) {
-      plotStatusText = `Team Requires Plot of ${30 - team.points} Points or Less`;
+      plotStatusText = `Team Requires Plot of ${30 -
+        team.points} Points or Less`;
     } else if (team.points < 30) {
-      plotStatusText = `Team Supports Plot of ${30 - team.points} Points or Less`;
+      plotStatusText = `Team Supports Plot of ${30 -
+        team.points} Points or Less`;
     }
 
-    const characterAvatars = charactersKey.split('__').map((characterKey, index) => {
-      const [cardId] = characterKey.split('_');
-      return (
-        <TouchableOpacity
-          key={ `avatar__${teamKey}__${cardId}` }
-          style={ styles.characterAvatarWrapper }
-          onPress={ this.scrollSwiper(index) }
-        >
-          <CharacterAvatar
-            cardId={ cardId }
-            round={ true }
-            size={ 72 }
-          />
-        </TouchableOpacity>
-      );
-    });
+    const characterAvatars = charactersKey
+      .split('__')
+      .map((characterKey, index) => {
+        const [cardId] = characterKey.split('_');
+        return (
+          <TouchableOpacity
+            key={`avatar__${teamKey}__${cardId}`}
+            style={styles.characterAvatarWrapper}
+            onPress={this.scrollSwiper(index)}
+          >
+            <CharacterAvatar cardId={cardId} round={true} size={72} />
+          </TouchableOpacity>
+        );
+      });
 
     const characterNames = charactersKey.split('__').map((characterKey) => {
       const [cardId, diceCount, count] = characterKey.split('_');
@@ -297,26 +304,22 @@ class TeamDetailScreen extends React.Component {
       for (let i = 0; i < diceCount; i += 1) {
         diceIcons.push(
           <SWDIcon
-            key={ `die__${teamKey}__${cardId}__${i}` }
-            style={ diceStyles }
-            type={ 'DIE' }
+            key={`die__${teamKey}__${cardId}__${i}`}
+            style={diceStyles}
+            type={'DIE'}
           />,
         );
       }
 
       return (
         <View
-          key={ `name__${teamKey}__${cardId}` }
-          style={ styles.characterWrapper }
+          key={`name__${teamKey}__${cardId}`}
+          style={styles.characterWrapper}
         >
-          <Text style={ characterNameStyles }>
-            { card.name }
-          </Text>
-          <View style={ styles.diceWrapper }>
-            { diceIcons }
-          </View>
-          <Text style={ characterCountStyles }>
-            { count > 1 ? ` x${count}` : '' }
+          <Text style={characterNameStyles}>{card.name}</Text>
+          <View style={styles.diceWrapper}>{diceIcons}</View>
+          <Text style={characterCountStyles}>
+            {count > 1 ? ` x${count}` : ''}
           </Text>
         </View>
       );
@@ -325,14 +328,8 @@ class TeamDetailScreen extends React.Component {
     const imageViews = charactersKey.split('__').map((characterKey) => {
       const [cardId] = characterKey.split('_');
       return (
-        <View
-          key={ `image__${teamKey}__${cardId}` }
-          style={ styles.imageWrapper }
-        >
-          <Image
-            source={ cardImages[cardId] || cardBack }
-            style={ styles.image }
-          />
+        <View key={`image__${teamKey}__${cardId}`} style={styles.imageWrapper}>
+          <Image source={cardImages[cardId] || cardBack} style={styles.image} />
         </View>
       );
     });
@@ -346,52 +343,52 @@ class TeamDetailScreen extends React.Component {
     }
 
     return (
-      <View style={ styles.container }>
-        <ScrollView style={ styles.teamWrapper }>
-          <View style={ styles.characterAvatars }>
-            { characterAvatars }
+      <View style={styles.container}>
+        <ScrollView style={styles.teamWrapper}>
+          <View style={styles.characterAvatars}>{characterAvatars}</View>
+          <View style={styles.teamCharactersWrapper}>{characterNames}</View>
+          <View style={styles.teamStatWrapper}>
+            <Text style={styles.teamStat}>{team.diceCount} Dice</Text>
+            <Text style={styles.teamStat}>&middot;</Text>
+            <Text style={styles.teamStat}>{team.health} Health</Text>
+            <Text style={styles.teamStat}>&middot;</Text>
+            <Text style={styles.teamStat}>{team.points} Points</Text>
+            <Text style={styles.teamStat}>&middot;</Text>
+            <Text style={styles.teamStat}>{teamAffiliationLabel}</Text>
           </View>
-          <View style={ styles.teamCharactersWrapper }>
-            { characterNames }
-          </View>
-          <View style={ styles.teamStatWrapper }>
-            <Text style={ styles.teamStat }>{ team.diceCount } Dice</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.health } Health</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ team.points } Points</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamAffiliationLabel }</Text>
-          </View>
-          { plotStatusText ? (
-            <View style={ styles.plotStatus }>
-              <Text style={ styles.plotStatusText }>
-                { plotStatusText }
-              </Text>
+          {plotStatusText ? (
+            <View style={styles.plotStatus}>
+              <Text style={styles.plotStatusText}>{plotStatusText}</Text>
             </View>
-          ) : null }
-          <View style={ styles.teamSearch }>
+          ) : null}
+          <View style={styles.teamSearch}>
             <TouchableOpacity
-              onPress={ this.searchSWDestinyDB }
-              style={ styles.teamSearchButton }
+              onPress={this.searchSWDestinyDB}
+              style={styles.teamSearchButton}
             >
-              <Text style={ styles.teamSearchButtonText }>
+              <Text style={styles.teamSearchButtonText}>
                 Search for Decks on SWDestinyDB
               </Text>
-              <Icon name={ 'chevron-right' } size={ 20 } style={ styles.teamSearchButtonArrow } />
+              <Icon
+                name={'chevron-right'}
+                size={20}
+                style={styles.teamSearchButtonArrow}
+              />
             </TouchableOpacity>
           </View>
-          <View style={ styles.swiperWrapper }>
+          <View style={styles.swiperWrapper}>
             <Swiper
-              activeDotColor={ colors.purple }
-              bounces={ true }
-              dotColor={ colors.gray }
-              height={ 300 }
-              loop={ false }
-              ref={ (component) => { this.swiper = component; } }
-              removeClippedSubviews={ true }
+              activeDotColor={colors.purple}
+              bounces={true}
+              dotColor={colors.gray}
+              height={300}
+              loop={false}
+              ref={(component) => {
+                this.swiper = component;
+              }}
+              removeClippedSubviews={true}
             >
-              { imageViews }
+              {imageViews}
             </Swiper>
           </View>
         </ScrollView>
@@ -406,7 +403,6 @@ TeamDetailScreen.propTypes = {
   data: PropTypes.object,
 };
 
-export default withData()(
-  TeamDetailScreen,
-  (dataSource, props) => dataSource.getTeam(props.navigation.getParam('key')),
+export default withData()(TeamDetailScreen, (dataSource, props) =>
+  dataSource.getTeam(props.navigation.getParam('key')),
 );

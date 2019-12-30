@@ -9,7 +9,6 @@ import BadgeTabIcon from '../components/BadgeTabIcon';
 
 import { colors } from '../styles';
 
-
 const routeConfiguration = {
   Characters: {
     screen: CharacterStackNavigator,
@@ -29,7 +28,6 @@ const tabNavigatorConfig = {
   initialRouteName: 'Characters',
   backBehavior: 'none',
   defaultNavigationOptions: ({ navigation }) => ({
-    // eslint-disable-next-line react/prop-types, react/display-name
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;
       let iconName;
@@ -45,21 +43,23 @@ const tabNavigatorConfig = {
 
       return (
         <BadgeTabIcon
-          iconName={ iconName }
-          size={ 24 }
-          color={ tintColor }
-          selected={ focused }
-          showBadge={ showBadge }
-          horizontal={ horizontal }
+          iconName={iconName}
+          size={24}
+          color={tintColor}
+          selected={focused}
+          showBadge={showBadge}
+          horizontal={horizontal}
         />
       );
     },
     tabBarOnPress: ({ navigation: tabNavigation, defaultHandler }) => {
       if (tabNavigation.isFocused() && tabNavigation.state.index === 0) {
         const stackNavigation = _get(tabNavigation, 'state.routes[0]');
-        if (stackNavigation &&
-            stackNavigation.params &&
-            stackNavigation.params.resetScreen) {
+        if (
+          stackNavigation &&
+          stackNavigation.params &&
+          stackNavigation.params.resetScreen
+        ) {
           stackNavigation.params.resetScreen();
         }
       } else {

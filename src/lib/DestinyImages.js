@@ -1,4 +1,3 @@
-/* eslint-disable global-require,quote-props */
 const cardBack = require('../../images/back.png');
 const cardBackTexture = require('../../images/back-texture.jpg');
 
@@ -230,8 +229,4 @@ const cardImages = {
   '11097': require('../../images/characters/11097.jpg'),
 };
 
-export {
-  cardBack,
-  cardBackTexture,
-  cardImages,
-};
+export { cardBack, cardBackTexture, cardImages };

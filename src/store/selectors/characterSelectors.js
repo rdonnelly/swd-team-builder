@@ -26,7 +26,9 @@ export const getCharactersSortedAndQueried = createSelector(
     }
 
     const searchRegExp = new RegExp(query, 'i');
-    return characters.filter((character) => character.name.search(searchRegExp) !== -1);
+    return characters.filter(
+      (character) => character.name.search(searchRegExp) !== -1,
+    );
   },
 );
 

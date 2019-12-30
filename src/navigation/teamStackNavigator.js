@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -10,7 +7,6 @@ import TeamListScreen from '../screens/Teams/TeamListScreen';
 import TeamDetailScreen from '../screens/Teams/TeamDetailScreen';
 
 import { base, colors } from '../styles';
-
 
 const styles = StyleSheet.create({
   headerIconContainer: {
@@ -20,7 +16,6 @@ const styles = StyleSheet.create({
     ...base.headerIcon,
   },
 });
-
 
 const routeConfiguration = {
   TeamListScreen: {
@@ -32,13 +27,15 @@ const routeConfiguration = {
         headerTitle: 'Teams',
         headerRight: (
           <TouchableOpacity
-            onPress={ () => { state.params.showSortActionSheet(); } }
-            style={ styles.headerIconContainer }
+            onPress={() => {
+              state.params.showSortActionSheet();
+            }}
+            style={styles.headerIconContainer}
           >
             <FontAwesome5Icon
-              name={ 'sort-amount-down' }
-              size={ 18 }
-              style={ styles.headerIcon }
+              name={'sort-amount-down'}
+              size={18}
+              style={styles.headerIcon}
             />
           </TouchableOpacity>
         ),

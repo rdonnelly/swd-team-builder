@@ -18,9 +18,7 @@ const styles = StyleSheet.create({
 
 class SWDIcon extends PureComponent {
   render() {
-    const {
-      type, style, addSpace,
-    } = this.props;
+    const { type, style, addSpace } = this.props;
 
     const fontStyle = {};
 
@@ -43,8 +41,8 @@ class SWDIcon extends PureComponent {
 
     return (
       <Text style={[style, styles.text, fontStyle]}>
-        { codeString }
-        { addSpace ? ' ' : '' }
+        {codeString}
+        {addSpace ? ' ' : ''}
       </Text>
     );
   }

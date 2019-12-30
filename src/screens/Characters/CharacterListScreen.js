@@ -13,7 +13,9 @@ import {
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
 
-import CharacterListItem, { ITEM_HEIGHT as characterListItemHeight } from '../../components/CharacterListItem';
+import CharacterListItem, {
+  ITEM_HEIGHT as characterListItemHeight,
+} from '../../components/CharacterListItem';
 import SelectedCharacters from '../../components/SelectedCharacters';
 
 import { updateCharacterQuery } from '../../store/actions';
@@ -26,7 +28,6 @@ import {
 } from '../../store/selectors/characterSelectors';
 
 import { base, colors } from '../../styles';
-
 
 const screen = Dimensions.get('screen');
 
@@ -106,7 +107,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 class CharacterListScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { state } = navigation;
@@ -114,13 +114,15 @@ class CharacterListScreen extends Component {
       headerTitle: 'Characters',
       headerRight: (
         <TouchableOpacity
-          onPress={ () => { state.params.showSearchInput(); } }
-          style={ styles.headerIconContainer }
+          onPress={() => {
+            state.params.showSearchInput();
+          }}
+          style={styles.headerIconContainer}
         >
           <FontAwesome5Icon
-            name={ 'search' }
-            size={ 18 }
-            style={ styles.headerIcon }
+            name={'search'}
+            size={18}
+            style={styles.headerIcon}
           />
         </TouchableOpacity>
       ),
@@ -148,8 +150,10 @@ class CharacterListScreen extends Component {
       return true;
     }
 
-    if (this.state.currentlyOpenSwipeable !== nextState.currentlyOpenSwipeable ||
-        this.state.searchInputEditable !== nextState.searchInputEditable) {
+    if (
+      this.state.currentlyOpenSwipeable !== nextState.currentlyOpenSwipeable ||
+      this.state.searchInputEditable !== nextState.searchInputEditable
+    ) {
       return true;
     }
 
@@ -166,21 +170,21 @@ class CharacterListScreen extends Component {
 
   showSearchInput = () => {
     this.floatingActionScrollView.scrollToEnd({ animated: true });
-  }
+  };
 
   handleFloatingControlsScrollBeginDrag = () => {
     this.searchInput.blur();
     this.setState({
       searchInputEditable: false,
     });
-  }
+  };
 
   handleFloatingControlsScrollEndDrag = () => {
     this.searchInput.blur();
     this.setState({
       searchInputEditable: true,
     });
-  }
+  };
 
   // handleFloatingControlsMomentumScrollEnd = ({ nativeEvent }) => {
   //   const rightSideScrollPosition =
@@ -196,14 +200,14 @@ class CharacterListScreen extends Component {
     if (query) {
       this.props.updateCharacterQuery(query);
     }
-  }
+  };
 
   handleSearchInputChange = ({ nativeEvent }) => {
     const query = nativeEvent.text;
     if (!query) {
       this.props.updateCharacterQuery('');
     }
-  }
+  };
 
   closeOpenSwipeable = () => {
     const { currentlyOpenSwipeable } = this.state;
@@ -211,7 +215,7 @@ class CharacterListScreen extends Component {
     if (currentlyOpenSwipeable) {
       currentlyOpenSwipeable.recenter();
     }
-  }
+  };
 
   handleSwipeableOpen = (event, gestureState, swipeable) => {
     const { currentlyOpenSwipeable } = this.state;
@@ -220,26 +224,26 @@ class CharacterListScreen extends Component {
     }
 
     this.setState({ currentlyOpenSwipeable: swipeable });
-  }
+  };
 
   handleSwipeableClose = () => {
     this.setState({ currentlyOpenSwipeable: null });
-  }
+  };
 
   resetScreen = () => {
     if (this.listView) {
       this.listView.scrollToOffset(0);
       this.floatingActionScrollView.scrollTo({ x: 0, y: 0, animated: true });
     }
-  }
+  };
 
   renderItem = ({ item: characterObject }) => (
     <CharacterListItem
-      characterId={ characterObject.id }
-      characterIsExcluded={ characterObject.isExcluded }
-      characterIsIncompatible={ characterObject.isIncompatible }
-      onOpen={ this.handleSwipeableOpen }
-      onClose={ this.handleSwipeableClose }
+      characterId={characterObject.id}
+      characterIsExcluded={characterObject.isExcluded}
+      characterIsIncompatible={characterObject.isIncompatible}
+      onOpen={this.handleSwipeableOpen}
+      onClose={this.handleSwipeableClose}
     />
   );
 
@@ -251,14 +255,14 @@ class CharacterListScreen extends Component {
       characterCountQueried,
     } = this.props;
 
-    const hiddenByCompatibilityCount = characterCountTotal - characterCountCompatible;
+    const hiddenByCompatibilityCount =
+      characterCountTotal - characterCountCompatible;
 
-    if (characterCountQueried > 0 &&
-        hiddenByCompatibilityCount > 0) {
+    if (characterCountQueried > 0 && hiddenByCompatibilityCount > 0) {
       return (
-        <View style={ styles.listFooter }>
-          <Text style={ styles.listFooterText }>
-            Hiding { hiddenByCompatibilityCount } Incompatible Characters
+        <View style={styles.listFooter}>
+          <Text style={styles.listFooterText}>
+            Hiding {hiddenByCompatibilityCount} Incompatible Characters
           </Text>
         </View>
       );
@@ -274,20 +278,19 @@ class CharacterListScreen extends Component {
           message = 'Hmm...try a different search term.';
           break;
         default:
-          message = 'Hmm...try a different search term or removing characters from your team.';
+          message =
+            'Hmm...try a different search term or removing characters from your team.';
       }
 
       return (
-        <View style={ styles.listFooter }>
-          <Text style={ styles.listFooterText }>
-            { message }
-          </Text>
+        <View style={styles.listFooter}>
+          <Text style={styles.listFooterText}>{message}</Text>
         </View>
       );
     }
 
     return null;
-  }
+  };
 
   render() {
     const {
@@ -295,7 +298,8 @@ class CharacterListScreen extends Component {
       characterCountTotal,
       characterCountQueried,
     } = this.props;
-    const characterCountQueriedDiff = characterCountTotal - characterCountQueried;
+    const characterCountQueriedDiff =
+      characterCountTotal - characterCountQueried;
 
     const listContentStyles = [styles.listContent];
     if (characterQuery && characterCountQueriedDiff) {
@@ -303,56 +307,63 @@ class CharacterListScreen extends Component {
     }
 
     return (
-      <View style={ styles.container }>
-        { characterQuery && characterCountQueriedDiff ? (
-          <View style={ styles.filterCount }>
-            <Text style={ styles.filterCountText }>
-              Showing { characterCountQueried } Search Result{ characterCountQueried === 1 ? '' : 's' }
+      <View style={styles.container}>
+        {characterQuery && characterCountQueriedDiff ? (
+          <View style={styles.filterCount}>
+            <Text style={styles.filterCountText}>
+              Showing {characterCountQueried} Search Result
+              {characterCountQueried === 1 ? '' : 's'}
             </Text>
           </View>
-        ) : null }
+        ) : null}
         <FlatList
-          ref={ (component) => { this.listView = component; } }
-          style={ styles.list }
-          data={ this.props.characters }
-          extraData={ this.state }
-          renderItem={ this.renderItem }
-          keyExtractor={ (item) => item.id }
-          getItemLayout={ CharacterListScreen.getItemLayout }
-          onScrollEndDrag={ this.closeOpenSwipeable }
-          contentContainerStyle={ listContentStyles }
-          ListFooterComponent={ this.renderFooter }
-          updateCellsBatchingPeriod={ 100 }
-          windowSize={ 42 }
+          ref={(component) => {
+            this.listView = component;
+          }}
+          style={styles.list}
+          data={this.props.characters}
+          extraData={this.state}
+          renderItem={this.renderItem}
+          keyExtractor={(item) => item.id}
+          getItemLayout={CharacterListScreen.getItemLayout}
+          onScrollEndDrag={this.closeOpenSwipeable}
+          contentContainerStyle={listContentStyles}
+          ListFooterComponent={this.renderFooter}
+          updateCellsBatchingPeriod={100}
+          windowSize={42}
         />
         <ScrollView
-          horizontal={ true }
-          onScrollBeginDrag={ this.handleFloatingControlsScrollBeginDrag }
-          onScrollEndDrag={ this.handleFloatingControlsScrollEndDrag }
+          horizontal={true}
+          onScrollBeginDrag={this.handleFloatingControlsScrollBeginDrag}
+          onScrollEndDrag={this.handleFloatingControlsScrollEndDrag}
           // onMomentumScrollEnd={ this.handleFloatingControlsMomentumScrollEnd }
-          pagingEnabled={ true }
-          ref={ (component) => { this.floatingActionScrollView = component; } }
-          removeClippedSubviews={ true }
-          showsHorizontalScrollIndicator={ false }
-          style={ styles.floatingControls }
+          pagingEnabled={true}
+          ref={(component) => {
+            this.floatingActionScrollView = component;
+          }}
+          removeClippedSubviews={true}
+          showsHorizontalScrollIndicator={false}
+          style={styles.floatingControls}
         >
-          <View style={ styles.selectedCharactersContainer }>
-            <SelectedCharacters></SelectedCharacters>
+          <View style={styles.selectedCharactersContainer}>
+            <SelectedCharacters />
           </View>
-          <View style={ styles.searchContainer }>
-            <View style={ styles.floatingControlsDivider }></View>
+          <View style={styles.searchContainer}>
+            <View style={styles.floatingControlsDivider} />
             <TextInput
-              autoCapitalize={ 'none' }
-              autoCorrect={ false }
-              clearButtonMode={ 'always' }
-              editable={ this.state.searchInputEditable }
-              placeholder={ 'Search by Name' }
-              placeholderColor={ colors.lightGrayDark }
-              ref={ (component) => { this.searchInput = component; } }
-              style={ styles.searchInput }
-              returnKeyType={ 'search' }
-              onChange={ this.handleSearchInputChange }
-              onSubmitEditing={ this.handleSearchInputSubmitEditing }
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              clearButtonMode={'always'}
+              editable={this.state.searchInputEditable}
+              placeholder={'Search by Name'}
+              placeholderColor={colors.lightGrayDark}
+              ref={(component) => {
+                this.searchInput = component;
+              }}
+              style={styles.searchInput}
+              returnKeyType={'search'}
+              onChange={this.handleSearchInputChange}
+              onSubmitEditing={this.handleSearchInputSubmitEditing}
             />
           </View>
         </ScrollView>
@@ -385,4 +396,7 @@ const mapDispatchToProps = {
   updateCharacterQuery,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CharacterListScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CharacterListScreen);

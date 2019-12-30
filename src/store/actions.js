@@ -67,7 +67,6 @@ const resetSettingsFilters = () => ({
   type: 'RESET_FILTERS',
 });
 
-
 // CHARACTER ACTIONS
 
 const updateCharacters = (
@@ -126,7 +125,6 @@ const updateCharacterQuery = (query) => ({
   },
 });
 
-
 // TEAMS ACTIONS
 
 const setSetting = (key, value) => ({
@@ -144,42 +142,46 @@ const setSort = (sortPriority) => ({
   },
 });
 
-
 // HELPERS
 
-const resetCharactersHelper = (dispatch, getState) => dispatch(
-  resetCharacters(
-    getState().teams.settings.filters.affiliations,
-    getState().teams.settings.filters.factions,
-    getState().teams.settings.filters.formats,
-    getState().teams.settings.filters.damageTypes,
-    getState().teams.settings.filters.sets,
-    getState().deck.affiliation,
-    getState().deck.characters,
-  ),
-);
+const resetCharactersHelper = (dispatch, getState) =>
+  dispatch(
+    resetCharacters(
+      getState().teams.settings.filters.affiliations,
+      getState().teams.settings.filters.factions,
+      getState().teams.settings.filters.formats,
+      getState().teams.settings.filters.damageTypes,
+      getState().teams.settings.filters.sets,
+      getState().deck.affiliation,
+      getState().deck.characters,
+    ),
+  );
 
-const updateCharactersHelper = (dispatch, getState) => dispatch(
-  updateCharacters(
-    getState().teams.settings.filters.affiliations,
-    getState().teams.settings.filters.factions,
-    getState().teams.settings.filters.formats,
-    getState().teams.settings.filters.damageTypes,
-    getState().teams.settings.filters.sets,
-    getState().deck.affiliation,
-    getState().deck.characters,
-  ),
-);
-
+const updateCharactersHelper = (dispatch, getState) =>
+  dispatch(
+    updateCharacters(
+      getState().teams.settings.filters.affiliations,
+      getState().teams.settings.filters.factions,
+      getState().teams.settings.filters.formats,
+      getState().teams.settings.filters.damageTypes,
+      getState().teams.settings.filters.sets,
+      getState().deck.affiliation,
+      getState().deck.characters,
+    ),
+  );
 
 // ACTIONS
 
 const addCharacter = (characterObject) => (dispatch, getState) => {
-  if (characterObject.isUnique && getState().deck.characters.some(
-    (deckCharacterObject) => deckCharacterObject.id === characterObject.id,
-  )) {
-    return Promise.resolve()
-      .then(dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }));
+  if (
+    characterObject.isUnique &&
+    getState().deck.characters.some(
+      (deckCharacterObject) => deckCharacterObject.id === characterObject.id,
+    )
+  ) {
+    return Promise.resolve().then(
+      dispatch({ type: 'ERROR/UNIQUE_CHARACTERS' }),
+    );
   }
 
   return Promise.resolve()
@@ -187,24 +189,28 @@ const addCharacter = (characterObject) => (dispatch, getState) => {
     .then(updateCharactersHelper(dispatch, getState));
 };
 
-const setCharacterAny = (characterObject) => (dispatch, getState) => Promise.resolve()
-  .then(dispatch(setCharacterAnyInDeck(characterObject)))
-  .then(updateCharactersHelper(dispatch, getState));
+const setCharacterAny = (characterObject) => (dispatch, getState) =>
+  Promise.resolve()
+    .then(dispatch(setCharacterAnyInDeck(characterObject)))
+    .then(updateCharactersHelper(dispatch, getState));
 
-const setCharacterRegular = (characterObject) => (dispatch, getState) => Promise.resolve()
-  .then(dispatch(setCharacterRegularInDeck(characterObject)))
-  .then(updateCharactersHelper(dispatch, getState));
+const setCharacterRegular = (characterObject) => (dispatch, getState) =>
+  Promise.resolve()
+    .then(dispatch(setCharacterRegularInDeck(characterObject)))
+    .then(updateCharactersHelper(dispatch, getState));
 
-const setCharacterElite = (characterObject) => (dispatch, getState) => Promise.resolve()
-  .then(dispatch(setCharacterEliteInDeck(characterObject)))
-  .then(updateCharactersHelper(dispatch, getState));
+const setCharacterElite = (characterObject) => (dispatch, getState) =>
+  Promise.resolve()
+    .then(dispatch(setCharacterEliteInDeck(characterObject)))
+    .then(updateCharactersHelper(dispatch, getState));
 
 const removeCharacter = (characterObject) => (dispatch, getState) => {
-  if (!getState().deck.characters.some(
-    (deckCharacterObject) => deckCharacterObject.id === characterObject.id,
-  )) {
-    return Promise.resolve()
-      .then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
+  if (
+    !getState().deck.characters.some(
+      (deckCharacterObject) => deckCharacterObject.id === characterObject.id,
+    )
+  ) {
+    return Promise.resolve().then(dispatch({ type: 'ERROR/NO_CHARACTER' }));
   }
 
   return Promise.resolve()
@@ -212,28 +218,37 @@ const removeCharacter = (characterObject) => (dispatch, getState) => {
     .then(updateCharactersHelper(dispatch, getState));
 };
 
-const includeCharacter = (characterId) => (dispatch, getState) => Promise.resolve()
-  .then(dispatch(includeCharacterInDeck(characterId)))
-  .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
+const includeCharacter = (characterId) => (dispatch, getState) =>
+  Promise.resolve()
+    .then(dispatch(includeCharacterInDeck(characterId)))
+    .then(
+      dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)),
+    );
 
-const excludeCharacter = (characterId) => (dispatch, getState) => Promise.resolve()
-  .then(dispatch(excludeCharacterInDeck(characterId)))
-  .then(dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)));
+const excludeCharacter = (characterId) => (dispatch, getState) =>
+  Promise.resolve()
+    .then(dispatch(excludeCharacterInDeck(characterId)))
+    .then(
+      dispatch(updateCharacterInclusion(getState().deck.excludedCharacterIds)),
+    );
 
-const reset = () => (dispatch, getState) => Promise.resolve()
-  .then(dispatch(resetDeck()))
-  .then(dispatch(resetCharactersHelper(dispatch, getState)));
+const reset = () => (dispatch, getState) =>
+  Promise.resolve()
+    .then(dispatch(resetDeck()))
+    .then(dispatch(resetCharactersHelper(dispatch, getState)));
 
-const resetFilters = () => (dispatch, getState) => Promise.resolve()
-  .then(dispatch(resetSettingsFilters()))
-  .then(dispatch(resetCharactersHelper(dispatch, getState)));
+const resetFilters = () => (dispatch, getState) =>
+  Promise.resolve()
+    .then(dispatch(resetSettingsFilters()))
+    .then(dispatch(resetCharactersHelper(dispatch, getState)));
 
-const updateSetting = (key, value) => (dispatch, getState) => Promise.resolve()
-  .then(dispatch(setSetting(key, value)))
-  .then(updateCharactersHelper(dispatch, getState));
+const updateSetting = (key, value) => (dispatch, getState) =>
+  Promise.resolve()
+    .then(dispatch(setSetting(key, value)))
+    .then(updateCharactersHelper(dispatch, getState));
 
-const updateSort = (value) => (dispatch) => Promise.resolve()
-  .then(dispatch(setSort(value)));
+const updateSort = (value) => (dispatch) =>
+  Promise.resolve().then(dispatch(setSort(value)));
 
 export {
   addCharacter,
@@ -245,7 +260,6 @@ export {
   excludeCharacter,
   reset,
   updateCharacterQuery,
-
   updateSetting,
   updateSort,
   resetFilters,

@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { connect } from 'react-redux';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Swipeable from 'react-native-swipeable';
@@ -17,10 +12,7 @@ import SWDIcon from './SWDIcon';
 
 import { base as baseStyles, colors } from '../styles';
 
-import {
-  includeCharacter,
-  excludeCharacter,
-} from '../store/actions';
+import { includeCharacter, excludeCharacter } from '../store/actions';
 import { characters } from '../lib/Destiny';
 
 export const ITEM_HEIGHT = 72;
@@ -115,9 +107,11 @@ const styles = StyleSheet.create({
 
 class CharacterListItem extends Component {
   shouldComponentUpdate(nextProps) {
-    if (this.props.characterId === nextProps.characterId &&
-        this.props.characterIsExcluded === nextProps.characterIsExcluded &&
-        this.props.characterIsIncompatible === nextProps.characterIsIncompatible) {
+    if (
+      this.props.characterId === nextProps.characterId &&
+      this.props.characterIsExcluded === nextProps.characterIsExcluded &&
+      this.props.characterIsIncompatible === nextProps.characterIsIncompatible
+    ) {
       return false;
     }
 
@@ -125,8 +119,10 @@ class CharacterListItem extends Component {
   }
 
   navigateToCharacterDetails = (characterId) => () => {
-    this.props.navigation.navigate('CharacterDetailScreen', { id: characterId });
-  }
+    this.props.navigation.navigate('CharacterDetailScreen', {
+      id: characterId,
+    });
+  };
 
   render() {
     const {
@@ -162,11 +158,11 @@ class CharacterListItem extends Component {
     }
 
     const setIcon = validateSetCode(card.set) ? (
-      <SWDIcon type={ card.set } style={ cardInfoLogoStyle } />
+      <SWDIcon type={card.set} style={cardInfoLogoStyle} />
     ) : null;
 
     const subtitle = card.subtitle ? (
-      <Text style={ cardInfoDataStyle }>{ card.subtitle }</Text>
+      <Text style={cardInfoDataStyle}>{card.subtitle}</Text>
     ) : null;
 
     const pointsArray = [card.pointsRegular];
@@ -174,105 +170,107 @@ class CharacterListItem extends Component {
       pointsArray.push(card.pointsElite);
     }
     const points = pointsArray ? (
-      <Text style={ cardInfoDataStyle }>{ pointsArray.join('/') }</Text>
+      <Text style={cardInfoDataStyle}>{pointsArray.join('/')}</Text>
     ) : null;
 
     const cardInfo = (
-      <View style={ styles.cardInfo }>
-        { setIcon &&
-          <View style={ styles.cardInfo }>
-            { setIcon }
-            <Text style={ cardInfoDataStyle }>&nbsp;</Text>
+      <View style={styles.cardInfo}>
+        {setIcon && (
+          <View style={styles.cardInfo}>
+            {setIcon}
+            <Text style={cardInfoDataStyle}>&nbsp;</Text>
           </View>
-        }
-        { subtitle &&
-          <View style={ styles.cardInfo }>
-            { subtitle }
+        )}
+        {subtitle && <View style={styles.cardInfo}>{subtitle}</View>}
+        {points && (
+          <View style={styles.cardInfo}>
+            <Text style={cardInfoDataStyle}>&nbsp;&middot;&nbsp;</Text>
+            {points}
           </View>
-        }
-        { points &&
-          <View style={ styles.cardInfo }>
-            <Text style={ cardInfoDataStyle }>&nbsp;&middot;&nbsp;</Text>
-            { points }
-          </View>
-        }
+        )}
       </View>
     );
 
     const uniqueIcon = card.isUnique ? (
-      <SWDIcon type={ 'UNIQUE' } style={ cardUniqueStyle } />
+      <SWDIcon type={'UNIQUE'} style={cardUniqueStyle} />
     ) : null;
 
     const avatar = (
-      <View style={ cardAvatarStyles }>
+      <View style={cardAvatarStyles}>
         <CharacterAvatar
-          cardId={ characterId }
-          round={ true }
-          size={ StyleSheet.flatten(styles.cardAvatarWrapper).width }
+          cardId={characterId}
+          round={true}
+          size={StyleSheet.flatten(styles.cardAvatarWrapper).width}
         />
       </View>
     );
 
-    const rightButtons = characterIsExcluded ? [
-      <TouchableHighlight
-        key={ 'right-button-include' }
-        activeOpacity={ 0.9 }
-        style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
-        underlayColor={ colors.orangeDark }
-        onPress={ () => {
-          this.swipeable.recenter();
-          setTimeout(() => {
-            this.props.includeCharacter(characterId);
-          }, 250);
-        } }
-      >
-        <Text style={ styles.rightSwipeItemText }>Include</Text>
-      </TouchableHighlight>,
-    ] : [
-      <TouchableHighlight
-        key={ 'right-button-exclude' }
-        activeOpacity={ 0.9 }
-        style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
-        underlayColor={ colors.orangeDark }
-        onPress={ () => {
-          this.swipeable.recenter();
-          setTimeout(() => {
-            this.props.excludeCharacter(characterId);
-          }, 250);
-        } }
-      >
-        <Text style={ styles.rightSwipeItemText }>Exclude</Text>
-      </TouchableHighlight>,
-    ];
+    const rightButtons = characterIsExcluded
+      ? [
+          <TouchableHighlight
+            key={'right-button-include'}
+            activeOpacity={0.9}
+            style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
+            underlayColor={colors.orangeDark}
+            onPress={() => {
+              this.swipeable.recenter();
+              setTimeout(() => {
+                this.props.includeCharacter(characterId);
+              }, 250);
+            }}
+          >
+            <Text style={styles.rightSwipeItemText}>Include</Text>
+          </TouchableHighlight>,
+        ]
+      : [
+          <TouchableHighlight
+            key={'right-button-exclude'}
+            activeOpacity={0.9}
+            style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
+            underlayColor={colors.orangeDark}
+            onPress={() => {
+              this.swipeable.recenter();
+              setTimeout(() => {
+                this.props.excludeCharacter(characterId);
+              }, 250);
+            }}
+          >
+            <Text style={styles.rightSwipeItemText}>Exclude</Text>
+          </TouchableHighlight>,
+        ];
 
     return (
       <Swipeable
-        rightButtons={ rightButtons }
-        onRef={ (component) => { this.swipeable = component; } }
-        onRightButtonsOpenRelease={ onOpen }
-        onRightButtonsCloseRelease={ onClose }
+        rightButtons={rightButtons}
+        onRef={(component) => {
+          this.swipeable = component;
+        }}
+        onRightButtonsOpenRelease={onOpen}
+        onRightButtonsCloseRelease={onClose}
       >
         <TouchableHighlight
-          activeOpacity={ 0.4 }
-          underlayColor={ colors.lightGray }
-          onPress={ this.navigateToCharacterDetails(characterId) }
+          activeOpacity={0.4}
+          underlayColor={colors.lightGray}
+          onPress={this.navigateToCharacterDetails(characterId)}
         >
-          <View style={ rowStyles }>
-            <View>
-              { avatar }
-            </View>
-            <View style={ styles.content }>
-              <View style={ styles.cardNameWrapper }>
-                <Text numberOfLines={ 1 }>
-                  <Text style={ cardNameStyle }>{ card.name }</Text>
-                  <Text style={ cardNameStyle }>&nbsp;</Text>
-                  <Text style={ cardNameStyle }>{ uniqueIcon }</Text>
+          <View style={rowStyles}>
+            <View>{avatar}</View>
+            <View style={styles.content}>
+              <View style={styles.cardNameWrapper}>
+                <Text numberOfLines={1}>
+                  <Text style={cardNameStyle}>{card.name}</Text>
+                  <Text style={cardNameStyle}>&nbsp;</Text>
+                  <Text style={cardNameStyle}>{uniqueIcon}</Text>
                 </Text>
               </View>
-              { cardInfo }
+              {cardInfo}
             </View>
             <View>
-              <FontAwesome5Icon name={ 'chevron-right' } size={ 16 } style={ arrowStyle } />
+              <FontAwesome5Icon
+                name={'chevron-right'}
+                size={16}
+                style={arrowStyle}
+              />
             </View>
           </View>
         </TouchableHighlight>
@@ -299,7 +297,9 @@ const mapDispatchToProps = {
   excludeCharacter,
 };
 
-export default withNavigation(connect(
-  null,
-  mapDispatchToProps,
-)(CharacterListItem));
+export default withNavigation(
+  connect(
+    null,
+    mapDispatchToProps,
+  )(CharacterListItem),
+);

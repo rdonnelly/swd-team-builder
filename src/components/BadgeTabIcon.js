@@ -1,20 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import withData from './withData';
 
 import { colors } from '../styles';
 
-
 const styles = StyleSheet.create({
-  container: {
-  },
+  container: {},
   badgeContainer: {
     position: 'absolute',
     left: 24,
@@ -34,7 +28,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 class BadgeTabIcon extends PureComponent {
   render() {
     const { data: count } = this.props;
@@ -50,10 +43,10 @@ class BadgeTabIcon extends PureComponent {
 
     const icon = (
       <Icon
-        name={ this.props.iconName }
-        size={ this.props.size }
-        color={ this.props.color }
-        style={ iconStyles }
+        name={this.props.iconName}
+        size={this.props.size}
+        color={this.props.color}
+        style={iconStyles}
       />
     );
 
@@ -66,19 +59,17 @@ class BadgeTabIcon extends PureComponent {
     ];
 
     const badge = this.props.showBadge ? (
-      <View style={ badgeContainerStyles }>
-        <View style={ styles.badge }>
-          <Text style={ styles.badgeText }>
-            { countLabel }
-          </Text>
+      <View style={badgeContainerStyles}>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{countLabel}</Text>
         </View>
       </View>
     ) : null;
 
     return (
-      <View style={ styles.container }>
-        { icon }
-        { badge }
+      <View style={styles.container}>
+        {icon}
+        {badge}
       </View>
     );
   }
@@ -93,7 +84,6 @@ BadgeTabIcon.propTypes = {
   horizontal: PropTypes.bool,
 };
 
-export default withData()(
-  BadgeTabIcon,
-  (dataSource) => dataSource.getTeamsCount(),
+export default withData()(BadgeTabIcon, (dataSource) =>
+  dataSource.getTeamsCount(),
 );

@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 import SettingCloudItem from './SettingCloudItem';
 
 import { colors } from '../styles';
-
 
 const INTERACTION_DELAY = 750;
 
@@ -71,12 +65,16 @@ class SettingCloud extends Component {
 
     this.timeoutId = null;
 
-    const initialValues = props.values !== null ?
-      props.values :
-      this.props.options.reduce((values, option) => ({
-        [option.code]: true,
-        ...values,
-      }), {});
+    const initialValues =
+      props.values !== null
+        ? props.values
+        : this.props.options.reduce(
+            (values, option) => ({
+              [option.code]: true,
+              ...values,
+            }),
+            {},
+          );
 
     this.state = {
       initialValues,
@@ -108,7 +106,7 @@ class SettingCloud extends Component {
     this.setState({
       values: { ...nextValues },
     });
-  }
+  };
 
   handlePressItem = (code) => {
     ReactNativeHapticFeedback.trigger('selection');
@@ -133,7 +131,7 @@ class SettingCloud extends Component {
         values: newValues,
       };
     });
-  }
+  };
 
   handleLongPressItem = (code) => {
     ReactNativeHapticFeedback.trigger('impactHeavy');
@@ -154,13 +152,13 @@ class SettingCloud extends Component {
         values: newValues,
       };
     });
-  }
+  };
 
   selectAll = () => {
     ReactNativeHapticFeedback.trigger('selection');
 
     this.reset();
-  }
+  };
 
   selectNone = () => {
     ReactNativeHapticFeedback.trigger('selection');
@@ -179,55 +177,48 @@ class SettingCloud extends Component {
         values: newValues,
       };
     });
-  }
+  };
 
   reset = () => {
     this.setState((state) => ({
       ...state,
       values: { ...this.state.initialValues },
     }));
-  }
+  };
 
   render() {
     const optionItems = this.props.options.map((option) => (
       <SettingCloudItem
-        key={ `settingclouditem__${this.props.setting}__${option.code}` }
-        code={ option.code }
-        value={ this.state.values[option.code] }
-        label={ option.name }
-        handlePress={ this.handlePressItem }
-        handleLongPress={ this.handleLongPressItem }
+        key={`settingclouditem__${this.props.setting}__${option.code}`}
+        code={option.code}
+        value={this.state.values[option.code]}
+        label={option.name}
+        handlePress={this.handlePressItem}
+        handleLongPress={this.handleLongPressItem}
       />
     ));
 
     return (
-      <View style={ styles.container }>
-        <View style={ styles.header }>
-          <View style={ styles.labelWrapper }>
-            <Text style={ styles.label }>
-              { this.props.label }
-            </Text>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.labelWrapper}>
+            <Text style={styles.label}>{this.props.label}</Text>
           </View>
-          { !this.props.radio &&
-            <View style={ styles.controlsWrapper }>
-              <TouchableOpacity
-                onPress={ this.selectAll }
-                style={ styles.control }
-              >
-                <Text style={ styles.controlText }>All</Text>
+          {!this.props.radio && (
+            <View style={styles.controlsWrapper}>
+              <TouchableOpacity onPress={this.selectAll} style={styles.control}>
+                <Text style={styles.controlText}>All</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={ this.selectNone }
-                style={ styles.control }
+                onPress={this.selectNone}
+                style={styles.control}
               >
-                <Text style={ styles.controlText }>None</Text>
+                <Text style={styles.controlText}>None</Text>
               </TouchableOpacity>
             </View>
-          }
+          )}
         </View>
-        <View style={ styles.optionsWrapper }>
-          { optionItems }
-        </View>
+        <View style={styles.optionsWrapper}>{optionItems}</View>
       </View>
     );
   }

@@ -1,14 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Switch,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Switch, Text, View } from 'react-native';
 
 import { colors } from '../styles';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -45,18 +39,16 @@ class SettingsSwitch extends PureComponent {
     }, 750);
 
     this.setState({ timeoutId, value });
-  }
+  };
 
   render() {
     return (
-      <View style={ styles.container }>
-        <Text style={ styles.label }>
-          { this.props.label }
-        </Text>
+      <View style={styles.container}>
+        <Text style={styles.label}>{this.props.label}</Text>
         <Switch
-          onTintColor={ colors.purple }
-          value={ !!this.state.value }
-          onValueChange={ this.handleValueChange }
+          onTintColor={colors.purple}
+          value={!!this.state.value}
+          onValueChange={this.handleValueChange}
         />
       </View>
     );

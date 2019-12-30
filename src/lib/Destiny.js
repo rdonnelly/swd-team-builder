@@ -36,12 +36,9 @@ const formats = [
 export {
   characters,
   charactersStats,
-
   plots,
   plotsStats,
-
   teamsStats,
-
   affiliations,
   damageTypes,
   factions,

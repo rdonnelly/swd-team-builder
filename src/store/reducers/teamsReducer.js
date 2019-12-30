@@ -1,12 +1,10 @@
 import {
   teamsStats,
-
   affiliations,
   damageTypes,
   factions,
   sets,
 } from '../../lib/Destiny';
-
 
 const initialState = {
   settings: {
@@ -31,27 +29,39 @@ const initialState = {
         yellow: false,
       },
 
-      affiliations: affiliations.reduce((affiliationMap, affiliation) => ({
-        ...affiliationMap,
-        [affiliation.code]: true,
-      }), {}),
-      damageTypes: damageTypes.reduce((damageTypeMap, damageType) => ({
-        ...damageTypeMap,
-        [damageType.code]: true,
-      }), {}),
-      factions: factions.reduce((factionMap, faction) => ({
-        ...factionMap,
-        [faction.code]: true,
-      }), {}),
+      affiliations: affiliations.reduce(
+        (affiliationMap, affiliation) => ({
+          ...affiliationMap,
+          [affiliation.code]: true,
+        }),
+        {},
+      ),
+      damageTypes: damageTypes.reduce(
+        (damageTypeMap, damageType) => ({
+          ...damageTypeMap,
+          [damageType.code]: true,
+        }),
+        {},
+      ),
+      factions: factions.reduce(
+        (factionMap, faction) => ({
+          ...factionMap,
+          [faction.code]: true,
+        }),
+        {},
+      ),
       formats: {
         // INF: true,
         STD: true,
         TRI: false,
       },
-      sets: sets.reduce((setMap, set) => ({
-        ...setMap,
-        [set.code]: true,
-      }), {}),
+      sets: sets.reduce(
+        (setMap, set) => ({
+          ...setMap,
+          [set.code]: true,
+        }),
+        {},
+      ),
     },
   },
 };

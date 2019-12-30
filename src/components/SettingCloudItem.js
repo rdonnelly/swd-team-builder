@@ -1,13 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 
 import { base as baseStyles, colors } from '../styles';
-
 
 const styles = StyleSheet.create({
   button: {
@@ -33,11 +28,11 @@ const styles = StyleSheet.create({
 class SettingCloudItem extends PureComponent {
   handlePress = () => {
     this.props.handlePress(this.props.code);
-  }
+  };
 
   handleLongPress = () => {
     this.props.handleLongPress(this.props.code);
-  }
+  };
 
   render() {
     const buttonStyles = [styles.button];
@@ -50,13 +45,11 @@ class SettingCloudItem extends PureComponent {
 
     return (
       <TouchableOpacity
-        onPress={ this.handlePress }
-        onLongPress={ this.handleLongPress }
-        style={ buttonStyles }
+        onPress={this.handlePress}
+        onLongPress={this.handleLongPress}
+        style={buttonStyles}
       >
-        <Text style={ textStyles }>
-          { this.props.label }
-        </Text>
+        <Text style={textStyles}>{this.props.label}</Text>
       </TouchableOpacity>
     );
   }

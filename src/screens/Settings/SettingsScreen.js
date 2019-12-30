@@ -24,7 +24,6 @@ import {
   charactersStats,
   plotsStats,
   teamsStats,
-
   affiliations,
   damageTypes,
   factions,
@@ -32,7 +31,6 @@ import {
 } from '../../lib/Destiny';
 
 import { base as baseStyles, colors } from '../../styles';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -124,7 +122,7 @@ class SettingsScreen extends Component {
     if (this.scrollView) {
       this.scrollView.scrollTo({ y: 0 });
     }
-  }
+  };
 
   removeAllFilters = () => {
     Alert.alert(
@@ -155,16 +153,16 @@ class SettingsScreen extends Component {
         },
       ],
     );
-  }
+  };
 
   renderReset() {
     return (
-      <View style={ styles.floatingControls }>
+      <View style={styles.floatingControls}>
         <TouchableOpacity
-          onPress={ this.removeAllFilters }
-          style={ styles.floatingControlsButton }
+          onPress={this.removeAllFilters}
+          style={styles.floatingControlsButton}
         >
-          <Text style={ styles.floatingControlsButtonText }>Reset Filters</Text>
+          <Text style={styles.floatingControlsButtonText}>Reset Filters</Text>
         </TouchableOpacity>
       </View>
     );
@@ -175,141 +173,174 @@ class SettingsScreen extends Component {
 
     const formatsCloud = (
       <SettingCloud
-        label={ 'Format' }
-        setting={ 'formats' }
-        options={ formats }
-        radio={ true }
-        values={ settings.filters.formats }
-        callback={ this.props.updateSetting }
-        ref={ (component) => { this.formatsCloud = component; } }
+        label={'Format'}
+        setting={'formats'}
+        options={formats}
+        radio={true}
+        values={settings.filters.formats}
+        callback={this.props.updateSetting}
+        ref={(component) => {
+          this.formatsCloud = component;
+        }}
       />
     );
 
     const affiliationsCloud = (
       <SettingCloud
-        label={ 'Affiliations' }
-        setting={ 'affiliations' }
-        options={ affiliations }
-        values={ settings.filters.affiliations }
-        callback={ this.props.updateSetting }
-        ref={ (component) => { this.affiliationsCloud = component; } }
+        label={'Affiliations'}
+        setting={'affiliations'}
+        options={affiliations}
+        values={settings.filters.affiliations}
+        callback={this.props.updateSetting}
+        ref={(component) => {
+          this.affiliationsCloud = component;
+        }}
       />
     );
 
     const factionsCloud = (
       <SettingCloud
-        label={ 'Factions' }
-        setting={ 'factions' }
-        options={ factions }
-        values={ settings.filters.factions }
-        callback={ this.props.updateSetting }
-        ref={ (component) => { this.factionsCloud = component; } }
+        label={'Factions'}
+        setting={'factions'}
+        options={factions}
+        values={settings.filters.factions}
+        callback={this.props.updateSetting}
+        ref={(component) => {
+          this.factionsCloud = component;
+        }}
       />
     );
 
     const damageTypesCloud = (
       <SettingCloud
-        label={ 'Damage Types' }
-        setting={ 'damageTypes' }
-        options={ damageTypes }
-        values={ settings.filters.damageTypes }
-        callback={ this.props.updateSetting }
-        ref={ (component) => { this.damageTypesCloud = component; } }
+        label={'Damage Types'}
+        setting={'damageTypes'}
+        options={damageTypes}
+        values={settings.filters.damageTypes}
+        callback={this.props.updateSetting}
+        ref={(component) => {
+          this.damageTypesCloud = component;
+        }}
       />
     );
 
     const plotFactionCloud = (
       <SettingCloud
-        label={ 'Plot Faction' }
-        setting={ 'plotFactions' }
-        options={ factions }
-        values={ settings.filters.plotFactions }
-        radio={ true }
-        callback={ this.props.updateSetting }
-        ref={ (component) => { this.plotFactionCloud = component; } }
+        label={'Plot Faction'}
+        setting={'plotFactions'}
+        options={factions}
+        values={settings.filters.plotFactions}
+        radio={true}
+        callback={this.props.updateSetting}
+        ref={(component) => {
+          this.plotFactionCloud = component;
+        }}
       />
     );
 
     return (
-      <View style={ styles.container }>
+      <View style={styles.container}>
         <ScrollView
-          ref={ (component) => { this.scrollView = component; } }
-          style={ styles.scrollView }
-          contentContainerStyle={ styles.scrollViewContent }
+          ref={(component) => {
+            this.scrollView = component;
+          }}
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollViewContent}
         >
-          { formatsCloud }
+          {formatsCloud}
 
           <SettingSlider
-            value={ settings.filters.minDice }
-            minValue={ teamsStats.minDice }
-            maxValue={ teamsStats.maxDice }
-            setting={ 'minDice' }
-            label={ 'Minimum Dice' }
-            callback={ this.props.updateSetting }
-            ref={ (component) => { this.minDiceSlider = component; } }
+            value={settings.filters.minDice}
+            minValue={teamsStats.minDice}
+            maxValue={teamsStats.maxDice}
+            setting={'minDice'}
+            label={'Minimum Dice'}
+            callback={this.props.updateSetting}
+            ref={(component) => {
+              this.minDiceSlider = component;
+            }}
           />
 
           <SettingSlider
-            value={ settings.filters.minHealth }
-            minValue={ teamsStats.minHealth }
-            maxValue={ teamsStats.maxHealth }
-            setting={ 'minHealth' }
-            label={ 'Minimum Health' }
-            callback={ this.props.updateSetting }
-            ref={ (component) => { this.minHealthSlider = component; } }
+            value={settings.filters.minHealth}
+            minValue={teamsStats.minHealth}
+            maxValue={teamsStats.maxHealth}
+            setting={'minHealth'}
+            label={'Minimum Health'}
+            callback={this.props.updateSetting}
+            ref={(component) => {
+              this.minHealthSlider = component;
+            }}
           />
 
           <SettingSlider
-            value={ settings.filters.minCharacterCount }
-            minValue={ teamsStats.minCharacterCount }
-            maxValue={ teamsStats.maxCharacterCount }
-            setting={ 'minCharacterCount' }
-            label={ 'Minimum Character Count' }
-            callback={ this.props.updateSetting }
-            ref={ (component) => { this.minCharacterCountSlider = component; } }
+            value={settings.filters.minCharacterCount}
+            minValue={teamsStats.minCharacterCount}
+            maxValue={teamsStats.maxCharacterCount}
+            setting={'minCharacterCount'}
+            label={'Minimum Character Count'}
+            callback={this.props.updateSetting}
+            ref={(component) => {
+              this.minCharacterCountSlider = component;
+            }}
           />
 
           <SettingSlider
-            value={ settings.filters.maxCharacterCount }
-            minValue={ teamsStats.minCharacterCount }
-            maxValue={ teamsStats.maxCharacterCount }
-            setting={ 'maxCharacterCount' }
-            label={ 'Maximum Character Count' }
-            reverse={ true }
-            callback={ this.props.updateSetting }
-            ref={ (component) => { this.maxCharacterCountSlider = component; } }
+            value={settings.filters.maxCharacterCount}
+            minValue={teamsStats.minCharacterCount}
+            maxValue={teamsStats.maxCharacterCount}
+            setting={'maxCharacterCount'}
+            label={'Maximum Character Count'}
+            reverse={true}
+            callback={this.props.updateSetting}
+            ref={(component) => {
+              this.maxCharacterCountSlider = component;
+            }}
           />
 
-          { affiliationsCloud }
+          {affiliationsCloud}
 
-          { factionsCloud }
+          {factionsCloud}
 
-          { damageTypesCloud }
-
+          {damageTypesCloud}
 
           <SettingSlider
-            value={ settings.filters.plotPoints }
-            minValue={ plotsStats.minPoints }
-            maxValue={ plotsStats.maxPoints }
-            setting={ 'plotPoints' }
-            label={ 'Plot Points' }
-            callback={ this.props.updateSetting }
-            ref={ (component) => { this.plotPointsSlider = component; } }
+            value={settings.filters.plotPoints}
+            minValue={plotsStats.minPoints}
+            maxValue={plotsStats.maxPoints}
+            setting={'plotPoints'}
+            label={'Plot Points'}
+            callback={this.props.updateSetting}
+            ref={(component) => {
+              this.plotPointsSlider = component;
+            }}
           />
 
-          { plotFactionCloud }
+          {plotFactionCloud}
 
-          <View style={ styles.information }>
-            <Text style={ styles.disclaimerText }>
+          <View style={styles.information}>
+            <Text style={styles.disclaimerText}>
               Generated
-              <Text style={ styles.disclaimerTextBold }> {teamsStats.count}</Text> Teams using
-              <Text style={ styles.disclaimerTextBold }> {charactersStats.count}</Text> Characters and
-              <Text style={ styles.disclaimerTextBold }> {plotsStats.count}</Text> Plots.
+              <Text style={styles.disclaimerTextBold}>
+                {' '}
+                {teamsStats.count}
+              </Text>{' '}
+              Teams using
+              <Text style={styles.disclaimerTextBold}>
+                {' '}
+                {charactersStats.count}
+              </Text>{' '}
+              Characters and
+              <Text style={styles.disclaimerTextBold}>
+                {' '}
+                {plotsStats.count}
+              </Text>{' '}
+              Plots.
             </Text>
           </View>
 
-          <View style={ styles.information }>
-            <Text style={ styles.disclaimerText }>
+          <View style={styles.information}>
+            <Text style={styles.disclaimerText}>
               The information presented in this app about Star Wars Destiny,
               both literal and graphical, is copyrighted by Fantasy Flight
               Games. This app is not produced by, endorsed by, supported by, or
@@ -317,19 +348,15 @@ class SettingsScreen extends Component {
             </Text>
           </View>
 
-          <View style={ styles.information }>
-            <TouchableOpacity onPress={ SettingsScreen.visitWebpage }>
-              <Text style={ styles.linkText }>
-                Designed and Developed by
-              </Text>
-              <Text style={ styles.linkText }>
-                Ryan Donnelly
-              </Text>
+          <View style={styles.information}>
+            <TouchableOpacity onPress={SettingsScreen.visitWebpage}>
+              <Text style={styles.linkText}>Designed and Developed by</Text>
+              <Text style={styles.linkText}>Ryan Donnelly</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
 
-        { this.renderReset() }
+        {this.renderReset()}
       </View>
     );
   }
@@ -353,4 +380,7 @@ const mapDispatchToProps = {
   updateSetting,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SettingsScreen);

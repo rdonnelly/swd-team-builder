@@ -1,4 +1,3 @@
-
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
@@ -14,7 +13,6 @@ import CharacterDetailScreen from '../screens/Characters/CharacterDetailScreen';
 
 import { base, colors } from '../styles';
 
-
 const styles = StyleSheet.create({
   headerIconContainer: {
     ...base.headerIconContainer,
@@ -23,7 +21,6 @@ const styles = StyleSheet.create({
     ...base.headerIcon,
   },
 });
-
 
 const routeConfiguration = {
   CharacterListScreen: {
@@ -35,13 +32,15 @@ const routeConfiguration = {
         headerTitle: 'Characters',
         headerRight: (
           <TouchableOpacity
-            onPress={ () => { state.params.showSearchInput(); } }
-            style={ styles.headerIconContainer }
+            onPress={() => {
+              state.params.showSearchInput();
+            }}
+            style={styles.headerIconContainer}
           >
             <FontAwesome5Icon
-              name={ 'search' }
-              size={ 18 }
-              style={ styles.headerIcon }
+              name={'search'}
+              size={18}
+              style={styles.headerIcon}
             />
           </TouchableOpacity>
         ),
@@ -77,8 +76,8 @@ class KeyboardAvoidingCharacterStackNavigator extends PureComponent {
     const keyboardAvoidingViewStyle = { flex: 1 };
     return (
       <KeyboardAvoidingView
-        behavior={ 'padding' }
-        style={ keyboardAvoidingViewStyle }
+        behavior={'padding'}
+        style={keyboardAvoidingViewStyle}
       >
         <CharacterStackNavigator navigation={navigation} />
       </KeyboardAvoidingView>

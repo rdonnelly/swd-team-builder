@@ -1,11 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import SWDIcon from './SWDIcon';
 
@@ -13,7 +8,6 @@ import { characters } from '../lib/Destiny';
 import { cardBackTexture, cardImages } from '../lib/DestinyImages';
 
 import { colors } from '../styles';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -73,7 +67,7 @@ const styles = StyleSheet.create({
 class CharacterAvatar extends PureComponent {
   getImageContainerStyles() {
     const { size, numDice, count } = this.props;
-    const displaySize = (numDice || count) ? size : size;
+    const displaySize = numDice || count ? size : size;
 
     const imageContainerStyles = {
       height: displaySize,
@@ -89,7 +83,7 @@ class CharacterAvatar extends PureComponent {
 
   getImageStyles() {
     const { size, numDice, count } = this.props;
-    const displaySize = (numDice || count) ? size : size;
+    const displaySize = numDice || count ? size : size;
 
     const height = (244 / 100) * displaySize;
     const width = (175 / 100) * displaySize;
@@ -98,7 +92,10 @@ class CharacterAvatar extends PureComponent {
     const top = (-36 / 100) * displaySize;
 
     return {
-      height, width, left, top,
+      height,
+      width,
+      left,
+      top,
     };
   }
 
@@ -109,7 +106,10 @@ class CharacterAvatar extends PureComponent {
     const imageSrc = cardImages[cardId] || null;
 
     const containerStyles = [styles.container];
-    const imageContainerStyles = [styles.imageContainer, this.getImageContainerStyles()];
+    const imageContainerStyles = [
+      styles.imageContainer,
+      this.getImageContainerStyles(),
+    ];
     const imageStyles = [this.getImageStyles()];
     const dieStyles = [styles.die];
     const countStyles = [styles.count];
@@ -135,44 +135,39 @@ class CharacterAvatar extends PureComponent {
       for (let i = 0; i < numDice; i += 1) {
         diceIcons.push(
           <SWDIcon
-            key={ `avatar_die___${cardId}___${i}` }
-            style={ dieStyles }
-            type={ 'DIE' }
+            key={`avatar_die___${cardId}___${i}`}
+            style={dieStyles}
+            type={'DIE'}
           />,
         );
       }
     }
 
-    const countText = count > 1 ?
-      <Text style={ countStyles }>
-        { count }
-      </Text> : null;
+    const countText =
+      count > 1 ? <Text style={countStyles}>{count}</Text> : null;
 
-    const infoContainer = (diceIcons.length || countText) ? (
-      <View style={ styles.infoContainer }>
-        { diceIcons.length ? (
-          <View style={ styles.diceContainer }>
-            { diceIcons }
-          </View>
-        ) : null}
-        { countText ? (
-          <View style={ styles.countContainer }>
-            { countText }
-          </View>
-        ) : null}
-      </View>
-    ) : null;
+    const infoContainer =
+      diceIcons.length || countText ? (
+        <View style={styles.infoContainer}>
+          {diceIcons.length ? (
+            <View style={styles.diceContainer}>{diceIcons}</View>
+          ) : null}
+          {countText ? (
+            <View style={styles.countContainer}>{countText}</View>
+          ) : null}
+        </View>
+      ) : null;
 
     return (
-      <View style={ containerStyles }>
-        <View style={ imageContainerStyles }>
+      <View style={containerStyles}>
+        <View style={imageContainerStyles}>
           <Image
-            source={ imageSrc }
-            defaultSource={ cardBackTexture }
-            style={ imageStyles }
+            source={imageSrc}
+            defaultSource={cardBackTexture}
+            style={imageStyles}
           />
         </View>
-        { infoContainer }
+        {infoContainer}
       </View>
     );
   }

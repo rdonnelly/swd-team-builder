@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import database from '../lib/Database';
 
 function withData() {
-  return (WrappedComponent, selectData, actions) => (
+  return (WrappedComponent, selectData, actions) =>
     class WithDataHoc extends Component {
       constructor(props) {
         super(props);
@@ -26,19 +26,22 @@ function withData() {
 
       handleChange = () => {
         this.refreshData();
-      }
+      };
 
       refreshData = () => {
-        this.setState({
-          dataIsLoading: true,
-        }, async () => {
-          const data = await selectData(database, this.props);
-          this.setState({
-            data,
-            dataIsLoading: false,
-          });
-        });
-      }
+        this.setState(
+          {
+            dataIsLoading: true,
+          },
+          async () => {
+            const data = await selectData(database, this.props);
+            this.setState({
+              data,
+              dataIsLoading: false,
+            });
+          },
+        );
+      };
 
       render() {
         if (actions) {
@@ -61,8 +64,7 @@ function withData() {
           />
         );
       }
-    }
-  );
+    };
 }
 
 export default withData;

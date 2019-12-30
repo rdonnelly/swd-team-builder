@@ -40,8 +40,8 @@ const plotsStats = {
   minPoints: 1000,
 };
 
-let plots =
-  [].concat(
+let plots = []
+  .concat(
     // dbSetAw,
     // dbSetSoR,
     // dbSetEaW,
@@ -53,101 +53,97 @@ let plots =
     dbSetConv,
     dbSetAoN,
     dbSetSoH,
-  ).filter(
-    (rawCard) => rawCard.type_code === 'plot',
-  ).map(
-    (rawCard) => {
-      const card = {};
+  )
+  .filter((rawCard) => rawCard.type_code === 'plot')
+  .map((rawCard) => {
+    const card = {};
 
-      card.affiliation = rawCard.affiliation_code;
-      card.faction = rawCard.faction_code;
-      card.formats = [];
-      card.id = rawCard.code;
-      card.name = rawCard.name;
-      card.points = parseInt(rawCard.points, 10);
-      card.restrictedFormats = [];
-      card.set = rawCard.set_code;
+    card.affiliation = rawCard.affiliation_code;
+    card.faction = rawCard.faction_code;
+    card.formats = [];
+    card.id = rawCard.code;
+    card.name = rawCard.name;
+    card.points = parseInt(rawCard.points, 10);
+    card.restrictedFormats = [];
+    card.set = rawCard.set_code;
 
-      if (card.points < plotsStats.minPoints) {
-        plotsStats.minPoints = card.points;
+    if (card.points < plotsStats.minPoints) {
+      plotsStats.minPoints = card.points;
+    }
+    if (card.points > plotsStats.maxPoints) {
+      plotsStats.maxPoints = card.points;
+    }
+
+    plotsStats.affiliations.push(card.affiliation);
+    plotsStats.affiliations = _.uniq(plotsStats.affiliations);
+
+    plotsStats.factions.push(card.faction);
+    plotsStats.factions = _.uniq(plotsStats.factions);
+
+    formats.forEach((format) => {
+      if (format.data.sets.includes(rawCard.set_code)) {
+        card.formats.push(format.code);
       }
-      if (card.points > plotsStats.maxPoints) {
-        plotsStats.maxPoints = card.points;
+
+      if (format && format.data && format.data.restricted) {
+        format.data.restricted.forEach((restrictedId) => {
+          if (restrictedId === rawCard.code) {
+            card.restrictedFormats.push(format.code);
+          }
+        });
       }
+    });
 
-      plotsStats.affiliations.push(card.affiliation);
-      plotsStats.affiliations = _.uniq(plotsStats.affiliations);
-
-      plotsStats.factions.push(card.faction);
-      plotsStats.factions = _.uniq(plotsStats.factions);
-
-      formats.forEach((format) => {
-        if (format.data.sets.includes(rawCard.set_code)) {
-          card.formats.push(format.code);
-        }
-
-        if (format && format.data && format.data.restricted) {
-          format.data.restricted.forEach((restrictedId) => {
-            if (restrictedId === rawCard.code) {
-              card.restrictedFormats.push(format.code);
-            }
-          });
-        }
-      });
-
-      return card;
-    },
-  );
-
-plots = plots
-  .sort((a, b) => {
-    if (a.affiliation !== b.affiliation) {
-      return affiliationOrder[a.affiliation] - affiliationOrder[b.affiliation];
-    }
-
-    if (a.faction !== b.faction) {
-      return factionOrder[a.faction] - factionOrder[b.faction];
-    }
-
-    if (a.points !== b.points) {
-      return a.points - b.points;
-    }
-
-    if (a.name !== b.name) {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
-      return nameA < nameB ? -1 : 1;
-    }
-
-    return 0;
+    return card;
   });
 
-plots = plots
-  .map((card, index) => ({
-    affiliation: card.affiliation,
-    faction: card.faction,
-    formats: card.formats,
-    id: card.id,
-    name: card.name,
-    points: card.points,
-    restrictedFormats: card.restrictedFormats,
-    set: card.set,
+plots = plots.sort((a, b) => {
+  if (a.affiliation !== b.affiliation) {
+    return affiliationOrder[a.affiliation] - affiliationOrder[b.affiliation];
+  }
 
-    hasRestriction: [
-      '08054', // PLOT: Retribution, 08054
-      '08155', // PLOT: No Allegiance, 08155
-      '08156', // PLOT: Solidarity, 08156
-      '10016', // PLOT: Allies of Necessity, 10016
-      '11119', // PLOT: Temporary Truce, 11119
-    ].includes(card.id),
-    hasModification: [
-      '08155', // PLOT: No Allegiance, 08155
-      '08156', // PLOT: Solidarity, 08156
-      '11119', // PLOT: Temporary Truce, 11119
-    ].includes(card.id),
+  if (a.faction !== b.faction) {
+    return factionOrder[a.faction] - factionOrder[b.faction];
+  }
 
-    rank: index,
-  }));
+  if (a.points !== b.points) {
+    return a.points - b.points;
+  }
+
+  if (a.name !== b.name) {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+    return nameA < nameB ? -1 : 1;
+  }
+
+  return 0;
+});
+
+plots = plots.map((card, index) => ({
+  affiliation: card.affiliation,
+  faction: card.faction,
+  formats: card.formats,
+  id: card.id,
+  name: card.name,
+  points: card.points,
+  restrictedFormats: card.restrictedFormats,
+  set: card.set,
+
+  hasRestriction: [
+    '08054', // PLOT: Retribution, 08054
+    '08155', // PLOT: No Allegiance, 08155
+    '08156', // PLOT: Solidarity, 08156
+    '10016', // PLOT: Allies of Necessity, 10016
+    '11119', // PLOT: Temporary Truce, 11119
+  ].includes(card.id),
+  hasModification: [
+    '08155', // PLOT: No Allegiance, 08155
+    '08156', // PLOT: Solidarity, 08156
+    '11119', // PLOT: Temporary Truce, 11119
+  ].includes(card.id),
+
+  rank: index,
+}));
 
 const plotsObject = {};
 plots.forEach((plot) => {
@@ -156,10 +152,12 @@ plots.forEach((plot) => {
 
 plotsStats.count = plots.length || 0;
 
-
-console.log(`Output ${plots.length} plots...`); // eslint-disable-line no-console
+console.log(`Output ${plots.length} plots...`);
 jsonfile.writeFile(path.join(__dirname, '../data/plots.json'), plotsObject);
-jsonfile.writeFile(path.join(__dirname, '../data/plots_stats.json'), plotsStats);
+jsonfile.writeFile(
+  path.join(__dirname, '../data/plots_stats.json'),
+  plotsStats,
+);
 jsonfile.writeFile(path.join(__dirname, '../data/plots_checksum.json'), {
   checksum: checksum(plots),
   stats_checksum: checksum(plotsStats),

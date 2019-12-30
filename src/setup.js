@@ -7,7 +7,6 @@ import App from './screens/App';
 import store from './store/store';
 import connectDatabase from './components/connectDatabase';
 
-
 export default function setup() {
   class AppContainer extends Component {
     componentDidMount() {
@@ -18,7 +17,7 @@ export default function setup() {
 
     render() {
       return (
-        <Provider store={ store }>
+        <Provider store={store}>
           <App />
         </Provider>
       );

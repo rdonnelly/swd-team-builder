@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable no-console */
-
 import * as _ from 'lodash';
 import checksum from 'json-checksum';
 import jsonfile from 'jsonfile';
@@ -39,9 +37,7 @@ const teamsStats = {
   numPages: 0,
 };
 
-
 // TEAM CLASS
-
 
 class Team {
   constructor({ format = null, plot = null }) {
@@ -74,7 +70,10 @@ class Team {
 
   getKey() {
     const characterKey = this.characters
-      .map((character) => `${character.id}_${character.isElite ? 2 : 1}_${character.count}`)
+      .map(
+        (character) =>
+          `${character.id}_${character.isElite ? 2 : 1}_${character.count}`,
+      )
       .sort()
       .join('__');
 
@@ -131,7 +130,8 @@ class Team {
     this.points += card.points;
 
     this.characterCount = this.characters.reduce(
-      (count, characterObject) => count + characterObject.count, 0,
+      (count, characterObject) => count + characterObject.count,
+      0,
     );
     this.characterPoints += card.points;
 
@@ -139,19 +139,22 @@ class Team {
 
     // TODO modifications below should not be able to find self
 
-    if (card.id === '05038') { // CHARACTER: Clone Trooper, 05038
+    if (card.id === '05038') {
+      // CHARACTER: Clone Trooper, 05038
       const hasCharacterResult = this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
       this.characterPoints -= hasCharacterResult;
       this.points -= hasCharacterResult;
     }
 
-    if (card.id === '08073') { // CHARACTER: Clone Commander Cody, 08073
+    if (card.id === '08073') {
+      // CHARACTER: Clone Commander Cody, 08073
       const hasCharacterResult = this.hasCharacter({ id: '05038' }); // CHARACTER: Clone Trooper, 05038
       this.characterPoints -= hasCharacterResult;
       this.points -= hasCharacterResult;
     }
 
-    if (card.id === '09021') { // CHARACTER: General Grievous, 09021
+    if (card.id === '09021') {
+      // CHARACTER: General Grievous, 09021
       const hasCharacterResult = this.hasCharacter({ subtype: 'droid' });
       this.characterPoints -= hasCharacterResult;
       this.points -= hasCharacterResult;
@@ -163,8 +166,11 @@ class Team {
       this.points -= hasCharacterResult;
     }
 
-    if (this.plot && this.plot.id === '08155' && // PLOT: No Allegiance, 08155
-        card.affiliation === 'neutral') {
+    if (
+      this.plot &&
+      this.plot.id === '08155' && // PLOT: No Allegiance, 08155
+      card.affiliation === 'neutral'
+    ) {
       this.health += 1;
     }
 
@@ -193,7 +199,9 @@ class Team {
     }
 
     if (name) {
-      teamCharacters = this.characters.filter((charObj) => charObj.name === name);
+      teamCharacters = this.characters.filter(
+        (charObj) => charObj.name === name,
+      );
     }
 
     if (subtype) {
@@ -223,35 +231,46 @@ class Team {
     }
 
     // team can not have Anakin Skywalker (06001) and Darth Vader
-    if (this.hasCharacter({ id: '06001' }) && // CHARACTER: Anakin Skywalker, 06001
-        this.hasCharacter({ name: 'Darth Vader' })) {
+    if (
+      this.hasCharacter({ id: '06001' }) && // CHARACTER: Anakin Skywalker, 06001
+      this.hasCharacter({ name: 'Darth Vader' })
+    ) {
       return false;
     }
 
     // team can not have Youngling (11059) without a Jedi
-    if (this.hasCharacter({ id: '11059' }) &&
-        !this.hasCharacter({ subtype: 'jedi' })) {
+    if (
+      this.hasCharacter({ id: '11059' }) &&
+      !this.hasCharacter({ subtype: 'jedi' })
+    ) {
       return false;
     }
 
     // team can not have Ewok Warrior (11095) without a unique Ewok
-    if (this.hasCharacter({ id: '11095' }) &&
-        !this.hasCharacter({ id: '11093' }) && !this.hasCharacter({ id: '11097' })) {
+    if (
+      this.hasCharacter({ id: '11095' }) &&
+      !this.hasCharacter({ id: '11093' }) &&
+      !this.hasCharacter({ id: '11097' })
+    ) {
       return false;
     }
 
     // CHECK PLOT
 
     if (this.plot) {
-      if (this.plot.id === '08155') { // PLOT: No Allegiance, 08155
+      if (this.plot.id === '08155') {
+        // PLOT: No Allegiance, 08155
         // must be neutral
-        if (this.affiliations.length > 1 ||
-            !this.affiliations.includes('neutral')) {
+        if (
+          this.affiliations.length > 1 ||
+          !this.affiliations.includes('neutral')
+        ) {
           return false;
         }
       }
 
-      if (this.plot.id === '08156') { // PLOT: Solidarity, 08156
+      if (this.plot.id === '08156') {
+        // PLOT: Solidarity, 08156
         // must be one faction/color and must use all points
         if (this.factions.length > 1) {
           return false;
@@ -259,14 +278,18 @@ class Team {
       }
 
       // plot must be neutral and/or share affiliation with character
-      if (this.plot.affiliation !== 'neutral' &&
-          !this.affiliations.includes(this.plot.affiliation)) {
+      if (
+        this.plot.affiliation !== 'neutral' &&
+        !this.affiliations.includes(this.plot.affiliation)
+      ) {
         return false;
       }
 
       // plot must be gray and/or share faction/color with character
-      if (this.plot.faction !== 'gray' &&
-          !this.factions.includes(this.plot.faction)) {
+      if (
+        this.plot.faction !== 'gray' &&
+        !this.factions.includes(this.plot.faction)
+      ) {
         return false;
       }
     }
@@ -296,46 +319,57 @@ class Team {
     // e.g. Bitter Rivalry, 08115
 
     if (this.plot) {
-      if (this.plot.id === '08054') { // PLOT: Retribution, 08054
+      if (this.plot.id === '08054') {
+        // PLOT: Retribution, 08054
         // must include 20-point character
         if (this.characters.every((character) => character.points < 20)) {
           return false;
         }
       }
 
-      if (this.plot.id === '08155') { // PLOT: No Allegiance, 08155
+      if (this.plot.id === '08155') {
+        // PLOT: No Allegiance, 08155
         // must be neutral
-        if (this.affiliations.length > 1 ||
-            !this.affiliations.includes('neutral')) {
+        if (
+          this.affiliations.length > 1 ||
+          !this.affiliations.includes('neutral')
+        ) {
           return false;
         }
       }
 
-      if (this.plot.id === '08156') { // PLOT: Solidarity, 08156
+      if (this.plot.id === '08156') {
+        // PLOT: Solidarity, 08156
         // must be one faction/color and must use all points
-        if (this.factions.length !== 1 ||
-            this.characterPoints <= MAX_POINTS) {
+        if (this.factions.length !== 1 || this.characterPoints <= MAX_POINTS) {
           return false;
         }
       }
 
-      if (this.plot.id === '10016') { // PLOT: Allies of Necessity, 10016
+      if (this.plot.id === '10016') {
+        // PLOT: Allies of Necessity, 10016
         // two characters must share a faction/color and must use all points
-        if (this.factions.length >= this.characterCount ||
-            this.characterPoints <= MAX_POINTS) {
+        if (
+          this.factions.length >= this.characterCount ||
+          this.characterPoints <= MAX_POINTS
+        ) {
           return false;
         }
       }
 
       // plot must be neutral and/or share affiliation with character
-      if (this.plot.affiliation !== 'neutral' &&
-          !this.affiliations.includes(this.plot.affiliation)) {
+      if (
+        this.plot.affiliation !== 'neutral' &&
+        !this.affiliations.includes(this.plot.affiliation)
+      ) {
         return false;
       }
 
       // plot must be gray and/or share faction/color with character
-      if (this.plot.faction !== 'gray' &&
-          !this.factions.includes(this.plot.faction)) {
+      if (
+        this.plot.faction !== 'gray' &&
+        !this.factions.includes(this.plot.faction)
+      ) {
         return false;
       }
     }
@@ -356,9 +390,7 @@ class Team {
   }
 }
 
-
 // PREPARE PLOTS
-
 
 const plotVariants = [];
 
@@ -367,9 +399,11 @@ Object.values(plots).forEach((plot) => {
     return;
   }
 
-  if (plot.hasRestriction ||
-      plot.hasModification ||
-      plot.restrictedFormats.length !== 0) {
+  if (
+    plot.hasRestriction ||
+    plot.hasModification ||
+    plot.restrictedFormats.length !== 0
+  ) {
     plotVariants.push({
       affiliation: plot.affiliation,
       faction: plot.faction,
@@ -383,7 +417,8 @@ Object.values(plots).forEach((plot) => {
     });
   } else {
     const matchingPlot = plotVariants.find(
-      (plotVariant) => plotVariant.affiliation === plot.affiliation &&
+      (plotVariant) =>
+        plotVariant.affiliation === plot.affiliation &&
         plotVariant.faction === plot.faction &&
         plotVariant.points === plot.points,
     );
@@ -406,9 +441,12 @@ Object.values(plots).forEach((plot) => {
   }
 });
 
-const plotVariantsHero = plotVariants.filter((plot) => ['hero', 'neutral'].includes(plot.affiliation));
-const plotVariantsVillain = plotVariants.filter((plot) => ['villain', 'neutral'].includes(plot.affiliation));
-
+const plotVariantsHero = plotVariants.filter((plot) =>
+  ['hero', 'neutral'].includes(plot.affiliation),
+);
+const plotVariantsVillain = plotVariants.filter((plot) =>
+  ['villain', 'neutral'].includes(plot.affiliation),
+);
 
 // PREPARE CHARACTERS
 
@@ -435,7 +473,9 @@ Object.values(characters).forEach((character) => {
       ...characterInfo,
       isElite: false,
       points: character.pointsRegular,
-      pointsToElite: character.pointsElite ? character.pointsElite - character.pointsRegular : null,
+      pointsToElite: character.pointsElite
+        ? character.pointsElite - character.pointsRegular
+        : null,
     });
   }
 
@@ -462,9 +502,15 @@ characterVariants.sort((a, b) => {
   return 0;
 });
 
-const characterVariantsHero = characterVariants.filter((character) => ['hero', 'neutral'].includes(character.affiliation));
-const characterVariantsVillain = characterVariants.filter((character) => ['villain', 'neutral'].includes(character.affiliation));
-const characterVariantsReylo = characterVariants.filter((character) => ['Kylo Ren', 'Rey'].includes(character.name));
+const characterVariantsHero = characterVariants.filter((character) =>
+  ['hero', 'neutral'].includes(character.affiliation),
+);
+const characterVariantsVillain = characterVariants.filter((character) =>
+  ['villain', 'neutral'].includes(character.affiliation),
+);
+const characterVariantsReylo = characterVariants.filter((character) =>
+  ['Kylo Ren', 'Rey'].includes(character.name),
+);
 
 const generateTeams = (team, eligibleCharacters) => {
   let teamIsComplete = true;
@@ -475,13 +521,14 @@ const generateTeams = (team, eligibleCharacters) => {
 
     if (success && newTeam.isLegal()) {
       teamIsComplete = false;
-      const index = eligibleCharacters.findIndex((c) => c.points === character.points);
-      const newEligibleCharacters = index === -1 ?
-        eligibleCharacters : eligibleCharacters.slice(index);
+      const index = eligibleCharacters.findIndex(
+        (c) => c.points === character.points,
+      );
+      const newEligibleCharacters =
+        index === -1 ? eligibleCharacters : eligibleCharacters.slice(index);
       generateTeams(newTeam, newEligibleCharacters);
     }
   });
-
 
   if (teamIsComplete && team.isComplete()) {
     delete team.characters;
@@ -552,39 +599,41 @@ async function save() {
   const queryPromises = [];
 
   for (let i = 0, l = teams.length; i < l; i += 1) {
-    queryPromises.push(insertStmt.run([
-      teams[i].key,
+    queryPromises.push(
+      insertStmt.run([
+        teams[i].key,
 
-      teams[i].characterCount,
-      teams[i].diceCount,
-      teams[i].health,
-      teams[i].plotId ? teams[i].plotPoints : null,
-      teams[i].characterPoints,
-      teams[i].sets.join('_').toLowerCase(),
+        teams[i].characterCount,
+        teams[i].diceCount,
+        teams[i].health,
+        teams[i].plotId ? teams[i].plotPoints : null,
+        teams[i].characterPoints,
+        teams[i].sets.join('_').toLowerCase(),
 
-      teams[i].affiliations.includes('hero'),
-      teams[i].affiliations.includes('neutral'),
-      teams[i].affiliations.includes('villain'),
+        teams[i].affiliations.includes('hero'),
+        teams[i].affiliations.includes('neutral'),
+        teams[i].affiliations.includes('villain'),
 
-      teams[i].factions.includes('blue'),
-      teams[i].factions.includes('gray'),
-      teams[i].factions.includes('red'),
-      teams[i].factions.includes('yellow'),
+        teams[i].factions.includes('blue'),
+        teams[i].factions.includes('gray'),
+        teams[i].factions.includes('red'),
+        teams[i].factions.includes('yellow'),
 
-      teams[i].damageTypes.includes('ID'),
-      teams[i].damageTypes.includes('MD'),
-      teams[i].damageTypes.includes('ND'),
-      teams[i].damageTypes.includes('RD'),
+        teams[i].damageTypes.includes('ID'),
+        teams[i].damageTypes.includes('MD'),
+        teams[i].damageTypes.includes('ND'),
+        teams[i].damageTypes.includes('RD'),
 
-      teams[i].format === 'INF',
-      teams[i].format === 'STD',
-      teams[i].format === 'TRI',
+        teams[i].format === 'INF',
+        teams[i].format === 'STD',
+        teams[i].format === 'TRI',
 
-      teams[i].ranks.characterCount,
-      teams[i].ranks.diceCount,
-      teams[i].ranks.health,
-      teams[i].ranks.points,
-    ]));
+        teams[i].ranks.characterCount,
+        teams[i].ranks.diceCount,
+        teams[i].ranks.health,
+        teams[i].ranks.points,
+      ]),
+    );
   }
 
   await Promise.all(queryPromises);
@@ -592,14 +641,16 @@ async function save() {
   await insertStmt.finalize();
 }
 
-
 (async function run() {
   await open();
 
   const elibibleFormats = formats.filter((format) => format.code !== 'INF');
   const numFormats = elibibleFormats.length;
   elibibleFormats.forEach(async (format, index) => {
-    console.log('\x1b[34m%s\x1b[0m', `Generating teams for ${format.name} (${index + 1}/${numFormats})`);
+    console.log(
+      '\x1b[34m%s\x1b[0m',
+      `Generating teams for ${format.name} (${index + 1}/${numFormats})`,
+    );
     const numTeams = teams.length;
 
     // VILLAIN
@@ -612,13 +663,27 @@ async function save() {
       (plotVariant) => plotVariant.formats.includes(format.code),
     );
 
-    console.log('\x1b[34m%s\x1b[0m', `    Villain Character Variants: ${eligibleCharacterVariantsVillain.length}`);
-    console.log('\x1b[34m%s\x1b[0m', `    Villain Plot Variants: ${eligiblePlotVariantsVillain.length}`);
+    console.log(
+      '\x1b[34m%s\x1b[0m',
+      `    Villain Character Variants: ${
+        eligibleCharacterVariantsVillain.length
+      }`,
+    );
+    console.log(
+      '\x1b[34m%s\x1b[0m',
+      `    Villain Plot Variants: ${eligiblePlotVariantsVillain.length}`,
+    );
 
-    generateTeams(new Team({ format: format.code }), eligibleCharacterVariantsVillain);
+    generateTeams(
+      new Team({ format: format.code }),
+      eligibleCharacterVariantsVillain,
+    );
     process.stdout.write(`    ${'.'}\r`);
     eligiblePlotVariantsVillain.forEach((plot, i) => {
-      generateTeams(new Team({ format: format.code, plot }), eligibleCharacterVariantsVillain);
+      generateTeams(
+        new Team({ format: format.code, plot }),
+        eligibleCharacterVariantsVillain,
+      );
       process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
     });
     console.log('\n');
@@ -631,17 +696,29 @@ async function save() {
       (characterVariant) => characterVariant.formats.includes(format.code),
     );
 
-    const eligiblePlotVariantsHero = plotVariantsHero.filter(
-      (plotVariant) => plotVariant.formats.includes(format.code),
+    const eligiblePlotVariantsHero = plotVariantsHero.filter((plotVariant) =>
+      plotVariant.formats.includes(format.code),
     );
 
-    console.log('\x1b[34m%s\x1b[0m', `    Hero Character Variants: ${eligibleCharacterVariantsHero.length}`);
-    console.log('\x1b[34m%s\x1b[0m', `    Hero Plot Variants: ${eligiblePlotVariantsHero.length}`);
+    console.log(
+      '\x1b[34m%s\x1b[0m',
+      `    Hero Character Variants: ${eligibleCharacterVariantsHero.length}`,
+    );
+    console.log(
+      '\x1b[34m%s\x1b[0m',
+      `    Hero Plot Variants: ${eligiblePlotVariantsHero.length}`,
+    );
 
-    generateTeams(new Team({ format: format.code }), eligibleCharacterVariantsHero);
+    generateTeams(
+      new Team({ format: format.code }),
+      eligibleCharacterVariantsHero,
+    );
     process.stdout.write(`    ${'.'}\r`);
     eligiblePlotVariantsHero.forEach((plot, i) => {
-      generateTeams(new Team({ format: format.code, plot }), eligibleCharacterVariantsHero);
+      generateTeams(
+        new Team({ format: format.code, plot }),
+        eligibleCharacterVariantsHero,
+      );
       process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
     });
     console.log('\n');
@@ -654,40 +731,57 @@ async function save() {
       (characterVariant) => characterVariant.formats.includes(format.code),
     );
 
-    console.log('\x1b[34m%s\x1b[0m', `    Reylo Character Variants: ${eligibleCharacterVariantsReylo.length}`);
+    console.log(
+      '\x1b[34m%s\x1b[0m',
+      `    Reylo Character Variants: ${eligibleCharacterVariantsReylo.length}`,
+    );
 
-    generateTeams(new Team({ format: format.code }), eligibleCharacterVariantsReylo);
+    generateTeams(
+      new Team({ format: format.code }),
+      eligibleCharacterVariantsReylo,
+    );
     process.stdout.write(`    ${'.'}\r`);
     console.log('\n');
 
     teams = _.uniqBy(teams, 'key');
 
-    console.log('\x1b[34m\x1b[1m%s\x1b[0m', `    Generated ${teams.length - numTeams} Teams (${teams.length} Total)`);
+    console.log(
+      '\x1b[34m\x1b[1m%s\x1b[0m',
+      `    Generated ${teams.length - numTeams} Teams (${teams.length} Total)`,
+    );
   });
 
   // SORT TEAMS
 
   console.log('\x1b[34m%s\x1b[0m', `Sorting ${teams.length} teams...`);
 
-  _.sortBy(teams, ['characterCount', 'diceCount', 'health', 'points']).reverse().map((team, i) => {
-    team.ranks.characterCount = i;
-    return team;
-  });
+  _.sortBy(teams, ['characterCount', 'diceCount', 'health', 'points'])
+    .reverse()
+    .map((team, i) => {
+      team.ranks.characterCount = i;
+      return team;
+    });
 
-  _.sortBy(teams, ['points', 'diceCount', 'health', 'characterCount']).reverse().map((team, i) => {
-    team.ranks.points = i;
-    return team;
-  });
+  _.sortBy(teams, ['points', 'diceCount', 'health', 'characterCount'])
+    .reverse()
+    .map((team, i) => {
+      team.ranks.points = i;
+      return team;
+    });
 
-  _.sortBy(teams, ['health', 'diceCount', 'points', 'characterCount']).reverse().map((team, i) => {
-    team.ranks.health = i;
-    return team;
-  });
+  _.sortBy(teams, ['health', 'diceCount', 'points', 'characterCount'])
+    .reverse()
+    .map((team, i) => {
+      team.ranks.health = i;
+      return team;
+    });
 
-  _.sortBy(teams, ['diceCount', 'health', 'points', 'characterCount']).reverse().map((team, i) => {
-    team.ranks.diceCount = i;
-    return team;
-  });
+  _.sortBy(teams, ['diceCount', 'health', 'points', 'characterCount'])
+    .reverse()
+    .map((team, i) => {
+      team.ranks.diceCount = i;
+      return team;
+    });
 
   // CALCULATE STATS
 
@@ -727,7 +821,10 @@ async function save() {
 
   console.log('\x1b[32m\x1b[1m%s\x1b[0m', `Generated ${teams.length} teams`);
 
-  jsonfile.writeFile(path.join(__dirname, '../data/teams_stats.json'), teamsStats);
+  jsonfile.writeFile(
+    path.join(__dirname, '../data/teams_stats.json'),
+    teamsStats,
+  );
   jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
     stats_checksum: checksum(teamsStats),
   });
@@ -735,4 +832,4 @@ async function save() {
   save();
 
   await close();
-}());
+})();

@@ -1,14 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 
 import { colors } from '../styles';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -54,7 +49,7 @@ class SettingsSlider extends PureComponent {
     }, 750);
 
     this.setState({ timeoutId, value });
-  }
+  };
 
   handleSlidingComplete = (value) => {
     if (this.state.timeoutId) {
@@ -64,7 +59,7 @@ class SettingsSlider extends PureComponent {
     this.setState({ timeoutId: null });
 
     this.props.callback(this.props.setting, value);
-  }
+  };
 
   reset() {
     if (this.state.timeoutId) {
@@ -81,24 +76,20 @@ class SettingsSlider extends PureComponent {
     const { reverse } = this.props;
 
     return (
-      <View style={ styles.container }>
-        <View style={ styles.labelContainer }>
-          <Text style={ styles.label }>
-            { this.props.label }
-          </Text>
-          <Text style={ styles.value }>
-            { this.state.value }
-          </Text>
+      <View style={styles.container}>
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>{this.props.label}</Text>
+          <Text style={styles.value}>{this.state.value}</Text>
         </View>
         <Slider
-          minimumTrackTintColor={ reverse ? colors.gray : colors.purple }
-          maximumTrackTintColor={ reverse ? colors.purple : colors.gray }
-          value={ this.state.value }
-          minimumValue={ this.props.minValue }
-          maximumValue={ this.props.maxValue }
-          step={ 1 }
-          onValueChange={ this.handleValueChange }
-          onSlidingComplete={ this.handleSlidingComplete }
+          minimumTrackTintColor={reverse ? colors.gray : colors.purple}
+          maximumTrackTintColor={reverse ? colors.purple : colors.gray}
+          value={this.state.value}
+          minimumValue={this.props.minValue}
+          maximumValue={this.props.maxValue}
+          step={1}
+          onValueChange={this.handleValueChange}
+          onSlidingComplete={this.handleSlidingComplete}
         />
       </View>
     );

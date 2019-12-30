@@ -5,7 +5,12 @@ import {
   sets as setsList,
 } from './Destiny';
 
-export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, excludedCharacterIds) => {
+export const filterTeamsByDeck = (
+  teams,
+  deckCharacters,
+  deckAffiliation,
+  excludedCharacterIds,
+) => {
   if (deckCharacters.length === 0 && excludedCharacterIds.length === 0) {
     return teams;
   }
@@ -14,18 +19,29 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
 
   deckCharacters.forEach((deckCharacterObject) => {
     const { diceCount } = deckCharacterObject;
-    const characterKey = `${deckCharacterObject.id}_${diceCount}_${deckCharacterObject.count}`;
-    const regularCharacterKey = `${deckCharacterObject.id}_1_${deckCharacterObject.count}`;
-    const eliteCharacterKey = `${deckCharacterObject.id}_2_${deckCharacterObject.count}`;
+    const characterKey = `${deckCharacterObject.id}_${diceCount}_${
+      deckCharacterObject.count
+    }`;
+    const regularCharacterKey = `${deckCharacterObject.id}_1_${
+      deckCharacterObject.count
+    }`;
+    const eliteCharacterKey = `${deckCharacterObject.id}_2_${
+      deckCharacterObject.count
+    }`;
 
     outputTeams = outputTeams.filter((team) => {
-      if (deckAffiliation !== 'neutral' && !team.affiliations.includes(deckAffiliation)) {
+      if (
+        deckAffiliation !== 'neutral' &&
+        !team.affiliations.includes(deckAffiliation)
+      ) {
         return false;
       }
 
       if (diceCount === 0) {
-        return team.key.includes(regularCharacterKey) ||
-          team.key.includes(eliteCharacterKey);
+        return (
+          team.key.includes(regularCharacterKey) ||
+          team.key.includes(eliteCharacterKey)
+        );
       }
 
       return team.key.includes(characterKey);
@@ -33,7 +49,9 @@ export const filterTeamsByDeck = (teams, deckCharacters, deckAffiliation, exclud
   });
 
   excludedCharacterIds.forEach((excludedCharacterId) => {
-    outputTeams = outputTeams.filter((team) => !team.key.includes(excludedCharacterId));
+    outputTeams = outputTeams.filter(
+      (team) => !team.key.includes(excludedCharacterId),
+    );
   });
 
   return outputTeams;
@@ -107,36 +125,43 @@ export const filterTeamsBySettings = (teams, settings) => {
       return false;
     }
 
-    if (plotPoints !== 0 &&
-        plotFactions[0] !== 'gray' &&
-        !team.factions.includes(plotFactions[0])) {
+    if (
+      plotPoints !== 0 &&
+      plotFactions[0] !== 'gray' &&
+      !team.factions.includes(plotFactions[0])
+    ) {
       return false;
     }
 
     if (!skipAffiliations) {
-      if (affiliations.length === 0 ||
-          !team.affiliations.every((val) => affiliations.includes(val))) {
+      if (
+        affiliations.length === 0 ||
+        !team.affiliations.every((val) => affiliations.includes(val))
+      ) {
         return false;
       }
     }
 
     if (!skipDamageTypes) {
-      if (damageTypes.length === 0 ||
-          !team.damageTypes.every((val) => damageTypes.includes(val))) {
+      if (
+        damageTypes.length === 0 ||
+        !team.damageTypes.every((val) => damageTypes.includes(val))
+      ) {
         return false;
       }
     }
 
     if (!skipFactions) {
-      if (factions.length === 0 ||
-          !team.factions.every((val) => factions.includes(val))) {
+      if (
+        factions.length === 0 ||
+        !team.factions.every((val) => factions.includes(val))
+      ) {
         return false;
       }
     }
 
     if (!skipSets) {
-      if (sets.length === 0 ||
-          !team.sets.every((val) => sets.includes(val))) {
+      if (sets.length === 0 || !team.sets.every((val) => sets.includes(val))) {
         return false;
       }
     }

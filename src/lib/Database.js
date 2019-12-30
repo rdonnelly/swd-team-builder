@@ -7,10 +7,7 @@ import {
   getDeckAffiliation,
   getExcludedCharacterIds,
 } from '../store/selectors/deckSelectors';
-import {
-  getFilters,
-} from '../store/selectors/teamSelectors';
-
+import { getFilters } from '../store/selectors/teamSelectors';
 
 class Database {
   constructor() {
@@ -19,9 +16,7 @@ class Database {
     this.databaseReadOnly = true;
     this.database = null;
 
-    this.sortOrder = [
-      'diceCount', 'health', 'points',
-    ];
+    this.sortOrder = ['diceCount', 'health', 'points'];
 
     this.listeners = [];
 
@@ -45,17 +40,18 @@ class Database {
       createFromLocation: this.databaseLocation,
       name: this.databaseName,
       readOnly: this.databaseReadOnly,
-    })
-      .then((db) => {
-        this.database = db;
-        return db;
-      });
+    }).then((db) => {
+      this.database = db;
+      return db;
+    });
   }
 
   // Close the connection to the database
   close() {
     if (this.database === null) {
-      return Promise.reject(new Error('[db] Database was not open; unable to close.'));
+      return Promise.reject(
+        new Error('[db] Database was not open; unable to close.'),
+      );
     }
 
     return this.database.close().then(() => {
@@ -65,37 +61,43 @@ class Database {
 
   addChangeListener = (callback) => {
     this.listeners.push(callback);
-  }
+  };
 
   removeChangeListener = (listener) => {
     const listenerIndex = this.listeners.indexOf(listener);
     if (listenerIndex !== -1) {
       this.listeners.splice(listenerIndex, 1);
     }
-  }
+  };
 
   storeChange = () => {
     this.listeners.forEach((listener) => listener());
-  }
+  };
 
   updateSortPriority = (priority) => {
     const options = [...this.sortOrder];
 
     options.sort((a, b) => {
-      if (a === priority) return -1;
-      if (b === priority) return 1;
-      if (a < b) return -1;
-      if (a > b) return 1;
+      if (a === priority) {
+        return -1;
+      }
+      if (b === priority) {
+        return 1;
+      }
+      if (a < b) {
+        return -1;
+      }
+      if (a > b) {
+        return 1;
+      }
       return 0;
     });
 
     this.sortOrder = options;
-  }
+  };
 
   getTeamsBaseQuery = () => {
-    const query = squel
-      .select()
-      .from('teams');
+    const query = squel.select().from('teams');
 
     // match deck characters
     const deckCharacters = getDeckCharacters(store.getState());
@@ -128,7 +130,11 @@ class Database {
     const filters = getFilters(store.getState());
 
     // character
-    query.where('characterCount BETWEEN ? AND ?', filters.minCharacterCount, filters.maxCharacterCount);
+    query.where(
+      'characterCount BETWEEN ? AND ?',
+      filters.minCharacterCount,
+      filters.maxCharacterCount,
+    );
 
     // dice
     query.where('diceCount BETWEEN ? AND ?', filters.minDice, filters.maxDice);
@@ -197,7 +203,6 @@ class Database {
     }
     query.where(formatsExpression);
 
-
     // plot
     if (filters.plotPoints) {
       // plot faction
@@ -215,17 +220,23 @@ class Database {
     }
 
     // plot points
-    query.where('points <= ? AND (plotPoints IS NULL OR plotPoints = ?)', 30 - filters.plotPoints, filters.plotPoints);
+    query.where(
+      'points <= ? AND (plotPoints IS NULL OR plotPoints = ?)',
+      30 - filters.plotPoints,
+      filters.plotPoints,
+    );
     if (filters.plotPoints < 0) {
       query.where('points > ? OR plotPoints = ?', 30, filters.plotPoints);
     }
 
     return query;
-  }
+  };
 
   getTeam(key) {
     return this.getDatabase()
-      .then((db) => db.executeSql(`
+      .then((db) =>
+        db.executeSql(
+          `
         SELECT
           key,
           diceCount,
@@ -239,7 +250,10 @@ class Database {
         WHERE
           key = ?
         LIMIT 1
-      ;`, [key]))
+      ;`,
+          [key],
+        ),
+      )
       .then(([results]) => {
         if (results === undefined) {
           return null;
@@ -273,8 +287,7 @@ class Database {
   }
 
   getTeamsCount() {
-    const query = this.getTeamsBaseQuery()
-      .field('COUNT(*)', 'count');
+    const query = this.getTeamsBaseQuery().field('COUNT(*)', 'count');
 
     return this.getDatabase()
       .then((db) => db.executeSql(query.toString()))

@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { withNavigation } from 'react-navigation';
 
@@ -15,7 +10,6 @@ import SWDIcon from './SWDIcon';
 import { characters } from '../lib/Destiny';
 
 import { colors } from '../styles';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -105,103 +99,100 @@ class TeamListItem extends Component {
 
   navigateToTeamDetails = (teamKey) => () => {
     this.props.navigation.navigate('TeamDetailScreen', { key: teamKey });
-  }
+  };
 
   render() {
-    const {
-      teamObject,
-    } = this.props;
+    const { teamObject } = this.props;
 
     const arrowStyle = [styles.arrow];
 
-    const characterViews = teamObject.key.split('____').pop().split('___').shift().split('__').map((characterKey) => {
-      const [cardId, diceCount, count] = characterKey.split('_');
-      const card = characters[cardId];
+    const characterViews = teamObject.key
+      .split('____')
+      .pop()
+      .split('___')
+      .shift()
+      .split('__')
+      .map((characterKey) => {
+        const [cardId, diceCount, count] = characterKey.split('_');
+        const card = characters[cardId];
 
-      const characterNameStyles = [styles.characterName];
-      const diceStyles = [styles.dice];
-      const characterCountStyles = [styles.characterCount];
+        const characterNameStyles = [styles.characterName];
+        const diceStyles = [styles.dice];
+        const characterCountStyles = [styles.characterCount];
 
-      if (card.faction === 'blue') {
-        diceStyles.push(styles.blueCard);
-        characterCountStyles.push(styles.blueCard);
-      }
-      if (card.faction === 'red') {
-        diceStyles.push(styles.redCard);
-        characterCountStyles.push(styles.redCard);
-      }
-      if (card.faction === 'yellow') {
-        diceStyles.push(styles.yellowCard);
-        characterCountStyles.push(styles.yellowCard);
-      }
+        if (card.faction === 'blue') {
+          diceStyles.push(styles.blueCard);
+          characterCountStyles.push(styles.blueCard);
+        }
+        if (card.faction === 'red') {
+          diceStyles.push(styles.redCard);
+          characterCountStyles.push(styles.redCard);
+        }
+        if (card.faction === 'yellow') {
+          diceStyles.push(styles.yellowCard);
+          characterCountStyles.push(styles.yellowCard);
+        }
 
-      const avatar = (
-        <View style={ styles.avatarWrapper }>
-          <CharacterAvatar
-            cardId={ card.id }
-            round={ true }
-            size={ 22 }
-          />
-        </View>
-      );
-
-      const diceIcons = [];
-      for (let i = 0; i < diceCount; i += 1) {
-        diceIcons.push(
-          <SWDIcon
-            key={ `${teamObject.key}___${cardId}___${i}` }
-            style={ diceStyles }
-            type={ 'DIE' }
-          />,
-        );
-      }
-
-      return (
-        <View
-          key={ `${teamObject.key}___${cardId}` }
-          style={ styles.characterWrapper }
-        >
-          { avatar }
-          <Text style={ characterNameStyles }>
-            { card.name }
-          </Text>
-          <View style={ styles.diceWrapper }>
-            { diceIcons }
+        const avatar = (
+          <View style={styles.avatarWrapper}>
+            <CharacterAvatar cardId={card.id} round={true} size={22} />
           </View>
-          <Text style={ characterCountStyles }>
-            { count > 1 ? ` x${count}` : '' }
-          </Text>
-        </View>
-      );
-    });
+        );
+
+        const diceIcons = [];
+        for (let i = 0; i < diceCount; i += 1) {
+          diceIcons.push(
+            <SWDIcon
+              key={`${teamObject.key}___${cardId}___${i}`}
+              style={diceStyles}
+              type={'DIE'}
+            />,
+          );
+        }
+
+        return (
+          <View
+            key={`${teamObject.key}___${cardId}`}
+            style={styles.characterWrapper}
+          >
+            {avatar}
+            <Text style={characterNameStyles}>{card.name}</Text>
+            <View style={styles.diceWrapper}>{diceIcons}</View>
+            <Text style={characterCountStyles}>
+              {count > 1 ? ` x${count}` : ''}
+            </Text>
+          </View>
+        );
+      });
 
     return (
       <TouchableOpacity
-        activeOpacity={ 0.6 }
-        onPress={ this.navigateToTeamDetails(teamObject.key) }
-        style={ styles.container }
-        underlayColor={ colors.lightGray }
+        activeOpacity={0.6}
+        onPress={this.navigateToTeamDetails(teamObject.key)}
+        style={styles.container}
+        underlayColor={colors.lightGray}
       >
-        <View style={ styles.teamWrapper }>
-          <View style={ styles.teamCharactersWrapper }>
-            { characterViews }
-          </View>
-          <View style={ styles.teamInfoWrapper }>
-            <Text style={ styles.teamStat }>{ teamObject.diceCount } Dice</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.health } Health</Text>
-            <Text style={ styles.teamStat }>&middot;</Text>
-            <Text style={ styles.teamStat }>{ teamObject.points } Points</Text>
+        <View style={styles.teamWrapper}>
+          <View style={styles.teamCharactersWrapper}>{characterViews}</View>
+          <View style={styles.teamInfoWrapper}>
+            <Text style={styles.teamStat}>{teamObject.diceCount} Dice</Text>
+            <Text style={styles.teamStat}>&middot;</Text>
+            <Text style={styles.teamStat}>{teamObject.health} Health</Text>
+            <Text style={styles.teamStat}>&middot;</Text>
+            <Text style={styles.teamStat}>{teamObject.points} Points</Text>
           </View>
         </View>
         <View>
-          <FontAwesome5Icon name={ 'chevron-right' } size={ 16 } style={ arrowStyle } />
+          <FontAwesome5Icon
+            name={'chevron-right'}
+            size={16}
+            style={arrowStyle}
+          />
         </View>
       </TouchableOpacity>
     );
   }
 }
-
 
 TeamListItem.propTypes = {
   teamObject: PropTypes.object.isRequired,

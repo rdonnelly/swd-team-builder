@@ -30,7 +30,6 @@ import { cardBack, cardImages } from '../../lib/DestinyImages';
 
 import { base as baseStyles, colors } from '../../styles';
 
-
 const styles = StyleSheet.create({
   container: {
     ...baseStyles.container,
@@ -115,11 +114,12 @@ const styles = StyleSheet.create({
   },
 });
 
-
 class CharacterDetailScreen extends Component {
   shouldComponentUpdate(nextProps) {
-    if (this.props.characterState !== nextProps.characterState ||
-        this.props.deckCharacters !== nextProps.deckCharacters) {
+    if (
+      this.props.characterState !== nextProps.characterState ||
+      this.props.deckCharacters !== nextProps.deckCharacters
+    ) {
       return true;
     }
 
@@ -127,22 +127,25 @@ class CharacterDetailScreen extends Component {
   }
 
   render() {
-    const {
-      characterState,
-      deckCharacters,
-    } = this.props;
+    const { characterState, deckCharacters } = this.props;
 
     const cardId = this.props.navigation.getParam('id');
     const card = characters[cardId];
-    const characterObject = characterState.find((character) => character.id === cardId);
-    const deckCharacterObject = deckCharacters.find((deckCharacter) => deckCharacter.id === cardId);
+    const characterObject = characterState.find(
+      (character) => character.id === cardId,
+    );
+    const deckCharacterObject = deckCharacters.find(
+      (deckCharacter) => deckCharacter.id === cardId,
+    );
 
     const characterIsInDeck = deckCharacterObject !== undefined;
-    const characterIsIncompatible = characterObject !== undefined && characterObject.isIncompatible;
-    const characterIsExcluded = characterObject !== undefined && characterObject.isExcluded;
+    const characterIsIncompatible =
+      characterObject !== undefined && characterObject.isIncompatible;
+    const characterIsExcluded =
+      characterObject !== undefined && characterObject.isExcluded;
 
     const setIcon = validateSetCode(card.set) ? (
-      <SWDIcon type={ card.set } style={ styles.buttonTextIcon } />
+      <SWDIcon type={card.set} style={styles.buttonTextIcon} />
     ) : null;
 
     let deckMessageText = '';
@@ -154,36 +157,35 @@ class CharacterDetailScreen extends Component {
       }
     }
 
-    const deckMessage = deckMessageText ?
-      <View style={ styles.buttonView }>
-        <Text style={ styles.message }>
-          { deckMessageText }
-        </Text>
-      </View> : null;
+    const deckMessage = deckMessageText ? (
+      <View style={styles.buttonView}>
+        <Text style={styles.message}>{deckMessageText}</Text>
+      </View>
+    ) : null;
 
     let incompatibleMessageText = '';
     if (characterIsIncompatible) {
-      incompatibleMessageText = 'Character Incompatible with Selected Characters or Settings';
+      incompatibleMessageText =
+        'Character Incompatible with Selected Characters or Settings';
     }
 
-    const incompatibleMessage = incompatibleMessageText ?
-      <View style={ styles.buttonView }>
-        <Text style={ styles.message }>
-          { incompatibleMessageText }
-        </Text>
-      </View> : null;
+    const incompatibleMessage = incompatibleMessageText ? (
+      <View style={styles.buttonView}>
+        <Text style={styles.message}>{incompatibleMessageText}</Text>
+      </View>
+    ) : null;
 
     const excludeButton =
       !characterIsExcluded && !characterIsInDeck && !characterIsIncompatible ? (
         <TouchableOpacity
-          onPress={ () => this.props.excludeCharacter(card.id) }
-          style={ [styles.button, styles.buttonOrange] }
+          onPress={() => this.props.excludeCharacter(card.id)}
+          style={[styles.button, styles.buttonOrange]}
         >
-          <Text style={ styles.buttonText }>
-            { 'Exclude ' }
-            <Text style={ styles.buttonTextHighlight }>
-              { card.name }
-              &nbsp;{ setIcon }
+          <Text style={styles.buttonText}>
+            {'Exclude '}
+            <Text style={styles.buttonTextHighlight}>
+              {card.name}
+              &nbsp;{setIcon}
             </Text>
           </Text>
         </TouchableOpacity>
@@ -192,14 +194,14 @@ class CharacterDetailScreen extends Component {
     const includeButton =
       characterIsExcluded && !characterIsInDeck && !characterIsIncompatible ? (
         <TouchableOpacity
-          onPress={ () => this.props.includeCharacter(card.id) }
-          style={ [styles.button, styles.buttonOrange] }
+          onPress={() => this.props.includeCharacter(card.id)}
+          style={[styles.button, styles.buttonOrange]}
         >
-          <Text style={ styles.buttonText }>
-            { 'Include ' }
-            <Text style={ styles.buttonTextHighlight }>
-              { card.name }
-              &nbsp;{ setIcon }
+          <Text style={styles.buttonText}>
+            {'Include '}
+            <Text style={styles.buttonTextHighlight}>
+              {card.name}
+              &nbsp;{setIcon}
             </Text>
           </Text>
         </TouchableOpacity>
@@ -207,118 +209,115 @@ class CharacterDetailScreen extends Component {
 
     const addButton =
       (!characterIsInDeck || !card.isUnique) &&
-      !characterIsIncompatible && !characterIsExcluded ? (
-          <TouchableOpacity
-            onPress={ () => this.props.addCharacter(characterObject) }
-            style={ [styles.button, styles.buttonGreen] }
-          >
-            <Text style={ styles.buttonText }>
-              { !characterIsInDeck || card.isUnique ?
-                'Add ' :
-                'Add Another ' }
-              <Text style={ styles.buttonTextHighlight }>
-                { card.name }
-                &nbsp;{ setIcon }
-              </Text>
+      !characterIsIncompatible &&
+      !characterIsExcluded ? (
+        <TouchableOpacity
+          onPress={() => this.props.addCharacter(characterObject)}
+          style={[styles.button, styles.buttonGreen]}
+        >
+          <Text style={styles.buttonText}>
+            {!characterIsInDeck || card.isUnique ? 'Add ' : 'Add Another '}
+            <Text style={styles.buttonTextHighlight}>
+              {card.name}
+              &nbsp;{setIcon}
             </Text>
-          </TouchableOpacity>
-        ) : null;
+          </Text>
+        </TouchableOpacity>
+      ) : null;
 
-    const removeButton = characterIsInDeck ?
+    const removeButton = characterIsInDeck ? (
       <TouchableOpacity
-        onPress={ () => this.props.removeCharacter(characterObject) }
-        style={ [styles.button, styles.buttonOrange] }
+        onPress={() => this.props.removeCharacter(characterObject)}
+        style={[styles.button, styles.buttonOrange]}
       >
-        <Text style={ styles.buttonText }>
-          { 'Remove ' }
-          <Text style={ styles.buttonTextHighlight }>
-            { card.name }
-            &nbsp;{ setIcon }
+        <Text style={styles.buttonText}>
+          {'Remove '}
+          <Text style={styles.buttonTextHighlight}>
+            {card.name}
+            &nbsp;{setIcon}
           </Text>
         </Text>
-      </TouchableOpacity> : null;
+      </TouchableOpacity>
+    ) : null;
 
-    const anyButton = characterIsInDeck && card.isUnique ?
-      <TouchableOpacity
-        disabled={ deckCharacterObject.diceCount === 0 }
-        onPress={ () => this.props.setCharacterAny(characterObject) }
-        style={ [
-          styles.button,
-          styles.buttonPurple,
-          styles.buttonLeft,
-          deckCharacterObject.diceCount === 0 && styles.buttonDisabled,
-        ] }
-      >
-        <Text style={ styles.buttonText }>{ 'Any' }</Text>
-      </TouchableOpacity> : null;
+    const anyButton =
+      characterIsInDeck && card.isUnique ? (
+        <TouchableOpacity
+          disabled={deckCharacterObject.diceCount === 0}
+          onPress={() => this.props.setCharacterAny(characterObject)}
+          style={[
+            styles.button,
+            styles.buttonPurple,
+            styles.buttonLeft,
+            deckCharacterObject.diceCount === 0 && styles.buttonDisabled,
+          ]}
+        >
+          <Text style={styles.buttonText}>{'Any'}</Text>
+        </TouchableOpacity>
+      ) : null;
 
-    const regularButton = characterIsInDeck && card.isUnique ?
-      <TouchableOpacity
-        disabled={ deckCharacterObject.diceCount === 1 }
-        onPress={ () => this.props.setCharacterRegular(characterObject) }
-        style={ [
-          styles.button,
-          styles.buttonPurple,
-          styles.buttonMiddle,
-          deckCharacterObject.diceCount === 1 && styles.buttonDisabled,
-        ] }
-      >
-        <SWDIcon type={ 'DIE' } style={ styles.buttonIcon } />
-      </TouchableOpacity> : null;
+    const regularButton =
+      characterIsInDeck && card.isUnique ? (
+        <TouchableOpacity
+          disabled={deckCharacterObject.diceCount === 1}
+          onPress={() => this.props.setCharacterRegular(characterObject)}
+          style={[
+            styles.button,
+            styles.buttonPurple,
+            styles.buttonMiddle,
+            deckCharacterObject.diceCount === 1 && styles.buttonDisabled,
+          ]}
+        >
+          <SWDIcon type={'DIE'} style={styles.buttonIcon} />
+        </TouchableOpacity>
+      ) : null;
 
     const eliteButton =
-      characterIsInDeck && card.isUnique && card.pointsElite ?
-      <TouchableOpacity
-        disabled={ deckCharacterObject.diceCount === 2 }
-        onPress={ () => this.props.setCharacterElite(characterObject) }
-        style={ [
-          styles.button,
-          styles.buttonPurple,
-          styles.buttonRight,
-          deckCharacterObject.diceCount === 2 && styles.buttonDisabled,
-        ] }
-      >
-        <View>
-          <SWDIcon type={ 'DIE' } style={ styles.buttonIcon } />
-        </View>
-        <View>
-          <SWDIcon type={ 'DIE' } style={ styles.buttonIcon } />
-        </View>
-      </TouchableOpacity> : null;
+      characterIsInDeck && card.isUnique && card.pointsElite ? (
+        <TouchableOpacity
+          disabled={deckCharacterObject.diceCount === 2}
+          onPress={() => this.props.setCharacterElite(characterObject)}
+          style={[
+            styles.button,
+            styles.buttonPurple,
+            styles.buttonRight,
+            deckCharacterObject.diceCount === 2 && styles.buttonDisabled,
+          ]}
+        >
+          <View>
+            <SWDIcon type={'DIE'} style={styles.buttonIcon} />
+          </View>
+          <View>
+            <SWDIcon type={'DIE'} style={styles.buttonIcon} />
+          </View>
+        </TouchableOpacity>
+      ) : null;
 
     const imageSrc = cardImages[card.id] || cardBack;
 
     return (
-      <View style={ styles.container }>
-        <ScrollView style={ styles.details }>
-          <View style={ styles.detailsImageContainer }>
+      <View style={styles.container}>
+        <ScrollView style={styles.details}>
+          <View style={styles.detailsImageContainer}>
             <Image
-              style={styles.detailsImage }
-              resizeMode='contain'
-              source={ imageSrc }
+              style={styles.detailsImage}
+              resizeMode="contain"
+              source={imageSrc}
             />
           </View>
         </ScrollView>
-        <View style={ styles.actionBar }>
-          { incompatibleMessage }
-          { deckMessage }
-          <View style={ styles.buttonView }>
-            { anyButton }
-            { regularButton }
-            { eliteButton }
+        <View style={styles.actionBar}>
+          {incompatibleMessage}
+          {deckMessage}
+          <View style={styles.buttonView}>
+            {anyButton}
+            {regularButton}
+            {eliteButton}
           </View>
-          <View style={ styles.buttonView }>
-            { addButton }
-          </View>
-          <View style={ styles.buttonView }>
-            { removeButton }
-          </View>
-          <View style={ styles.buttonView }>
-            { excludeButton }
-          </View>
-          <View style={ styles.buttonView }>
-            { includeButton }
-          </View>
+          <View style={styles.buttonView}>{addButton}</View>
+          <View style={styles.buttonView}>{removeButton}</View>
+          <View style={styles.buttonView}>{excludeButton}</View>
+          <View style={styles.buttonView}>{includeButton}</View>
         </View>
       </View>
     );
@@ -356,4 +355,7 @@ const mapDispatchToProps = {
   excludeCharacter,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CharacterDetailScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CharacterDetailScreen);
