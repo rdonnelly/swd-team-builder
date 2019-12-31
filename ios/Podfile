@@ -40,7 +40,6 @@ target 'SWDTeamBuilder' do
   end
 
   use_native_modules!
-
 end
 
 target 'SWDTeamBuilder-tvOS' do

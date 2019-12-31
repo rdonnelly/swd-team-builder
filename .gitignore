@@ -69,3 +69,6 @@ haul-debug.log
 data
 swd-teams.db
 ios/SWDTeamBuilder/www/swd-teams.db
+
+# Build Scripts
+ios/exportOptions.plist
