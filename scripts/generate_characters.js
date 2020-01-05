@@ -14,6 +14,7 @@ import dbSetAtG from 'swdestinydb-json-data/set/AtG.json';
 import dbSetConv from 'swdestinydb-json-data/set/CONV.json';
 import dbSetAoN from 'swdestinydb-json-data/set/AoN.json';
 import dbSetSoH from 'swdestinydb-json-data/set/SoH.json';
+import dbSetCM from 'swdestinydb-json-data/set/CM.json';
 
 import formats from 'swdestinydb-json-data/formats.json';
 
@@ -49,6 +50,7 @@ let characters = []
     dbSetConv,
     dbSetAoN,
     dbSetSoH,
+    dbSetCM,
   )
   .filter((rawCard) => rawCard.type_code === 'character')
   .map((rawCard) => {
