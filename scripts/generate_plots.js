@@ -68,6 +68,8 @@ let plots = []
     card.points = parseInt(rawCard.points, 10);
     card.restrictedFormats = [];
     card.set = rawCard.set_code;
+    card.subtypes = [...(rawCard.subtypes || [])];
+    card.type = rawCard.type_code;
 
     if (card.points < plotsStats.minPoints) {
       plotsStats.minPoints = card.points;
@@ -83,7 +85,10 @@ let plots = []
     plotsStats.factions = _.uniq(plotsStats.factions);
 
     formats.forEach((format) => {
-      if (format.data.sets.includes(rawCard.set_code)) {
+      if (
+        format.data.sets.includes(rawCard.set_code) ||
+        rawCard.set_code === 'CM'
+      ) {
         card.formats.push(format.code);
       }
 
@@ -130,6 +135,8 @@ plots = plots.map((card, index) => ({
   points: card.points,
   restrictedFormats: card.restrictedFormats,
   set: card.set,
+  subtypes: card.subtypes,
+  type: card.type,
 
   hasRestriction: [
     '08054', // PLOT: Retribution, 08054
@@ -137,11 +144,13 @@ plots = plots.map((card, index) => ({
     '08156', // PLOT: Solidarity, 08156
     '10016', // PLOT: Allies of Necessity, 10016
     '11119', // PLOT: Temporary Truce, 11119
+    '12104', // PLOT: Spectre Cell, 12104
   ].includes(card.id),
   hasModification: [
     '08155', // PLOT: No Allegiance, 08155
     '08156', // PLOT: Solidarity, 08156
     '11119', // PLOT: Temporary Truce, 11119
+    '12104', // PLOT: Spectre Cell, 12104
   ].includes(card.id),
 
   rank: index,

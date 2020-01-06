@@ -70,7 +70,8 @@ let characters = []
     card.restrictedFormats = [];
     card.set = rawCard.set_code;
     card.subtitle = rawCard.subtitle;
-    card.subtypes = rawCard.subtypes;
+    card.subtypes = [...(rawCard.subtypes || [])];
+    card.type = rawCard.type_code;
 
     // set damage types
     card.damageTypes = [];
@@ -119,7 +120,10 @@ let characters = []
     }
 
     formats.forEach((format) => {
-      if (format.data.sets.includes(rawCard.set_code)) {
+      if (
+        format.data.sets.includes(rawCard.set_code) ||
+        rawCard.set_code === 'CM'
+      ) {
         card.formats.push(format.code);
       }
 
@@ -188,7 +192,7 @@ characters = characters.map((card, index) => ({
   set: card.set,
   subtitle: card.subtitle,
   subtypes: card.subtypes,
-  types: card.type,
+  type: card.type,
 
   rank: index,
 }));

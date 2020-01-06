@@ -174,6 +174,49 @@ class Team {
       this.health += 1;
     }
 
+    if (card.id === '12021') {
+      // CHARACTER: Director Krennic, 12021
+      if (this.plot && this.plot.subtypes.includes('death-star')) {
+        this.characterPoints -= 1;
+        this.points -= 1;
+      }
+    }
+
+    if (card.id === '12055') {
+      // CHARACTER: Kanan Jarrus, 12055
+      if (this.hasCharacter({ subtype: 'spectre' }) > 0) {
+        this.characterPoints -= 1;
+        this.points -= 1;
+      }
+    }
+
+    if (card.id === '12056') {
+      // CHARACTER: Luke Skywalker, 12056
+      if (this.plot && this.plot.subtypes.includes('death-star')) {
+        this.characterPoints -= 1;
+        this.points -= 1;
+      }
+    }
+
+    if (card.subtypes && card.subtypes.includes('spectre')) {
+      if (this.hasCharacter({ id: '12055' }) > 0) {
+        // CHARACTER: Kanan Jarrus, 12055
+        this.characterPoints -= 1;
+        this.points -= 1;
+      }
+    }
+
+    if (card.id === '12074') {
+      // CHARACTER: Tarfful, 12074
+      const hasCharacterResult = this.hasCharacter({ subtype: 'wookie' });
+      this.health += hasCharacterResult;
+    }
+
+    if (card.subtypes && card.subtypes.includes('wookie')) {
+      const hasCharacterResult = this.hasCharacter({ id: '12074' }); // CHARACTER: Tarfful, 12074
+      this.health += hasCharacterResult;
+    }
+
     return true;
   }
 
@@ -258,6 +301,14 @@ class Team {
     // CHECK PLOT
 
     if (this.plot) {
+      if (this.plot.id === '08054') {
+        // PLOT: Retribution, 08054
+        // must include 20-point character
+        if (this.characters.every((character) => character.points < 20)) {
+          return false;
+        }
+      }
+
       if (this.plot.id === '08155') {
         // PLOT: No Allegiance, 08155
         // must be neutral
@@ -277,20 +328,16 @@ class Team {
         }
       }
 
-      // plot must be neutral and/or share affiliation with character
-      if (
-        this.plot.affiliation !== 'neutral' &&
-        !this.affiliations.includes(this.plot.affiliation)
-      ) {
-        return false;
-      }
-
-      // plot must be gray and/or share faction/color with character
-      if (
-        this.plot.faction !== 'gray' &&
-        !this.factions.includes(this.plot.faction)
-      ) {
-        return false;
+      if (this.plot.id === '12104') {
+        // PLOT: Spectre Cell, 12104
+        // all characters must have "spectre" subtype
+        if (
+          this.characters.every((character) =>
+            character.subtypes.includes('spectre'),
+          )
+        ) {
+          return false;
+        }
       }
     }
 
@@ -315,44 +362,16 @@ class Team {
 
     // CHECK PLOT
 
-    // TODO need to check that other -1 plots are not being used when you don't need them
-    // e.g. Bitter Rivalry, 08115
-
     if (this.plot) {
-      if (this.plot.id === '08054') {
-        // PLOT: Retribution, 08054
-        // must include 20-point character
-        if (this.characters.every((character) => character.points < 20)) {
-          return false;
-        }
-      }
-
-      if (this.plot.id === '08155') {
-        // PLOT: No Allegiance, 08155
-        // must be neutral
-        if (
-          this.affiliations.length > 1 ||
-          !this.affiliations.includes('neutral')
-        ) {
-          return false;
-        }
-      }
-
-      if (this.plot.id === '08156') {
-        // PLOT: Solidarity, 08156
-        // must be one faction/color and must use all points
-        if (this.factions.length !== 1 || this.characterPoints <= MAX_POINTS) {
-          return false;
-        }
+      if (this.plot.points < 0 && this.characterPoints <= MAX_POINTS) {
+        // all negative plots must use all points
+        return false;
       }
 
       if (this.plot.id === '10016') {
         // PLOT: Allies of Necessity, 10016
-        // two characters must share a faction/color and must use all points
-        if (
-          this.factions.length >= this.characterCount ||
-          this.characterPoints <= MAX_POINTS
-        ) {
+        // two characters must share a faction/color
+        if (this.factions.length >= this.characterCount) {
           return false;
         }
       }
@@ -414,6 +433,7 @@ Object.values(plots).forEach((plot) => {
       points: plot.points,
       restrictedFormats: plot.restrictedFormats,
       sets: [plot.set],
+      subtypes: [...plot.subtypes],
     });
   } else {
     const matchingPlot = plotVariants.find(
@@ -434,6 +454,7 @@ Object.values(plots).forEach((plot) => {
         points: plot.points,
         restrictedFormats: [],
         sets: [plot.set],
+        subtypes: [...plot.subtypes],
       });
     } else if (!matchingPlot.sets.includes(plot.set)) {
       matchingPlot.sets.push(plot.set);
