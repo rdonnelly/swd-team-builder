@@ -147,14 +147,17 @@ class Database {
 
     // affiliations
     const affiliationsExpression = squel.expr();
-    if (!filters.affiliations.villain) {
-      affiliationsExpression.or('affiliationVillain = 0');
-    }
     if (!filters.affiliations.hero) {
-      affiliationsExpression.or('affiliationHero = 0');
+      affiliationsExpression.and('affiliationHero = 0');
+    }
+    if (!filters.affiliations.villain) {
+      affiliationsExpression.and('affiliationVillain = 0');
     }
     if (!filters.affiliations.neutral) {
-      affiliationsExpression.or('affiliationNeutral = 0');
+      const neutralExpression = squel.expr();
+      neutralExpression.or('affiliationHero = 1');
+      neutralExpression.or('affiliationVillain = 1');
+      affiliationsExpression.and(neutralExpression);
     }
     query.where(affiliationsExpression);
 
@@ -192,42 +195,45 @@ class Database {
 
     // formats
     const formatsExpression = squel.expr();
-    if (!filters.formats.INF) {
-      formatsExpression.and('formatInf = 0');
+    if (filters.formats.INF) {
+      formatsExpression.and('format = "INF"');
     }
-    if (!filters.formats.STD) {
-      formatsExpression.and('formatStd = 0');
+    if (filters.formats.STD) {
+      formatsExpression.and('format = "STD"');
     }
-    if (!filters.formats.TRI) {
-      formatsExpression.and('formatTri = 0');
+    if (filters.formats.TRI) {
+      formatsExpression.and('format = "TRI"');
     }
     query.where(formatsExpression);
 
-    // plot
-    if (filters.plotPoints) {
-      // plot faction
-      const plotFactionsExpression = squel.expr();
-      if (filters.plotFactions.blue) {
-        plotFactionsExpression.and('factionBlue = 1');
-      }
-      if (filters.plotFactions.red) {
-        plotFactionsExpression.and('factionRed = 1');
-      }
-      if (filters.plotFactions.yellow) {
-        plotFactionsExpression.and('factionYellow = 1');
-      }
-      query.where(plotFactionsExpression);
+    // plot faction
+    const plotFactionsExpression = squel.expr();
+    if (filters.plotFactions.blue) {
+      plotFactionsExpression.and('factionBlue = 1');
     }
+    if (filters.plotFactions.red) {
+      plotFactionsExpression.and('factionRed = 1');
+    }
+    if (filters.plotFactions.yellow) {
+      plotFactionsExpression.and('factionYellow = 1');
+    }
+    query.where(plotFactionsExpression);
 
     // plot points
     query.where(
-      'points <= ? AND (plotPoints IS NULL OR plotPoints = ?)',
+      '(characterPoints <= ? AND plotPoints IS NULL) OR plotPoints = ?',
       30 - filters.plotPoints,
       filters.plotPoints,
     );
     if (filters.plotPoints < 0) {
-      query.where('points > ? OR plotPoints = ?', 30, filters.plotPoints);
+      query.where(
+        'characterPoints > ? OR plotPoints = ?',
+        30,
+        filters.plotPoints,
+      );
     }
+
+    console.log(query.toString());
 
     return query;
   };
@@ -237,20 +243,20 @@ class Database {
       .then((db) =>
         db.executeSql(
           `
-        SELECT
-          key,
-          diceCount,
-          health,
-          points,
-          affiliationHero,
-          affiliationNeutral,
-          affiliationVillain
-        FROM
-          teams
-        WHERE
-          key = ?
-        LIMIT 1
-      ;`,
+            SELECT
+              key,
+              diceCount,
+              health,
+              characterPoints AS points,
+              affiliationHero,
+              affiliationVillain
+            FROM
+              teams
+            WHERE
+              key = ?
+            LIMIT 1
+            ;
+          `,
           [key],
         ),
       )
@@ -268,7 +274,7 @@ class Database {
       .field('key')
       .field('diceCount')
       .field('health')
-      .field('points')
+      .field('characterPoints', 'points')
       .limit(100);
 
     this.sortOrder.forEach((column) => {

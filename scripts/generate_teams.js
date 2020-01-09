@@ -554,12 +554,11 @@ const generateTeams = (team, eligibleCharacters) => {
 
       const remainingPoints = MAX_POINTS - team.points;
       const newEligibleCharacters = eligibleCharacters
-        .slice(index)
+        .slice(index - 1)
         .filter(
           (eligibleCharacter) =>
-            eligibleCharacter.id !== character.id &&
-            (eligibleCharacter.points <= remainingPoints ||
-              eligibleCharacter.hasModification),
+            eligibleCharacter.points <= remainingPoints ||
+            eligibleCharacter.hasModification,
         );
 
       generateTeams(newTeam, newEligibleCharacters);
