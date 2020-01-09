@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
 
 class BadgeTabIcon extends PureComponent {
   render() {
-    const { data: count } = this.props;
+    const { data: count, dataIsLoading } = this.props;
 
     let countLabel = '...';
-    if (count != null) {
-      countLabel = count <= 500 ? count : '500+';
+    if (count != null && !dataIsLoading) {
+      countLabel = count <= 1000 ? count : '1000+';
     }
 
     const iconStyles = {
