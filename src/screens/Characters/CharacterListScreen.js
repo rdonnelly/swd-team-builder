@@ -356,7 +356,7 @@ class CharacterListScreen extends Component {
               clearButtonMode={'always'}
               editable={this.state.searchInputEditable}
               placeholder={'Search by Name'}
-              placeholderColor={colors.lightGrayDark}
+              placeholderTextColor={colors.gray}
               ref={(component) => {
                 this.searchInput = component;
               }}
