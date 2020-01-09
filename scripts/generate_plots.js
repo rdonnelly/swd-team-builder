@@ -138,18 +138,14 @@ plots = plots.map((card, index) => ({
   subtypes: card.subtypes,
   type: card.type,
 
-  hasRestriction: [
+  hasModification: [
     '08054', // PLOT: Retribution, 08054
     '08155', // PLOT: No Allegiance, 08155
     '08156', // PLOT: Solidarity, 08156
     '10016', // PLOT: Allies of Necessity, 10016
     '11119', // PLOT: Temporary Truce, 11119
-    '12104', // PLOT: Spectre Cell, 12104
-  ].includes(card.id),
-  hasModification: [
-    '08155', // PLOT: No Allegiance, 08155
-    '08156', // PLOT: Solidarity, 08156
-    '11119', // PLOT: Temporary Truce, 11119
+    '12104', // PLOT: Construct The Death Star, 12030
+    '12104', // PLOT: Destroy The Death Star, 12081
     '12104', // PLOT: Spectre Cell, 12104
   ].includes(card.id),
 

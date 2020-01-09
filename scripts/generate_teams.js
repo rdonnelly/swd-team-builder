@@ -45,11 +45,9 @@ class Team {
 
     this.characters = [];
     this.characterCount = 0;
-    this.characterPoints = 0;
 
     this.plot = null;
     this.plotId = null;
-    this.plotPoints = null;
 
     this.affiliations = [];
     this.damageTypes = [];
@@ -57,9 +55,13 @@ class Team {
     this.factions = [];
     this.format = format;
     this.health = 0;
+
+    this.plotPoints = null;
+    this.characterPoints = 0;
     this.points = 0;
+
+    this.hasModification = false;
     this.restrictedFormats = [];
-    this.sets = [];
 
     this.ranks = {};
 
@@ -77,193 +79,168 @@ class Team {
       .sort()
       .join('__');
 
-    if (this.plot && this.plot.hasModification) {
-      return `${characterKey}___${this.plot.id}`;
+    if (this.plotId) {
+      return `${this.format}____${characterKey}___${this.plot.id}`;
     }
 
     return `${this.format}____${characterKey}`;
   }
 
+  addPlot(plot) {
+    this.plot = { ...plot };
+    this.plotId = plot.id;
+
+    this.affiliations = _.uniq([...this.affiliations, plot.affiliation]);
+    this.factions = _.uniq([...this.factions, plot.faction]);
+
+    this.key = this.getKey();
+    this.updatePoints();
+    return this.isLegal();
+  }
+
   addCharacter(card) {
-    const existingCharacterObjById = this.characters.find(
-      (character) => character.id === card.id,
-    );
     const existingCharacterObjByName = this.characters.find(
       (character) => character.name === card.name,
     );
 
-    if (existingCharacterObjById === undefined) {
-      if (existingCharacterObjByName === undefined) {
-        this.characters.push({
-          id: card.id,
-          name: card.name,
-          subtypes: card.subtypes,
-          count: 1,
-          isElite: card.isElite,
-          pointsToElite: card.pointsToElite,
-        });
+    if (existingCharacterObjByName !== undefined) {
+      return false;
+    }
 
-        if (card.restrictedFormats.indexOf(this.format) !== -1) {
-          this.restrictedFormats.push(this.format);
-        }
-      } else {
-        // no characters with same name (but different id) on team
-        return false;
-      }
-    } else {
-      // do not add another copy of a unique character
+    const existingCharacterObjById = this.characters.find(
+      (character) => character.id === card.id,
+    );
+
+    if (existingCharacterObjById !== undefined) {
       if (card.isUnique) {
         return false;
       }
 
       // increase count of character
       existingCharacterObjById.count += 1;
+    } else {
+      this.characters.push({
+        id: card.id,
+        name: card.name,
+        subtypes: card.subtypes,
+        count: 1,
+        isElite: card.isElite,
+        points: card.points,
+        pointsToElite: card.pointsToElite,
+      });
+
+      if (card.restrictedFormats.indexOf(this.format) !== -1) {
+        this.restrictedFormats.push(this.format);
+      }
+
+      if (card.hasModification) {
+        this.hasModification = true;
+      }
     }
 
     this.affiliations = _.uniq([...this.affiliations, card.affiliation]);
     this.damageTypes = _.uniq([...this.damageTypes, ...card.damageTypes]);
     this.factions = _.uniq([...this.factions, card.faction]);
-    this.sets = _.uniq([...this.sets, card.set]);
 
     this.diceCount += card.hasDie ? (card.isElite ? 2 : 1) : 0;
     this.health += card.health;
-    this.points += card.points;
 
     this.characterCount = this.characters.reduce(
       (count, characterObject) => count + characterObject.count,
       0,
     );
-    this.characterPoints += card.points;
 
-    this.key = this.getKey();
-
-    // TODO modifications below should not be able to find self
-
-    if (card.id === '05038') {
-      // CHARACTER: Clone Trooper, 05038
-      const hasCharacterResult = this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
-      this.characterPoints -= hasCharacterResult;
-      this.points -= hasCharacterResult;
+    // CHARACTER: Tarfful, 12074
+    if (card.id === '12074') {
+      const hasWookie = this.hasCharacter({
+        subtype: 'wookie',
+        excludeId: card.id,
+      });
+      this.health += hasWookie;
     }
 
-    if (card.id === '08073') {
-      // CHARACTER: Clone Commander Cody, 08073
-      const hasCharacterResult = this.hasCharacter({ id: '05038' }); // CHARACTER: Clone Trooper, 05038
-      this.characterPoints -= hasCharacterResult;
-      this.points -= hasCharacterResult;
+    if (card.subtypes && card.subtypes.includes('wookie')) {
+      // CHARACTER: Tarfful, 12074
+      const hasTarfful = this.hasCharacter({ id: '12074', excludeId: card.id });
+      this.health += hasTarfful;
     }
 
-    if (card.id === '09021') {
-      // CHARACTER: General Grievous, 09021
-      const hasCharacterResult = this.hasCharacter({ subtype: 'droid' });
-      this.characterPoints -= hasCharacterResult;
-      this.points -= hasCharacterResult;
-    }
-
-    if (card.subtypes && card.subtypes.includes('droid')) {
-      const hasCharacterResult = this.hasCharacter({ id: '09021' }); // CHARACTER: General Grievous, 09021
-      this.characterPoints -= hasCharacterResult;
-      this.points -= hasCharacterResult;
-    }
-
+    // // PLOT: No Allegiance, 08155
     if (
-      this.plot &&
-      this.plot.id === '08155' && // PLOT: No Allegiance, 08155
+      this.plotId &&
+      this.plotId === '08155' &&
       card.affiliation === 'neutral'
     ) {
       this.health += 1;
     }
 
-    if (card.id === '12021') {
-      // CHARACTER: Director Krennic, 12021
-      if (this.plot && this.plot.subtypes.includes('death-star')) {
-        this.characterPoints -= 1;
-        this.points -= 1;
-      }
-    }
-
-    if (card.id === '12055') {
-      // CHARACTER: Kanan Jarrus, 12055
-      if (this.hasCharacter({ subtype: 'spectre' }) > 0) {
-        this.characterPoints -= 1;
-        this.points -= 1;
-      }
-    }
-
-    if (card.id === '12056') {
-      // CHARACTER: Luke Skywalker, 12056
-      if (this.plot && this.plot.subtypes.includes('death-star')) {
-        this.characterPoints -= 1;
-        this.points -= 1;
-      }
-    }
-
-    if (card.subtypes && card.subtypes.includes('spectre')) {
-      if (this.hasCharacter({ id: '12055' }) > 0) {
-        // CHARACTER: Kanan Jarrus, 12055
-        this.characterPoints -= 1;
-        this.points -= 1;
-      }
-    }
-
-    if (card.id === '12074') {
-      // CHARACTER: Tarfful, 12074
-      const hasCharacterResult = this.hasCharacter({ subtype: 'wookie' });
-      this.health += hasCharacterResult;
-    }
-
-    if (card.subtypes && card.subtypes.includes('wookie')) {
-      const hasCharacterResult = this.hasCharacter({ id: '12074' }); // CHARACTER: Tarfful, 12074
-      this.health += hasCharacterResult;
-    }
-
-    return true;
-  }
-
-  addPlot(plot) {
-    this.plot = { ...plot };
     this.key = this.getKey();
-
-    this.plotId = plot.id;
-    this.plotPoints = plot.points;
-
-    this.affiliations = _.uniq([...this.affiliations, plot.affiliation]);
-    this.factions = _.uniq([...this.factions, plot.faction]);
-    this.sets = _.uniq([...this.sets, plot.sets]);
-    this.points += plot.points;
+    this.updatePoints();
+    return this.isLegal();
   }
 
-  hasCharacter({ id, name, subtype }) {
-    let teamCharacters = [];
-    let count = 0;
-
-    if (id) {
-      teamCharacters = this.characters.filter((charObj) => charObj.id === id);
+  updatePoints() {
+    // PLOT POINTS
+    if (this.plot) {
+      this.plotPoints = this.plot.points;
     }
 
-    if (name) {
-      teamCharacters = this.characters.filter(
-        (charObj) => charObj.name === name,
-      );
-    }
-
-    if (subtype) {
-      teamCharacters = this.characters.filter(
-        (charObj) => charObj.subtypes && charObj.subtypes.includes(subtype),
-      );
-    }
-
-    teamCharacters.forEach((character) => {
-      if (character.count) {
-        count += character.count;
-      }
+    // CHARACTER POINTS
+    this.characterPoints = 0;
+    this.characters.forEach((character) => {
+      this.characterPoints += character.points * character.count;
     });
 
-    return count;
+    // Special Point Modifications
+    if (this.hasModification) {
+      const hasCloneCommanderCody = this.hasCharacter({ id: '08073' }); // CHARACTER: Clone Commander Cody, 08073
+      const hasCloneTrooper = this.hasCharacter({ id: '05038' }); // CHARACTER: Clone Trooper, 05038
+      if (hasCloneCommanderCody && hasCloneTrooper) {
+        this.characterPoints -= hasCloneTrooper;
+      }
+
+      // CHARACTER: General Grievous, 09021
+      const hasGeneralGrevious = this.hasCharacter({ id: '09021' });
+      const hasDroid = this.hasCharacter({ subtype: 'droid' });
+      if (hasGeneralGrevious && hasDroid) {
+        this.characterPoints -= hasDroid;
+      }
+
+      // CHARACTER: Director Krennic, 12021
+      const hasDirectorKrennic = this.hasCharacter({ id: '12021' });
+      if (
+        hasDirectorKrennic &&
+        this.plot &&
+        this.plot.subtypes.includes('death-star')
+      ) {
+        this.characterPoints -= 1;
+      }
+
+      // CHARACTER: Kanan Jarrus, 12055
+      const hasKananJarrus = this.hasCharacter({ id: '12055' });
+      const hasSpectre = this.hasCharacter({ subtype: 'spectre' });
+      if (hasKananJarrus && hasSpectre >= 2) {
+        this.characterPoints -= 1;
+      }
+
+      // CHARACTER: Luke Skywalker, 12056
+      const hasLukeSkywalker = this.hasCharacter({ id: '12056' });
+      if (
+        hasLukeSkywalker &&
+        this.plot &&
+        this.plot.subtypes.includes('death-star')
+      ) {
+        this.characterPoints -= 1;
+      }
+    }
+
+    // TOTAL POINTS
+    this.points = (this.plot ? this.plotPoints : 0) + this.characterPoints;
   }
 
   isLegal() {
-    // team must be above min points and below max points
+    // CHECK POINTS
+    // team must be below max points
     if (this.points > MAX_POINTS) {
       return false;
     }
@@ -273,90 +250,81 @@ class Team {
       return false;
     }
 
-    // team can not have Anakin Skywalker (06001) and Darth Vader
+    // CHECK PLOT
+
+    if (this.plot) {
+      // PLOT: No Allegiance, 08155
+      // must be neutral
+      if (
+        this.plot.id === '08155' &&
+        (this.affiliations.length > 1 || !this.affiliations.includes('neutral'))
+      ) {
+        return false;
+      }
+
+      // PLOT: Solidarity, 08156
+      // must be one faction/color and must use all points
+      if (this.plot.id === '08156' && this.factions.length > 1) {
+        return false;
+      }
+
+      // PLOT: Spectre Cell, 12104
+      // all characters must have "spectre" subtype
+      if (
+        this.plot.id === '12104' &&
+        !this.characters.every((character) =>
+          character.subtypes.includes('spectre'),
+        )
+      ) {
+        return false;
+      }
+    }
+
+    // CHECK MISC
+
     if (
       this.hasCharacter({ id: '06001' }) && // CHARACTER: Anakin Skywalker, 06001
       this.hasCharacter({ name: 'Darth Vader' })
     ) {
+      // team can not have Anakin Skywalker (06001) and Darth Vader
       return false;
-    }
-
-    // team can not have Youngling (11059) without a Jedi
-    if (
-      this.hasCharacter({ id: '11059' }) &&
-      !this.hasCharacter({ subtype: 'jedi' })
-    ) {
-      return false;
-    }
-
-    // team can not have Ewok Warrior (11095) without a unique Ewok
-    if (
-      this.hasCharacter({ id: '11095' }) &&
-      !this.hasCharacter({ id: '11093' }) &&
-      !this.hasCharacter({ id: '11097' })
-    ) {
-      return false;
-    }
-
-    // CHECK PLOT
-
-    if (this.plot) {
-      if (this.plot.id === '08054') {
-        // PLOT: Retribution, 08054
-        // must include 20-point character
-        if (this.characters.every((character) => character.points < 20)) {
-          return false;
-        }
-      }
-
-      if (this.plot.id === '08155') {
-        // PLOT: No Allegiance, 08155
-        // must be neutral
-        if (
-          this.affiliations.length > 1 ||
-          !this.affiliations.includes('neutral')
-        ) {
-          return false;
-        }
-      }
-
-      if (this.plot.id === '08156') {
-        // PLOT: Solidarity, 08156
-        // must be one faction/color and must use all points
-        if (this.factions.length > 1) {
-          return false;
-        }
-      }
-
-      if (this.plot.id === '12104') {
-        // PLOT: Spectre Cell, 12104
-        // all characters must have "spectre" subtype
-        if (
-          this.characters.every((character) =>
-            character.subtypes.includes('spectre'),
-          )
-        ) {
-          return false;
-        }
-      }
     }
 
     return true;
   }
 
   isComplete() {
-    // team must be legal
+    // must be legal
     if (!this.isLegal()) {
       return false;
     }
 
-    // team must have above min dice
+    // must have above min dice
     if (this.diceCount < MIN_DICE) {
       return false;
     }
 
-    // team must be above min points and below max points
-    if (this.points < MIN_POINTS || this.points > MAX_POINTS) {
+    // must be above min points
+    if (this.points < MIN_POINTS) {
+      return false;
+    }
+
+    // CHECK CHARACTERS
+
+    if (
+      this.hasCharacter({ id: '11059' }) && // CHARACTER: Youngling, 11059
+      !this.hasCharacter({ subtype: 'jedi' })
+    ) {
+      // team can not have Youngling (11059) without a Jedi
+      return false;
+    }
+
+    if (
+      this.hasCharacter({ id: '11095' }) && // CHARACTER: Ewok Warrior, 11059
+      !this.hasCharacter({ id: '11093' }) && // CHARACTER: Chief Chirpa, 11093
+      !this.hasCharacter({ id: '11097' }) // CHARACTER: Wicket, 11097
+    ) {
+      // team can not have Ewok Warrior (11095) without a unique Ewok
       return false;
     }
 
@@ -368,44 +336,89 @@ class Team {
         return false;
       }
 
-      if (this.plot.id === '10016') {
-        // PLOT: Allies of Necessity, 10016
-        // two characters must share a faction/color
-        if (this.factions.length >= this.characterCount) {
-          return false;
-        }
-      }
-
-      // plot must be neutral and/or share affiliation with character
       if (
         this.plot.affiliation !== 'neutral' &&
         !this.affiliations.includes(this.plot.affiliation)
       ) {
+        // plot must be neutral and/or share affiliation with character
         return false;
       }
 
-      // plot must be gray and/or share faction/color with character
       if (
         this.plot.faction !== 'gray' &&
         !this.factions.includes(this.plot.faction)
       ) {
+        // plot must be gray and/or share faction/color with character
+        return false;
+      }
+
+      if (
+        this.plot.id === '08054' &&
+        this.characters.every((character) => character.points < 20)
+      ) {
+        // PLOT: Retribution, 08054
+        // must include 20-point character
+        return false;
+      }
+
+      if (
+        this.plot.id === '10016' &&
+        this.factions.length >= this.characterCount
+      ) {
+        // PLOT: Allies of Necessity, 10016
+        // two characters must share a faction/color
         return false;
       }
     }
 
     // team must not fit elite version of one of its characters
-    const canFitEliteVersionOfCharacter = this.characters.some((character) => {
+    const canFitEliteVersionOfACharacter = this.characters.some((character) => {
       if (!character.pointsToElite) {
         return false;
       }
 
       return this.points + character.pointsToElite <= MAX_POINTS;
     });
-    if (canFitEliteVersionOfCharacter) {
+
+    if (canFitEliteVersionOfACharacter) {
       return false;
     }
 
     return true;
+  }
+
+  hasCharacter({ id, name, subtype, excludeId }) {
+    let teamCharacters = [];
+    let count = 0;
+
+    if (id) {
+      teamCharacters = this.characters.filter(
+        (charObj) => charObj.id === id && charObj.id !== excludeId,
+      );
+    }
+
+    if (name) {
+      teamCharacters = this.characters.filter(
+        (charObj) => charObj.name === name && charObj.id !== excludeId,
+      );
+    }
+
+    if (subtype) {
+      teamCharacters = this.characters.filter(
+        (charObj) =>
+          charObj.subtypes &&
+          charObj.subtypes.includes(subtype) &&
+          charObj.id !== excludeId,
+      );
+    }
+
+    teamCharacters.forEach((character) => {
+      if (character.count) {
+        count += character.count;
+      }
+    });
+
+    return count;
   }
 }
 
@@ -418,28 +431,24 @@ Object.values(plots).forEach((plot) => {
     return;
   }
 
-  if (
-    plot.hasRestriction ||
-    plot.hasModification ||
-    plot.restrictedFormats.length !== 0
-  ) {
+  if (plot.hasModification || plot.restrictedFormats.length !== 0) {
     plotVariants.push({
       affiliation: plot.affiliation,
       faction: plot.faction,
-      formats: plot.formats,
-      hasModification: plot.hasModification,
-      hasRestriction: plot.hasRestriction,
+      formats: [...plot.formats],
       id: plot.id,
       points: plot.points,
       restrictedFormats: plot.restrictedFormats,
-      sets: [plot.set],
       subtypes: [...plot.subtypes],
     });
   } else {
     const matchingPlot = plotVariants.find(
       (plotVariant) =>
-        plotVariant.affiliation === plot.affiliation &&
-        plotVariant.faction === plot.faction &&
+        plotVariant.id === null &&
+        (plotVariant.affiliation === plot.affiliation ||
+          plotVariant.affiliation === 'neutral') &&
+        (plotVariant.faction === plot.faction ||
+          plotVariant.faction === 'gray') &&
         plotVariant.points === plot.points,
     );
 
@@ -447,17 +456,14 @@ Object.values(plots).forEach((plot) => {
       plotVariants.push({
         affiliation: plot.affiliation,
         faction: plot.faction,
-        formats: plot.formats,
-        hasModification: plot.hasModification,
-        hasRestriction: plot.hasRestriction,
+        formats: [...plot.formats],
         id: null,
         points: plot.points,
         restrictedFormats: [],
-        sets: [plot.set],
-        subtypes: [...plot.subtypes],
+        subtypes: [],
       });
-    } else if (!matchingPlot.sets.includes(plot.set)) {
-      matchingPlot.sets.push(plot.set);
+    } else {
+      matchingPlot.formats = _.uniq(matchingPlot.formats.concat(plot.formats));
     }
   }
 });
@@ -480,6 +486,7 @@ Object.values(characters).forEach((character) => {
     faction: character.faction,
     formats: character.formats,
     hasDie: character.hasDie,
+    hasModification: character.hasModification,
     health: character.health,
     id: character.id,
     isUnique: character.isUnique,
@@ -534,26 +541,32 @@ const characterVariantsReylo = characterVariants.filter((character) =>
 );
 
 const generateTeams = (team, eligibleCharacters) => {
-  let teamIsComplete = true;
+  let checkTeam = true; // should we check the team?
 
-  eligibleCharacters.forEach((character) => {
+  eligibleCharacters.forEach((character, index) => {
     const newTeam = _.cloneDeep(team);
+
+    // if we can successfully add a character to new team, old team is out
     const success = newTeam.addCharacter(character);
 
-    if (success && newTeam.isLegal()) {
-      teamIsComplete = false;
-      const index = eligibleCharacters.findIndex(
-        (c) => c.points === character.points,
-      );
-      const newEligibleCharacters =
-        index === -1 ? eligibleCharacters : eligibleCharacters.slice(index);
+    if (success) {
+      checkTeam = false;
+
+      const remainingPoints = MAX_POINTS - team.points;
+      const newEligibleCharacters = eligibleCharacters
+        .slice(index)
+        .filter(
+          (eligibleCharacter) =>
+            eligibleCharacter.id !== character.id &&
+            (eligibleCharacter.points <= remainingPoints ||
+              eligibleCharacter.hasModification),
+        );
+
       generateTeams(newTeam, newEligibleCharacters);
     }
   });
 
-  if (teamIsComplete && team.isComplete()) {
-    delete team.characters;
-    delete team.plot;
+  if (checkTeam && team.isComplete()) {
     teams.push(team);
   }
 };
@@ -567,15 +580,15 @@ async function open() {
     CREATE TABLE teams (
       key TEXT PRIMARY KEY,
 
+      plotPoints INTEGER,
+      characterPoints INTEGER,
+      points INTEGER,
+
       characterCount INTEGER,
       diceCount INTEGER,
       health INTEGER,
-      plotPoints INTEGER,
-      points INTEGER,
-      sets TEXT,
 
       affiliationHero INTEGER,
-      affiliationNeutral INTEGER,
       affiliationVillain INTEGER,
 
       factionBlue INTEGER,
@@ -588,9 +601,7 @@ async function open() {
       damageNone INTEGER,
       damageRanged INTEGER,
 
-      formatInf INTEGER,
-      formatStd INTEGER,
-      formatTri INTEGER,
+      format TEXT,
 
       rankCharacterCount INTEGER,
       rankDiceCount INTEGER,
@@ -608,11 +619,12 @@ async function save() {
   const insertStmt = await db.prepare(`
     INSERT INTO teams VALUES (
       ?,
-      ?, ?, ?, ?, ?, ?,
       ?, ?, ?,
+      ?, ?, ?,
+      ?, ?,
       ?, ?, ?, ?,
       ?, ?, ?, ?,
-      ?, ?, ?,
+      ?,
       ?, ?, ?, ?
     )
   `);
@@ -624,15 +636,15 @@ async function save() {
       insertStmt.run([
         teams[i].key,
 
+        teams[i].plotId ? teams[i].plotPoints : null,
+        teams[i].characterPoints,
+        teams[i].points,
+
         teams[i].characterCount,
         teams[i].diceCount,
         teams[i].health,
-        teams[i].plotId ? teams[i].plotPoints : null,
-        teams[i].characterPoints,
-        teams[i].sets.join('_').toLowerCase(),
 
         teams[i].affiliations.includes('hero'),
-        teams[i].affiliations.includes('neutral'),
         teams[i].affiliations.includes('villain'),
 
         teams[i].factions.includes('blue'),
@@ -645,9 +657,7 @@ async function save() {
         teams[i].damageTypes.includes('ND'),
         teams[i].damageTypes.includes('RD'),
 
-        teams[i].format === 'INF',
-        teams[i].format === 'STD',
-        teams[i].format === 'TRI',
+        teams[i].format,
 
         teams[i].ranks.characterCount,
         teams[i].ranks.diceCount,
@@ -663,8 +673,6 @@ async function save() {
 }
 
 (async function run() {
-  await open();
-
   const elibibleFormats = formats.filter((format) => format.code !== 'INF');
   const numFormats = elibibleFormats.length;
   elibibleFormats.forEach(async (format, index) => {
@@ -699,17 +707,17 @@ async function save() {
       new Team({ format: format.code }),
       eligibleCharacterVariantsVillain,
     );
-    process.stdout.write(`    ${'.'}\r`);
+    teams = _.uniqBy(teams, 'key');
+    process.stdout.write(`    ${'.'} (${teams.length})\n`);
     eligiblePlotVariantsVillain.forEach((plot, i) => {
       generateTeams(
         new Team({ format: format.code, plot }),
         eligibleCharacterVariantsVillain,
       );
-      process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
+      teams = _.uniqBy(teams, 'key');
+      process.stdout.write(`    ${'.'.repeat(i + 2)} (${teams.length})\n`);
     });
     console.log('\n');
-
-    teams = _.uniqBy(teams, 'key');
 
     // HERO
 
@@ -734,17 +742,17 @@ async function save() {
       new Team({ format: format.code }),
       eligibleCharacterVariantsHero,
     );
-    process.stdout.write(`    ${'.'}\r`);
+    teams = _.uniqBy(teams, 'key');
+    process.stdout.write(`    ${'.'} (${teams.length})\n`);
     eligiblePlotVariantsHero.forEach((plot, i) => {
       generateTeams(
         new Team({ format: format.code, plot }),
         eligibleCharacterVariantsHero,
       );
-      process.stdout.write(`    ${'.'.repeat(i + 2)}\r`);
+      teams = _.uniqBy(teams, 'key');
+      process.stdout.write(`    ${'.'.repeat(i + 2)} (${teams.length})\n`);
     });
     console.log('\n');
-
-    teams = _.uniqBy(teams, 'key');
 
     // REYLO
 
@@ -761,10 +769,9 @@ async function save() {
       new Team({ format: format.code }),
       eligibleCharacterVariantsReylo,
     );
-    process.stdout.write(`    ${'.'}\r`);
-    console.log('\n');
-
     teams = _.uniqBy(teams, 'key');
+    process.stdout.write(`    ${'.'} (${teams.length})\n`);
+    console.log('\n');
 
     console.log(
       '\x1b[34m\x1b[1m%s\x1b[0m',
@@ -849,6 +856,8 @@ async function save() {
   jsonfile.writeFile(path.join(__dirname, '../data/teams_checksum.json'), {
     stats_checksum: checksum(teamsStats),
   });
+
+  await open();
 
   save();
 

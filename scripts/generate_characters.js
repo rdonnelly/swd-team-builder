@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as _ from 'lodash';
 import checksum from 'json-checksum';
 import jsonfile from 'jsonfile';
@@ -193,6 +195,15 @@ characters = characters.map((card, index) => ({
   subtitle: card.subtitle,
   subtypes: card.subtypes,
   type: card.type,
+
+  hasModification: [
+    '05038', // CHARACTER: Clone Trooper, 05038
+    '08073', // CHARACTER: Clone Commander Cody, 08073
+    '09021', // CHARACTER: General Grievous, 09021
+    '12021', // CHARACTER: Director Krennic, 12021
+    '12055', // CHARACTER: Kanan Jarrus, 12055
+    '12056', // CHARACTER: Luke Skywalker, 12056
+  ].includes(card.id),
 
   rank: index,
 }));
