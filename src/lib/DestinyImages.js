@@ -227,6 +227,18 @@ const cardImages = {
   '11095': require('../../images/characters/11095.jpg'),
   '11096': require('../../images/characters/11096.jpg'),
   '11097': require('../../images/characters/11097.jpg'),
+
+  '12001': require('../../images/characters/12001.jpg'),
+  '12003': require('../../images/characters/12003.jpg'),
+  '12021': require('../../images/characters/12021.jpg'),
+  '12022': require('../../images/characters/12022.jpg'),
+  '12024': require('../../images/characters/12024.jpg'),
+  '12038': require('../../images/characters/12038.jpg'),
+  '12042': require('../../images/characters/12042.jpg'),
+  '12055': require('../../images/characters/12055.jpg'),
+  '12056': require('../../images/characters/12056.jpg'),
+  '12070': require('../../images/characters/12070.jpg'),
+  '12091': require('../../images/characters/12091.jpg'),
 };
 
 export { cardBack, cardBackTexture, cardImages };
