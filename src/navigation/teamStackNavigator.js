@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import TeamListScreen from '../screens/Teams/TeamListScreen';
@@ -25,7 +25,7 @@ const routeConfiguration = {
       const { state } = navigation;
       return {
         headerTitle: 'Teams',
-        headerRight: (
+        headerRight: () => (
           <TouchableOpacity
             onPress={() => {
               state.params.showSortActionSheet();

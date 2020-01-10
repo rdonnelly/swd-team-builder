@@ -112,7 +112,7 @@ class CharacterListScreen extends Component {
     const { state } = navigation;
     return {
       headerTitle: 'Characters',
-      headerRight: (
+      headerRight: () => (
         <TouchableOpacity
           onPress={() => {
             state.params.showSearchInput();
@@ -130,7 +130,7 @@ class CharacterListScreen extends Component {
   };
 
   state = {
-    currentlyOpenSwipeable: null,
+    // currentlyOpenSwipeable: null,
     searchInputEditable: true,
   };
 
@@ -151,7 +151,7 @@ class CharacterListScreen extends Component {
     }
 
     if (
-      this.state.currentlyOpenSwipeable !== nextState.currentlyOpenSwipeable ||
+      // this.state.currentlyOpenSwipeable !== nextState.currentlyOpenSwipeable ||
       this.state.searchInputEditable !== nextState.searchInputEditable
     ) {
       return true;
@@ -213,20 +213,22 @@ class CharacterListScreen extends Component {
     const { currentlyOpenSwipeable } = this.state;
 
     if (currentlyOpenSwipeable) {
-      currentlyOpenSwipeable.recenter();
+      currentlyOpenSwipeable.close();
     }
   };
 
-  handleSwipeableOpen = (event, gestureState, swipeable) => {
+  handleSwipeableWillOpen = (swipeable) => {
     const { currentlyOpenSwipeable } = this.state;
     if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
-      currentlyOpenSwipeable.recenter();
+      currentlyOpenSwipeable.close();
     }
+  };
 
+  handleSwipeableOpen = (swipeable) => {
     this.setState({ currentlyOpenSwipeable: swipeable });
   };
 
-  handleSwipeableClose = () => {
+  handleSwipeableWillClose = () => {
     this.setState({ currentlyOpenSwipeable: null });
   };
 
@@ -242,8 +244,9 @@ class CharacterListScreen extends Component {
       characterId={characterObject.id}
       characterIsExcluded={characterObject.isExcluded}
       characterIsIncompatible={characterObject.isIncompatible}
+      onWillOpen={this.handleSwipeableWillOpen}
       onOpen={this.handleSwipeableOpen}
-      onClose={this.handleSwipeableClose}
+      onWillClose={this.handleSwipeableWillClose}
     />
   );
 

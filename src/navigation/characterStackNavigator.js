@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import CharacterListScreen from '../screens/Characters/CharacterListScreen';
@@ -30,7 +30,7 @@ const routeConfiguration = {
       const { state } = navigation;
       return {
         headerTitle: 'Characters',
-        headerRight: (
+        headerRight: () => (
           <TouchableOpacity
             onPress={() => {
               state.params.showSearchInput();

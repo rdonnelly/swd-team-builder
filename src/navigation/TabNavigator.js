@@ -1,6 +1,6 @@
 import _get from 'lodash/get';
 import React from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import CharacterStackNavigator from './CharacterStackNavigator';
 import TeamStackNavigator from './TeamStackNavigator';

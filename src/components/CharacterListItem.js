@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 import { connect } from 'react-redux';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import Swipeable from 'react-native-swipeable';
+// import Swipeable from 'react-native-swipeable';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { withNavigation } from 'react-navigation';
 
 import CharacterAvatar from './CharacterAvatar';
@@ -96,9 +103,8 @@ const styles = StyleSheet.create({
   },
   rightSwipeItem: {
     alignItems: 'flex-start',
-    flex: 1,
     justifyContent: 'center',
-    paddingLeft: 12,
+    paddingHorizontal: 16,
   },
   rightSwipeItemText: {
     color: colors.white,
@@ -124,13 +130,18 @@ class CharacterListItem extends Component {
     });
   };
 
+  close = () => {
+    this._swipeableRow.close();
+  };
+
   render() {
     const {
       characterId,
       characterIsExcluded,
       characterIsIncompatible,
+      onWillOpen,
       onOpen,
-      onClose,
+      onWillClose,
     } = this.props;
 
     const card = characters[characterId];
@@ -205,48 +216,58 @@ class CharacterListItem extends Component {
       </View>
     );
 
-    const rightButtons = characterIsExcluded
-      ? [
-          <TouchableHighlight
-            key={'right-button-include'}
-            activeOpacity={0.9}
-            style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
-            underlayColor={colors.orangeDark}
-            onPress={() => {
-              this.swipeable.recenter();
-              setTimeout(() => {
-                this.props.includeCharacter(characterId);
-              }, 250);
-            }}
-          >
-            <Text style={styles.rightSwipeItemText}>Include</Text>
-          </TouchableHighlight>,
-        ]
-      : [
-          <TouchableHighlight
-            key={'right-button-exclude'}
-            activeOpacity={0.9}
-            style={[styles.rightSwipeItem, { backgroundColor: colors.orange }]}
-            underlayColor={colors.orangeDark}
-            onPress={() => {
-              this.swipeable.recenter();
-              setTimeout(() => {
-                this.props.excludeCharacter(characterId);
-              }, 250);
-            }}
-          >
-            <Text style={styles.rightSwipeItemText}>Exclude</Text>
-          </TouchableHighlight>,
-        ];
+    const rightButtons = () => {
+      return characterIsExcluded
+        ? [
+            <TouchableHighlight
+              key={'right-button-include'}
+              activeOpacity={0.9}
+              style={[
+                styles.rightSwipeItem,
+                { backgroundColor: colors.orange },
+              ]}
+              underlayColor={colors.orangeDark}
+              onPress={() => {
+                this.close();
+                setTimeout(() => {
+                  this.props.includeCharacter(characterId);
+                }, 250);
+              }}
+            >
+              <Text style={styles.rightSwipeItemText}>Include</Text>
+            </TouchableHighlight>,
+          ]
+        : [
+            <TouchableHighlight
+              key={'right-button-exclude'}
+              activeOpacity={0.9}
+              style={[
+                styles.rightSwipeItem,
+                { backgroundColor: colors.orange },
+              ]}
+              underlayColor={colors.orangeDark}
+              onPress={() => {
+                this.close();
+                setTimeout(() => {
+                  this.props.excludeCharacter(characterId);
+                }, 250);
+              }}
+            >
+              <Text style={styles.rightSwipeItemText}>Exclude</Text>
+            </TouchableHighlight>,
+          ];
+    };
 
     return (
       <Swipeable
-        rightButtons={rightButtons}
-        onRef={(component) => {
-          this.swipeable = component;
+        ref={(ref) => {
+          this._swipeableRow = ref;
         }}
-        onRightButtonsOpenRelease={onOpen}
-        onRightButtonsCloseRelease={onClose}
+        friction={2}
+        renderRightActions={rightButtons}
+        onSwipeableWillOpen={() => onWillOpen(this._swipeableRow)}
+        onSwipeableOpen={() => onOpen(this._swipeableRow)}
+        onSwipeableWillClose={onWillClose}
       >
         <TouchableHighlight
           activeOpacity={0.4}
@@ -288,8 +309,9 @@ CharacterListItem.propTypes = {
   includeCharacter: PropTypes.func.isRequired,
   excludeCharacter: PropTypes.func.isRequired,
 
+  onWillOpen: PropTypes.func.isRequired,
   onOpen: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
+  onWillClose: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
