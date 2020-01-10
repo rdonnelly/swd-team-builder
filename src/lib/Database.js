@@ -233,8 +233,6 @@ class Database {
       );
     }
 
-    console.log(query.toString());
-
     return query;
   };
 
