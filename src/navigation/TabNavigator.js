@@ -5,7 +5,8 @@ import { createBottomTabNavigator } from 'react-navigation';
 import CharacterStackNavigator from './CharacterStackNavigator';
 import TeamStackNavigator from './TeamStackNavigator';
 import SettingsStackNavigator from './SettingsStackNavigator';
-import BadgeTabIcon from '../components/BadgeTabIcon';
+import TabIcon from '../components/TabIcon';
+import TabIconBadged from '../components/TabIconBadged';
 
 import { colors } from '../styles';
 
@@ -30,24 +31,32 @@ const tabNavigatorConfig = {
   defaultNavigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;
+
+      if (routeName === 'Teams') {
+        return (
+          <TabIconBadged
+            iconName={'list'}
+            size={24}
+            color={tintColor}
+            selected={focused}
+            horizontal={horizontal}
+          />
+        );
+      }
+
       let iconName;
-      let showBadge = false;
       if (routeName === 'Characters') {
         iconName = 'documents';
-      } else if (routeName === 'Teams') {
-        iconName = 'list';
-        showBadge = true;
       } else if (routeName === 'Settings') {
         iconName = 'cog';
       }
 
       return (
-        <BadgeTabIcon
+        <TabIcon
           iconName={iconName}
           size={24}
           color={tintColor}
           selected={focused}
-          showBadge={showBadge}
           horizontal={horizontal}
         />
       );
