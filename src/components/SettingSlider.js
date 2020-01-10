@@ -34,36 +34,33 @@ class SettingsSlider extends PureComponent {
   };
 
   state = {
-    timeoutId: null,
     value: this.props.value,
     initValue: this.props.value,
   };
 
   handleValueChange = (value) => {
-    if (this.state.timeoutId) {
-      clearTimeout(this.state.timeoutId);
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
 
-    const timeoutId = setTimeout(() => {
+    this.timeoutId = setTimeout(() => {
       this.props.callback(this.props.setting, value);
     }, 750);
 
-    this.setState({ timeoutId, value });
+    this.setState({ value });
   };
 
   handleSlidingComplete = (value) => {
-    if (this.state.timeoutId) {
-      clearTimeout(this.state.timeoutId);
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
 
-    this.setState({ timeoutId: null });
-
-    this.props.callback(this.props.setting, value);
+    this.setState({ value });
   };
 
   reset() {
-    if (this.state.timeoutId) {
-      clearTimeout(this.state.timeoutId);
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
 
     this.setState({
