@@ -55,6 +55,8 @@ class SettingsSlider extends PureComponent {
       clearTimeout(this.timeoutId);
     }
 
+    this.props.callback(this.props.setting, value);
+
     this.setState({ value });
   };
 
