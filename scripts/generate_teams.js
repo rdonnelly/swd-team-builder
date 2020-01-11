@@ -74,7 +74,7 @@ class Team {
     const characterKey = this.characters
       .map(
         (character) =>
-          `${character.id}_${character.isElite ? 2 : 1}_${character.count}`,
+          `${character.id}_${character.diceCount}_${character.count}`,
       )
       .sort()
       .join('__');
@@ -124,7 +124,7 @@ class Team {
         name: card.name,
         subtypes: card.subtypes,
         count: 1,
-        isElite: card.isElite,
+        diceCount: card.hasDie ? (card.isElite ? 2 : 1) : 0,
         points: card.points,
         pointsToElite: card.pointsToElite,
       });
