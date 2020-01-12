@@ -53,7 +53,7 @@ upload() {
 }
 
 push() {
-  bumpBuild && podInstall && build && archive && exportArchive && upload
+  bumpBuild && podInstall && build && archive && exportArchive && upload $@
 }
 
 # we must have exactly one task, and maybe some arguments for that task
