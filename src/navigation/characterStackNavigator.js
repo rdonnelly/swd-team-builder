@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
   KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
@@ -68,6 +69,11 @@ const CharacterStackNavigator = createStackNavigator(
   stackNavigatorConfiguration,
 );
 
+const PlatformKeyboardAvoidingViewProps = Platform.select({
+  ios: () => ({ behavior: 'height' }),
+  android: () => ({}),
+})();
+
 class KeyboardAvoidingCharacterStackNavigator extends PureComponent {
   static router = CharacterStackNavigator.router;
 
@@ -76,7 +82,7 @@ class KeyboardAvoidingCharacterStackNavigator extends PureComponent {
     const keyboardAvoidingViewStyle = { flex: 1 };
     return (
       <KeyboardAvoidingView
-        behavior={'padding'}
+        {...PlatformKeyboardAvoidingViewProps}
         style={keyboardAvoidingViewStyle}
       >
         <CharacterStackNavigator navigation={navigation} />
