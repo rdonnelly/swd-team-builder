@@ -17,6 +17,7 @@ import dbSetConv from 'swdestinydb-json-data/set/CONV.json';
 import dbSetAoN from 'swdestinydb-json-data/set/AoN.json';
 import dbSetSoH from 'swdestinydb-json-data/set/SoH.json';
 import dbSetCM from 'swdestinydb-json-data/set/CM.json';
+import dbSetTR from 'swdestinydb-json-data/set/TR.json';
 
 import formats from 'swdestinydb-json-data/formats.json';
 
@@ -55,6 +56,7 @@ let plots = []
     dbSetAoN,
     dbSetSoH,
     dbSetCM,
+    dbSetTR,
   )
   .filter((rawCard) => rawCard.type_code === 'plot')
   .map((rawCard) => {
