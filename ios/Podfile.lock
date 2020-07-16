@@ -1,9 +1,9 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - BugsnagReactNative (2.23.3):
-    - BugsnagReactNative/Core (= 2.23.3)
+  - BugsnagReactNative (2.23.4):
+    - BugsnagReactNative/Core (= 2.23.4)
     - React
-  - BugsnagReactNative/Core (2.23.3):
+  - BugsnagReactNative/Core (2.23.4):
     - React
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.61.5)
@@ -230,11 +230,11 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNCMaskedView (0.1.5):
     - React
-  - RNDeviceInfo (5.4.0):
+  - RNDeviceInfo (5.4.1):
     - React
   - RNGestureHandler (1.5.3):
     - React
-  - RNInAppBrowser (3.3.3):
+  - RNInAppBrowser (3.3.4):
     - React
   - RNReactNativeHapticFeedback (1.8.2):
     - React
@@ -370,7 +370,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BugsnagReactNative: 34f9500e304c2667ce7a3e76037d91e41eca2ffe
+  BugsnagReactNative: bfa11ce45f7ee311962ecda93f190b6ea74329fe
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
@@ -399,9 +399,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNCMaskedView: dd13f9f7b146a9ad82f9b7eb6c9b5548fcf6e990
-  RNDeviceInfo: c7b1dc457611b9231bb780a882102e2c93edc7af
+  RNDeviceInfo: 0e40d9a9031252d2525d8b69a4b3fa8689efcea4
   RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
-  RNInAppBrowser: 0800f17fd7ed9fc503eb68e427befebb41ee719b
+  RNInAppBrowser: 9936b2e23ab7ed9b6ac938eb1c4a656b95292e11
   RNReactNativeHapticFeedback: e11a4da0ce174e9f88b03cbaf5d76d94633cdee2
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNScreens: 6adf01eb4080f44af6cca551207c6b0505066857
