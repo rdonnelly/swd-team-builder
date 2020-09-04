@@ -1,9 +1,9 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - BugsnagReactNative (2.23.4):
-    - BugsnagReactNative/Core (= 2.23.4)
+  - BugsnagReactNative (2.23.10):
+    - BugsnagReactNative/Core (= 2.23.10)
     - React
-  - BugsnagReactNative/Core (2.23.4):
+  - BugsnagReactNative/Core (2.23.10):
     - React
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.61.5)
@@ -187,9 +187,9 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-safe-area-context (0.6.2):
+  - react-native-safe-area-context (0.6.4):
     - React
-  - react-native-slider (2.0.8):
+  - react-native-slider (2.0.9):
     - React
   - react-native-sqlite-storage (4.1.0):
     - React
@@ -228,19 +228,19 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
-  - RNCMaskedView (0.1.5):
+  - RNCMaskedView (0.1.10):
     - React
-  - RNDeviceInfo (5.4.1):
+  - RNDeviceInfo (5.4.4):
     - React
-  - RNGestureHandler (1.5.3):
+  - RNGestureHandler (1.8.0):
     - React
   - RNInAppBrowser (3.3.4):
     - React
   - RNReactNativeHapticFeedback (1.8.2):
     - React
-  - RNReanimated (1.4.0):
+  - RNReanimated (1.13.0):
     - React
-  - RNScreens (2.0.0-alpha.22):
+  - RNScreens (2.10.1):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -370,7 +370,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BugsnagReactNative: bfa11ce45f7ee311962ecda93f190b6ea74329fe
+  BugsnagReactNative: 98fb350df4bb0c94cce903023531a1a5cc11fa51
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
@@ -385,8 +385,8 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-safe-area-context: 25260c5d0b9c53fd7aa88e569e2edae72af1f6a3
-  react-native-slider: 3a1cfd00c9c31068251b536822f7192e8d1d6b6f
+  react-native-safe-area-context: 52342d2d80ea8faadd0ffa76d83b6051f20c5329
+  react-native-slider: e51492f1264d882a8815b71c5870f8978e52887d
   react-native-sqlite-storage: f06bfba10f67f989c00b6a699b9c2b80a816edbe
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
@@ -398,13 +398,13 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  RNCMaskedView: dd13f9f7b146a9ad82f9b7eb6c9b5548fcf6e990
-  RNDeviceInfo: 0e40d9a9031252d2525d8b69a4b3fa8689efcea4
-  RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
+  RNDeviceInfo: 120192bf770fa509e59d5ad30b3da91a55d1dc26
+  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNInAppBrowser: 9936b2e23ab7ed9b6ac938eb1c4a656b95292e11
   RNReactNativeHapticFeedback: e11a4da0ce174e9f88b03cbaf5d76d94633cdee2
-  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
-  RNScreens: 6adf01eb4080f44af6cca551207c6b0505066857
+  RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
+  RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
