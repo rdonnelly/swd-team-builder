@@ -323,17 +323,17 @@ class SettingsScreen extends Component {
               Generated
               <Text style={styles.disclaimerTextBold}>
                 {' '}
-                {teamsStats.count}
+                {teamsStats.count.toLocaleString()}
               </Text>{' '}
               Teams using
               <Text style={styles.disclaimerTextBold}>
                 {' '}
-                {charactersStats.count}
+                {charactersStats.count.toLocaleString()}
               </Text>{' '}
               Characters and
               <Text style={styles.disclaimerTextBold}>
                 {' '}
-                {plotsStats.count}
+                {plotsStats.count.toLocaleString()}
               </Text>{' '}
               Plots.
             </Text>
