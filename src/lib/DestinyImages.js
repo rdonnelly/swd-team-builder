@@ -257,6 +257,7 @@ const cardImages = {
   '12091': require('../../images/characters/12091.jpg'),
   '12092': require('../../images/characters/12092.jpg'),
   '12129': require('../../images/characters/12129.jpg'),
+  '12147': require('../../images/characters/12147.jpg'),
 
   '13001A': require('../../images/characters/13001A.jpg'),
   '13001B': require('../../images/characters/13001B.jpg'),
